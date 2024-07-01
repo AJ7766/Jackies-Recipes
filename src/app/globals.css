@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+@font-face {
+  font-family: 'Chocolate-Bar';
+  src: url('fonts/Chocolate-Bar.otf');
+}
+
+@font-face {
+  font-family: 'MouseMemoirs-Regular';
+  src: url('fonts/MouseMemoirs-Regular.ttf');
+}
+
+
+body {
+  font-family: 'MouseMemoirs-Regular';
+  background: white;
+}
+
+.loginFormContainer, .forgotPassFormContainer{
+  position: relative;
+  top: 50%;
+  left: 50%;
+  max-width: 450px;
+  max-height: 500px;
+  width:100%;
+  height:100%;
+  transform: translate(-50%, -50%);
+  border-radius: 30px;
+  background-color: #cac0ff;;
+  border: 3px solid #7c5039;
+  overflow:hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loginFormContainer::before, .forgotPassFormContainer::before{
+  content: '';
+  position: absolute;
+  right: 50%;
+  bottom: 50%;
+  transform: translate(50%, 50%);
+  background: url(images/background.jpg) no-repeat;
+  background-size:cover;
+  background-position: center;
+  opacity: 0.5;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 30px;
+  filter: blur(2px);
+  z-index: -1;
+}
+
+.forgotPassForm{
+  display:flex;
+  flex-direction: column;
+  width:80%;
+}
+
+form input{
+  font-size: 1.5cqw;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 3px solid #7c5039;
+  outline: none;
+}
+
+form input:focus{
+  border-color: #2563eb;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
