@@ -1,7 +1,6 @@
 import RegisterForm from "./_components/RegisterForm";
 
-export default function RegisterPage() {
-
+export default async function RegisterPage() {
     return (
       <div className="bgContainer">
         <RegisterForm />
