@@ -40,7 +40,7 @@ body {
   background-size: 1000px 1000px;
 }
 
-.loginFormContainer, .forgotPassFormContainer{
+.loginFormContainer, .forgotPassFormContainer, .registerFormContainer{
   position: relative;
   top: 50%;
   left: 50%;
@@ -59,7 +59,11 @@ body {
   justify-content: space-evenly;
 }
 
-.loginFormContainer::before, .forgotPassFormContainer::before{
+.registerFormContainer{
+  max-height: 650px;
+}
+
+.loginFormContainer::before, .forgotPassFormContainer::before, .registerFormContainer::before{
   content: '';
   position: absolute;
   right: 50%;
@@ -75,11 +79,15 @@ body {
   z-index: -2;
 }
 
-.loginText{
+.loginText, .registerText{
   font-family: 'Enchilada';
   color: #e5a369;
   text-shadow: 2px 2px #f9e8d9;
   font-size: 4.5cqw;
+}
+
+.loginForm{
+  width:60%;
 }
 
 .forgotPassForm{
@@ -97,8 +105,10 @@ body {
   text-align: center;
 }
 
-.form{
-  width: 60%;
+.registerForm{
+  display:flex;
+  flex-direction: column;
+  width:60%;
 }
 
 form input{
@@ -127,7 +137,10 @@ form input:focus{
   padding-right: 16px;
   width: 100%;
   margin-bottom:3%;
-  transition: background-color 0.3s ease;
+}
+
+.blueBtn:hover{
+  background-color: #0013de;
 }
 
 .redBtn{
@@ -143,7 +156,10 @@ form input:focus{
   padding-left: 16px;
   padding-right: 16px;
   width: 100%;
-  transition: background-color 0.3s ease;
+}
+
+.redBtn:hover{
+  background-color: #c30010;
 }
 
 @layer utilities {
@@ -165,7 +181,7 @@ form input:focus{
   height: 100%;
 }
 
-.loginText {
+.loginText, .registerText {
   font-family: 'Enchilada';
   color: #e5a369;
   text-shadow: 2px 2px #f9e8d9;
