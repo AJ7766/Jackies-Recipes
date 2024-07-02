@@ -1,21 +1,32 @@
 import Link from "next/link";
+import emailImg from "@/app/images/register/email.svg";
+import Image from "next/image";
 
 export default function ForgotPassForm(){
     return (
         <div className="forgotPassFormContainer">
           <h1 className="forgotPasswordText">Forgot Password</h1>
         <form className="forgotPassForm" action="/action_page.php">
-          <p className="text-white">Please enter your email.</p>
-          <input className="mb-5" type="text" id="email" name="email" placeholder="Email" />
-          <button type="submit" className="blueBtn">
-            Send
-          </button>
-
-          <Link href="/">
-          <button className="redBtn">
-            Back
-          </button>
-          </Link>
+        <div className="inputsContainer">
+            <div>
+              <p className="ml-1 text-white h-0">Please enter your Email Address.</p>
+              <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+              />
+              <Image src={emailImg} alt="email"/>
+              </div>
+            </div>
+            <div className="buttonsContainer">
+              <button type="submit" className="blueBtn">
+                  Send
+              </button>
+              <Link href="/">
+                  <button className="redBtn">Back</button>
+              </Link>
+              </div>
         </form>
       </div>
     );

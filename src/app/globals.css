@@ -60,7 +60,7 @@ body {
 }
 
 .registerFormContainer{
-  max-height: 650px;
+  max-height: 700px;
 }
 
 .loginFormContainer::before, .forgotPassFormContainer::before, .registerFormContainer::before{
@@ -88,12 +88,14 @@ body {
 
 .loginForm{
   width:60%;
+  gap:2.8vw;
 }
 
 .forgotPassForm{
   display:flex;
   flex-direction: column;
   width:60%;
+  gap:2.8vw;
 }
 
 .forgotPasswordText{
@@ -109,6 +111,29 @@ body {
   display:flex;
   flex-direction: column;
   width:60%;
+  gap:1.5vw;
+}
+
+.inputsContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.inputsContainer div{
+  position:relative;
+}
+
+.inputsContainer div img {
+  color: #3b444b;
+  position: absolute;
+  top: 50%;
+  right: 6%;
+  transform: translateY(-50%);
+  width: 8%;
+}
+
+.inputsContainer input{
+  width:100%;
 }
 
 form input{
@@ -121,6 +146,36 @@ form input{
 
 form input:focus{
   border-color: #ff9db1;
+}
+
+.errorText {
+  position: absolute;
+  width: 90%;
+  top: 19%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  font-size: 1.3cqw;
+  color: white;
+  padding: 5px 5px;
+  text-align: center;
+  line-height: 1;
+  border-radius: 5px;
+  background-color: #e74242;
+}
+
+.successText{
+  position: absolute;
+  width: 90%;
+  top: 19%;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  font-size: 1.3cqw;
+  color: white;
+  padding: 5px 5px;
+  text-align: center;
+  line-height: 1;
+  border-radius: 5px;
+  background-color: #e74242;
 }
 
 .blueBtn{

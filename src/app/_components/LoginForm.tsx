@@ -1,4 +1,7 @@
+import Image from "next/image";
 import Link from "next/link";
+import emailImg from "@/app/images/register/email.svg";
+import passwordImg from "@/app/images/register/password.svg";
 
 export default function LoginForm(){
     return (
@@ -6,22 +9,37 @@ export default function LoginForm(){
         <h1 className="loginText">LOGIN</h1>
 
         <form className="loginForm flex flex-col" action="/action_page.php">
-        <div className="mb-7 w-full">
-          <input className="mb-5 w-full" type="text" id="email" name="email" placeholder="Email or Username" />
-          <input className="w-full" type="password" id="password" name="password" placeholder="Password"/>
-          <Link href="/forgot-password">
-          <p className="w-full text-white hover:underline hover:text-gray-400 block">Forgot your password?</p>
+        <div className="inputsContainer">
+            <div>
+              <input
+                  type="text"
+                  id="email"
+                  name="email"
+                  placeholder="Email"
+              />
+              <Image src={emailImg} alt="email"/>
+              </div>
+              <div>
+              <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  placeholder="Username"
+              />
+              <Link href="/forgot-password">
+          <p className="w-full h-0 ml-1 text-white hover:underline hover:text-gray-400 block">Forgot your password?</p>
           </Link>
+              <Image src={passwordImg} alt="password"/>
+              </div>
           </div>
-
-          <button type="submit" className="blueBtn">
-            Login
-          </button>
-          <Link href="/register">
-          <button className="redBtn">
-            Register
-          </button>
-          </Link>
+          <div className="buttonsContainer">
+              <button type="submit" className="blueBtn">
+                  Login
+              </button>
+              <Link href="/register">
+                  <button className="redBtn">Register</button>
+              </Link>
+              </div>
         </form>
       </div>
     );

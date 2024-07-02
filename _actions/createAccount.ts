@@ -1,20 +1,13 @@
 import { connectDB } from "../config/database";
 import { UserModel, UserProps } from "../models/UserModel";
 
-
-export async function createUser(userProps: UserProps) {
-    try{
-        const newUserData = {
-            email: userProps.email,
-            fullName: userProps.fullName,
-            username: userProps.username,
-            password: userProps.password
-        };
-        const newUser = new UserModel(newUserData);
+export async function createUser(email: string, fullName: string, username: string, password: string): Promise<UserProps> {
+    try {
+        const newUser = new UserModel({ email, fullName, username, password });
         const savedUser = await newUser.save();
         return savedUser;
     } catch (error) {
-        console.error('Error creating random user:', error);
+        console.error('Error creating user:', error);
         throw error;
     }
 }
