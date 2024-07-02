@@ -1,12 +1,12 @@
-import moongose from "moongose";
+import mongoose from 'mongoose';
 
-async function connectDB(){
-    if(moongose.connections[0].readyState){
+export async function connectDB(){
+    if(mongoose.connections[0].readyState){
         return true;
     }
 
     try {
-        await moongose.connect(process.env.MONGODB_URI)
+        await mongoose.connect(process.env.MONGODB_URI as string)
         console.log('MongoDB connected')
         return true
     } catch (error){
