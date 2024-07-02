@@ -30,6 +30,14 @@
 body {
   font-family: 'MouseMemoirs-Regular';
   background: white;
+  background-size:
+}
+
+.bgContainer{
+  width:100vw;
+  height:100vh;
+  background: url(images/background.svg);
+  background-size: 1000px 1000px;
 }
 
 .loginFormContainer, .forgotPassFormContainer{
@@ -143,4 +151,38 @@ form input:focus{
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Register Page */ /* Register Page */ /* Register Page */ /* Register Page */ 
+
+/* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ 
+
+@media screen and (max-width: 1024px){
+
+.loginFormContainer, .forgotPassFormContainer {
+  max-width: 450px;
+  max-height: 500px;
+  width: 90%;
+  height: 100%;
+}
+
+.loginText {
+  font-family: 'Enchilada';
+  color: #e5a369;
+  text-shadow: 2px 2px #f9e8d9;
+  font-size: 15.5cqw;
+}
+
+.form {
+  width: 70%;
+}
+
+form input {
+  font-size: 4.5cqw;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 3px solid #990029;
+  outline: none;
+}
+
 }
