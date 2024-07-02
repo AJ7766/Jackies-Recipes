@@ -6,16 +6,17 @@ export default function LoginForm(){
         <h1 className="loginText">LOGIN</h1>
 
         <form className="form flex flex-col" action="/action_page.php">
-          <input className="mb-5" type="text" id="email" name="email" placeholder="Email" />
-
-          <input type="password" id="password" name="password" placeholder="Password"/>
+        <div className="mb-7 w-full">
+          <input className="mb-5 w-full" type="text" id="email" name="email" placeholder="Email" />
+          <input className="w-full" type="password" id="password" name="password" placeholder="Password"/>
           <Link href="/forgot-password">
-          <p className="text-white hover:underline hover:text-gray-400 mb-10 block mb-10">Forgot your password?</p>
+          <p className="w-full text-white hover:underline hover:text-gray-400 block">Forgot your password?</p>
           </Link>
+          </div>
+
           <button type="submit" className="blueBtn">
             Login
           </button>
-
           <Link href="/register">
           <button className="redBtn">
             Register

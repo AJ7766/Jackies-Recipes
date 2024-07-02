@@ -50,12 +50,11 @@ body {
   height:100%;
   transform: translate(-50%, -50%);
   border-radius: 50% 10% 50% 10% / 10% 50% 10% 50%;
-  background-color: #cc053a;
-  border: 5px groove #990029;
+  background-color: #c61f7f;
+  border: 5px solid white;
   overflow:hidden;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
   justify-content: space-evenly;
 }
@@ -171,6 +170,10 @@ form input:focus{
   color: #e5a369;
   text-shadow: 2px 2px #f9e8d9;
   font-size: 15.5cqw;
+}
+
+.forgotPasswordText {
+  font-size: 14.5cqw;
 }
 
 .form {
