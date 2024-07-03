@@ -9,6 +9,7 @@ export async function POST(request: NextRequest) {
       await connectDB()
       await UserModel.create({ email, fullName, username, password })
       await mongoose.connection.close()
+      
       return NextResponse.json({ message: `Your account ${email} has been successfully created!` }, { status: 201 })
   } catch (err:any) {
       console.error(err)
