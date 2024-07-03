@@ -198,6 +198,10 @@ form input:focus{
   background-color: #0013de;
 }
 
+.blueBtnLoading{
+  background-color: #0013de;
+}
+
 .redBtn{
   border-radius: 15% 17% 16% 28% / 41% 30% 55% 35%;
   border: 4px solid white;

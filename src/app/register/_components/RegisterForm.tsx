@@ -31,34 +31,30 @@ export default function RegisterForm() {
     const usernameRegex = /^[a-zA-Z]+$/;
     return usernameRegex.test(username);
   };
-  
+
   function validationSchema(email:string, username:string, fullName:string, password:string ){
 
     if (!email || !fullName || !username || !password || !confirmPassword) {
       setErrorBoolean(true);
       setError("Please fill out all fields.");
-      setLoadingBtn(false);
       return false;
     }
     
     if (!isValidEmail(email)) {
       setErrorBoolean(true);
       setError("Please enter a valid Email address.");
-      setLoadingBtn(false);
       return false;
     }
 
     if (!isValidUsername(username)) {
       setErrorBoolean(true);
       setError("Username can only contain letters.");
-      setLoadingBtn(false);
       return false;
     }
   
     if (password !== confirmPassword) {
       setErrorBoolean(true);
       setError("Passwords do not match.");
-      setLoadingBtn(false);
       return false;
     }
     setErrorBoolean(false);
@@ -70,6 +66,7 @@ export default function RegisterForm() {
     setLoadingBtn(true);
     const isValid = validationSchema(email, username, fullName, password);
     if (!isValid) {
+      setLoadingBtn(false);
       setSuccessBoolean(false);
       return;
     }
@@ -168,8 +165,8 @@ export default function RegisterForm() {
               </div>
               </div>
               <div className="buttonsContainer">
-              <button type="submit" className="blueBtn" disabled={loadingBtn}>
-              {loadingBtn ? "Registering..." : "Register"}
+              <button type="submit" className={`blueBtn ${loadingBtn ? "blueBtnLoading" : ''}`} disabled={loadingBtn}>
+            {loadingBtn ? "Registering..." : "Register"}
               </button>
               <Link href="/">
                   <button className="redBtn">Back</button>
