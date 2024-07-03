@@ -18,6 +18,7 @@ export default function RegisterForm() {
   const [errorBoolean, setErrorBoolean] = useState(false);
   const [success, setSuccess] = useState('');
   const [successBoolean, setSuccessBoolean] = useState(false);
+  const [loadingBtn, setLoadingBtn] = useState(false);
 
 
   
@@ -30,29 +31,34 @@ export default function RegisterForm() {
     const usernameRegex = /^[a-zA-Z]+$/;
     return usernameRegex.test(username);
   };
+  
   function validationSchema(email:string, username:string, fullName:string, password:string ){
 
     if (!email || !fullName || !username || !password || !confirmPassword) {
       setErrorBoolean(true);
       setError("Please fill out all fields.");
+      setLoadingBtn(false);
       return false;
     }
     
     if (!isValidEmail(email)) {
       setErrorBoolean(true);
       setError("Please enter a valid Email address.");
+      setLoadingBtn(false);
       return false;
     }
 
     if (!isValidUsername(username)) {
       setErrorBoolean(true);
       setError("Username can only contain letters.");
+      setLoadingBtn(false);
       return false;
     }
   
     if (password !== confirmPassword) {
       setErrorBoolean(true);
       setError("Passwords do not match.");
+      setLoadingBtn(false);
       return false;
     }
     setErrorBoolean(false);
@@ -61,7 +67,7 @@ export default function RegisterForm() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  
+    setLoadingBtn(true);
     const isValid = validationSchema(email, username, fullName, password);
     if (!isValid) {
       setSuccessBoolean(false);
@@ -92,6 +98,8 @@ export default function RegisterForm() {
       console.log(success);
       console.error("Error:", error);
       setError(error.message || "Failed to register.");
+    }finally{
+      setLoadingBtn(false);
     }
   };
   return (
@@ -160,8 +168,8 @@ export default function RegisterForm() {
               </div>
               </div>
               <div className="buttonsContainer">
-              <button type="submit" className="blueBtn">
-                  Register
+              <button type="submit" className="blueBtn" disabled={loadingBtn}>
+              {loadingBtn ? "Registering..." : "Register"}
               </button>
               <Link href="/">
                   <button className="redBtn">Back</button>
