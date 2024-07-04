@@ -15,7 +15,11 @@ export default function RootLayout({
     <html lang="en">
       <head>
       </head>
-      <body>{children}</body>
+      <body>
+      <div className="bgContainer">
+        {children}
+        </div>
+        </body>
     </html>
   );
 }
