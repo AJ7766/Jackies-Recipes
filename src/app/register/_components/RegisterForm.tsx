@@ -29,10 +29,31 @@ export default function RegisterForm() {
 
   const isValidUsername = (username: string) => {
     const usernameRegex = /^[a-zA-Z]+$/;
-    return usernameRegex.test(username);
+    if(!usernameRegex.test(username)){
+      const errorMsg = "Username can only contain letters."
+      return errorMsg
+    }
+    if(username.length < 4){
+      const errorMsg = "Username must be atleast 4 letters."
+      return errorMsg;
+    }else{
+      return null
+    }
   };
 
-  function validationSchema(email:string, username:string, fullName:string, password:string ){
+  const isValidPassword = (password:string, confirmPassword: string) => {
+    if(password.length < 6){
+      const errorMsg = "Password must be atleast 6 characters."
+      return errorMsg
+    }
+    if(password !== confirmPassword){
+      const errorMsg = "Passwords do not match."
+      return errorMsg;
+    }
+    return null
+  }
+
+  function validationSchema( ){
 
     if (!email || !fullName || !username || !password || !confirmPassword) {
       setErrorBoolean(true);
@@ -46,17 +67,20 @@ export default function RegisterForm() {
       return false;
     }
 
-    if (!isValidUsername(username)) {
+    const userNameValid = isValidUsername(username)
+    if (userNameValid) {
       setErrorBoolean(true);
-      setError("Username can only contain letters.");
+      setError(userNameValid);
       return false;
     }
-  
-    if (password !== confirmPassword) {
+    
+    const userPasswordValid = isValidPassword(password, confirmPassword)
+    if (userPasswordValid) {
       setErrorBoolean(true);
-      setError("Passwords do not match.");
+      setError(userPasswordValid);
       return false;
     }
+
     setErrorBoolean(false);
     return true;
   }
@@ -64,7 +88,7 @@ export default function RegisterForm() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoadingBtn(true);
-    const isValid = validationSchema(email, username, fullName, password);
+    const isValid = validationSchema();
     if (!isValid) {
       setLoadingBtn(false);
       setSuccessBoolean(false);
