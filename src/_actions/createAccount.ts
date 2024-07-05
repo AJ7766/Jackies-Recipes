@@ -1,5 +1,5 @@
-import { connectDB } from "../../config/database";
-import { UserModel, UserProps } from "../../models/UserModel";
+import { connectDB } from "../config/database";
+import { UserModel, UserProps } from "../models/UserModel";
 
 export async function createUser(email: string, fullName: string, username: string, password: string): Promise<UserProps> {
     try {

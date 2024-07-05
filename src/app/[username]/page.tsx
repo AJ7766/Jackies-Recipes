@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { connectDB } from "../../../config/database";
-import { UserModel } from "../../../models/UserModel";
+import { connectDB } from "../../config/database";
+import { UserModel } from "../../models/UserModel";
 import mongoose from "mongoose";
 
 

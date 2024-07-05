@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 import { NextRequest, NextResponse } from "next/server"
-import { connectDB } from "../../../../config/database"
-import { UserModel } from "../../../../models/UserModel"
+import { connectDB } from "../../../config/database"
+import { UserModel } from "../../../models/UserModel"
 
 export async function POST(request: NextRequest) {
   try {
