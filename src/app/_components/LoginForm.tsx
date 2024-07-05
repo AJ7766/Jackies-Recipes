@@ -29,6 +29,7 @@ export default function LoginForm(){
           else if(res.ok){
             let successResponse = await res.json();
             console.log("Registration successful:", successResponse);
+            window.location.href = `/${username}`;
           }}catch (error:any) {
           console.error("Error:", error);
         }finally{

@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-      await UserModel.create({ email, fullName, username, hashedPassword })  
+      await UserModel.create({ email, fullName, username, password: hashedPassword })  
 
       return NextResponse.json({ message: `Your account ${email} has been successfully created!` }, { status: 201 })
   } catch (err:any) {
