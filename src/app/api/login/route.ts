@@ -5,9 +5,9 @@ import { UserModel } from "../../../models/UserModel"
 
 export async function POST(request: NextRequest) {
   try {
-      const { username, password } = await request.json()
+      const { email, username, fullName, password } = await request.json()
       await connectDB()
-      await UserModel.create({ username, password })
+      await UserModel.create({ email, fullName, username, password })
       await mongoose.connection.close()
       
       return NextResponse.json({ message: `Your account ${email} has been successfully created!` }, { status: 201 })
