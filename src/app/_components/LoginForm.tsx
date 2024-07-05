@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import emailImg from "@/app/images/register/email.svg";
+import usernameImg from "@/app/images/register/username.svg";
 import passwordImg from "@/app/images/register/password.svg";
 
 export default function LoginForm(){
@@ -13,18 +13,18 @@ export default function LoginForm(){
             <div>
               <input
                   type="text"
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-              />
-              <Image src={emailImg} alt="email"/>
-              </div>
-              <div>
-              <input
-                  type="text"
                   id="username"
                   name="username"
                   placeholder="Username"
+              />
+              <Image src={usernameImg} alt="username"/>
+              </div>
+              <div>
+              <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
               />
               <Link href="/forgot-password">
           <p className="w-full h-0 ml-1 text-white hover:underline hover:text-gray-400 block">Forgot your password?</p>

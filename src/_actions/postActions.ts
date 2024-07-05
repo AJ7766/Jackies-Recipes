@@ -1,8 +1,8 @@
 'use server'
 
 import mongoose from "mongoose";
-import { connectDB } from "../config/database";
-import { UserModel } from "../models/UserModel";
+import { connectDB } from "../../config/database";
+import { UserModel } from "../../models/UserModel";
 
 export async function getPosts(){
     try {
