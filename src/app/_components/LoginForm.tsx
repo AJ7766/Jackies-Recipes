@@ -27,8 +27,9 @@ export default function LoginForm(){
             throw new Error(errorResponse.message || "Failed to login.");
           } 
           else if(res.ok){
-            let successResponse = await res.json();
-            console.log("Registration successful:", successResponse);
+            let data = await res.json();
+            console.log("Registration successful:", data);
+            localStorage.setItem('token', data.token);
             window.location.href = `/${username}`;
           }}catch (error:any) {
           console.error("Error:", error);

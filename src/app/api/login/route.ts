@@ -2,7 +2,10 @@ import mongoose from "mongoose"
 import { NextRequest, NextResponse } from "next/server"
 import { connectDB } from "../../../config/database"
 import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
 import { UserModel } from "@/models/UserModel";
+
+const SECRET_KEY = (process.env.JWT_SECRET as string);
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,8 +24,9 @@ export async function POST(request: NextRequest) {
     }
 
     const { password, ...userWithoutPassword } = user.toObject();
-    console.log(userWithoutPassword);
-    return NextResponse.json({ message: "Successfully logged in" });
+
+    const token = jwt.sign({ id: user._id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
+    return NextResponse.json({ message: "Successfully logged in", token }, { status:200 });
 
   } catch (error:any) {
     let errorMessage = "Failed to login.";
