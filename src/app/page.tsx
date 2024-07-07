@@ -37,13 +37,13 @@ export default function Home() {
       } else {
         setIsLoggedIn(false);
         setIsLoading(false)
+        return null;
       }
         }
       fetchProfileData();
 
     },[]);
-
-    console.log("Profile Data: ", profile)
+    
     if (loading) {
       return null;
     }

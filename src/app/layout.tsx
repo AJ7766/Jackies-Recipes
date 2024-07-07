@@ -16,9 +16,7 @@ export default function RootLayout({
       <head>
       </head>
       <body>
-      <div className="bgContainer">
         {children}
-        </div>
         </body>
     </html>
   );

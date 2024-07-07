@@ -24,12 +24,11 @@ export async function POST(request: NextRequest) {
       throw new Error('Invalid username or password');
     }
 
-
     const token = jwt.sign({ id: user._id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
     return NextResponse.json({ message: "Successfully logged in", token}, { status:200 });
 
   } catch (error:any) {
-    let errorMessage = "Failed to login.";
+    let errorMessage = "Invalid username or password.";
 
     console.error('Error checking login details:', error.message);
     return NextResponse.json({ message: errorMessage }, { status: 400 });

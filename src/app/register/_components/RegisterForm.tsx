@@ -20,85 +20,14 @@ export default function RegisterForm() {
   const [successBoolean, setSuccessBoolean] = useState(false);
   const [loadingBtn, setLoadingBtn] = useState(false);
 
-
-  
-  const isValidEmail = (email:string) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
-
-  const isValidUsername = (username: string) => {
-    const usernameRegex = /^[a-zA-Z]+$/;
-    if(!usernameRegex.test(username)){
-      const errorMsg = "Username can only contain letters."
-      return errorMsg
-    }
-    if(username.length < 4){
-      const errorMsg = "Username must be atleast 4 letters."
-      return errorMsg;
-    }else{
-      return null
-    }
-  };
-
-  const isValidPassword = (password:string, confirmPassword: string) => {
-    if(password.length < 6){
-      const errorMsg = "Password must be atleast 6 characters."
-      return errorMsg
-    }
-    if(password !== confirmPassword){
-      const errorMsg = "Passwords do not match."
-      return errorMsg;
-    }
-    return null
-  }
-
-  function validationSchema( ){
-
-    if (!email || !fullName || !username || !password || !confirmPassword) {
-      setErrorBoolean(true);
-      setError("Please fill out all fields.");
-      return false;
-    }
-    
-    if (!isValidEmail(email)) {
-      setErrorBoolean(true);
-      setError("Please enter a valid Email address.");
-      return false;
-    }
-
-    const userNameValid = isValidUsername(username)
-    if (userNameValid) {
-      setErrorBoolean(true);
-      setError(userNameValid);
-      return false;
-    }
-    
-    const userPasswordValid = isValidPassword(password, confirmPassword)
-    if (userPasswordValid) {
-      setErrorBoolean(true);
-      setError(userPasswordValid);
-      return false;
-    }
-
-    setErrorBoolean(false);
-    return true;
-  }
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoadingBtn(true);
-    const isValid = validationSchema();
-    if (!isValid) {
-      setLoadingBtn(false);
-      setSuccessBoolean(false);
-      return;
-    }
-
+    
     try {
       let res = await fetch("/api/register", {
         method: "POST",
-        body: JSON.stringify({ email, username, fullName, password }),
+        body: JSON.stringify({ email, username, fullName, password, confirmPassword }),
         headers: {
           "Content-Type": "application/json"
         }
@@ -125,10 +54,10 @@ export default function RegisterForm() {
   };
   return (
       <div className="registerFormContainer">
-        <div className="registerTextContainer">
+        <div>
           <h1 className="registerText">Register</h1>
-          {errorBoolean && <p className="errorText">{error}</p>}
-          {successBoolean && <p className="successText">{success}</p>}
+          {errorBoolean ? <p className="-mt-3 -mb-5 text-white text-center">{error}</p> : <p className="-mt-3 -mb-5 text-white text-center">&nbsp;</p>} 
+          {successBoolean ? <p className="-mt-3 -mb-5 text-white text-center">{success}</p>: <p className="-mt-3 -mb-5 text-white text-center">&nbsp;</p>}
           </div>
           <form className="registerForm" onSubmit={handleSubmit}>
             <div className="inputsContainer">
@@ -192,7 +121,7 @@ export default function RegisterForm() {
               <button type="submit" className={`blueBtn ${loadingBtn ? "blueBtnLoading" : ''}`} disabled={loadingBtn}>
             {loadingBtn ? "Registering..." : "Register"}
               </button>
-              <Link href="/">
+              <Link href="/" prefetch>
                   <button className="redBtn">Back</button>
               </Link>
               </div>

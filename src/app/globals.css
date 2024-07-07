@@ -33,7 +33,7 @@ body {
   background-size:
 }
 
-.bgContainer{
+.startingPageBg{
   width:100vw;
   height:100vh;
   background: url(images/background.svg);
@@ -146,36 +146,6 @@ form input{
 
 form input:focus{
   border-color: #ff9db1;
-}
-
-.errorText {
-  position: absolute;
-  width: 90%;
-  top: 19%;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  font-size: 1.3cqw;
-  color: white;
-  padding: 5px 5px;
-  text-align: center;
-  line-height: 1;
-  border-radius: 5px;
-  background-color: #e74242;
-}
-
-.successText{
-  position: absolute;
-  width: 90%;
-  top: 19%;
-  left: 50%;
-  transform: translate(-50%, 0%);
-  font-size: 1.3cqw;
-  color: white;
-  padding: 5px 5px;
-  text-align: center;
-  line-height: 1;
-  border-radius: 5px;
-  background-color: #3f9b43;
 }
 
 .blueBtn{

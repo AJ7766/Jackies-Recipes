@@ -1,6 +1,7 @@
 import { connectDB } from '@/config/database';
 import { UserModel } from '@/models/UserModel';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY || 'your-secret-key';
@@ -8,7 +9,7 @@ const SECRET_KEY = process.env.JWT_SECRET_KEY || 'your-secret-key';
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+  if (!authHeader || !authHeader.startsWith('Bearer')) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 
@@ -45,5 +46,7 @@ async function fetchProfileFromDatabase(id: string) {
     } catch (error:any) {
       console.error('Error fetching profile:', error.message);
       throw new Error('Failed to fetch profile data');
+    } finally{
+      mongoose.connection.close();
     }
   }

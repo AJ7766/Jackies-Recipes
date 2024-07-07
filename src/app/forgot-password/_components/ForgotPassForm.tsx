@@ -4,6 +4,7 @@ import Image from "next/image";
 
 export default function ForgotPassForm(){
     return (
+      <div className="startingPageBg">
         <div className="forgotPassFormContainer">
           <h1 className="forgotPasswordText">Forgot Password</h1>
         <form className="forgotPassForm" action="/action_page.php">
@@ -23,11 +24,12 @@ export default function ForgotPassForm(){
               <button type="submit" className="blueBtn">
                   Send
               </button>
-              <Link href="/">
+              <Link href="/" prefetch>
                   <button className="redBtn">Back</button>
               </Link>
               </div>
         </form>
+      </div>
       </div>
     );
 }

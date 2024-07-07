@@ -3,10 +3,18 @@ import { NextRequest, NextResponse } from "next/server"
 import { connectDB } from "../../../config/database"
 import { UserModel } from "../../../models/UserModel"
 import bcrypt from "bcrypt";
+import ValidateRegisterForm from "./validateForm";
+import { RegisterFormProps } from "@/app/types/types";
 
 export async function POST(request: NextRequest) {
   try {
-      const { email, fullName, username, password } = await request.json()
+      const { email, fullName, username, password, confirmPassword }: RegisterFormProps = await request.json()
+      const validationResponse = ValidateRegisterForm({ email, fullName, username, password, confirmPassword });
+
+      if (typeof validationResponse === 'string') {
+        return NextResponse.json({ success: false, message: validationResponse }, { status: 400 });
+      }
+      
       await connectDB()
 
       const saltRounds = 10;
