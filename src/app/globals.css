@@ -30,7 +30,6 @@
 body {
   font-family: 'MouseMemoirs-Regular';
   background: white;
-  background-size:
 }
 
 .startingPageBg{
@@ -84,6 +83,7 @@ body {
   color: #e5a369;
   text-shadow: 2px 2px #f9e8d9;
   font-size: 4.5cqw;
+  text-align:center;
 }
 
 .loginForm{
@@ -197,6 +197,56 @@ form input:focus{
   }
 }
 
+/* Profile Page */ /* Profile Page */ /* Profile Page */ /* Profile Page */ 
+
+.profileWrapper{
+  background-color:lightseagreen;
+  justify-content: center;
+  min-height:100vh;
+}
+
+.profileContainer{
+  background-color: white;
+  display:grid;
+  grid-template-columns: 20% auto;
+  min-height: 100vh;
+  height: 100%;
+  width: 100%;
+}
+
+.profileInfo{
+  box-shadow: -13px 0px 20px 0px rgba(0, 0, 0, 0.5);
+}
+
+.bookContainer{
+  width:100%;
+  height:100%;
+  padding: 0 2%;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.frontPage{
+  background-color:grey;
+  width: 50%;
+  height: 90vh;
+  margin: 5vh 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.5);
+}
+
+.page{
+  background-color:grey;
+  width: 100%;
+  height: 90vh;
+  margin: 5vh 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.5);
+}
 /* Register Page */ /* Register Page */ /* Register Page */ /* Register Page */ 
 
 /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ 
@@ -215,6 +265,7 @@ form input:focus{
   color: #e5a369;
   text-shadow: 2px 2px #f9e8d9;
   font-size: 15.5cqw;
+  text-align:center;
 }
 
 .forgotPasswordText {

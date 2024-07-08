@@ -5,10 +5,15 @@ export default function ProfilePage(props: ProfileProps){
 
     return(
     <div className="profileWrapper">
-        <div>
+        <div className="profileContainer">
+        <div className="profileInfo">
             <p>{username}</p>
             <p>{email}</p>
-
+            </div>
+        <div className="bookContainer">
+        <div className="frontPage"></div>
+        <div className="page"></div>
+        </div>
         </div>
     </div>
     )

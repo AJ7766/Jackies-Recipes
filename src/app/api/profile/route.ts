@@ -22,7 +22,6 @@ export async function GET(request: NextRequest) {
     const profileData = await fetchProfileFromDatabase(id);
     return NextResponse.json(profileData, { status: 200 });
   } catch (error) {
-    console.error('Error verifying token:', error);
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 }
@@ -40,11 +39,9 @@ async function fetchProfileFromDatabase(id: string) {
         username: user.username,
         email: user.email,
       };
-      
-      console.log(user);
       return profileData;
+
     } catch (error:any) {
-      console.error('Error fetching profile:', error.message);
       throw new Error('Failed to fetch profile data');
     } finally{
       mongoose.connection.close();
