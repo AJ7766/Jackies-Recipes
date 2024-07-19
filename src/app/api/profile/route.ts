@@ -37,7 +37,7 @@ async function fetchProfileFromDatabase(id: string) {
   
       const profileData = {
         username: user.username,
-        email: user.email,
+        fullName: user.fullName,
       };
       return profileData;
 

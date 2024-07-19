@@ -26,9 +26,18 @@
   src: url('fonts/MouseMemoirs-Regular.ttf');
 }
 
+@font-face {
+  font-family: 'Gothan-Book';
+  src: url('fonts/Gotham-Book.otf');
+}
+
+@font-face {
+  font-family: 'Gothan-Medium';
+  src: url('fonts/Gotham-Medium.otf');
+}
 
 body {
-  font-family: 'MouseMemoirs-Regular';
+  font-family: 'Gothan-Medium';
   background: white;
 }
 
@@ -197,55 +206,196 @@ form input:focus{
   }
 }
 
-/* Profile Page */ /* Profile Page */ /* Profile Page */ /* Profile Page */ 
+.navContainer{
+  display:flex;
+  margin: 20px;
+  gap: 20px;
+  align-items: center;
+}
+
+.searchContainer{
+  position:relative;
+  width:100%;
+}
+
+.searchContainer img{
+  position:absolute;
+  width: 16px;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.searchContainer input[type="search"]{
+  border-radius: 12px;
+  background-color: #f3f3f3;
+  padding: 8px 10px 8px 32px;
+  height: 45px;
+  width:100%;
+}
+
+.navProfilePictureContainer{
+  width: 43.5px;
+}
+
+.navProfilePicutre{
+  border-radius: 50%;
+  overflow:hidden;
+  height: 45px;
+  width: 45px;
+  background-color: #f3f3f3;
+}
 
 .profileWrapper{
   background-color:lightseagreen;
-  justify-content: center;
-  min-height:100vh;
+  font-family: 'Gothan-Book';
+  color: #0c1216;
+  margin: 20px 20px 10px 20px;
 }
 
 .profileContainer{
   background-color: white;
   display:grid;
-  grid-template-columns: 20% auto;
-  min-height: 100vh;
+  grid-template-rows: auto auto;
   height: 100%;
   width: 100%;
 }
 
 .profileInfo{
-  box-shadow: -13px 0px 20px 0px rgba(0, 0, 0, 0.5);
+  position:relative;
+  background-size: cover;
+  background-position: center;
+  flex-direction: column;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 30px;
+  height:100%;
+  gap:10px;
 }
 
-.bookContainer{
-  width:100%;
-  height:100%;
-  padding: 0 2%;
-  display:flex;
-  flex-direction: column;
-  align-items: center;
+.profileInfo::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  height: 10px;
+  border-bottom: solid #bababa 1px;
+}
+
+.profileInfo h1{
+  font-family: 'Gothan-Medium';
+  font-size: 1.2cqw;
+}
+
+.profileInfo h2{
+  font-family: 'Gothan-Medium';
+  font-size: 0.85cqw;
+  text-align: center;
+  line-height: 1.6;
+  max-width: 35%;
+}
+.profileInfo p{
+  font-family: 'Gothan-Book';
+}
+
+.profilePicutre{
+  border-radius: 50%;
+  overflow:hidden;
+  height: 10vw;
+  width: 10vw;
+  background-color: #f3f3f3;
+}
+
+.profileInfo::before{
+  width:35%;
+}
+
+.profileSocialMediaContainer{
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-top: -7px;
   justify-content: center;
 }
 
-.frontPage{
-  background-color:grey;
-  width: 50%;
-  height: 90vh;
-  margin: 5vh 0;
-  background-size: contain;
-  background-repeat: no-repeat;
-  box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.5);
+.profileSocialMediaContainer img{
+  width:auto;
+  height:30px;
 }
 
-.page{
-  background-color:grey;
-  width: 100%;
-  height: 90vh;
-  margin: 5vh 0;
-  background-size: contain;
-  background-repeat: no-repeat;
-  box-shadow: 0px 0px 7px 1px rgba(0, 0, 0, 0.5);
+.searchRecipesContainer{
+  position:relative;
+  width:100%;
+  padding: 0 20px;
+}
+
+.searchRecipesContainer img{
+  position:absolute;
+  width: 16px;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.searchRecipesContainer input[type="search"]{
+  border-radius: 12px;
+  background-color: #f3f3f3;
+  padding: 8px 10px 8px 32px;
+  height: 45px;
+  width:100%;
+}
+
+.categories{
+  display: flex;
+  flex-direction: row;
+  padding-left: 25px;
+  margin-bottom: 20px;
+  margin-top: 2px;
+  gap: 20px;
+}
+
+.categories span{
+  position:relative;
+  padding: 5px 0px 0px 0px;
+  font-family: 'Gothan-Medium';
+}
+
+.categories span::after{
+  content: "";
+  position: absolute;
+  width: 40%;
+  height: 1.5px;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  background-color: #0c1216;
+}
+
+.masonryContainer{
+  display:grid;
+  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+  margin: 0 20px 20px 20px;
+  gap: 15px;
+}
+
+.masonryColumn{
+  display:flex;
+  flex-direction: column;
+  width:100%;
+  gap: 15px;
+}
+
+.masonryImg{
+  max-width: 100%;
+}
+
+.masonryImg img{
+  border-radius: 20px;
+}
+
+.masonryImg h1{
+  font-family: 'Gothan-Medium';
+  margin: 5px 0 12px 6px;
 }
 /* Register Page */ /* Register Page */ /* Register Page */ /* Register Page */ 
 

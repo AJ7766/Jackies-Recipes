@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 import { UserModel } from "@/models/UserModel";
 
 
-const SECRET_KEY = (process.env.JWT_SECRET_KEY as string) || "your-secret-key";
+const SECRET_KEY = (process.env.JWT_SECRET_KEY as string) || "placeholder";
 
 export async function POST(request: NextRequest) {
 
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       throw new Error('Invalid username or password');
     }
 
-    const token = jwt.sign({ id: user._id, username: user.username }, SECRET_KEY, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, username: user.username }, SECRET_KEY, { expiresIn: '20h' });
     return NextResponse.json({ message: "Successfully logged in", token}, { status:200 });
 
   } catch (error:any) {

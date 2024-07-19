@@ -3,6 +3,9 @@ import LoginForm from "./_components/LoginForm";
 import { useEffect, useState } from "react";
 import ProfilePage from "./_components/Profile";
 import { ProfileProps } from "./types/types";
+import NavBar from "./[username]/_components/NavBar";
+import Masonary from "./_components/Masonary";
+import Categories from "./_components/Category";
 
 export default function Home() {
 
@@ -53,7 +56,12 @@ export default function Home() {
     {!isLoggedIn ? 
       <LoginForm />
   : 
-  <ProfilePage username={profile?.username} email={profile?.email} />
+  <>
+  <NavBar />
+  <ProfilePage username={profile?.username} fullName={profile?.fullName} />
+  <Categories />
+  <Masonary />
+  </>
   }
 </> 
   );

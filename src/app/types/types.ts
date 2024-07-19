@@ -1,6 +1,6 @@
 export type ProfileProps = {
   username?: string;
-  email?: string;
+  fullName?: string;
 };
 
 export type RegisterFormProps = {
