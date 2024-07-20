@@ -28,7 +28,6 @@ export default function Home() {
             throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
           }
           const data = await res.json();
-          console.log("Authorized")
           setProfile(data);
           setIsLoggedIn(true);
         } catch (error:any) {
