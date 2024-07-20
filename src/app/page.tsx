@@ -16,7 +16,6 @@ export default function Home() {
   useEffect(() => {
     const fetchProfileData = async () => {
       const token = localStorage.getItem('token');
-      
         if(token){
           try {
             const res = await fetch("/api/authentication", {

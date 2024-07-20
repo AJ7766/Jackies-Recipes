@@ -23,6 +23,11 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(profileData, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+  }finally{
+    if (mongoose.connection.readyState === 1) {
+      await mongoose.connection.close();
+      console.log("MongoDB closed");
+    }
   }
 }
 
@@ -43,7 +48,5 @@ async function fetchProfileFromDatabase(id: string) {
 
     } catch (error:any) {
       throw new Error('Failed to fetch profile data');
-    } finally{
-      mongoose.connection.close();
     }
   }

@@ -4,57 +4,65 @@ import NavBar from "./_components/NavBar";
 import Categories from "../_components/Category";
 import Masonary from "../_components/Masonary";
 import { ProfileProps } from "../types/types";
-import { notFound } from "next/navigation";
 import ProfilePage from "../_components/Profile";
 
 
 export default function UserPage({params}: {params: {username:string}}) {
 
-  const [userFound, setUserFound] = useState(false);
+  const [userFound, setUserFound] = useState(true);
   const [profile, setProfile] = useState<ProfileProps | null>(null);
   const [loading, setIsLoading] = useState(true);
-  const username = params.username;
 
   useEffect(() => {
+    if (params.username) {
     const fetchProfileData = async () => {
+      console.log(params.username);
           try {
             let res = await fetch("/api/profile", {
                 method: "POST",
-                body: JSON.stringify({username}),
+                body: JSON.stringify({ username: params.username }),
                 headers: {
-                  "Content-Type": "application/json",
+                  "Content-Type": "application/json"
               },
             });
+            console.log(`Response status: ${res.status}, Response status text: ${res.statusText}`);
           if (!res.ok) {
             const errorResponse = await res.json();
-            console.log(errorResponse);
+            console.log(errorResponse.message);
+            setUserFound(false);
             throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
-          }else if(res.ok){
-            const data = await res.json();
-            console.log(data.user)
-            setProfile(data.user);
-            setUserFound(true);
           }
-
+            const data = await res.json();
+            setProfile(data);
+            setUserFound(true);
         } catch (error:any) {
           console.error("Error fetching profile:", error.message);
+          setUserFound(false);
         }finally{
           setIsLoading(false);
         }
         }
       fetchProfileData();
-    },[username]);
+    }
+  },[params.username]);
 
     if (loading) {
       return null;
     }
 
   return (
-  <>
-  <NavBar />
-  <ProfilePage username={profile?.username} fullName={profile?.fullName} />
-  <Categories />
-  <Masonary />
+    <>
+    {userFound ? 
+      <>
+      <NavBar />
+      <ProfilePage username={profile?.username} fullName={profile?.fullName} />
+      <Categories />
+      <Masonary />
+      </>:<>
+      <NavBar />
+      <div>User not found</div>
+      </>
+    }
   </>
   );
 }
