@@ -1,31 +1,60 @@
-import { notFound } from "next/navigation";
-import { connectDB } from "../../config/database";
-import { UserModel } from "../../models/UserModel";
-import mongoose from "mongoose";
+"use client"
+import { useEffect, useState } from "react";
 import NavBar from "./_components/NavBar";
+import Categories from "../_components/Category";
+import Masonary from "../_components/Masonary";
+import { ProfileProps } from "../types/types";
+import { notFound } from "next/navigation";
+import ProfilePage from "../_components/Profile";
 
 
-export default async function ProfilePage({params: {username}}:{params: {username:string}}){
-    let user;
+export default function UserPage({params}: {params: {username:string}}) {
 
-    try {
-    await connectDB();
-    user = await UserModel.findOne({ username }).lean();
-    if (!user) return notFound();
-    
-    return(
-        <>
-        <NavBar />
-        <div>
-            <p>username: {user.username}</p>
-            <p>full name: {user.fullName}</p>
-            <p>email: {user.email}</p>
-        </div>
-        </>
-    )} catch(error:any){
-        return notFound();
-    }finally{
-        mongoose.connection.close();
+  const [userFound, setUserFound] = useState(false);
+  const [profile, setProfile] = useState<ProfileProps | null>(null);
+  const [loading, setIsLoading] = useState(true);
+  const username = params.username;
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+          try {
+            let res = await fetch("/api/profile", {
+                method: "POST",
+                body: JSON.stringify({username}),
+                headers: {
+                  "Content-Type": "application/json",
+              },
+            });
+          if (!res.ok) {
+            const errorResponse = await res.json();
+            console.log(errorResponse);
+            throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
+          }else if(res.ok){
+            const data = await res.json();
+            console.log(data.user)
+            setProfile(data.user);
+            setUserFound(true);
+          }
+
+        } catch (error:any) {
+          console.error("Error fetching profile:", error.message);
+        }finally{
+          setIsLoading(false);
+        }
+        }
+      fetchProfileData();
+    },[username]);
+
+    if (loading) {
+      return null;
     }
-    
+
+  return (
+  <>
+  <NavBar />
+  <ProfilePage username={profile?.username} fullName={profile?.fullName} />
+  <Categories />
+  <Masonary />
+  </>
+  );
 }

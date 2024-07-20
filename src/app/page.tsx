@@ -19,7 +19,7 @@ export default function Home() {
       
         if(token){
           try {
-            const res = await fetch("/api/profile", {
+            const res = await fetch("/api/authentication", {
               headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"

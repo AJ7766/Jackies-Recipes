@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import searchGlass from "@/app/images/search-glass.svg";
 import profilePicture from "@/app/images/profile-picture.png";
@@ -44,6 +45,9 @@ export default  function NavBar(){
         <div className="navProfilePicutre">
         <Image src={profilePicture} alt="profile-picture" />
         </div>
+        </div>
+        <div className="accountSettings">
+            <i className="arrowDown"></i>
         </div>
         </div>
     )
