@@ -34,8 +34,8 @@ export default function LoginForm(){
           else if(res.ok){
             setError(false);
             let data = await res.json();
-            console.log("Registration successful: ", data);
             localStorage.setItem('token', data.token);
+            console.log(data.token);
           }}catch (error:any) {
           console.error("Error:", error);
         }finally{
