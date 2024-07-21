@@ -5,6 +5,7 @@ import Categories from "../_components/Category";
 import Masonary from "../_components/Masonary";
 import { ProfileProps } from "../types/types";
 import ProfilePage from "../_components/Profile";
+import { useAuth } from "../context/AuthContext";
 
 
 export default function UserPage({params}: {params: {username:string}}) {
@@ -12,6 +13,15 @@ export default function UserPage({params}: {params: {username:string}}) {
   const [userFound, setUserFound] = useState(true);
   const [profile, setProfile] = useState<ProfileProps | null>(null);
   const [loading, setIsLoading] = useState(true);
+  const { isAuthenticated, user, login, logout } = useAuth();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      console.log('User not authenticated');
+    }else{
+      console.log('User is authenticated');
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (params.username) {

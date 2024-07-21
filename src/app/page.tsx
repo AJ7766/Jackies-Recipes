@@ -18,7 +18,7 @@ export default function Home() {
       const token = localStorage.getItem('token');
         if(token){
           try {
-            const res = await fetch("/api/authentication", {
+            const res = await fetch("/api/user-profile", {
               headers: {
                 Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
