@@ -6,28 +6,24 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY || 'your-secret-key';
 
-export async function GET(request: NextRequest) {
-  const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');
-  
-  if (!authHeader || !authHeader.startsWith('Bearer')) {
-    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-  }
-
-  const token = authHeader.split(' ')[1];
-
+export async function POST(request: NextRequest) {
   try {
+    const { token } = await request.json();
+
+    if (!token) {
+      return NextResponse.json({ message: 'Token is required' }, { status: 400 });
+    }
+
     const decodedToken = jwt.verify(token, SECRET_KEY) as JwtPayload;
     const { id } = decodedToken;
 
     const profileData = await fetchProfileFromDatabase(id);
-    return NextResponse.json(profileData, { status: 200 });
+    return NextResponse.json({message: 'Authorized', profileData}, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }finally{
-    if (mongoose.connection.readyState === 1) {
       await mongoose.connection.close();
       console.log("MongoDB closed");
-    }
   }
 }
 
@@ -35,11 +31,10 @@ async function fetchProfileFromDatabase(id: string) {
     try {
       await connectDB();
       const user = await UserModel.findOne({ _id: id });
-  
       if (!user) {
-        throw new Error(`User with id ${id} not found`);
+        throw new Error(`User not found`);
       }
-  
+
       const profileData = {
         username: user.username,
         fullName: user.fullName,
@@ -47,6 +42,6 @@ async function fetchProfileFromDatabase(id: string) {
       return profileData;
 
     } catch (error:any) {
-      throw new Error('Failed to fetch profile data');
+      throw error;
     }
   }

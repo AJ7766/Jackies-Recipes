@@ -7,26 +7,17 @@ import { ProfileProps } from "../types/types";
 import ProfilePage from "../_components/Profile";
 import { useAuth } from "../context/AuthContext";
 
-
 export default function UserPage({params}: {params: {username:string}}) {
-
+  const { initializing } = useAuth();
   const [userFound, setUserFound] = useState(true);
   const [profile, setProfile] = useState<ProfileProps | null>(null);
   const [loading, setIsLoading] = useState(true);
-  const { isAuthenticated, user, login, logout } = useAuth();
 
   useEffect(() => {
-    if (!isAuthenticated) {
-      console.log('User not authenticated');
-    }else{
-      console.log('User is authenticated');
-    }
-  }, [isAuthenticated]);
-
-  useEffect(() => {
+    if (initializing) return;
     if (params.username) {
     const fetchProfileData = async () => {
-      console.log(params.username);
+      console.log("userPage running")
           try {
             let res = await fetch("/api/profile", {
                 method: "POST",
@@ -43,6 +34,7 @@ export default function UserPage({params}: {params: {username:string}}) {
             throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
           }
             const data = await res.json();
+            console.log("User: ", data);
             setProfile(data);
             setUserFound(true);
         } catch (error:any) {
@@ -54,11 +46,11 @@ export default function UserPage({params}: {params: {username:string}}) {
         }
       fetchProfileData();
     }
-  },[params.username]);
+  },[params.username,initializing]);
 
-    if (loading) {
-      return null;
-    }
+  if (loading || initializing) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>

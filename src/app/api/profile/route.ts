@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json(profileData, { status: 200 });
     } catch (error:any) {
         console.error("Error in API handler:", error.message);
-        return NextResponse.json({ message: "Couldn't find user", error: error.message }, { status: 400 });
+        return NextResponse.json({ message: "Couldn't find user", error }, { status: 400 });
     } finally{
         if (mongoose.connection.readyState === 1) {
             await mongoose.connection.close();
@@ -23,9 +23,8 @@ export async function POST(request: NextRequest) {
     async function fetchProfileFromDatabase(username: string) {
         try {
           await connectDB();
-          const user = await UserModel.findOne({ username: username });
-
-          if (!user) {
+          const user = await UserModel.findOne({ username });
+            if (!user) {
             throw new Error(`User not found`);
           }
 

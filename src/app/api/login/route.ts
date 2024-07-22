@@ -33,6 +33,9 @@ export async function POST(request: NextRequest) {
     console.error('Error checking login details:', error.message);
     return NextResponse.json({ message: errorMessage }, { status: 400 });
   } finally {
-    mongoose.connection.close();
+    if (mongoose.connection.readyState === 1) {
+      await mongoose.connection.close();
+      console.log("MongoDB closed");
+    }
   }
 }

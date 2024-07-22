@@ -14,12 +14,11 @@ export async function GET(request: NextRequest) {
   const token = authHeader.split(' ')[1];
 
   try {
-    const decodedToken = jwt.verify(token, SECRET_KEY) as JwtPayload;
-    const { id } = decodedToken;
+    jwt.verify(token, SECRET_KEY) as JwtPayload;
 
-    return NextResponse.json({ message: 'Authorized', valid: true}, { status: 200 });
+    return NextResponse.json({ message: 'Token Valid', valid: true}, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: 'Unauthorized', valid: false }, { status: 401 });
+    return NextResponse.json({ message: 'Token not valid', valid: false }, { status: 401 });
   }finally{
     if (mongoose.connection.readyState === 1) {
       await mongoose.connection.close();
