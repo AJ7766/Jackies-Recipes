@@ -12,12 +12,7 @@ export async function POST(request: NextRequest) {
     } catch (error:any) {
         console.error("Error in API handler:", error.message);
         return NextResponse.json({ message: "Couldn't find user", error }, { status: 400 });
-    } finally{
-        if (mongoose.connection.readyState === 1) {
-            await mongoose.connection.close();
-            console.log("MongoDB closed");
-          }
-    }
+    } 
     }
 
     async function fetchProfileFromDatabase(username: string) {

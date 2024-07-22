@@ -21,9 +21,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({message: 'Authorized', profileData}, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-  }finally{
-      await mongoose.connection.close();
-      console.log("MongoDB closed");
   }
 }
 

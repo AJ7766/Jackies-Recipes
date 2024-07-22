@@ -18,7 +18,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [initializing, setInitializing] = useState<boolean>(true);
 
   const fetchUserData = useCallback(async (token: string) => {
-    console.log("AuthPage running")
     if(token){
         console.log("AuthPage running")
         try {
@@ -58,8 +57,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const result = await res.json();
         if (result.valid) {
             console.log(result.message);
-          setIsAuthenticated(true);
-          await fetchUserData(token);
+            setIsAuthenticated(true);
+            await fetchUserData(token);
         } else {
           localStorage.removeItem('token');
           setIsAuthenticated(false);
@@ -79,7 +78,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (token) {
     verifyTokenAndFetchUser(token);
     }else{
-        console.log("initializing false")
+        console.log("token not found")
         setInitializing(false); 
     }
   },[verifyTokenAndFetchUser] );
@@ -96,7 +95,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   if (initializing) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   return (

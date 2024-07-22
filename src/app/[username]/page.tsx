@@ -11,10 +11,12 @@ export default function UserPage({params}: {params: {username:string}}) {
   const { initializing } = useAuth();
   const [userFound, setUserFound] = useState(true);
   const [profile, setProfile] = useState<ProfileProps | null>(null);
-  const [loading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (initializing) return;
+    if (initializing || !params.username) {
+      return;
+    }
+    
     if (params.username) {
     const fetchProfileData = async () => {
       console.log("userPage running")
@@ -40,16 +42,14 @@ export default function UserPage({params}: {params: {username:string}}) {
         } catch (error:any) {
           console.error("Error fetching profile:", error.message);
           setUserFound(false);
-        }finally{
-          setIsLoading(false);
         }
         }
       fetchProfileData();
     }
   },[params.username,initializing]);
 
-  if (loading || initializing) {
-    return <div>Loading...</div>;
+  if (initializing) {
+    return null;
   }
 
   return (

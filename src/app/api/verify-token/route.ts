@@ -19,10 +19,5 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ message: 'Token Valid', valid: true}, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: 'Token not valid', valid: false }, { status: 401 });
-  }finally{
-    if (mongoose.connection.readyState === 1) {
-      await mongoose.connection.close();
-      console.log("MongoDB closed");
-    }
   }
 }
