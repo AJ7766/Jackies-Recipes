@@ -17,8 +17,8 @@ export async function POST(request: NextRequest) {
     const decodedToken = jwt.verify(token, SECRET_KEY) as JwtPayload;
     const { id } = decodedToken;
 
-    const profileData = await fetchProfileFromDatabase(id);
-    return NextResponse.json({message: 'Authorized', profileData}, { status: 200 });
+    const userData = await fetchProfileFromDatabase(id);
+    return NextResponse.json({message: 'Authorized', userData}, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
@@ -32,11 +32,11 @@ async function fetchProfileFromDatabase(id: string) {
         throw new Error(`User not found`);
       }
 
-      const profileData = {
+      const userData = {
         username: user.username,
         fullName: user.fullName,
       };
-      return profileData;
+      return userData;
 
     } catch (error:any) {
       throw error;

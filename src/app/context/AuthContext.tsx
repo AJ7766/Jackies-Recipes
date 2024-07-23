@@ -1,6 +1,7 @@
 "use client"
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { ProfileProps } from '../types/types';
+import { useRouter } from 'next/navigation';
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -16,6 +17,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<ProfileProps | null>(null);
   const [initializing, setInitializing] = useState<boolean>(true);
+  const router = useRouter();
 
   const fetchUserData = useCallback(async (token: string) => {
     if(token){
@@ -32,8 +34,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
           }
         const data = await res.json();
-        console.log(data);
-        setUser(data);
+        console.log(data.userData);
+        setUser(data.userData);
     } catch (error) {
       console.error('Error fetching user data', error);
       setUser(null);
@@ -92,6 +94,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem('token');
     setIsAuthenticated(false);
     setUser(null);
+    router.push(`/`);
   };
 
   if (initializing) {

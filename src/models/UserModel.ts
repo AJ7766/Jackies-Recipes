@@ -5,13 +5,15 @@ export interface UserProps extends Document{
     fullName: string;
     username: string;
     password: string;
+    userContent?: mongoose.Types.ObjectId;
 }
 
 const userSchema = new Schema<UserProps>({
     email: { type: String, required: true, unique: true },
     username: { type: String, required: true, unique: true },
     fullName: { type: String, required: true },
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    userContent: { type: Schema.Types.ObjectId, ref: 'userContents' }
 }, {
     timestamps: true
 });

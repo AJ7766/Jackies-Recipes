@@ -5,6 +5,7 @@ import Link from "next/link";
 import usernameImg from "@/app/images/register/username.svg";
 import passwordImg from "@/app/images/register/password.svg";
 import { useState } from "react";
+import { useRouter } from 'next/navigation'
 
 export default function LoginForm(){
     const [username, setUserName] = useState('');
@@ -12,6 +13,7 @@ export default function LoginForm(){
     const [error, setError] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
     const [loadingBtn, setLoadingBtn] = useState(false);
+    const router = useRouter();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -36,6 +38,7 @@ export default function LoginForm(){
             let data = await res.json();
             localStorage.setItem('token', data.token);
             console.log(data.token);
+            router.push(`/${username}`);
           }}catch (error:any) {
           console.error("Error:", error);
         }finally{

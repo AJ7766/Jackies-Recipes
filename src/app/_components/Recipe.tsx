@@ -1,12 +1,57 @@
 import Image from "next/image";
 import carrotCake from "@/app/images/test/carrot-cake.jpg";
+import meals from "@/app/images/test/meal.svg";
+import profilePicture from "@/app/images/profile-picture.png";
+import { useMemo } from "react";
 
 export default function Recipe({recipe}:{recipe:string}){
-    return <div className="recipeContainer">
 
+    const dataValues = useMemo(() => [60, 20, 20], []); //carbs, protein, fat
+    const calorieValues = useMemo(() => [240, 80, 180], []);
+    const totalCalories = useMemo(() => calorieValues.reduce((acc, val) => acc + val, 0), [calorieValues]);
+
+    return <div className="recipeContainer">
         <div className="recipeLeftSideWrapper">
+
+        <div className="recipeUserContainer">
+        <div className="recipeProfilePictureContainer">
+        <div className="recipeProfilePicutre">
+        <Image src={profilePicture} alt="profile-picture" />
+        </div>
+        </div>
+        <div>
+            <h2>josefinen</h2>
+        </div>
+        </div>
+
         <h1>Saftig Morotskaka</h1>
         <div className="recipeIngredientsContainer">
+                <div className="recipeMacroContainer">
+            <div className="nutritionContainer">
+                <div className="macroContainer">
+            <div className="macroInfo">
+                <div className="carbsColor"></div>
+                <p>Carbs: {dataValues[0]}g</p>
+            </div>
+            <div className="macroInfo">
+                <div className="proteinColor"></div>
+                <p>Protein: {dataValues[1]}g</p>
+            </div>
+            <div className="macroInfo">
+                <div className="fatColor"></div>
+                <p>Fat: {dataValues[2]}g</p>
+            </div>
+            <div className="macroInfo">
+                <div className="caloriesColor"></div>
+                <p>Calories: {totalCalories}</p>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div className="mealsContainer">
+                <Image src={meals} alt="test"/>
+                <p>4</p>
+                </div>
         <table>
   <tbody>
     <tr>
@@ -91,9 +136,6 @@ export default function Recipe({recipe}:{recipe:string}){
         <div className="recipeRightSideWrapper">
         <div className="recipeImageContainer">
         <Image src={carrotCake} alt="test"/>
-        </div>
-        <div className="recipeInformationContainer">
-            <p>info</p>
         </div>
         <div className="recipeInstructionsContainer">
         <table>

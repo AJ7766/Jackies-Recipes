@@ -2,12 +2,30 @@
 import Image from "next/image";
 import searchGlass from "@/app/images/search-glass.svg";
 import profilePicture from "@/app/images/profile-picture.png";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default  function NavBar(){
     const [search, setSearch] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
     const [debouncedSearch, setDebouncedSearch] = useState(search);
+    const { logout } = useAuth();
+
+    const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+
+    useEffect(() => {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
+    }, []);
 
     useEffect(() => {
         if(debouncedSearch){
@@ -33,7 +51,12 @@ export default  function NavBar(){
     }
     },[debouncedSearch])
 
-    return(
+    function toggleDropdown(){
+      setIsOpen(!isOpen);
+    };
+
+    return(<>
+        <div className="space"></div>
         <div className="navContainer">
         <Link href="/"><p>Logo</p></Link>
         <Link href="/"><p>Home</p></Link>
@@ -46,9 +69,20 @@ export default  function NavBar(){
         <Image src={profilePicture} alt="profile-picture" />
         </div>
         </div>
-        <div className="accountSettings">
+        <div className="dropdownContainer" ref={dropdownRef}>
+        <div className={`dropdownButton ${isOpen ? 'open' : ''}`}  onClick={toggleDropdown}>
             <i className="arrowDown"></i>
         </div>
+        {isOpen && (
+          <div className="dropdownContentContainer">
+        <div className="dropdownContent">
+          <a href="/settings">Settings</a>
+          <button onClick={logout}>Logout</button>
         </div>
+        </div>
+      )}
+       </div>
+        </div>
+        </>
     )
 }
