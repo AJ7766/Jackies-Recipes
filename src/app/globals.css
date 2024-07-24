@@ -753,6 +753,10 @@ tbody{
   border-bottom: solid #bababa 1px;
 }
 
+.editProfileInfo h1{
+  margin-top:15px;
+}
+
 .editProfilePicutre{
   position:relative;
   border-radius: 50%;
@@ -857,9 +861,26 @@ tbody{
   box-sizing: border-box;
 }
 
+.editPasswordContainer{
+  position: relative;
+}
+
+.editPasswordContainer input {
+  font-family: 'Gotham-Medium';
+  font-size: 0.85cqw;
+  width: 550px;
+  max-width: 550px;
+  border: 2px solid #bababa;
+  border-radius: 5px;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
 .editForm button[type="submit"]{
   padding: 5px 20px;
   border-radius: 5px;
+  width: 550px;
+  max-width: 550px;
   color:white;
   background-color: #26323a;
 }

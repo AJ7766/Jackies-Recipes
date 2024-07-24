@@ -10,6 +10,16 @@ export interface UserContentProps extends Document {
     facebook?: string;
   }
   
+  export type SimplifiedUserContentProps = {
+    profilePicture?: string;
+    bio?: string;
+    instagram?: string;
+    x?: string;
+    tiktok?: string;
+    youtube?: string;
+    facebook?: string;
+  };  
+
  export const userContentSchema = new Schema<UserContentProps>({
     profilePicture: { type: String },
     bio: { type: String },

@@ -1,11 +1,12 @@
-import { UserContentProps } from '@/models/UserContent';
+import { UserContentProps, SimplifiedUserContentProps } from '@/models/UserContent';
 
 export type ProfileProps = {
+  _id?: string;
   email?: string;
   fullName?: string;
   username?: string;
   password?: string;
-  userContent?: UserContentProps;
+  userContent?: SimplifiedUserContentProps;
 };
 
 export type ProfilePropsOrNull = ProfileProps | null;

@@ -2,12 +2,13 @@
 import Image from "next/image";
 import profilePicture from "@/app/images/profile-picture.png"
 import camera from "@/app/images/test/camera.svg";
-import { ProfilePropsOrNull } from "@/app/types/types";
+import { ProfileProps, ProfilePropsOrNull } from "@/app/types/types";
 import { useState } from "react";
+import Resizer from "react-image-file-resizer";
 
 export default function EditProfile({user}: {user:ProfilePropsOrNull}){
-    const [profilePic, setProfilePic] = useState<File | null>(null);
     const [profilePicPreview, setProfilePicPreview] = useState<string>(user?.userContent?.profilePicture || '');
+    const [email, setEmail] = useState<string>(user?.email || '');
     const [username, setUsername] = useState<string>(user?.username || '');
     const [fullName, setFullName] = useState<string>(user?.fullName || '');
     const [bio, setBio] = useState<string>(user?.userContent?.bio || 'Passionate about sharing authentic Swedish recipes. Dive into the rich flavors and traditions of Swedish cuisine. From classic dishes to modern twists, discover the heart and soul of Sweden&apos;s culinary heritage. Join me on a delicious journey!');
@@ -16,6 +17,11 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
     const [tiktok, setTiktok] = useState<string>(user?.userContent?.tiktok || '');
     const [youtube, setYoutube] = useState<string>(user?.userContent?.youtube || '');
     const [facebook, setFacebook] = useState<string>(user?.userContent?.facebook || '');
+    const [oldPassword, setOldPassword] = useState<string>('');
+    const [newPassword, setNewPassword] = useState<string>('');
+    const [confirmPassword, setConfirmPassword] = useState<string>('');
+    const [error, setError] = useState('');
+    const [loadingBtn, setLoadingBtn] = useState(false);
 
     if (!user) {
         return <div>No user data available.</div>;
@@ -28,19 +34,83 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
     const ProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
-          setProfilePic(file);
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setProfilePicPreview(reader.result as string);
-          };
-          reader.readAsDataURL(file);
+
+        const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        const maxSize = 20 * 1024 * 1024;
+        
+        if (!allowedMimeTypes.includes(file.type)) {
+            alert('Please upload an image file (JPEG, PNG, WEBP).');
+            return;
+        }
+        
+        if (file.size > maxSize) {
+            alert('File size exceeds 20 MB.');
+            return;
+        }
+            try {
+                Resizer.imageFileResizer(
+                  file,
+                  200, // max width
+                  200, // max height
+                  'JPEG', // format
+                  90, // quality
+                  0, // rotation
+                  (uri) => {
+                    if (typeof uri === 'string') {
+                      setProfilePicPreview(uri);
+                      console.log('Base64 string of resized image:', uri);
+                    } else {
+                      console.error('Unexpected type:', uri);
+                    }
+                  },
+                  'base64' // output type
+                );
+              } catch (error) {
+                console.error('Error resizing image:', error);
+              }
         }
       };
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        console.log(username, fullName, bio, instagram, x, tiktok, youtube, facebook);
-    }
+    event.preventDefault();
+
+    const updatedProfile: ProfileProps = {
+        _id: user._id,
+        username,
+        fullName,
+        userContent: {
+            profilePicture: profilePicPreview || '',
+          bio,
+          instagram,
+          x,
+          tiktok,
+          youtube,
+          facebook,
+        }
+      };
+        try {
+            console.log("Submitting profile:", updatedProfile);
+            let res = await fetch("/api/edit-profile", {
+              method: "POST",
+              body: JSON.stringify({user: updatedProfile}),
+              headers: {
+                "Content-Type": "application/json"
+              }
+            });
+            if (!res.ok) {
+              const errorResponse = await res.json();
+              throw new Error(errorResponse.message || "Failed to register.");
+            } 
+            else if(res.ok){
+              let successResponse = await res.json();
+              console.log("Registration successful:", successResponse);
+            }}catch (error:any) {
+            console.error("Error:", error);
+            setError(error.message || "Failed to register.");
+          }finally{
+            setLoadingBtn(false);
+          }
+        };
 
     return(
     <div className="editProfileWrapper">
@@ -53,15 +123,27 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
                 <input
                 id="profilePicInput"
                 type="file"
-                accept="image/*"
+                accept=".jpg,.jpeg,.png,.webp"
                 className="hidden"
                 onChange={ProfilePicChange}
               />
               </div>
             <Image className="editCamera" src={camera} alt="camera" />
             </div>
+
             <div className="editInputContainer">
-            <label htmlFor="name">Username:</label>
+            <label htmlFor="email">Email:</label>
+            <input 
+                id="email" 
+                type="text" 
+                placeholder="Email"
+                value={email} 
+                onChange={(e) => setUsername(e.target.value)}
+            />
+        </div>
+
+            <div className="editInputContainer">
+            <label htmlFor="username">Username:</label>
             <input 
                 id="username" 
                 type="text" 
@@ -91,8 +173,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
                 onChange={(e) => setBio(e.target.value)}
             />
         </div>
-            <h1>Social Media <i className="opacity-50">optional</i></h1>
-
+            <h1>Social Media <i className="opacity-50 absolute ml-1 text-xs">optional</i></h1>
             <div className="editSocialMediaWrapper">
             <div className="editSocialMediaContainer">
             <label htmlFor="instagram">Instagram:</label>
@@ -153,8 +234,37 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
                 onChange={(e) => setFacebook(e.target.value)}
             />
         </div>
-        <button type="submit">Save</button>
     </div>
+    <h1>Change Password</h1>
+    <div className="editPasswordContainer">
+            <label htmlFor="name">Old Password:</label>
+            <input 
+                type="password" 
+                value={oldPassword} 
+                onChange={(e) => setOldPassword(e.target.value)}
+            />
+        </div>
+        
+        <div className="editPasswordContainer">
+            <label htmlFor="name">New Password:</label>
+            <input 
+                type="password" 
+                value={newPassword} 
+                onChange={(e) => setNewPassword(e.target.value)}
+            />
+        </div>
+
+        <div className="editPasswordContainer">
+            <label htmlFor="name">Confirm Password:</label>
+            <input 
+                id="name" 
+                type="password" 
+                className="socialMediaInputs"
+                value={confirmPassword} 
+                onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+        </div>
+    <button type="submit">Save</button>
         </div>
         <div>
         </div>
