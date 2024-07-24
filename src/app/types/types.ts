@@ -1,7 +1,14 @@
+import { UserContentProps } from '@/models/UserContent';
+
 export type ProfileProps = {
-  username?: string;
+  email?: string;
   fullName?: string;
+  username?: string;
+  password?: string;
+  userContent?: UserContentProps;
 };
+
+export type ProfilePropsOrNull = ProfileProps | null;
 
 export type RegisterFormProps = {
   email: string;
@@ -9,4 +16,5 @@ export type RegisterFormProps = {
   fullName: string;
   password: string;
   confirmPassword: string;
+  userContent?: UserContentProps;
 }

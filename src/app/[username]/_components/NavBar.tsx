@@ -10,15 +10,22 @@ export default  function NavBar(){
     const [search, setSearch] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [debouncedSearch, setDebouncedSearch] = useState(search);
-    const { logout } = useAuth();
-
+    const [loading, setLoading] = useState(true);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+    const { logout, isAuthenticated, initializing } = useAuth();
 
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
+
+    useEffect(() => {
+      if (!initializing) {
+          setLoading(false);
+      }
+  }, [initializing]);
 
     useEffect(() => {
       document.addEventListener('mousedown', handleClickOutside);
@@ -55,11 +62,16 @@ export default  function NavBar(){
       setIsOpen(!isOpen);
     };
 
+    if (loading) {
+      return null;
+  }
+
     return(<>
+      {isAuthenticated ? 
+        <>
         <div className="space"></div>
         <div className="navContainer">
         <Link href="/"><p>Logo</p></Link>
-        <Link href="/"><p>Home</p></Link>
         <div className="searchContainer">
         <Image src={searchGlass} alt="search-glass"/>
         <input type="search" name="query" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
@@ -83,6 +95,28 @@ export default  function NavBar(){
       )}
        </div>
         </div>
-        </>
+        </>:<>
+        <div className="space"></div>
+        <div className="navContainer">
+        <Link href="/"><p>Logo</p></Link>
+        <div className="searchContainer">
+        <Image src={searchGlass} alt="search-glass"/>
+        <input type="search" name="query" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
+        </div>
+        <div className="navProfilePictureContainer">
+        <div className="navProfilePicutre">
+        <Image src={profilePicture} alt="profile-picture" />
+        </div>
+        </div>
+        <div className="newUserButtons">
+        <Link href="/">
+        <button>Login</button>
+        </Link>
+        <Link href="/register">
+        <button>Register</button>
+        </Link></div>
+        </div>
+        </>}
+      </>
     )
 }

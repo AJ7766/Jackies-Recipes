@@ -4,13 +4,13 @@ export interface UserContentProps extends Document {
     profilePicture?: string;
     bio?: string;
     instagram?: string;
-    x?: string; // formerly known as Twitter
+    x?: string;
     tiktok?: string;
     youtube?: string;
     facebook?: string;
   }
   
-  const userContentSchema = new Schema<UserContentProps>({
+ export const userContentSchema = new Schema<UserContentProps>({
     profilePicture: { type: String },
     bio: { type: String },
     instagram: { type: String },
@@ -18,8 +18,6 @@ export interface UserContentProps extends Document {
     tiktok: { type: String },
     youtube: { type: String },
     facebook: { type: String },
-  }, {
-    timestamps: true
   });
 
 export const UserContentModel: Model<UserContentProps> = mongoose.models.userContents || mongoose.model<UserContentProps>('userContents', userContentSchema);

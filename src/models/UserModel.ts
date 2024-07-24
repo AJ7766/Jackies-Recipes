@@ -1,11 +1,12 @@
 import mongoose, { Schema, Model, Document } from 'mongoose';
+import { UserContentProps, userContentSchema } from './UserContent';
 
 export interface UserProps extends Document{
     email: string;
     fullName: string;
     username: string;
     password: string;
-    userContent?: mongoose.Types.ObjectId;
+    userContent?: UserContentProps;
 }
 
 const userSchema = new Schema<UserProps>({
@@ -13,7 +14,10 @@ const userSchema = new Schema<UserProps>({
     username: { type: String, required: true, unique: true },
     fullName: { type: String, required: true },
     password: { type: String, required: true },
-    userContent: { type: Schema.Types.ObjectId, ref: 'userContents' }
+    userContent: {
+        type: userContentSchema,
+        default: {},
+      }
 }, {
     timestamps: true
 });

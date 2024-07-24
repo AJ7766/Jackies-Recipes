@@ -31,12 +31,7 @@ async function fetchProfileFromDatabase(id: string) {
       if (!user) {
         throw new Error(`User not found`);
       }
-
-      const userData = {
-        username: user.username,
-        fullName: user.fullName,
-      };
-      return userData;
+      return user;
 
     } catch (error:any) {
       throw error;

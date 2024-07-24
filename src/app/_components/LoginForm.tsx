@@ -6,6 +6,7 @@ import usernameImg from "@/app/images/register/username.svg";
 import passwordImg from "@/app/images/register/password.svg";
 import { useState } from "react";
 import { useRouter } from 'next/navigation'
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginForm(){
     const [username, setUserName] = useState('');
@@ -14,6 +15,7 @@ export default function LoginForm(){
     const [errorMsg, setErrorMsg] = useState('');
     const [loadingBtn, setLoadingBtn] = useState(false);
     const router = useRouter();
+    const { login } = useAuth();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -36,8 +38,7 @@ export default function LoginForm(){
           else if(res.ok){
             setError(false);
             let data = await res.json();
-            localStorage.setItem('token', data.token);
-            console.log(data.token);
+            login(data.token);
             router.push(`/${username}`);
           }}catch (error:any) {
           console.error("Error:", error);

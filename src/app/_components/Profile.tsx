@@ -1,11 +1,11 @@
 import Image from "next/image";
 import profilePicture from "@/app/images/profile-picture.png"
-import { ProfileProps } from "../types/types";
 import instagram from "@/app/images/social-media/instagram.svg";
 import x from "@/app/images/social-media/x.svg";
 import tiktok from "@/app/images/social-media/tiktok.svg";
 import youtube from "@/app/images/social-media/youtube.svg";
 import facebook from "@/app/images/social-media/facebook.svg";
+import { ProfileProps } from "../types/types";
 
 export default function ProfilePage(props: ProfileProps){
     const { username, fullName } = props;
@@ -26,7 +26,6 @@ export default function ProfilePage(props: ProfileProps){
                 <Image src={tiktok} alt="tiktok" />
                 <Image src={youtube} alt="youtube" />
                 <Image src={facebook} alt="facebook" />
-
             </div>
         </div>
         <div>

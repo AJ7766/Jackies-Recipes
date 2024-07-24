@@ -65,7 +65,7 @@
 body {
   font-family: 'Gotham-Medium';
   background: white;
-  color: #0c1216;
+  color: #26323a;
 }
 
 .startingPageBg{
@@ -449,6 +449,18 @@ form input:focus{
   width:100%;
 }
 
+.newUserButtons{
+  display: flex;
+  gap: 20px;
+}
+
+.newUserButtons button{
+  padding: 5px 20px;
+  border-radius: 5px;
+  color:white;
+  background-color: #26323a;
+}
+
 .categories{
   display: flex;
   flex-direction: row;
@@ -705,6 +717,109 @@ tbody{
 
 .recipeInstructionsContainer td{
   padding-right: 15px;
+}
+
+.editProfileWrapper{
+  background-color:#a9b0b4;
+  font-family: 'Gotham-Book';
+  color: #0c1216;
+  margin: 20px 20px 10px 20px;
+}
+
+.editProfileContainer{
+  background-color: white;
+  display:grid;
+  grid-template-rows: auto auto;
+  height: 100%;
+  width: 100%;
+}
+
+.editProfileInfo{
+  position:relative;
+  background-size: cover;
+  background-position: center;
+  flex-direction: column;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 30px;
+  height:100%;
+  gap:10px;
+}
+
+.editProfileInfo::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  height: 10px;
+  border-bottom: solid #bababa 1px;
+}
+
+.editInputContainer{
+  position:relative;
+  font-family: 'Gotham-Medium';
+  font-size: 0.85cqw;
+}
+
+.editProfileInfo label{
+  position:absolute;
+  font-family: 'Gotham-Medium';
+  top: 50%;
+  left: -15px;
+  transform: translate(-100%, -50%);
+}
+
+.editInputContainer input{
+  font-family: 'Gotham-Medium';
+  font-size: 1.2cqw;
+  border: 2px solid #bababa;
+  border-radius: 5px;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.editProfileInfo input::placeholder, .editProfileInfo textarea::placeholder {
+  font-style: italic;
+  font-family: 'Gotham-Medium';
+}
+
+.editTextareaContainer{
+  position:relative;
+}
+
+.editProfileInfo textarea{
+  font-family: 'Gotham-Medium';
+  font-size: 0.85cqw;
+  text-align: center;
+  line-height: 1.6;
+  height: 120px;
+  width: 550px;
+  max-width: 550px;
+  border: 2px solid #bababa;
+  border-radius: 5px;
+  resize: none;
+}
+
+.editSocialMediaWrapper{
+  display:flex;
+  gap: 10px;
+  flex-direction: column;
+}
+.editSocialMediaContainer{
+  position:relative;
+}
+
+.editSocialMediaContainer input {
+  font-family: 'Gotham-Medium';
+  font-size: 0.85cqw;
+  border: 2px solid #bababa;
+  border-radius: 5px;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.profileInfo p{
+  font-family: 'Gotham-Book';
 }
 
 /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ 
