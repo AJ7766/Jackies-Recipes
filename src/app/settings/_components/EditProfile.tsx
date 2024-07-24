@@ -1,6 +1,7 @@
 "use client"
 import Image from "next/image";
 import profilePicture from "@/app/images/profile-picture.png"
+import camera from "@/app/images/test/camera.svg";
 import { ProfilePropsOrNull } from "@/app/types/types";
 import { useState } from "react";
 
@@ -20,7 +21,11 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
         return <div>No user data available.</div>;
     }
     
-    const handleProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleProfilePicChange = () => {
+        document.getElementById("profilePicInput")?.click();
+      };
+
+    const ProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
         if (file) {
           setProfilePic(file);
@@ -42,14 +47,18 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
        <form className="editForm" onSubmit={handleSubmit}>
         <div className="editProfileContainer">
         <div className="editProfileInfo">
-            <div className="editProfilePicutre">
-                <Image src={profilePicture} alt="profile-picture" />
+            <div className="editProfilePicutre" onClick={handleProfilePicChange}>
+                <div className="editProfilePictureCanvas">
+                <Image height={160} width={160} className="editPreviewProfilePicture" src={profilePicPreview || profilePicture} alt="profile-picture" />
                 <input
+                id="profilePicInput"
                 type="file"
                 accept="image/*"
                 className="hidden"
-                onChange={handleProfilePicChange}
+                onChange={ProfilePicChange}
               />
+              </div>
+            <Image className="editCamera" src={camera} alt="camera" />
             </div>
             <div className="editInputContainer">
             <label htmlFor="name">Username:</label>

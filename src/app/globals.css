@@ -353,7 +353,6 @@ form input:focus{
 .profileWrapper{
   background-color:#a9b0b4;
   font-family: 'Gotham-Book';
-  color: #0c1216;
   margin: 20px 20px 10px 20px;
 }
 
@@ -722,7 +721,6 @@ tbody{
 .editProfileWrapper{
   background-color:#a9b0b4;
   font-family: 'Gotham-Book';
-  color: #0c1216;
   margin: 20px 20px 10px 20px;
 }
 
@@ -756,11 +754,32 @@ tbody{
 }
 
 .editProfilePicutre{
+  position:relative;
   border-radius: 50%;
   overflow:hidden;
-  height: 10vw;
-  width: 10vw;
+  height: 160px;
+  width: 160px;
   background-color: #f3f3f3;
+  cursor: pointer;
+}
+
+.editProfilePictureCanvas{
+  position: absolute;
+}
+
+.editPreviewProfilePicture{
+  filter: contrast(0.1);
+  height:160px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.editProfilePicutre .editCamera{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 35%;
+  transform: translate(-50%, -50%);
 }
 
 .editInputContainer{
