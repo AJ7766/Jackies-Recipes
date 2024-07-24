@@ -10,7 +10,7 @@ import passwordConfirmImg from "@/app/images/register/passwordConfirm.svg";
 
 export default function RegisterForm() {
   const [email, setEmail] = useState('');
-  const [username, setUserName] = useState('');
+  const [username, setUsername] = useState('');
   const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -79,7 +79,7 @@ export default function RegisterForm() {
                   name="username"
                   placeholder="Username"
                   value={username}
-                  onChange={(e) => setUserName(e.target.value)}
+                  onChange={(e) => setUsername(e.target.value)}
               />
               <Image src={usernameImg} alt="username"/>
               </div>

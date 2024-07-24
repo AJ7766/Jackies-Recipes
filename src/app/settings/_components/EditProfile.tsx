@@ -1,15 +1,13 @@
 "use client"
 import Image from "next/image";
 import profilePicture from "@/app/images/profile-picture.png"
-import instagramImg from "@/app/images/social-media/instagram.svg";
-import xImg from "@/app/images/social-media/x.svg";
-import tiktokImg from "@/app/images/social-media/tiktok.svg";
-import youtubeImg from "@/app/images/social-media/youtube.svg";
-import facebookImg from "@/app/images/social-media/facebook.svg";
-import { ProfileProps, ProfilePropsOrNull } from "@/app/types/types";
+import { ProfilePropsOrNull } from "@/app/types/types";
 import { useState } from "react";
 
 export default function EditProfile({user}: {user:ProfilePropsOrNull}){
+    const [profilePic, setProfilePic] = useState<File | null>(null);
+    const [profilePicPreview, setProfilePicPreview] = useState<string>(user?.userContent?.profilePicture || '');
+    const [username, setUsername] = useState<string>(user?.username || '');
     const [fullName, setFullName] = useState<string>(user?.fullName || '');
     const [bio, setBio] = useState<string>(user?.userContent?.bio || 'Passionate about sharing authentic Swedish recipes. Dive into the rich flavors and traditions of Swedish cuisine. From classic dishes to modern twists, discover the heart and soul of Sweden&apos;s culinary heritage. Join me on a delicious journey!');
     const [instagram, setInstagram] = useState<string>(user?.userContent?.instagram || '');
@@ -21,39 +19,49 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
     if (!user) {
         return <div>No user data available.</div>;
     }
-
-    const handleFullName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFullName(event.target.value);
-    };
-
-    const handleChangeBio = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setBio(event.target.value);
-    };
-
-    const handleInstagram = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInstagram(event.target.value);
-    };
-
-    const handleX = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setX(event.target.value);
-    };
-    const handleTiktok = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setTiktok(event.target.value);
-    };
-    const handleYoutube = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setYoutube(event.target.value);
-    };
-    const handleFacebook = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setFacebook(event.target.value);
-    };
     
+    const handleProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+          setProfilePic(file);
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setProfilePicPreview(reader.result as string);
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        console.log(username, fullName, bio, instagram, x, tiktok, youtube, facebook);
+    }
+
     return(
     <div className="editProfileWrapper">
+       <form className="editForm" onSubmit={handleSubmit}>
         <div className="editProfileContainer">
         <div className="editProfileInfo">
-            <div className="profilePicutre">
+            <div className="editProfilePicutre">
                 <Image src={profilePicture} alt="profile-picture" />
+                <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleProfilePicChange}
+              />
             </div>
+            <div className="editInputContainer">
+            <label htmlFor="name">Username:</label>
+            <input 
+                id="username" 
+                type="text" 
+                placeholder="Username"
+                value={username} 
+                onChange={(e) => setUsername(e.target.value)}
+            />
+        </div>
+
             <div className="editInputContainer">
             <label htmlFor="name">Name:</label>
             <input 
@@ -61,26 +69,19 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
                 type="text" 
                 placeholder="Name"
                 value={fullName} 
-                onChange={handleFullName} 
+                onChange={(e) => setFullName(e.target.value)}
             />
         </div>
+
         <div className="editTextareaContainer">
             <label htmlFor="bio">Bio:</label>
             <textarea 
                 id="bio" 
                 placeholder="bio"
                 value={bio} 
-                onChange={handleChangeBio} 
+                onChange={(e) => setBio(e.target.value)}
             />
         </div>
-            <p>@{user.username}</p>
-            <div className="profileSocialMediaContainer">
-                <Image src={instagramImg} alt="instagram" />
-                <Image src={xImg} alt="x" />
-                <Image src={tiktokImg} alt="tiktok" />
-                <Image src={youtubeImg} alt="youtube" />
-                <Image src={facebookImg} alt="facebook" />
-            </div>
             <h1>Social Media <i className="opacity-50">optional</i></h1>
 
             <div className="editSocialMediaWrapper">
@@ -92,7 +93,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
                 type="text" 
                 placeholder="optional"
                 value={instagram} 
-                onChange={handleInstagram} 
+                onChange={(e) => setInstagram(e.target.value)}
             />
         </div>
 
@@ -104,7 +105,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
                 type="text" 
                 placeholder="optional"
                 value={x} 
-                onChange={handleX} 
+                onChange={(e) => setX(e.target.value)}
             />
         </div>
 
@@ -116,7 +117,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
                 type="text" 
                 placeholder="optional"
                 value={tiktok} 
-                onChange={handleTiktok} 
+                onChange={(e) => setTiktok(e.target.value)}
             />
         </div>
 
@@ -128,7 +129,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
                 type="text" 
                 placeholder="optional"
                 value={youtube} 
-                onChange={handleYoutube} 
+                onChange={(e) => setYoutube(e.target.value)}
             />
         </div>
 
@@ -140,14 +141,16 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
                 type="text" 
                 placeholder="optional"
                 value={facebook} 
-                onChange={handleFacebook} 
+                onChange={(e) => setFacebook(e.target.value)}
             />
         </div>
+        <button type="submit">Save</button>
     </div>
         </div>
         <div>
         </div>
         </div>
+        </form>
     </div>
     )
 }

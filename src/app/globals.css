@@ -755,6 +755,14 @@ tbody{
   border-bottom: solid #bababa 1px;
 }
 
+.editProfilePicutre{
+  border-radius: 50%;
+  overflow:hidden;
+  height: 10vw;
+  width: 10vw;
+  background-color: #f3f3f3;
+}
+
 .editInputContainer{
   position:relative;
   font-family: 'Gotham-Medium';
@@ -763,6 +771,7 @@ tbody{
 
 .editProfileInfo label{
   position:absolute;
+  font-size: 16px;
   font-family: 'Gotham-Medium';
   top: 50%;
   left: -15px;
@@ -772,9 +781,12 @@ tbody{
 .editInputContainer input{
   font-family: 'Gotham-Medium';
   font-size: 1.2cqw;
+  text-align: center;
+  width: 550px;
+  max-width: 550px;
   border: 2px solid #bababa;
   border-radius: 5px;
-  padding: 4px;
+  padding: 2px 0 2px 9px;
   box-sizing: border-box;
 }
 
@@ -792,6 +804,7 @@ tbody{
   font-size: 0.85cqw;
   text-align: center;
   line-height: 1.6;
+  padding: 4px 3px;
   height: 120px;
   width: 550px;
   max-width: 550px;
@@ -805,6 +818,11 @@ tbody{
   gap: 10px;
   flex-direction: column;
 }
+
+.editProfileInfo h1{
+  font-family: 'Gotham-Medium';
+}
+
 .editSocialMediaContainer{
   position:relative;
 }
@@ -812,10 +830,19 @@ tbody{
 .editSocialMediaContainer input {
   font-family: 'Gotham-Medium';
   font-size: 0.85cqw;
+  width: 550px;
+  max-width: 550px;
   border: 2px solid #bababa;
   border-radius: 5px;
   padding: 4px;
   box-sizing: border-box;
+}
+
+.editForm button[type="submit"]{
+  padding: 5px 20px;
+  border-radius: 5px;
+  color:white;
+  background-color: #26323a;
 }
 
 .profileInfo p{
