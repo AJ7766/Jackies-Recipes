@@ -772,7 +772,7 @@ tbody{
 }
 
 .editPreviewProfilePicture{
-  filter: contrast(0.1);
+  filter: contrast(0.4);
   height:160px;
   object-fit: cover;
   object-position: center;
