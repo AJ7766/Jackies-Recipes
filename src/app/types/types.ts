@@ -1,7 +1,10 @@
 import { UserContentProps, SimplifiedUserContentProps } from '@/models/UserContent';
+import mongoose from 'mongoose';
 
 export type ProfileProps = {
-  _id?: string;
+  _id?: mongoose.Types.ObjectId;
+  createdAt?: Date;
+  updatedAt?: Date;
   email?: string;
   fullName?: string;
   username?: string;
@@ -18,4 +21,15 @@ export type RegisterFormProps = {
   password: string;
   confirmPassword: string;
   userContent?: UserContentProps;
+}
+
+export type EditFormProps = {
+  _id?: mongoose.Types.ObjectId;
+  email?: string;
+  username?: string;
+  fullName?: string;
+  oldPassword?: string;
+  newPassword?: string;
+  confirmPassword?: string;
+  userContent?: SimplifiedUserContentProps;
 }

@@ -19,7 +19,6 @@ export default function UserPage({params}: {params: {username:string}}) {
     
     if (params.username) {
     const fetchProfileData = async () => {
-      console.log("userPage running")
           try {
             let res = await fetch("/api/profile", {
                 method: "POST",
@@ -57,7 +56,7 @@ export default function UserPage({params}: {params: {username:string}}) {
     {userFound ? 
       <>
       <NavBar />
-      <ProfilePage username={profile?.username} fullName={profile?.fullName} />
+      <ProfilePage profile={profile} />
       <Categories />
       <Masonary />
       </>:<>

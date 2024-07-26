@@ -2,6 +2,7 @@ import mongoose, { Schema, Model, Document } from 'mongoose';
 import { UserContentProps, userContentSchema } from './UserContent';
 
 export interface UserProps extends Document{
+    _id: mongoose.Types.ObjectId,
     email: string;
     fullName: string;
     username: string;

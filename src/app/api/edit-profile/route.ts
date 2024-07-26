@@ -1,13 +1,91 @@
+import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server"
-import { connectDB } from "../../../config/database"
-import { UserModel } from "../../../models/UserModel"
+import ValidationEditSchema from "./validationEditSchema";
+import bcrypt from "bcrypt";
 
 export async function POST(request: NextRequest) {
+  
   try {
-      const { user, test } = await request.json()
-      console.log(test);
+      const { user } = await request.json()
+
+      const email = user.email.toLowerCase();
+      const username = user.username.toLowerCase();
+      const fullName = user.fullName;
+      const oldPassword = user.oldPassword ? user.oldPassword.toLowerCase() : "";
+      const newPassword = user.newPassword ? user.newPassword.toLowerCase() : "";
+      const confirmPassword = user.confirmPassword ? user.confirmPassword.toLowerCase() : "";
+      const userContent = {
+        profilePicture: user.userContent?.profilePicture || "",
+        bio: user.userContent?.bio.toLowerCase() || "",
+        instagram: user.userContent?.instagram.toLowerCase() || "",
+        x: user.userContent?.x.toLowerCase() || "",
+        tiktok: user.userContent?.tiktok.toLowerCase() || "",
+        youtube: user.userContent?.youtube.toLowerCase() || "",
+        facebook: user.userContent?.facebook.toLowerCase() || ""
+      };
+
+      const validationResponse = await ValidationEditSchema({
+        _id: user._id,
+        email,
+        username,
+        fullName,
+        oldPassword,
+        newPassword,
+        confirmPassword,
+        userContent
+      });
+
+      if (typeof validationResponse === 'string') {
+        return NextResponse.json({ success: false, message: validationResponse }, { status: 400 });
+      }
+      
+      const existingUser = await UserModel.findOne({ $or: [{ email: user.email }, { username: user.username }] });
+    if (existingUser && existingUser._id.toString() !== user._id) {
+      let errorMessage = '';
+      if (existingUser.email === user.email) {
+        errorMessage = `Email '${user.email}' is already registered.`;
+      } else if (existingUser.username === user.username) {
+        errorMessage = `Username '${user.username}' is already taken.`;
+      }
+      return NextResponse.json({ success: false, message: errorMessage }, { status: 400 });
+    }
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+      const updateResult = await UserModel.updateOne(
+        { _id: user._id }, 
+        {
+          $set: {
+            email,
+            username,
+            fullName,
+            password: hashedPassword,
+            'userContent.bio': userContent.bio,
+            'userContent.instagram': userContent.instagram,
+            'userContent.x': userContent.x,
+            'userContent.tiktok': userContent.tiktok,
+            'userContent.youtube': userContent.youtube,
+            'userContent.facebook': userContent.facebook,
+            'userContent.profilePicture': userContent.profilePicture,
+          },
+        }
+      );
+
+      if (updateResult.modifiedCount  === 0) {
+        throw new Error('User not found or data unchanged');
+      }
       
       return NextResponse.json({ message: `Success!` }, { status: 201 })
   } catch (err:any) {
-    return NextResponse.json({ message: err.message }, { status: 400 });  }
+    console.error(err)
+  let errorMessage = "Failed to register user.";
+  
+  if (err.code === 11000) {
+    if (err.keyPattern.email) {
+      errorMessage = `Email '${err.keyValue.email}' is already registered.`;
+    } else if (err.keyPattern.username) {
+      errorMessage = `Username '${err.keyValue.username}' is already taken.`;
+    }
+  }
+  return NextResponse.json({ message: errorMessage }, { status: 400 });  }
 }

@@ -1,6 +1,5 @@
 import { connectDB } from "@/config/database";
 import { UserModel } from "@/models/UserModel";
-import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server"
 
 export async function POST(request: NextRequest) {
@@ -18,16 +17,13 @@ export async function POST(request: NextRequest) {
     async function fetchProfileFromDatabase(username: string) {
         try {
           await connectDB();
-          const user = await UserModel.findOne({ username });
-            if (!user) {
+          const user = await UserModel.findOne({ username }).select('-password -email -createdAt -updatedAt -_id -userContent._id');
+
+          if (!user) {
             throw new Error(`User not found`);
           }
 
-          const profileData = {
-            username: user.username,
-            fullName: user.fullName,
-          };
-          return profileData;
+          return user;
     
         } catch (error:any) {
             throw new Error(`Error fetching profile`);
