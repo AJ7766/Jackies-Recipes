@@ -387,7 +387,7 @@ form input:focus{
 
 .profileInfo h1{
   font-family: 'Gotham-Medium';
-  font-size: 1.2cqw;
+  font-size: clamp(16px, 2cqw, 30px);
 }
 
 .profileInfo h2{
@@ -402,11 +402,22 @@ form input:focus{
 }
 
 .profilePicutre{
+  position:relative;
   border-radius: 50%;
   overflow:hidden;
-  height: 10vw;
-  width: 10vw;
+  height: 160px;
+  width: 160px;
   background-color: #f3f3f3;
+}
+
+.ProfilePictureCanvas{
+  position: absolute;
+}
+
+.ProfilePictureCanvas img{
+  height:160px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .profileInfo::before{

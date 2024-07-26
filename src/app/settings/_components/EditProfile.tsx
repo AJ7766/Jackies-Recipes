@@ -269,7 +269,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
         </div>
         <div className="h-5">
         {errorBoolean ? <div className="text-red-600">{error}</div> : <div></div>}
-        {successBoolean ? <div className="text-green-400">{success}</div> : <div></div>}
+        {successBoolean ? <div className="text-green-600">{success}</div> : <div></div>}
         </div>
     <button type="submit">Save</button>
         </div>
