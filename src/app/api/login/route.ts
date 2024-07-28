@@ -1,4 +1,3 @@
-import mongoose from "mongoose"
 import { NextRequest, NextResponse } from "next/server"
 import { connectDB } from "../../../config/database"
 import bcrypt from "bcrypt";
@@ -24,7 +23,7 @@ export async function POST(request: NextRequest) {
       throw new Error('Invalid username or password');
     }
 
-    const token = jwt.sign({ id: user._id, username: user.username }, SECRET_KEY, { expiresIn: '20h' });
+    const token = jwt.sign({ id: user._id, username: user.username }, SECRET_KEY, { expiresIn: '30d' });
     return NextResponse.json({ message: "Successfully logged in", token}, { status:200 });
 
   } catch (error:any) {

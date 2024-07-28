@@ -11,12 +11,12 @@ export async function POST(request: NextRequest) {
       const email = user.email.toLowerCase();
       const username = user.username.toLowerCase();
       const fullName = user.fullName;
-      const oldPassword = user.oldPassword ? user.oldPassword.toLowerCase() : "";
-      const newPassword = user.newPassword ? user.newPassword.toLowerCase() : "";
-      const confirmPassword = user.confirmPassword ? user.confirmPassword.toLowerCase() : "";
+      const oldPassword = user.oldPassword ? user.oldPassword : "";
+      const newPassword = user.newPassword ? user.newPassword : "";
+      const confirmPassword = user.confirmPassword ? user.confirmPassword: "";
       const userContent = {
         profilePicture: user.userContent?.profilePicture || "",
-        bio: user.userContent?.bio.toLowerCase() || "",
+        bio: user.userContent?.bio || "",
         instagram: user.userContent?.instagram.toLowerCase() || "",
         x: user.userContent?.x.toLowerCase() || "",
         tiktok: user.userContent?.tiktok.toLowerCase() || "",
@@ -50,8 +50,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, message: errorMessage }, { status: 400 });
     }
 
-    const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+    const userDataForPassword = await UserModel.findOne({ _id: user._id }).select('+password');
+
+    let processedPassword;
+
+    if (newPassword.length === 0) {
+      processedPassword = userDataForPassword?.password;
+    } else {
+      const saltRounds = 10;
+      processedPassword = await bcrypt.hash(newPassword, saltRounds);
+    }
+
       const updateResult = await UserModel.updateOne(
         { _id: user._id }, 
         {
@@ -59,7 +68,7 @@ export async function POST(request: NextRequest) {
             email,
             username,
             fullName,
-            password: hashedPassword,
+            password: processedPassword,
             'userContent.bio': userContent.bio,
             'userContent.instagram': userContent.instagram,
             'userContent.x': userContent.x,
@@ -74,8 +83,9 @@ export async function POST(request: NextRequest) {
       if (updateResult.modifiedCount  === 0) {
         throw new Error('User not found or data unchanged');
       }
-      
-      return NextResponse.json({ message: `Success!` }, { status: 201 })
+      const updatedUser = await UserModel.findOne({ _id: user._id }).select('-password -createdAt -updatedAt -_id -userContent._id');
+
+      return NextResponse.json({ message: `Success!`, updatedUser}, { status: 201 })
   } catch (err:any) {
     console.error(err)
   let errorMessage = "Failed to register user.";

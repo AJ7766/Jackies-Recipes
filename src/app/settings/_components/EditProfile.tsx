@@ -5,6 +5,8 @@ import camera from "@/app/images/test/camera.svg";
 import { EditFormProps, ProfileProps, ProfilePropsOrNull } from "@/app/types/types";
 import { useState } from "react";
 import Resizer from "react-image-file-resizer";
+import { useAuth } from "@/app/context/AuthContext";
+import SettingsError from "./SettingsErrorPage";
 
 export default function EditProfile({user}: {user:ProfilePropsOrNull}){
     const [profilePicPreview, setProfilePicPreview] = useState<string>(user?.userContent?.profilePicture || '');
@@ -26,13 +28,16 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
     const [errorBoolean, setErrorBoolean] = useState(false);
     const [loadingBtn, setLoadingBtn] = useState(false);
 
+    const { updateUser } = useAuth();
+
     if (!user) {
-        return <div>No user data available.</div>;
+        const errorPage = SettingsError();
+        return errorPage;
     }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-        console.log(profilePicPreview)
+    setLoadingBtn(true);
     const updatedProfile: EditFormProps = {
         _id: user._id,
         email,
@@ -42,7 +47,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
         newPassword,
         confirmPassword,
         userContent: {
-            profilePicture: profilePicPreview || '',
+          profilePicture: profilePicPreview || '',
           bio,
           instagram,
           x,
@@ -69,7 +74,9 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
               console.log("Registration successful:", successResponse);
               setErrorBoolean(false);
               setSuccessBoolean(true);
-              setSuccess("Saved!");
+              setSuccess("Successfully Saved!");
+              updateUser(successResponse.updatedUser);
+              window.location.reload();
             }}catch (error:any) {
             console.error("Error:", error.message, error);
             setSuccessBoolean(false);
@@ -103,8 +110,8 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
                 try {
                     Resizer.imageFileResizer(
                       file,
-                      200, // max width
-                      200, // max height
+                      600, // max width
+                      600, // max height
                       'JPEG', // format
                       90, // quality
                       0, // rotation
@@ -125,9 +132,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
           };
 
     return(
-    <div className="editProfileWrapper">
        <form className="editForm" onSubmit={handleSubmit}>
-        <div className="editProfileContainer">
         <div className="editProfileInfo">
             <div className="editProfilePicutre" onClick={handleProfilePicChange}>
                 <div className="editProfilePictureCanvas">
@@ -149,7 +154,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
             <input 
                 type="text" 
                 placeholder="Email"
-                value={email} 
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
             />
         </div>
@@ -271,12 +276,10 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
         {errorBoolean ? <div className="text-red-600">{error}</div> : <div></div>}
         {successBoolean ? <div className="text-green-600">{success}</div> : <div></div>}
         </div>
-    <button type="submit">Save</button>
+    <button type="submit" disabled={loadingBtn}>Save</button>
         </div>
         <div>
         </div>
-        </div>
         </form>
-    </div>
     )
 }

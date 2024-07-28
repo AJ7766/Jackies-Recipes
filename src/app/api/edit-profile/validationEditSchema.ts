@@ -1,11 +1,12 @@
 import { EditFormProps} from "@/app/types/types";
 import { UserModel } from "@/models/UserModel";
 import bcrypt from "bcrypt";
-import imageSize from "image-size";
 
 export default async function ValidationEditSchema(props: EditFormProps){
     const { _id, email, username, fullName, oldPassword, newPassword, confirmPassword, userContent } = props;
+    const user = await UserModel.findOne({ _id: _id });
 
+    console.log(user)
     let errorMessage = "";
 
     const profilePictureError = isValidProfilePicture(userContent?.profilePicture || "");
@@ -63,7 +64,6 @@ export default async function ValidationEditSchema(props: EditFormProps){
   }
 
     //password vali
-    const user = await UserModel.findOne({ _id: _id }).select('+password');
     if (!user) {
       return console.log("user not found");
     }
@@ -72,14 +72,15 @@ export default async function ValidationEditSchema(props: EditFormProps){
       throw new Error('Old password is required');
     }
 
+    const newPasswordOrUndefined = newPassword || "";
     const isMatch = await bcrypt.compare(oldPassword, user.password);
     
     const passwordError = isValidPassword(newPassword || "", confirmPassword || "")
+    if (newPasswordOrUndefined.length > 1 && !isMatch) {
+      errorMessage = 'Old password does not match';
+      return errorMessage;
+      }
     if (passwordError) {
-      if (!isMatch) {
-        errorMessage = 'Old password does not match';
-        return errorMessage;
-        }
         errorMessage= passwordError;
         return errorMessage;
     }
@@ -101,7 +102,6 @@ export default async function ValidationEditSchema(props: EditFormProps){
   }
   
   const buffer = Buffer.from(base64Data, 'base64');
-  console.log(buffer.length);
   if (buffer.length > MAX_SIZE) {
     return 'Image size exceeds 20MB.';
   }
@@ -181,7 +181,7 @@ const isValidFacebook = (facebook: string) => {
 };
 
 const isValidPassword = (newPassword:string, confirmPassword: string) => {
-  if (newPassword.length > 0 && newPassword.length < 6) {
+  if (newPassword.length > 1 && newPassword.length < 6) {
     const errorMsg = "Password must be atleast 6 characters"
     return errorMsg
   }

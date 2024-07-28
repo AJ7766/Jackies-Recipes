@@ -66,6 +66,12 @@ body {
   font-family: 'Gotham-Medium';
   background: white;
   color: #26323a;
+  font-size: clamp(10px, 2cqw, 14px)
+}
+
+
+h2{
+  font-size: clamp(10px, 2cqw, 14px)
 }
 
 .startingPageBg{
@@ -173,7 +179,6 @@ body {
 }
 
 form input{
-  font-size: 1.5cqw;
   padding: 8px 16px;
   border-radius: 8px;
   border: 3px solid #990029;
@@ -251,12 +256,12 @@ form input:focus{
 
 .searchContainer{
   position:relative;
-  width:100%;
+  width: 100%;
 }
 
-.searchContainer img{
+.searchContainer #searchGlass{
   position:absolute;
-  width: 16px;
+  width: clamp(12px, 2cqw, 16px);
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
@@ -266,38 +271,99 @@ form input:focus{
   border-radius: 12px;
   background-color: #f3f3f3;
   padding: 8px 10px 8px 32px;
-  height: 45px;
-  width:100%;
+  height: clamp(30px, 2.5cqw, 40px);
+  width:100%
 }
 
-.navProfilePictureContainer{
-  width: 38px;
+.searchedUsersContainer{
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  position: absolute;
+  width: 100%;
+  bottom: -10px;
+  transform: translateY(100%);
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 15%);
+}
+
+.searchedUser{
+  display:flex;
+  align-items: center;
+  gap:10px
+}
+
+.searchedUser:hover{
+  border-left: 5px solid #26323a;
+  padding-left: 10px;
+}
+
+.searchedUser h2{
+  margin-bottom: -3px;
+}
+
+.searchedUser p{
+  font-family: 'Gotham-Book';
+  opacity: 50%;
+}
+
+.searchedUsersContainer img{
+  border-radius: 50%;
+  height: 42px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.cross {
+  display: inline-block;
+  width: 20px; /* Width of the cross */
+  height: 20px; /* Height of the cross */
+  position: relative;
 }
 
 .navProfilePicutre{
+  position:relative;
+  flex-shrink: 0;
   border-radius: 50%;
   overflow:hidden;
   height: 38px;
   width: 38px;
   background-color: #f3f3f3;
+  transition: 0.2s cubic-bezier(0.29, 0.96, 0.81, 1.43);
+}
+
+.navProfilePicutre:hover{
+  scale:1.1;
+}
+
+.navProfilePictureCanvas{
+  position: absolute;
+}
+
+.navProfilePictureCanvas img{
+  height:38px;
+  object-fit: cover;
+  object-position: center;
 }
 
 .dropdownButton{
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 32px;
-  width: 32px;
+  height: 30px;
+  width: 30px;
   cursor: pointer;
   border-radius: 20px;
 }
 
 .dropdownButton:hover{
-  box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 15%);
+  box-shadow: 0px 0px 0px 4px #f3f3f3;
 }
 
 .dropdownButton.open{
-  box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 15%);
+  box-shadow: 0px 0px 0px 4px #f3f3f3;
 }
 
 .arrowDown{
@@ -326,7 +392,6 @@ form input:focus{
 
 .dropdownContent{
   display:flex;
-  font-size: 14px;
   flex-direction: column;
   margin-left: 10px;
   height: 100%;
@@ -351,16 +416,16 @@ form input:focus{
 }
 
 .profileWrapper{
-  background-color:#a9b0b4;
+  display:flex;
   font-family: 'Gotham-Book';
   margin: 20px 20px 10px 20px;
+  min-height: 50vh;
 }
 
 .profileContainer{
   background-color: white;
   display:grid;
   grid-template-rows: auto auto;
-  height: 100%;
   width: 100%;
 }
 
@@ -387,12 +452,11 @@ form input:focus{
 
 .profileInfo h1{
   font-family: 'Gotham-Medium';
-  font-size: clamp(16px, 2cqw, 30px);
+  font-size: clamp(18px, 3cqw, 30px);
 }
 
 .profileInfo h2{
   font-family: 'Gotham-Medium';
-  font-size: 0.85cqw;
   text-align: center;
   line-height: 1.6;
   max-width: 35%;
@@ -434,7 +498,7 @@ form input:focus{
 
 .profileSocialMediaContainer img{
   width:auto;
-  height:30px;
+  height: clamp(24px, 2cqw, 30px);
 }
 
 .searchRecipesContainer{
@@ -445,7 +509,7 @@ form input:focus{
 
 .searchRecipesContainer img{
   position:absolute;
-  width: 16px;
+  width: clamp(12px, 2cqw, 16px);
   left: 30px;
   top: 50%;
   transform: translateY(-50%);
@@ -455,7 +519,7 @@ form input:focus{
   border-radius: 12px;
   background-color: #f3f3f3;
   padding: 8px 10px 8px 32px;
-  height: 45px;
+  height: clamp(30px, 2.5cqw, 40px);
   width:100%;
 }
 
@@ -498,7 +562,7 @@ form input:focus{
 
 .masonryContainer{
   display:grid;
-  grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   margin: 0 20px 20px 20px;
   gap: 15px;
 }
@@ -729,18 +793,20 @@ tbody{
   padding-right: 15px;
 }
 
-.editProfileWrapper{
-  background-color:#a9b0b4;
-  font-family: 'Gotham-Book';
-  margin: 20px 20px 10px 20px;
+.errorContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 80px);
 }
 
-.editProfileContainer{
-  background-color: white;
-  display:grid;
-  grid-template-rows: auto auto;
-  height: 100%;
-  width: 100%;
+.errorContainer h1{
+  font-size: clamp(18px, 3cqw, 30px);
+}
+
+.editForm{
+  font-family: 'Gotham-Book';
+  margin: 20px 20px 10px 20px;
 }
 
 .editProfileInfo{
@@ -752,7 +818,6 @@ tbody{
   justify-content: center;
   align-items: center;
   padding-bottom: 30px;
-  height:100%;
   gap:10px;
 }
 
@@ -799,13 +864,11 @@ tbody{
 
 .editInputContainer{
   position:relative;
-  font-family: 'Gotham-Medium';
-  font-size: 0.85cqw;
+  width: clamp(300px, 30%, 50%);
 }
 
 .editProfileInfo label{
   position:absolute;
-  font-size: 16px;
   font-family: 'Gotham-Medium';
   top: 50%;
   left: -15px;
@@ -814,14 +877,12 @@ tbody{
 
 .editInputContainer input{
   font-family: 'Gotham-Medium';
-  font-size: 1.2cqw;
   text-align: center;
-  width: 550px;
-  max-width: 550px;
   border: 2px solid #bababa;
   border-radius: 5px;
   padding: 2px 0 2px 9px;
   box-sizing: border-box;
+  width: 100%;
 }
 
 .editProfileInfo input::placeholder, .editProfileInfo textarea::placeholder {
@@ -831,26 +892,26 @@ tbody{
 
 .editTextareaContainer{
   position:relative;
+  width: clamp(300px, 30%, 50%);
 }
 
 .editProfileInfo textarea{
   font-family: 'Gotham-Medium';
-  font-size: 0.85cqw;
   text-align: center;
   line-height: 1.6;
   padding: 4px 3px;
   height: 120px;
-  width: 550px;
-  max-width: 550px;
   border: 2px solid #bababa;
   border-radius: 5px;
   resize: none;
+  width:100%;
 }
 
 .editSocialMediaWrapper{
   display:flex;
   gap: 10px;
   flex-direction: column;
+  width: clamp(300px, 30%, 50%);
 }
 
 .editProfileInfo h1{
@@ -863,37 +924,36 @@ tbody{
 
 .editSocialMediaContainer input {
   font-family: 'Gotham-Medium';
-  font-size: 0.85cqw;
-  width: 550px;
-  max-width: 550px;
+  width: 100%;
   border: 2px solid #bababa;
   border-radius: 5px;
   padding: 4px;
   box-sizing: border-box;
+  width:100%;
 }
 
 .editPasswordContainer{
   position: relative;
+  width: clamp(300px, 30%, 50%);
 }
 
 .editPasswordContainer input {
   font-family: 'Gotham-Medium';
-  font-size: 0.85cqw;
-  width: 550px;
-  max-width: 550px;
+  width: 100%;
   border: 2px solid #bababa;
   border-radius: 5px;
   padding: 4px;
   box-sizing: border-box;
+  width:100%
 }
 
 .editForm button[type="submit"]{
   padding: 5px 20px;
   border-radius: 5px;
-  width: 550px;
-  max-width: 550px;
+  width: 100%;
   color:white;
   background-color: #26323a;
+  width: clamp(300px, 30%, 50%);
 }
 
 .profileInfo p{
@@ -903,36 +963,17 @@ tbody{
 /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ 
 
 @media screen and (max-width: 1024px){
-
-.loginFormContainer, .forgotPassFormContainer {
-  max-width: 450px;
-  max-height: 500px;
-  width: 90%;
-  height: 100%;
+  .editForm label{
+    position:initial;
+    display:flex;
+    transform:initial;
+  }
 }
 
-.loginText, .registerText {
-  font-family: 'Enchilada';
-  color: #e5a369;
-  text-shadow: 2px 2px #f9e8d9;
-  font-size: 15.5cqw;
-  text-align:center;
-}
+/* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */ 
 
-.forgotPasswordText {
-  font-size: 14.5cqw;
-}
-
-.form {
-  width: 70%;
-}
-
-form input {
-  font-size: 4.5cqw;
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 3px solid #990029;
-  outline: none;
-}
-
+@media (max-width: 768px) {
+  .masonryContainer {
+    grid-template-columns: repeat(2, 1fr); /* 1 column for width <= 768px */
+  }
 }

@@ -5,19 +5,27 @@ import profilePicture from "@/app/images/profile-picture.png";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
+import { ProfileProps } from "../types/types";
 
 export default  function NavBar(){
     const [search, setSearch] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [debouncedSearch, setDebouncedSearch] = useState(search);
+    const [users, setUsers] = useState<ProfileProps[]>([]);
     const [loading, setLoading] = useState(true);
+    const [searchResults, setSearcResults] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
+    const searchResultsRef = useRef<HTMLDivElement | null>(null);
 
-    const { logout, isAuthenticated, initializing } = useAuth();
+    const { user, logout, isAuthenticated, initializing } = useAuth();
 
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+      }
+      if (searchResultsRef.current && !searchResultsRef.current.contains(event.target as Node)) {
+        setSearcResults(false);
+        console.log(searchResults)
       }
     };
 
@@ -34,13 +42,23 @@ export default  function NavBar(){
       };
     }, []);
 
+
+    useEffect(() => {
+      const handler = setTimeout(() => {
+        setDebouncedSearch(search);
+      }, 500);
+      return () => {
+        clearTimeout(handler);
+      };
+    }, [search]); 
+
     useEffect(() => {
         if(debouncedSearch){
             const fetchData = async () => {
             try {
                 const res = await fetch("/api/search", {
                 method: "POST",
-                body: JSON.stringify({ search: debouncedSearch }),
+                body: JSON.stringify({ username: debouncedSearch }),
                 headers: {
                   "Content-Type": "application/json"
                 }
@@ -49,12 +67,17 @@ export default  function NavBar(){
                 throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
               }
               const data = await res.json();
+              console.log(data.existingUsers);
+              setSearcResults(true);
+              setUsers(data.existingUsers);
             } catch (error:any) {
               console.error("Error fetching profile:", error.message);
             }finally{
             }
         }
         fetchData();
+    }else{
+      setUsers([]);
     }
     },[debouncedSearch])
 
@@ -65,22 +88,40 @@ export default  function NavBar(){
     if (loading) {
       return null;
   }
-
     return(<>
       {isAuthenticated ? 
         <>
         <div className="space"></div>
         <div className="navContainer">
-        <Link href="/"><p>Logo</p></Link>
+        <Link href={`/${user?.username}`}>
+        <p>Logo</p>
+        </Link>
         <div className="searchContainer">
-        <Image src={searchGlass} alt="search-glass"/>
+        <Image src={searchGlass} id="searchGlass" alt="search-glass"/>
         <input type="search" name="query" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
+        {searchResults && 
+        <div className="searchedUsersContainer" ref={searchResultsRef}>
+        {users.map((user, indexKey) => (
+      <Link href={`/${user.username}`} key={indexKey}>
+        <div className="searchedUser">
+          <Image height={42} width={42} src={user.userContent?.profilePicture || profilePicture} alt="profile-picture"/>
+          <div>
+          <h2>{user.username}</h2>
+          <p>{user.fullName}</p>
+          </div>
         </div>
-        <div className="navProfilePictureContainer">
+        </Link>
+      ))}
+        </div>}
+        
+        </div>
+        <Link href={`/${user?.username}`}>
         <div className="navProfilePicutre">
-        <Image src={profilePicture} alt="profile-picture" />
+        <div className="navProfilePictureCanvas">
+        <Image height={38} width={38} src={user?.userContent?.profilePicture || profilePicture} alt="profile-picture"/>
         </div>
         </div>
+        </Link>
         <div className="dropdownContainer" ref={dropdownRef}>
         <div className={`dropdownButton ${isOpen ? 'open' : ''}`}  onClick={toggleDropdown}>
             <i className="arrowDown"></i>
@@ -88,7 +129,9 @@ export default  function NavBar(){
         {isOpen && (
           <div className="dropdownContentContainer">
         <div className="dropdownContent">
-          <a href="/settings">Settings</a>
+        <Link href="/settings">
+          Settings
+        </Link>
           <button onClick={logout}>Logout</button>
         </div>
         </div>
@@ -100,8 +143,22 @@ export default  function NavBar(){
         <div className="navContainer">
         <Link href="/"><p>Logo</p></Link>
         <div className="searchContainer">
-        <Image src={searchGlass} alt="search-glass"/>
+        <Image src={searchGlass} id="searchGlass" alt="search-glass"/>
         <input type="search" name="query" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
+        {searchResults && 
+        <div className="searchedUsersContainer" ref={searchResultsRef}>
+        {users.map((user, indexKey) => (
+      <Link href={`/${user.username}`} key={indexKey}>
+        <div className="searchedUser">
+          <Image height={42} width={42} src={user.userContent?.profilePicture || profilePicture} alt="profile-picture"/>
+          <div>
+          <h2>{user.username}</h2>
+          <p>{user.fullName}</p>
+          </div>
+        </div>
+        </Link>
+      ))}
+        </div>}
         </div>
         <div className="navProfilePictureContainer">
         <div className="navProfilePicutre">

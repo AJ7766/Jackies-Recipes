@@ -23,31 +23,47 @@ export default function ProfilePage({profile}: {profile:ProfilePropsOrNull}){
             <h2>{profile?.userContent?.bio}</h2>
             <p>@{profile?.username}</p>
             <div className="profileSocialMediaContainer">
-                {profile?.userContent?.instagram && (
-                    <Link target="_blank" href={profile.userContent.instagram}>
-                        <Image src={instagram} alt="instagram" />
-                    </Link>
-                )}
-                {profile?.userContent?.x && (
-                    <Link target="_blank" href={profile.userContent.x}>
-                        <Image src={x} alt="x" />
-                    </Link>
-                )}
-                {profile?.userContent?.tiktok && (
-                    <Link target="_blank" href={profile.userContent.tiktok}>
-                        <Image src={tiktok} alt="tiktok" />
-                    </Link>
-                )}
-                {profile?.userContent?.youtube && (
-                    <Link target="_blank" href={profile.userContent.youtube}>
-                        <Image src={youtube} alt="youtube" />
-                    </Link>
-                )}
-                {profile?.userContent?.facebook && (
-                    <Link target="_blank" href={profile.userContent.facebook}>
-                        <Image src={facebook} alt="facebook" />
-                    </Link>
-                )}
+            {profile?.userContent?.instagram && (
+                <Link 
+                    target="_blank" 
+                    href={profile.userContent.instagram.startsWith('http') ? profile.userContent.instagram : `https://${profile.userContent.instagram}`}
+                >
+                    <Image src={instagram} alt="instagram" />
+                </Link>
+            )}
+            {profile?.userContent?.x && (
+                <Link 
+                    target="_blank" 
+                    href={profile.userContent.x.startsWith('http') ? profile.userContent.x : `https://${profile.userContent.x}`}
+                >
+                    <Image src={x} alt="x" />
+                </Link>
+            )}
+            {profile?.userContent?.tiktok && (
+                <Link 
+                    target="_blank" 
+                    href={profile.userContent.tiktok.startsWith('http') ? profile.userContent.tiktok : `https://${profile.userContent.tiktok}`}
+                >
+                    <Image src={tiktok} alt="tiktok" />
+                </Link>
+            )}
+            {profile?.userContent?.youtube && (
+                <Link 
+                    target="_blank" 
+                    href={profile.userContent.youtube.startsWith('http') ? profile.userContent.youtube : `https://${profile.userContent.youtube}`}
+                >
+                    <Image src={youtube} alt="youtube" />
+                </Link>
+            )}
+            {profile?.userContent?.facebook && (
+                <Link 
+                    target="_blank" 
+                    href={profile.userContent.facebook.startsWith('http') ? profile.userContent.facebook : `https://${profile.userContent.facebook}`}
+                >
+                    <Image src={facebook} alt="facebook" />
+                </Link>
+            )}
+
     </div>
         </div>
         <div>

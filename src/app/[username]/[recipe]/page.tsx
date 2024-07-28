@@ -1,7 +1,7 @@
 "use client";
 
 import ProfilePage from "@/app/_components/Profile";
-import NavBar from "../_components/NavBar";
+import NavBar from "../../_components/NavBar";
 import Categories from "@/app/_components/Category";
 import Masonary from "@/app/_components/Masonary";
 import { useAuth } from "@/app/context/AuthContext";

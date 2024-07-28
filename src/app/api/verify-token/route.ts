@@ -1,5 +1,4 @@
 import jwt, { JwtPayload } from 'jsonwebtoken';
-import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY || 'your-secret-key';

@@ -1,6 +1,6 @@
 "use client"
 import { useEffect, useState } from "react";
-import NavBar from "./_components/NavBar";
+import NavBar from "../_components/NavBar";
 import Categories from "../_components/Category";
 import Masonary from "../_components/Masonary";
 import { ProfileProps } from "../types/types";
@@ -35,7 +35,6 @@ export default function UserPage({params}: {params: {username:string}}) {
             throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
           }
             const data = await res.json();
-            console.log("User: ", data);
             setProfile(data);
             setUserFound(true);
         } catch (error:any) {

@@ -6,7 +6,7 @@ import img4 from "@/app/images/test/4.jpg";
 import img5 from "@/app/images/test/5.jpg";
 import img6 from "@/app/images/test/6.jpg";
 import img7 from "@/app/images/test/7.jpg";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 
 export default function Masonary(){        
@@ -15,22 +15,22 @@ export default function Masonary(){
     const [columns, setColumns] = useState<StaticImageData[][]>(() =>
       Array.from({ length: 1 }, () => [])
     );
-    useEffect(() => {
-    const updateColumns = () => {
+
+  const updateColumns = useCallback(() => {
     const width = window.innerWidth;
-        if (width > 1024) {
-          setTotalColumns(3);
-        } else if (width > 768) {
-          setTotalColumns(2);
-        } else {
-          setTotalColumns(1);
-        }
-    };    
-    updateColumns(); // Initial check
+    if (width > 768) {
+      setTotalColumns(3);
+    } else {
+      setTotalColumns(2);
+    }
+  }, []);
+
+  useEffect(() => {
+    updateColumns();
     window.addEventListener('resize', updateColumns);
 
     return () => window.removeEventListener('resize', updateColumns);
-  }, []);
+  }, [updateColumns]);
 
   useEffect(()=>{
     const newColumns: StaticImageData[][] = Array.from({ length: totalColumns }, () => []);

@@ -1,6 +1,6 @@
 "use client"
 
-import NavBar from "../[username]/_components/NavBar";
+import NavBar from "../_components/NavBar";
 import { useAuth } from "@/app/context/AuthContext";
 import EditProfile from "./_components/EditProfile";
 
