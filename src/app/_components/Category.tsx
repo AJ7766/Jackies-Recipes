@@ -18,6 +18,12 @@ export default function Categories(){
     <span>ITALIAN</span>
     <span>SWEDISH</span>
     <span>MEXICO</span>
+    <span>PASTA</span>
+    <span>PIZZA</span>
+    <span>NOODLES</span>
+    <span>ITALIAN</span>
+    <span>SWEDISH</span>
+    <span>MEXICO</span>
     </div>
     </>
     )

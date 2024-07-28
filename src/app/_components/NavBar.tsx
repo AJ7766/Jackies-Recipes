@@ -2,7 +2,7 @@
 import Image from "next/image";
 import searchGlass from "@/app/images/search-glass.svg";
 import profilePicture from "@/app/images/profile-picture.png";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
 import { ProfileProps } from "../types/types";
@@ -19,28 +19,27 @@ export default  function NavBar(){
 
     const { user, logout, isAuthenticated, initializing } = useAuth();
 
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
-      if (searchResultsRef.current && !searchResultsRef.current.contains(event.target as Node)) {
-        setSearcResults(false);
-        console.log(searchResults)
-      }
-    };
-
     useEffect(() => {
       if (!initializing) {
           setLoading(false);
       }
   }, [initializing]);
 
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+    if (searchResultsRef.current && !searchResultsRef.current.contains(event.target as Node)) {
+      setSearcResults(false);
+    }
+  }, []);
+
     useEffect(() => {
       document.addEventListener('mousedown', handleClickOutside);
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
-    }, []);
+    }, [handleClickOutside]);
 
 
     useEffect(() => {
@@ -89,7 +88,7 @@ export default  function NavBar(){
       return null;
   }
     return(<>
-      {isAuthenticated ? 
+      
         <>
         <div className="space"></div>
         <div className="navContainer">
@@ -112,15 +111,11 @@ export default  function NavBar(){
         </div>
         </Link>
       ))}
-        </div>}
-        
+        </div>} 
         </div>
-        <Link href={`/${user?.username}`}>
-        <div className="navProfilePicutre">
-        <div className="navProfilePictureCanvas">
+        {isAuthenticated ? <>
+        <Link className="profilePictureLink shrink-0" href={`/${user?.username}`}>
         <Image height={38} width={38} src={user?.userContent?.profilePicture || profilePicture} alt="profile-picture"/>
-        </div>
-        </div>
         </Link>
         <div className="dropdownContainer" ref={dropdownRef}>
         <div className={`dropdownButton ${isOpen ? 'open' : ''}`}  onClick={toggleDropdown}>
@@ -137,43 +132,19 @@ export default  function NavBar(){
         </div>
       )}
        </div>
-        </div>
-        </>:<>
-        <div className="space"></div>
-        <div className="navContainer">
-        <Link href="/"><p>Logo</p></Link>
-        <div className="searchContainer">
-        <Image src={searchGlass} id="searchGlass" alt="search-glass"/>
-        <input type="search" name="query" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
-        {searchResults && 
-        <div className="searchedUsersContainer" ref={searchResultsRef}>
-        {users.map((user, indexKey) => (
-      <Link href={`/${user.username}`} key={indexKey}>
-        <div className="searchedUser">
-          <Image height={42} width={42} src={user.userContent?.profilePicture || profilePicture} alt="profile-picture"/>
-          <div>
-          <h2>{user.username}</h2>
-          <p>{user.fullName}</p>
-          </div>
-        </div>
-        </Link>
-      ))}
-        </div>}
-        </div>
-        <div className="navProfilePictureContainer">
-        <div className="navProfilePicutre">
-        <Image src={profilePicture} alt="profile-picture" />
-        </div>
-        </div>
-        <div className="newUserButtons">
+       </>
+       :
+       <div className="newUserButtons">
         <Link href="/">
         <button>Login</button>
         </Link>
         <Link href="/register">
         <button>Register</button>
-        </Link></div>
+        </Link>
         </div>
-        </>}
+        }
+        </div>
+        </>
       </>
     )
 }

@@ -6,6 +6,7 @@ import Masonary from "../_components/Masonary";
 import { ProfileProps } from "../types/types";
 import ProfilePage from "../_components/Profile";
 import { useAuth } from "../context/AuthContext";
+import ProfileErrorPage from "../_components/ErrorPage";
 
 export default function UserPage({params}: {params: {username:string}}) {
   const { initializing } = useAuth();
@@ -60,7 +61,7 @@ export default function UserPage({params}: {params: {username:string}}) {
       <Masonary />
       </>:<>
       <NavBar />
-      <div>User not found</div>
+      <ProfileErrorPage />
       </>
     }
   </>

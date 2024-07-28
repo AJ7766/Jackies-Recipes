@@ -271,7 +271,7 @@ form input:focus{
   border-radius: 12px;
   background-color: #f3f3f3;
   padding: 8px 10px 8px 32px;
-  height: clamp(30px, 2.5cqw, 40px);
+  height: clamp(30px, 5vw, 40px);
   width:100%
 }
 
@@ -292,7 +292,8 @@ form input:focus{
 .searchedUser{
   display:flex;
   align-items: center;
-  gap:10px
+  gap:10px;
+  overflow: hidden;
 }
 
 .searchedUser:hover{
@@ -311,39 +312,24 @@ form input:focus{
 
 .searchedUsersContainer img{
   border-radius: 50%;
-  height: 42px;
+  height: clamp(30px, 5vw, 42px);
+  width: clamp(30px, 5vw, 42px);
   object-fit: cover;
   object-position: center;
 }
 
-.cross {
-  display: inline-block;
-  width: 20px; /* Width of the cross */
-  height: 20px; /* Height of the cross */
-  position: relative;
+.navContainer .profilePictureLink{
+  transition: 0.33s cubic-bezier(0.29, 0.96, 0.81, 1.43);
 }
 
-.navProfilePicutre{
-  position:relative;
-  flex-shrink: 0;
-  border-radius: 50%;
-  overflow:hidden;
-  height: 38px;
-  width: 38px;
-  background-color: #f3f3f3;
-  transition: 0.2s cubic-bezier(0.29, 0.96, 0.81, 1.43);
-}
-
-.navProfilePicutre:hover{
+.navContainer .profilePictureLink:hover{
   scale:1.1;
 }
 
-.navProfilePictureCanvas{
-  position: absolute;
-}
-
-.navProfilePictureCanvas img{
-  height:38px;
+.navContainer .profilePictureLink img{
+  border-radius: 50%;
+  height: clamp(28px, 5vw, 38px);
+  width: clamp(28px, 5vw, 38px);
   object-fit: cover;
   object-position: center;
 }
@@ -381,12 +367,12 @@ form input:focus{
 
 .dropdownContentContainer{
   position: absolute;
-  top: 70px;
+  top: 50px;
   right: 0;
   background-color: white;
   border-radius: 5px;
-  width: 200px;
-  height: 100px;
+  width: clamp(100px, 20vw, 200px);
+  height: clamp(50px, 20vw, 100px);
   box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 15%);
 }
 
@@ -465,21 +451,10 @@ form input:focus{
   font-family: 'Gotham-Book';
 }
 
-.profilePicutre{
-  position:relative;
+.profilePicture{
   border-radius: 50%;
-  overflow:hidden;
   height: 160px;
   width: 160px;
-  background-color: #f3f3f3;
-}
-
-.ProfilePictureCanvas{
-  position: absolute;
-}
-
-.ProfilePictureCanvas img{
-  height:160px;
   object-fit: cover;
   object-position: center;
 }
@@ -519,17 +494,17 @@ form input:focus{
   border-radius: 12px;
   background-color: #f3f3f3;
   padding: 8px 10px 8px 32px;
-  height: clamp(30px, 2.5cqw, 40px);
+  height: clamp(30px, 5vw, 40px);
   width:100%;
 }
 
 .newUserButtons{
   display: flex;
-  gap: 20px;
+  gap: clamp(10px, 2.5vw, 20px);
 }
 
 .newUserButtons button{
-  padding: 5px 20px;
+  padding: 5px clamp(7px, 2vw, 20px);
   border-radius: 5px;
   color:white;
   background-color: #26323a;
@@ -538,10 +513,11 @@ form input:focus{
 .categories{
   display: flex;
   flex-direction: row;
-  padding-left: 25px;
+  padding: 0 25px;
   margin-bottom: 20px;
   margin-top: 2px;
-  gap: 20px;
+  column-gap: 10px;
+  flex-wrap: wrap;
 }
 
 .categories span{
@@ -830,7 +806,7 @@ tbody{
 }
 
 .editProfileInfo h1{
-  margin-top:15px;
+  margin-top: clamp(5px, 1vw, 15px);
 }
 
 .editProfilePicutre{
@@ -841,10 +817,6 @@ tbody{
   width: 160px;
   background-color: #f3f3f3;
   cursor: pointer;
-}
-
-.editProfilePictureCanvas{
-  position: absolute;
 }
 
 .editPreviewProfilePicture{
@@ -927,7 +899,7 @@ tbody{
   width: 100%;
   border: 2px solid #bababa;
   border-radius: 5px;
-  padding: 4px;
+  padding: 4px 0px 4px 8px;
   box-sizing: border-box;
   width:100%;
 }
@@ -942,7 +914,7 @@ tbody{
   width: 100%;
   border: 2px solid #bababa;
   border-radius: 5px;
-  padding: 4px;
+  padding: 4px 0px 4px 8px;
   box-sizing: border-box;
   width:100%
 }

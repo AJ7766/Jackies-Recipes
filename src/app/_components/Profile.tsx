@@ -14,11 +14,7 @@ export default function ProfilePage({profile}: {profile:ProfilePropsOrNull}){
     <div className="profileWrapper">
         <div className="profileContainer">
         <div className="profileInfo">
-            <div className="profilePicutre">
-            <div className="ProfilePictureCanvas">
-                <Image height={160} width={160} src={profile?.userContent?.profilePicture || profilePicture} alt="profile-picture" />
-            </div>
-            </div>
+                <Image  className="profilePicture" height={160} width={160} src={profile?.userContent?.profilePicture || profilePicture} alt="profile-picture" />
             <h1>{profile?.fullName}</h1>
             <h2>{profile?.userContent?.bio}</h2>
             <p>@{profile?.username}</p>

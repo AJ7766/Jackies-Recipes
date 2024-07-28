@@ -135,7 +135,6 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
        <form className="editForm" onSubmit={handleSubmit}>
         <div className="editProfileInfo">
             <div className="editProfilePicutre" onClick={handleProfilePicChange}>
-                <div className="editProfilePictureCanvas">
                 <Image height={160} width={160} className="editPreviewProfilePicture" src={profilePicPreview || profilePicture} alt="profile-picture" 
                 />
                 <input
@@ -145,7 +144,6 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
                 className="hidden"
                 onChange={ProfilePicChange}
               />
-              </div>
             <Image className="editCamera" src={camera} alt="camera" />
             </div>
 
