@@ -8,22 +8,22 @@ export default function Categories(){
     return(
         <>
     <div className="searchRecipesContainer">
-    <Image src={searchGlass} alt="search-glass"/>
-    <input type="search" name="query" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search recipes..." />
+        <Image src={searchGlass} alt="search-glass"/>
+        <input type="search" name="query" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search recipes..." />
     </div>
     <div className="categories">
-    <span>PASTA</span>
-    <span>PIZZA</span>
-    <span>NOODLES</span>
-    <span>ITALIAN</span>
-    <span>SWEDISH</span>
-    <span>MEXICO</span>
-    <span>PASTA</span>
-    <span>PIZZA</span>
-    <span>NOODLES</span>
-    <span>ITALIAN</span>
-    <span>SWEDISH</span>
-    <span>MEXICO</span>
+        <span>PASTA</span>
+        <span>PIZZA</span>
+        <span>NOODLES</span>
+        <span>ITALIAN</span>
+        <span>SWEDISH</span>
+        <span>MEXICO</span>
+        <span>PASTA</span>
+        <span>PIZZA</span>
+        <span>NOODLES</span>
+        <span>ITALIAN</span>
+        <span>SWEDISH</span>
+        <span>MEXICO</span>
     </div>
     </>
     )

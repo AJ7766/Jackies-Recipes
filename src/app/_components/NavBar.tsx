@@ -2,6 +2,7 @@
 import Image from "next/image";
 import searchGlass from "@/app/images/search-glass.svg";
 import profilePicture from "@/app/images/profile-picture.png";
+import addRecipe from "@/app/images/add.svg";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
@@ -114,8 +115,11 @@ export default  function NavBar(){
         </div>} 
         </div>
         {isAuthenticated ? <>
+          <Link className="addRecipe shrink-0" href="/add-recipe">
+        <Image height={32} width={32} src={addRecipe} alt="add-recipe"/>
+          </Link>
         <Link className="profilePictureLink shrink-0" href={`/${user?.username}`}>
-        <Image height={38} width={38} src={user?.userContent?.profilePicture || profilePicture} alt="profile-picture"/>
+        <Image height={35} width={35} src={user?.userContent?.profilePicture || profilePicture} alt="profile-picture"/>
         </Link>
         <div className="dropdownContainer" ref={dropdownRef}>
         <div className={`dropdownButton ${isOpen ? 'open' : ''}`}  onClick={toggleDropdown}>
@@ -131,10 +135,10 @@ export default  function NavBar(){
         </div>
         </div>
       )}
-       </div>
-       </>
-       :
-       <div className="newUserButtons">
+      </div>
+      </>
+      :
+      <div className="newUserButtons">
         <Link href="/">
         <button>Login</button>
         </Link>

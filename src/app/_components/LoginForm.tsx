@@ -46,6 +46,7 @@ export default function LoginForm(){
           setLoadingBtn(false);
         }
       };
+      
     return (
       <div className="startingPageBg">
         <div className="loginFormContainer">

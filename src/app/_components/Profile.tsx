@@ -11,8 +11,7 @@ import Link from "next/link";
 export default function ProfilePage({profile}: {profile:ProfilePropsOrNull}){
 
     return(
-    <div className="profileWrapper">
-        <div className="profileContainer">
+    <div className="profileContainer">
         <div className="profileInfo">
                 <Image  className="profilePicture" height={160} width={160} src={profile?.userContent?.profilePicture || profilePicture} alt="profile-picture" />
             <h1>{profile?.fullName}</h1>
@@ -63,7 +62,6 @@ export default function ProfilePage({profile}: {profile:ProfilePropsOrNull}){
     </div>
         </div>
         <div>
-        </div>
         </div>
     </div>
     )

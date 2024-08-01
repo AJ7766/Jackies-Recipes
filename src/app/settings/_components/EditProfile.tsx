@@ -133,7 +133,6 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
 
     return(
        <form className="editForm" onSubmit={handleSubmit}>
-        <div className="editProfileInfo">
             <div className="editProfilePicutre" onClick={handleProfilePicChange}>
                 <Image height={160} width={160} className="editPreviewProfilePicture" src={profilePicPreview || profilePicture} alt="profile-picture" 
                 />
@@ -275,7 +274,6 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
         {successBoolean ? <div className="text-green-600">{success}</div> : <div></div>}
         </div>
     <button type="submit" disabled={loadingBtn}>Save</button>
-        </div>
         <div>
         </div>
         </form>

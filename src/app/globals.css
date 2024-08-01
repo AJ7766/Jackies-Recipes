@@ -178,17 +178,6 @@ h2{
   width:100%;
 }
 
-form input{
-  padding: 8px 16px;
-  border-radius: 8px;
-  border: 3px solid #990029;
-  outline: none;
-}
-
-form input:focus{
-  border-color: #ff9db1;
-}
-
 .blueBtn{
   border-radius: 15% 17% 16% 28% / 73% 32% 83% 51%;
   border: 4px solid white;
@@ -241,11 +230,12 @@ form input:focus{
 .space{
   height:80px;
 }
+
 .navContainer{
   display: flex;
   padding: 20px;
   box-sizing: border-box;
-  gap: 20px;
+  gap: clamp(10px, 2vw, 20px);
   align-items: center;
   position: fixed;
   top: 0;
@@ -318,18 +308,25 @@ form input:focus{
   object-position: center;
 }
 
-.navContainer .profilePictureLink{
+.navContainer .profilePictureLink, .navContainer .addRecipe{
   transition: 0.33s cubic-bezier(0.29, 0.96, 0.81, 1.43);
 }
 
-.navContainer .profilePictureLink:hover{
-  scale:1.1;
+.navContainer .profilePictureLink:hover, .navContainer .addRecipe:hover{
+  scale:1.07;
+}
+
+.navContainer .addRecipe img{
+  height: clamp(24.5px, 5vw, 32px);
+  width: clamp(24.5px, 5vw, 32px);
+  object-fit: cover;
+  object-position: center;
 }
 
 .navContainer .profilePictureLink img{
-  border-radius: 50%;
-  height: clamp(28px, 5vw, 38px);
-  width: clamp(28px, 5vw, 38px);
+  border-radius: 25%;
+  height: clamp(24.5px, 5vw, 35px);
+  width: clamp(24.5px, 5vw, 35px);
   object-fit: cover;
   object-position: center;
 }
@@ -341,15 +338,15 @@ form input:focus{
   height: 30px;
   width: 30px;
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 50%;
 }
 
 .dropdownButton:hover{
-  box-shadow: 0px 0px 0px 4px #f3f3f3;
+  box-shadow: 0px 0px 0px 3px #26323a;
 }
 
 .dropdownButton.open{
-  box-shadow: 0px 0px 0px 4px #f3f3f3;
+  box-shadow: 0px 0px 0px 3px #26323a;
 }
 
 .arrowDown{
@@ -401,18 +398,13 @@ form input:focus{
   width: calc(100% - 10px)
 }
 
-.profileWrapper{
-  display:flex;
+.profileContainer{
+  display: flex;
   font-family: 'Gotham-Book';
   margin: 20px 20px 10px 20px;
   min-height: 50vh;
-}
-
-.profileContainer{
-  background-color: white;
-  display:grid;
-  grid-template-rows: auto auto;
-  width: 100%;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .profileInfo{
@@ -423,17 +415,8 @@ form input:focus{
   display:flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 30px;
   height:100%;
   gap:10px;
-}
-
-.profileInfo::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  height: 10px;
-  border-bottom: solid #bababa 1px;
 }
 
 .profileInfo h1{
@@ -453,8 +436,8 @@ form input:focus{
 
 .profilePicture{
   border-radius: 50%;
-  height: 160px;
-  width: 160px;
+  height: clamp(160px, 20vw, 200px);
+  width: clamp(160px, 20vw, 200px);
   object-fit: cover;
   object-position: center;
 }
@@ -473,7 +456,7 @@ form input:focus{
 
 .profileSocialMediaContainer img{
   width:auto;
-  height: clamp(24px, 2cqw, 30px);
+  height: clamp(24px, 2cqw, 26px);
 }
 
 .searchRecipesContainer{
@@ -783,29 +766,16 @@ tbody{
 .editForm{
   font-family: 'Gotham-Book';
   margin: 20px 20px 10px 20px;
-}
-
-.editProfileInfo{
-  position:relative;
   background-size: cover;
   background-position: center;
   flex-direction: column;
   display:flex;
   justify-content: center;
   align-items: center;
-  padding-bottom: 30px;
   gap:10px;
 }
 
-.editProfileInfo::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  height: 10px;
-  border-bottom: solid #bababa 1px;
-}
-
-.editProfileInfo h1{
+.editForm h1{
   margin-top: clamp(5px, 1vw, 15px);
 }
 
@@ -839,7 +809,7 @@ tbody{
   width: clamp(300px, 30%, 50%);
 }
 
-.editProfileInfo label{
+.editForm label{
   position:absolute;
   font-family: 'Gotham-Medium';
   top: 50%;
@@ -850,14 +820,14 @@ tbody{
 .editInputContainer input{
   font-family: 'Gotham-Medium';
   text-align: center;
-  border: 2px solid #bababa;
+  border: 2px solid #e9e9e9;
   border-radius: 5px;
   padding: 2px 0 2px 9px;
   box-sizing: border-box;
   width: 100%;
 }
 
-.editProfileInfo input::placeholder, .editProfileInfo textarea::placeholder {
+.editForm input::placeholder, .editForm textarea::placeholder {
   font-style: italic;
   font-family: 'Gotham-Medium';
 }
@@ -867,7 +837,7 @@ tbody{
   width: clamp(300px, 30%, 50%);
 }
 
-.editProfileInfo textarea{
+.editForm textarea{
   font-family: 'Gotham-Medium';
   text-align: center;
   line-height: 1.6;
@@ -886,7 +856,7 @@ tbody{
   width: clamp(300px, 30%, 50%);
 }
 
-.editProfileInfo h1{
+.editForm h1{
   font-family: 'Gotham-Medium';
 }
 
@@ -897,7 +867,7 @@ tbody{
 .editSocialMediaContainer input {
   font-family: 'Gotham-Medium';
   width: 100%;
-  border: 2px solid #bababa;
+  border: 2px solid #e9e9e9;
   border-radius: 5px;
   padding: 4px 0px 4px 8px;
   box-sizing: border-box;
@@ -912,7 +882,7 @@ tbody{
 .editPasswordContainer input {
   font-family: 'Gotham-Medium';
   width: 100%;
-  border: 2px solid #bababa;
+  border: 2px solid #e9e9e9;
   border-radius: 5px;
   padding: 4px 0px 4px 8px;
   box-sizing: border-box;
@@ -930,6 +900,262 @@ tbody{
 
 .profileInfo p{
   font-family: 'Gotham-Book';
+}
+
+.addRecipeForm {
+  font-family: 'Gotham-Book';
+  margin: 20px 20px 50px 20px;
+  background-size: cover;
+  background-position: center;
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.addRecipeTitle{
+  font-family: 'Gotham-Medium';
+  font-size: clamp(20px, 3cqw, 24px);
+}
+
+.addRecipeInputContainer{
+  position:relative;
+  width: clamp(300px, 30%, 50%);
+}
+
+.recipeTitleContainer{
+  position:relative;
+  height: 30px;
+  width: clamp(300px, 30%, 50%);
+}
+
+.recipeTitleContainer input{
+  font-family: 'Gotham-Medium';
+  border: 2px solid #e9e9e9;
+  border-radius: 5px;
+  padding: 2px 0 2px 9px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.recipeTitleContainer input::placeholder{
+  font-style: italic;
+}
+
+.addRecipeForm .recipeLabel{
+  position:absolute;
+  font-family: 'Gotham-Medium';
+  top: 50%;
+  left: -15px;
+  transform: translate(-100%, -50%);
+}
+
+.addRecipeSwitchContainer{
+  position:relative;
+  height: 30px;
+  width: clamp(300px, 30%, 50%);
+}
+
+.addRecipeSwitchContainer h1{
+  position: absolute;
+  font-family: 'Gotham-Medium';
+  top: 50%;
+  left: -15px;
+  transform: translate(-100%, -50%);
+}
+
+.addRecipeSwitchContainer span{
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+  border-radius: 25px;
+  background: #e9e9e9;
+  transition: all 0.2s ease-out;
+  cursor: pointer;
+  transition: 0.33s ease-in-out;
+}
+
+.addRecipeSwitchContainer span::before{
+  content:"";
+  position: absolute;
+  top:50%;
+  left: 4px;
+  height: 22px;
+  width: 22px;
+  background: white;
+  border-radius:50%;
+  transform: translateY(-50%);
+  transition: 0.33s ease-in-out;
+}
+
+.sliderContainer input{
+  display:none;
+}
+
+.sliderContainer input:checked + .slider{
+  background:#26323a;
+}
+
+.sliderContainer input:checked + span::before {
+  transform: translate(100%, -50%);
+}
+
+.addNutritionsContainer{
+  position:relative;
+  height: 30px;
+  width: clamp(300px, 30%, 50%);
+}
+
+.addNutritionsContainer .nutritionLabel{
+  position: absolute;
+  font-family: 'Gotham-Medium';
+  top: 50%;
+  left: -40px;
+  transform: translate(-100%, -50%);
+}
+
+.addNutritionsContainer input{
+  font-family: 'Gotham-Medium';
+  border: 2px solid #e9e9e9;
+  border-radius: 5px;
+  padding: 2px 0 2px 9px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.recipeSpace{
+  height:1px;
+  border-radius:25%;
+  width: clamp(300px, 30%, 50%);
+  background: #e9e9e9;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.IngredientList{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border-radius: 5px;
+  background: #f3f3f3;
+  width: clamp(300px, 30%, 50%);
+  padding: 3px;
+}
+
+.addComponentsContainer{
+  display:flex;
+  align-items: center;
+  position:relative;
+  height: 30px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.addComponentsContainer .nutritionLabel{
+  position: absolute;
+  font-family: 'Gotham-Medium';
+  top: 50%;
+  left: -40px;
+  transform: translate(-100%, -50%);
+}
+
+.addComponentsContainer input{
+  font-family: 'Gotham-Medium';
+  border: 2px solid #e9e9e9;
+  border-radius: 5px;
+  padding: 2px 0 2px 9px;
+  box-sizing: border-box;
+  width: 95%;
+}
+
+.addComponentsContainer input::placeholder{
+  font-style: italic;
+}
+
+.crossIcon {
+  position: relative;
+  display: inline-block;
+  width: 5%;
+  height: 20px;
+  cursor:pointer;
+}
+
+.crossIcon::before,
+.crossIcon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background-color: black;
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.crossIcon::after {
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.addIngredientsContainer{
+  display:flex;
+  align-items: center;
+  position:relative;
+  height: 30px;
+  width: 100%;
+}
+
+.addIngredientsButtons{
+  display:flex;
+  gap: 5px;
+  height: 30px;
+  width: clamp(300px, 30%, 50%);
+}
+
+.addIngredientsButtons button{
+  font-family: 'Gotham-Medium';
+  border: 2px solid #e9e9e9;
+  border-radius: 5px;
+  padding: 2px 9px 2px 9px;
+  box-sizing: border-box;
+}
+
+.addIngredientsContainer .amount{
+  font-family: 'Gotham-Medium';
+  border: 2px solid #e9e9e9;
+  border-radius: 5px;
+  padding: 2px 0 2px 4px;
+  margin-right: 1%;
+  box-sizing: border-box;
+  width: 15%;
+}
+
+.addIngredientsContainer .unit{
+  font-family: 'Gotham-Medium';
+  border: 2px solid #e9e9e9;
+  border-radius: 5px;
+  padding: 2px 0 2px 4px;
+  margin-right: 1%;
+  box-sizing: border-box;
+  width: 15%;
+}
+
+.addIngredientsContainer .ingredient{
+  font-family: 'Gotham-Medium';
+  border: 2px solid #e9e9e9;
+  border-radius: 5px;
+  padding: 2px 0 2px 9px;
+  box-sizing: border-box;
+  width: 63%;
+}
+
+.addIngredientsContainer input::placeholder{
+  font-style: italic;
 }
 
 /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ 
