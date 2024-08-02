@@ -41,8 +41,6 @@ export default function AddRecipeForm(){
         }]
         }
     ]);
-    const [unit, setUnit] = useState("");
-    const [ingredient, setIngredient] = useState("");
     const [servings, setServings] = useState<number>();
 
     useEffect(() => {
@@ -92,6 +90,38 @@ export default function AddRecipeForm(){
                     return ing;
                 });
                 return {...item, ingredient: updatedAmount}
+            }
+            return item;
+        });
+        setIngredientList(updatedIngredientList);
+    };
+
+    const handleUnitChange = (itemIndex: number, id: string, newValue: string) => {
+        const updatedIngredientList = ingredientList.map((item, index) => {
+            if (index ===itemIndex){
+                const updatedUnit = item.ingredient && item.ingredient.map(ing => {
+                    if(ing.id === id){
+                        return {...ing, unit: newValue};
+                    }
+                    return ing;
+                });
+                return {...item, ingredient: updatedUnit}
+            }
+            return item;
+        });
+        setIngredientList(updatedIngredientList);
+    };
+
+    const handleIngredientChange = (itemIndex: number, id: string, newValue: string) => {
+        const updatedIngredientList = ingredientList.map((item, index) => {
+            if (index ===itemIndex){
+                const updatedIngredient = item.ingredient && item.ingredient.map(ing => {
+                    if(ing.id === id){
+                        return {...ing, ingredient: newValue};
+                    }
+                    return ing;
+                });
+                return {...item, ingredient: updatedIngredient}
             }
             return item;
         });
@@ -282,15 +312,15 @@ export default function AddRecipeForm(){
                                    type="text"
                                    className="unit"
                                    placeholder="g"
-                                   value={unit || ''}
-                                   onChange={(e) => setUnit(e.target.value)}
+                                   value={ing.unit}
+                                   onChange={(e) => handleUnitChange(index, ing.id, e.target.value)}
                                />
                                <input 
                                    type="text"
                                    className="ingredient"
                                    placeholder="Butter"
-                                   value={ingredient || ''}
-                                   onChange={(e) => setIngredient(e.target.value)}
+                                   value={ing.ingredient}
+                                   onChange={(e) => handleIngredientChange(index, ing.id, e.target.value)}
                                />
                                <span 
                                    onClick={() => item.ingredient && removeIngredient(ing.id)} 
