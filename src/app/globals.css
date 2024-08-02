@@ -1038,7 +1038,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.IngredientList{
+.recipe{
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -1110,14 +1110,14 @@ input::-webkit-inner-spin-button {
   width: 100%;
 }
 
-.addIngredientsButtons{
+.addButtons{
   display:flex;
   gap: 5px;
   height: 30px;
   width: clamp(300px, 30%, 50%);
 }
 
-.addIngredientsButtons button{
+.addButtons button{
   font-family: 'Gotham-Medium';
   border: 2px solid #e9e9e9;
   border-radius: 5px;
@@ -1156,6 +1156,36 @@ input::-webkit-inner-spin-button {
 
 .addIngredientsContainer input::placeholder{
   font-style: italic;
+}
+
+.addServingsContainer{
+  position:relative;
+  height: 30px;
+  width: clamp(300px, 30%, 50%);
+}
+
+.addServingsContainer input{
+  font-family: 'Gotham-Medium';
+  border: 2px solid #e9e9e9;
+  border-radius: 5px;
+  padding: 2px 0 2px 9px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.addInstructionsContainer{
+  position:relative;
+  width: clamp(300px, 30%, 50%);
+}
+
+.addInstructionsContainer textarea{
+  font-family: 'Gotham-Medium';
+  resize: none;
+  border: 2px solid #e9e9e9;
+  border-radius: 5px;
+  padding: 2px 9px 2px 9px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ 

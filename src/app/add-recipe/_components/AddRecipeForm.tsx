@@ -3,9 +3,18 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function AddRecipeForm(){
 
-    type IngredientsList = {
+    type RecipeProps = {
         component?: ComponentProps[];
         ingredient?: IngredientProps[];
+        servings?: number | string;
+        macros?: MacroNutrientsProps[];
+        instructions?: InstructionProps[];
+    }
+
+    type MacroNutrientsProps = {
+        carbs: number | string,
+        protein: number | string,
+        fat: number |string
     }
 
     type ComponentProps = {
@@ -15,9 +24,14 @@ export default function AddRecipeForm(){
 
     type IngredientProps = {
         id: string;
-        amount: string;
+        amount: number | string;
         unit: string;
         ingredient: string;
+    }
+
+    type InstructionProps = {
+        id: string;
+        instruction: string;
     }
 
     const [recipeName, setRecipeName] = useState('');
@@ -27,7 +41,8 @@ export default function AddRecipeForm(){
     const [fat, setFat] = useState<number>();
     const [calories, setCalories] = useState<number>();
     const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<number>();
-    const [ingredientList, setIngredientList] = useState<IngredientsList[]>([
+    const [servings, setServings] = useState<number>();
+    const [recipe, setRecipe] = useState<RecipeProps[]>([
         {
         component: [{
             id: uuidv4(),
@@ -38,10 +53,19 @@ export default function AddRecipeForm(){
             amount: '',
             unit: '',
             ingredient: ''
-        }]
+        }],
+        servings: '',
+        macros: [{
+            carbs: '',
+            protein: '',
+            fat: '',
+        }],
+        instructions: [{
+            id: uuidv4(),
+            instruction: '',
+        }],
         }
     ]);
-    const [servings, setServings] = useState<number>();
 
     useEffect(() => {
         if (carbohydrates !== undefined && protein !== undefined && fat !== undefined) {
@@ -64,7 +88,7 @@ export default function AddRecipeForm(){
     };
 
     const handleComponentChange = (itemIndex: number, id: string, newValue: string) => {
-        const updatedIngredientList = ingredientList.map((item, index) => {
+        const updatedIngredientList = recipe.map((item, index) => {
             if (index === itemIndex) {
                 const updatedComponents = item.component && item.component.map(comp => {
                     if (comp.id === id) {
@@ -77,11 +101,11 @@ export default function AddRecipeForm(){
             return item;
         });
         console.log(updatedIngredientList);
-        setIngredientList(updatedIngredientList);
+        setRecipe(updatedIngredientList);
     };
 
-    const handleAmountChange = (itemIndex: number, id: string, newValue: string) => {
-        const updatedIngredientList = ingredientList.map((item, index) => {
+    const handleAmountChange = (itemIndex: number, id: string, newValue: number) => {
+        const updatedIngredientList = recipe.map((item, index) => {
             if (index ===itemIndex){
                 const updatedAmount = item.ingredient && item.ingredient.map(ing => {
                     if(ing.id === id){
@@ -93,11 +117,19 @@ export default function AddRecipeForm(){
             }
             return item;
         });
-        setIngredientList(updatedIngredientList);
+        setRecipe(updatedIngredientList);
     };
-
+    const maxFiveInputs = (value: number) => {
+        if(value > 999){
+            return 999;
+        }
+        else{
+            return value;
+        }
+    }
+    
     const handleUnitChange = (itemIndex: number, id: string, newValue: string) => {
-        const updatedIngredientList = ingredientList.map((item, index) => {
+        const updatedIngredientList = recipe.map((item, index) => {
             if (index ===itemIndex){
                 const updatedUnit = item.ingredient && item.ingredient.map(ing => {
                     if(ing.id === id){
@@ -109,11 +141,11 @@ export default function AddRecipeForm(){
             }
             return item;
         });
-        setIngredientList(updatedIngredientList);
+        setRecipe(updatedIngredientList);
     };
 
     const handleIngredientChange = (itemIndex: number, id: string, newValue: string) => {
-        const updatedIngredientList = ingredientList.map((item, index) => {
+        const updatedIngredientList = recipe.map((item, index) => {
             if (index ===itemIndex){
                 const updatedIngredient = item.ingredient && item.ingredient.map(ing => {
                     if(ing.id === id){
@@ -125,7 +157,8 @@ export default function AddRecipeForm(){
             }
             return item;
         });
-        setIngredientList(updatedIngredientList);
+        console.log(recipe)
+        setRecipe(updatedIngredientList);
     };
 
     const addComponent = (index: number) => {
@@ -134,11 +167,8 @@ export default function AddRecipeForm(){
             component: ''
         };
 
-        setIngredientList(prevList => {
-            // Make a copy of the list
+        setRecipe(prevList => {
             const updatedList = [...prevList];
-    
-            // Update the specific IngredientsList item
             if (index >= 0 && index < updatedList.length) {
                 updatedList[index] = {
                     ...updatedList[index],
@@ -153,16 +183,13 @@ export default function AddRecipeForm(){
     const addIngredient = (index: number) => {
         const newIngredient: IngredientProps = {
             id: uuidv4(),
-            amount:'',
+            amount: '',
             unit: '',
             ingredient: ''
         };
     
-        setIngredientList(prevList => {
-            // Make a copy of the list
+        setRecipe(prevList => {
             const updatedList = [...prevList];
-    
-            // Update the specific IngredientsList item
             if (index >= 0 && index < updatedList.length) {
                 updatedList[index] = {
                     ...updatedList[index],
@@ -175,23 +202,33 @@ export default function AddRecipeForm(){
     };
 
     const addNewComponent = () => {
-        const newIngredientList: IngredientsList = {
+        const newRecipe: RecipeProps = {
             component: [{
                 id: uuidv4(),
                 component: ''
             }],
             ingredient: [{
                 id: uuidv4(),
-                amount:'',
+                amount: '',
                 unit: '',
                 ingredient: ''
-            }]
+            }],
+            servings: '',
+            macros: [{
+                carbs: '',
+                protein: '',
+                fat: '',
+            }],
+            instructions: [{
+                id: uuidv4(),
+                instruction: '',
+            }],
         };
-        setIngredientList([...ingredientList, newIngredientList]);
+        setRecipe([...recipe, newRecipe]);
     }
 
     const removeComponent = (id: string) => {
-        setIngredientList(prevList =>
+        setRecipe(prevList =>
             prevList.map(item => ({
                 ...item,
                 component: (item.component || []).filter(comp => comp.id !== id),
@@ -199,20 +236,63 @@ export default function AddRecipeForm(){
             .filter(item => (item.component && item.component.length > 0) || (item.ingredient && item.ingredient.length > 0))
 
         );
-        console.log(ingredientList)
+        console.log(recipe)
     };
  
     const removeIngredient = (id: string) => {
-        setIngredientList(prevList =>
+        setRecipe(prevList =>
             prevList.map(item => ({
                 ...item,
                 ingredient: (item.ingredient || []).filter(ing => ing.id !== id)
             }))
             .filter(item => (item.component && item.component.length > 0) || (item.ingredient && item.ingredient.length > 0))
         );
-        console.log(ingredientList)
+        console.log(recipe)
     };
 
+    const maxTwoInputs = (value: number) => {
+        if(value > 99){
+            return 99;
+        }
+        else{
+            return value;
+        }
+    }
+
+    const handleInstructionChange = (itemIndex: number, id: string, newValue: string) => {
+        const updatedInstructionsList = recipe.map((item, index) => {
+            if (index ===itemIndex){
+                const updatedInstruction = item.instructions && item.instructions.map(ins => {
+                    if(ins.id === id){
+                        return {...ins, instruction: newValue};
+                    }
+                    return ins;
+                });
+                return {...item, instructions: updatedInstruction}
+            }
+            return item;
+        });
+        setRecipe(updatedInstructionsList);
+    };
+    
+    const addInstruction = (index: number) => {
+        const newInstruction: InstructionProps = {
+            id: uuidv4(),
+            instruction: ''
+        };
+    
+        setRecipe(prevList => {
+            const updatedList = [...prevList];
+            if (index >= 0 && index < updatedList.length) {
+                updatedList[index] = {
+                    ...updatedList[index],
+                    instructions: [...(updatedList[index].instructions || []), newInstruction]
+                };
+            }
+            return updatedList;
+        });
+        console.log(recipe)
+    };
     return (
         <>
             <form className="addRecipeForm" onSubmit={handleSubmit}>
@@ -226,8 +306,83 @@ export default function AddRecipeForm(){
                         onChange={(e) => setRecipeName(e.target.value)}
                     />
                 </div>
+                <div className="recipeSpace"></div>
+                {recipe.map((item, index) => (
+                <div className="recipe" key={index}>
+                            {item.component && item.component.map((comp) =>(
+                                <div className="addComponentsContainer" key={comp?.id}>
+                               <label className="recipeLabel" htmlFor="ingredients-for">Component:</label>
+                               <input 
+                                   type="text"
+                                   placeholder="Topping, frosting, sauce..."
+                                   value={comp.component}
+                                   onChange={(e) => handleComponentChange(index, comp.id, e.target.value)}
+                                   />
+                               <span 
+                                   onClick={() => item.component && removeComponent(comp.id)} 
+                                   className="crossIcon"
+                               ></span>
+                           </div>
+                            ))}
+
+                {item.ingredient && item.ingredient.map((ing, ingIndex) =>(
+                           <div className="addIngredientsContainer" key={ing?.id}>
+                               <label className="recipeLabel tabular-nums" htmlFor="ingredient">{`Ingredient ${ingIndex + 1}`}</label>
+                               <input 
+                                   type="number"
+                                   className="amount"
+                                   placeholder="700"
+                                   value={ing.amount || ''}
+                                   onChange={(e) => {
+                                    const limitedValue = maxFiveInputs(+e.target.value);
+                                    handleAmountChange(index, ing.id, limitedValue);}}
+                               />
+                                <input 
+                                   type="text"
+                                   className="unit"
+                                   placeholder="g"
+                                   value={ing.unit}
+                                   onChange={(e) => handleUnitChange(index, ing.id, e.target.value)}
+                               />
+                               <input 
+                                   type="text"
+                                   className="ingredient"
+                                   placeholder="Butter"
+                                   value={ing.ingredient}
+                                   onChange={(e) => handleIngredientChange(index, ing.id, e.target.value)}
+                               />
+                               <span 
+                                   onClick={() => item.ingredient && removeIngredient(ing.id)} 
+                                    className="crossIcon"
+                               ></span>
+                           </div>
+                        ))}
+                        <div className="addButtons">
+                           <button type="button" onClick={() => item.ingredient && addIngredient(index)}>Add ingredient</button>
+                           {(!item.component || item.component.length === 0) && 
+                           <button type="button" onClick={() => addComponent(index)} > Add Component </button> 
+                           }
+                       </div>
+                </div>
+                ))}
+                <div className="addButtons">
+                    <button type="button" onClick={() => addNewComponent()}>Add component</button>
+                </div>
+                <div className="recipeSpace"></div>
+                <div className="addServingsContainer">
+                    <label className="recipeLabel" htmlFor="servings">Servings:</label>
+                    <input
+                        type="number"
+                        value={servings || ""}
+                        onChange={(e) => {
+                            const limitedValued = maxTwoInputs(+e.target.value);
+                            setServings(limitedValued);
+                        }}
+                    />
+                </div>
+                <div className="recipeSpace"></div>
                 <div className="addRecipeSwitchContainer">
-                    <h1>Nutritional value:</h1>
+                    <h1>Nutritional values:</h1>
                     <label className="sliderContainer">
                         <input type="checkbox"
                             checked={isChecked}
@@ -237,7 +392,6 @@ export default function AddRecipeForm(){
                     </label>
                 </div>
                 {isChecked && <>
-                    <div className="recipeSpace"></div>
                     <div className="addNutritionsContainer">
                         <label className="nutritionLabel" htmlFor="carbohydrates">Carbohydrates:<i className="opacity-50 absolute ml-1 text-xs">(g)</i></label>
                         <input
@@ -277,78 +431,27 @@ export default function AddRecipeForm(){
                             onChange={(e) => setCalories(+e.target.value)}
                         />
                     </div>
-                    <div className="recipeSpace"></div>
                 </>}
-
-                {ingredientList.map((item, index) => (
-                <div className="IngredientList" key={index}>
-                            {item.component && item.component.map((comp) =>(
-                                <div className="addComponentsContainer" key={comp?.id}>
-                               <label className="recipeLabel" htmlFor="ingredients-for">Component:</label>
-                               <input 
-                                   type="text"
-                                   placeholder="Topping, frosting, sauce..."
-                                   value={comp.component}
-                                   onChange={(e) => handleComponentChange(index, comp.id, e.target.value)}
-                                   />
-                               <span 
-                                   onClick={() => item.component && removeComponent(comp.id)} 
-                                   className="crossIcon"
-                               ></span>
-                           </div>
-                            ))}
-
-                {item.ingredient && item.ingredient.map((ing) =>(
-                           <div className="addIngredientsContainer" key={ing?.id}>
-                               <label className="recipeLabel" htmlFor="ingredient">Ingredient:</label>
-                               <input 
-                                   type="text"
-                                   className="amount"
-                                   placeholder="700"
-                                   value={ing.amount}
-                                   onChange={(e) => handleAmountChange(index, ing.id, e.target.value)}
-                               />
-                                <input 
-                                   type="text"
-                                   className="unit"
-                                   placeholder="g"
-                                   value={ing.unit}
-                                   onChange={(e) => handleUnitChange(index, ing.id, e.target.value)}
-                               />
-                               <input 
-                                   type="text"
-                                   className="ingredient"
-                                   placeholder="Butter"
-                                   value={ing.ingredient}
-                                   onChange={(e) => handleIngredientChange(index, ing.id, e.target.value)}
-                               />
-                               <span 
-                                   onClick={() => item.ingredient && removeIngredient(ing.id)} 
-                                    className="crossIcon"
-                               ></span>
-                           </div>
-                        ))}
-                        <div className="addIngredientsButtons">
-                           <button type="button" onClick={() => item.ingredient && addIngredient(index)}>Add ingredient</button>
-                           {(!item.component || item.component.length === 0) && 
-                           <button type="button" onClick={() => addComponent(index)} > Add Component </button> 
-                           }
-                       </div>
-                </div>
-                ))}
-                <div className="addIngredientsButtons">
-                    <button type="button" onClick={() => addNewComponent()}>Add component</button>
-                </div>
                 <div className="recipeSpace"></div>
-
-                <div className="recipeTitleContainer">
-                    <label className="recipeLabel" htmlFor="recipe-name">Servings:</label>
-                    <input
-                        type="number"
-                        value={servings}
-                        onChange={(e) => setServings(+e.target.value)}
+                {recipe.map((item, index)=>
+                <React.Fragment key={index}>
+                {item.instructions?.map((ins, insIndex) =>
+                <div className="addInstructionsContainer" key={insIndex}>
+                    <label className="recipeLabel tabular-nums" htmlFor="instruction">{`Instruction ${insIndex + 1}`}</label>
+                    <textarea
+                        placeholder=""
+                        rows={3}
+                        value={ins.instruction}
+                        onChange={(e) => handleInstructionChange(index, ins.id, e.target.value)}
                     />
                 </div>
+                )}
+                <div className="addButtons">
+                    <button type="button" onClick={() => addInstruction(index)}>Add instruction</button>
+                </div>
+                </React.Fragment>
+                )}
+            
             </form>
         </>
     );
