@@ -1,5 +1,6 @@
 import mongoose, { Schema, Model, Document } from 'mongoose';
 import { UserContentProps, userContentSchema } from './UserContent';
+import { RecipeProps, recipeSchema } from './UserRecipe';
 
 export interface UserProps extends Document{
     _id: mongoose.Types.ObjectId,
@@ -8,6 +9,7 @@ export interface UserProps extends Document{
     username: string;
     password: string;
     userContent?: UserContentProps;
+    recipes: RecipeProps[];
 }
 
 const userSchema = new Schema<UserProps>({
@@ -18,7 +20,11 @@ const userSchema = new Schema<UserProps>({
     userContent: {
         type: userContentSchema,
         default: {},
-      }
+      },
+    recipes: {
+        type: [recipeSchema],
+        default: [],
+    }
 }, {
     timestamps: true
 });

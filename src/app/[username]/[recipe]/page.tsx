@@ -57,7 +57,7 @@ export default function RecipePage({params}: {params: {recipe:string; username?:
     <>
     <NavBar />
     <Recipe recipe={params.recipe}/>
-    <ProfilePage username={profile?.username} fullName={profile?.fullName} />
+    <ProfilePage profile={profile} />
     <Categories />
     <Masonary />
     </>

@@ -8,7 +8,6 @@ interface AuthContextType {
   user: ProfileProps | null;
   login: (token: string) => void;
   logout: () => void;
-  updateUser: (updatedUser: ProfileProps) => void;
   initializing: boolean;
 }
 
@@ -98,15 +97,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push(`/`);
   };
 
-  const updateUser = (updatedUser: ProfileProps) => {
-    setUser(updatedUser)
-  }
   if (initializing) {
     return null;
   }
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, updateUser, initializing }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, initializing }}>
       {children}
     </AuthContext.Provider>
   );

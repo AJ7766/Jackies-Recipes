@@ -28,8 +28,6 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
     const [errorBoolean, setErrorBoolean] = useState(false);
     const [loadingBtn, setLoadingBtn] = useState(false);
 
-    const { updateUser } = useAuth();
-
     if (!user) {
         const errorPage = SettingsError();
         return errorPage;
@@ -75,7 +73,6 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
               setErrorBoolean(false);
               setSuccessBoolean(true);
               setSuccess("Successfully Saved!");
-              updateUser(successResponse.updatedUser);
               window.location.reload();
             }}catch (error:any) {
             console.error("Error:", error.message, error);
@@ -134,7 +131,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
     return(
        <form className="editForm" onSubmit={handleSubmit}>
             <div className="editProfilePicutre" onClick={handleProfilePicChange}>
-                <Image height={160} width={160} className="editPreviewProfilePicture" src={profilePicPreview || profilePicture} alt="profile-picture" 
+                <Image height={200} width={200} className="editPreviewProfilePicture" src={profilePicPreview || profilePicture} alt="profile-picture" 
                 />
                 <input
                 id="profilePicInput"
@@ -273,7 +270,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
         {errorBoolean ? <div className="text-red-600">{error}</div> : <div></div>}
         {successBoolean ? <div className="text-green-600">{success}</div> : <div></div>}
         </div>
-    <button type="submit" disabled={loadingBtn}>Save</button>
+        <button type="submit" disabled={loadingBtn}>Save</button>
         <div>
         </div>
         </form>

@@ -1,11 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import Resizer from "react-image-file-resizer";
+import camera from "@/app/images/test/camera.svg";
+import imagePlaceholder from "@/app/images/recipe-image-placeholder.svg";
+import Image from "next/image";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function AddRecipeForm(){
 
     type RecipeProps = {
         title: string;
-        ingredients?: IngredientList[];
+        image?: string;
+        ingredients: IngredientListProps[];
         servings?: number | string;
         macros?: MacroNutrientsProps;
         instructions?: InstructionProps[];
@@ -18,7 +24,7 @@ export default function AddRecipeForm(){
         calories?: number | string
     }
 
-    type IngredientList = {
+    type IngredientListProps = {
         component?: ComponentProps[];
         ingredients: IngredientProps[];
     }
@@ -40,8 +46,13 @@ export default function AddRecipeForm(){
         instruction: string;
     }
 
+    const [imagePreview, setImagePreview] = useState<string>();
+    const [isChecked, setIsChecked] = useState(false);
+    const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<number>();
+    const [loadingBtn, setLoadingBtn] = useState(false);
     const [recipe, setRecipe] = useState<RecipeProps>({
-        title: '',
+        title: imagePreview || '',
+        image: '',
         ingredients: [{
             component: [{
                 id: uuidv4(),
@@ -66,57 +77,115 @@ export default function AddRecipeForm(){
         }],
     });
 
-    const [isChecked, setIsChecked] = useState(false);
-    const [carbohydrates, setCarbohydrates] = useState<number>();
-    const [protein, setProtein] = useState<number>();
-    const [fat, setFat] = useState<number>();
-    const [calories, setCalories] = useState<number>();
-    const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<number>();
-    const [servings, setServings] = useState<number>();
+    const { user } = useAuth();
 
     useEffect(() => {
-        if (carbohydrates !== undefined && protein !== undefined && fat !== undefined) {
-            const totalCalories = (carbohydrates * 4) + (protein * 4) + (fat * 9);
-            setCaloriesPlaceholder(totalCalories);
-        } else {
-            setCaloriesPlaceholder(undefined);
+        let calsFromCarbs: number = 0;
+        let calsFromProtein: number = 0;
+        let calsFromFat: number = 0;
+        
+        if (recipe.macros?.carbs !== undefined && recipe.macros?.carbs !== null) {
+            calsFromCarbs = Number(recipe.macros.carbs) * 4;
         }
-        if (carbohydrates === 0) {
-            setCarbohydrates(undefined);
+        
+        if (recipe.macros?.protein !== undefined && recipe.macros?.protein !== null) {
+            calsFromProtein = Number(recipe.macros.protein) * 4;
         }
-    }, [carbohydrates, protein, fat]);
+    
+        if (recipe.macros?.fat !== undefined && recipe.macros?.fat !== null) {
+            calsFromFat = Number(recipe.macros.fat) * 9;
+        }
+    
+        const totalCals = calsFromCarbs + calsFromProtein + calsFromFat;
+
+        setCaloriesPlaceholder(totalCals);
+        
+    }, [recipe]);
+
+    useEffect(() =>{
+        console.log(recipe);
+    },[recipe])
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        setLoadingBtn(true);
+        if (!user?._id) {
+            throw new Error('User ID is not available');
+        }
+        try{
+            let res = await fetch("/api/add-recipe", {
+                method: "POST",
+                body: JSON.stringify({recipe: recipe, userId: user?._id}),
+                headers: {
+                  "Content-Type": "application/json"
+                }
+              });
+              if (!res.ok) {
+                const errorResponse = await res.json();
+                throw new Error(errorResponse.message || "Failed to register.");
+              } 
+              else if(res.ok){
+                let data = await res.json();
+                console.log(data.updatedUser);
+        }}
+        catch(error: any){
+            console.error("Error:", error.message, error);
+        }finally{
+            setLoadingBtn(false);
+        }
+    }
+
+    const handleRecipeImageChange = (newImg: string) =>{
+        setRecipe(prevRecipe => ({ ...prevRecipe, image: newImg }));
+        setImagePreview(newImg);
     }
 
     const handleTitleChange = (newValue: string) => {
         setRecipe(prevRecipe => ({ ...prevRecipe, title: newValue }));
     };
 
-    const handleComponentChange = (indexId: number, compId: string, newValue: string) => {
-        const updatedIngredients = recipe.ingredients?.map((ingList, index) => {
-            if (index === indexId) {
-                const updatedComponents = ingList.component?.map(comp => {
-                    if (comp.id === compId) {
-                        return { ...comp, component: newValue };
+    const imageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+
+        const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        const maxSize = 20 * 1024 * 1024;
+        
+        if (!allowedMimeTypes.includes(file.type)) {
+            alert('Please upload an image file (JPEG, PNG, WEBP).');
+            return;
+        }
+        
+        if (file.size > maxSize) {
+            alert('File size exceeds 20 MB.');
+            return;
+        }
+            try {
+                Resizer.imageFileResizer(
+                  file,
+                  1280, // max width
+                  850, // max height
+                  'JPEG', // format
+                  80, // quality
+                  0, // rotation
+                  (uri) => {
+                    if (typeof uri === 'string') {
+                      handleRecipeImageChange(uri);
+                      console.log(uri)
+                    } else {
+                      console.error('Unexpected type:', uri);
                     }
-                    return comp;
-                }) || [];
-                
-                return {
-                    ...ingList,
-                    component: updatedComponents
-                };
-            }
-            return ingList;
-        }) || [];
-    
-        setRecipe(prevRecipe => ({
-            ...prevRecipe,
-            ingredients: updatedIngredients
-        }));
-        console.log(recipe);
+                  },
+                  'base64' // output type
+                );
+              } catch (error) {
+                console.error('Error resizing image:', error);
+              }
+        }
+      };
+      
+    const handleImageChange = () => {
+        document.getElementById("imageInput")?.click();
     };
 
     const handleAmountChange = (id: string, newValue: number) => {
@@ -158,19 +227,25 @@ export default function AddRecipeForm(){
         }));
     };
 
-    const handleIngredientChange = (id: string, newValue: string) => {
-        const updatedIngredients = recipe.ingredients?.map(ingList => {
-            const updatedIngredientList = ingList.ingredients.map(ing => {
-                if (ing.id === id) {
-                    return { ...ing, ingredient: newValue };
-                }
-                return ing;
-            });
-            return { ...ingList, ingredients: updatedIngredientList };
-        });
+    const handleComponentChange = (id: string, newValue: string) => {
+        const updatedIngredients = recipe.ingredients?.map((ingList) => {
+                const updatedComponents = ingList.component?.map(comp => {
+                    if (comp.id === id) {
+                        return { ...comp, component: newValue };
+                    }
+                    return comp;
+                }) || [];
+                
+                return {
+                    ...ingList,
+                    component: updatedComponents
+                };
+
+        }) || [];
+    
         setRecipe(prevRecipe => ({
             ...prevRecipe,
-            ingredients: updatedIngredients || []
+            ingredients: updatedIngredients
         }));
     };
 
@@ -179,7 +254,6 @@ export default function AddRecipeForm(){
             id: uuidv4(),
             component: '',
         };
-    
         const updatedIngredients = recipe.ingredients?.map((ingList, idx) => {
             if (idx === index) {
                 return {
@@ -189,6 +263,19 @@ export default function AddRecipeForm(){
             }
             return ingList;
         });
+        setRecipe(prevRecipe => ({
+            ...prevRecipe,
+            ingredients: updatedIngredients || []
+        }));
+    };
+
+    const removeComponent = (id: string) => {
+        const updatedIngredients = recipe.ingredients?.map((ingList) => {
+                return {
+                    ...ingList,
+                    component: ingList.component?.filter(comp => comp.id !== id) || []
+                };
+        });
     
         setRecipe(prevRecipe => ({
             ...prevRecipe,
@@ -196,6 +283,22 @@ export default function AddRecipeForm(){
         }));
     };
 
+    const handleIngredientChange = (id: string, newValue: string) => {
+        const updatedIngredients = recipe.ingredients.map(ingList => {
+            const updatedIngredientList = ingList.ingredients.map(ing => {
+                if (ing.id === id) {
+                    return {...ing, ingredient: newValue };
+                }
+                return ing;
+            });
+            return { ...ingList, ingredients: updatedIngredientList };
+        });
+        setRecipe(prevRecipe => ({
+            ...prevRecipe,
+            ingredients: updatedIngredients
+        }));
+    };
+    
     const addIngredient = (index: number) => {
         const newIngredient: IngredientProps = {
             id: uuidv4(),
@@ -203,8 +306,6 @@ export default function AddRecipeForm(){
             unit: '',
             ingredient: ''
         };
-        //looping through ingredientlist, if index is the same index as the list, return
-        //current inglist, but change ingr
         const updatedIngredients = recipe.ingredients?.map((ingList, idx) => {
             if (idx === index) {
                 return {
@@ -214,33 +315,6 @@ export default function AddRecipeForm(){
             }
             return ingList;
         });
-        setRecipe(prevRecipe => ({
-            ...prevRecipe,
-            ingredients: updatedIngredients || []
-        }));
-    };
-
-    const removeComponent = (listIndex: number, componentToRemove: string) => {
-        // Ensure the ingredient list exists
-        const updatedIngredients = recipe.ingredients?.map((ingList, idx) => {
-            if (idx === listIndex) {
-                // If `component` exists and it's a string, process it
-                if (ingList.component) {
-                    // Split the component string into an array
-                    const components = ingList.component.split(', ');
-                    // Filter out the component to be removed
-                    const updatedComponents = components.filter(comp => comp !== componentToRemove);
-                    // Join the array back into a string
-                    return {
-                        ...ingList,
-                        component: updatedComponents.join(', ')
-                    };
-                }
-            }
-            return ingList;
-        });
-    
-        // Update the recipe state
         setRecipe(prevRecipe => ({
             ...prevRecipe,
             ingredients: updatedIngredients || []
@@ -260,6 +334,37 @@ export default function AddRecipeForm(){
         }));
     };
 
+    
+    const addNewComponent = () => {
+        const newIngredientList: IngredientListProps = {
+            component:[{
+                id: uuidv4(),
+                component: '',
+            }],
+            ingredients: [{
+                id: uuidv4(),
+                ingredient: '',
+                amount: '',
+                unit:'',
+            }]
+        }
+        const updatedIngredients = [
+            ...(recipe.ingredients || []),
+            newIngredientList
+        ];
+        setRecipe(prevRecipe => ({
+            ...prevRecipe,
+            ingredients: updatedIngredients
+        }));
+    };
+
+    const handleServingsChange = (newValue: number) => {
+        setRecipe(prevList => ({
+            ...prevList,
+            servings: newValue
+        }))
+    }
+
     const maxTwoInputs = (value: number) => {
         if (value > 99) {
             return 99;
@@ -270,6 +375,32 @@ export default function AddRecipeForm(){
     const toggleSlider = () => {
         setIsChecked(prevIsChecked => !prevIsChecked);
     };
+
+    const handleMacroChange = (macros: Partial<MacroNutrientsProps>) => {
+        setRecipe(prevList => ({
+            ...prevList,
+            macros: {
+                ...prevList.macros,
+                ...macros
+            }
+        }));
+    }
+
+    const handleCarbsChange = (newValue: number) => {
+        handleMacroChange({ carbs: newValue });
+    }
+    
+    const handleProteinChange = (newValue: number) => {
+        handleMacroChange({ protein: newValue });
+    }
+    
+    const handleFatChange = (newValue: number) => {
+        handleMacroChange({ fat: newValue });
+    }
+    
+    const handleCaloriesChange = (newValue: number) => {
+        handleMacroChange({ calories: newValue });
+    }
 
     const handleInstructionChange = (id: string, newValue: string) => {
         const updatedInstructions = recipe.instructions?.map(ins => {
@@ -302,6 +433,20 @@ export default function AddRecipeForm(){
         <>
             <form className="addRecipeForm" onSubmit={handleSubmit}>
                 <h1 className="addRecipeTitle">Add Recipe</h1>
+
+                <div className="editRecipeImage" onClick={handleImageChange }>
+                <Image height={250} width={400} className="editRecipeImagePreview" src={imagePreview || imagePlaceholder} alt="recipe-image"
+                />
+                <input
+                id="imageInput"
+                type="file"
+                accept=".jpg,.jpeg,.png,.webp"
+                className="hidden"
+                onChange={imageChange}
+              />
+            <Image className="editCamera" src={camera} alt="camera" />
+            </div>
+            
                 <div className="recipeTitleContainer">
                     <label className="recipeLabel" htmlFor="recipe-name">Recipe Name:</label>
                     <input
@@ -322,7 +467,7 @@ export default function AddRecipeForm(){
                         type="text"
                         placeholder="Topping, frosting, sauce..."
                         value={comp.component}
-                        onChange={(e) => handleComponentChange(compIndex, comp.id, e.target.value)}
+                        onChange={(e) => handleComponentChange(comp.id, e.target.value)}
                     />
                     <span className="crossIcon"
                     onClick={() => removeComponent(comp.id)}
@@ -365,13 +510,16 @@ export default function AddRecipeForm(){
                 ))} 
                     <div className="addButtons">
                         <button type="button" onClick={() => addIngredient(index)}
-                        >Add ingredient</button>
+                        >Add Ingredient</button>
                         {(!ingredientList.component || ingredientList.component.length === 0) && 
-                        <button type="button" onClick={() => addComponent(index)}>Add ingredient</button>
+                        <button type="button" onClick={() => addComponent(index)}>Add Component</button>
                         }
                     </div>
                     </div>
                 ))}
+                <div className="addButtons">
+                <button type="button" onClick={() => addNewComponent()}>Add Component</button>
+                </div>
 
 
                 <div className="recipeSpace"></div>
@@ -379,10 +527,10 @@ export default function AddRecipeForm(){
                     <label className="recipeLabel" htmlFor="servings">Servings:</label>
                     <input
                         type="number"
-                        value={servings || ""}
+                        value={recipe.servings}
                         onChange={(e) => {
                             const limitedValue = maxTwoInputs(+e.target.value);
-                            setServings(limitedValue);
+                            handleServingsChange(limitedValue);
                         }}
                     />
                 </div>
@@ -405,8 +553,8 @@ export default function AddRecipeForm(){
                             <input
                                 type="number"
                                 placeholder=""
-                                value={carbohydrates || ""}
-                                onChange={(e) => setCarbohydrates(+e.target.value)}
+                                value={recipe.macros?.carbs || ''}
+                                onChange={(e) => handleCarbsChange(+e.target.value)}
                             />
                         </div>
 
@@ -415,8 +563,8 @@ export default function AddRecipeForm(){
                             <input
                                 type="number"
                                 placeholder=""
-                                value={protein || ""}
-                                onChange={(e) => setProtein(+e.target.value)}
+                                value={recipe.macros?.protein || ''}
+                                onChange={(e) => handleProteinChange(+e.target.value)}
                             />
                         </div>
 
@@ -425,8 +573,8 @@ export default function AddRecipeForm(){
                             <input
                                 type="number"
                                 placeholder=""
-                                value={fat || ""}
-                                onChange={(e) => setFat(+e.target.value)}
+                                value={recipe.macros?.fat || ''}
+                                onChange={(e) => handleFatChange(+e.target.value)}
                             />
                         </div>
 
@@ -435,8 +583,8 @@ export default function AddRecipeForm(){
                             <input
                                 type="number"
                                 placeholder={caloriesPlaceholder?.toString()}
-                                value={calories || ""}
-                                onChange={(e) => setCalories(+e.target.value)}
+                                value={recipe.macros?.calories || ''}
+                                onChange={(e) => handleCaloriesChange(+e.target.value)}
                             />
                         </div>
                     </>
@@ -460,6 +608,7 @@ export default function AddRecipeForm(){
                 <div className="addButtons">
                     <button type="button" onClick={addInstruction}>Add instruction</button>
                 </div>
+                <button type="submit" disabled={loadingBtn}>Upload</button>
             </form>
         </>
     );

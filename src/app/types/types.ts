@@ -1,4 +1,5 @@
 import { UserContentProps, SimplifiedUserContentProps } from '@/models/UserContent';
+import { SimplifiedRecipeProps } from '@/models/UserRecipe';
 import mongoose from 'mongoose';
 
 export type ProfileProps = {
@@ -10,6 +11,7 @@ export type ProfileProps = {
   username?: string;
   password?: string;
   userContent?: SimplifiedUserContentProps;
+  recipes?: SimplifiedRecipeProps[]; 
 };
 
 export type ProfilePropsOrNull = ProfileProps | null;
@@ -32,4 +34,5 @@ export type EditFormProps = {
   newPassword?: string;
   confirmPassword?: string;
   userContent?: SimplifiedUserContentProps;
+  recipes?: SimplifiedRecipeProps[]; 
 }
