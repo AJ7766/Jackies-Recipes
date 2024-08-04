@@ -1,6 +1,7 @@
 import mongoose, { Model, Schema } from "mongoose";
 
 export interface RecipeProps extends Document {
+    _id?: mongoose.Types.ObjectId;
     title: string;
     image?: string;
     ingredients: IngredientListProps[];
@@ -10,6 +11,7 @@ export interface RecipeProps extends Document {
 }
 
 export type SimplifiedRecipeProps = {
+    _id?: mongoose.Types.ObjectId;
     title: string;
     image?: string;
     ingredients: IngredientListProps[];

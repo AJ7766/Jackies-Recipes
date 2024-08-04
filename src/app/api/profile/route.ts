@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
         const { username } = await request.json();
         const profileData = await fetchProfileFromDatabase(username);
 
-        return NextResponse.json(profileData, { status: 200 });
+        return NextResponse.json({message: "Success fetching profile", profileData }, { status: 200 });
     } catch (error:any) {
         console.error("Error in API handler:", error.message);
         return NextResponse.json({ message: "Couldn't find user", error }, { status: 400 });

@@ -1,18 +1,21 @@
-import Image, { StaticImageData } from "next/image";
-import img1 from "@/app/images/test/1.jpg";
-import img2 from "@/app/images/test/2.jpg";
-import img3 from "@/app/images/test/3.jpg";
-import img4 from "@/app/images/test/4.jpg";
-import img5 from "@/app/images/test/5.jpg";
-import img6 from "@/app/images/test/6.jpg";
-import img7 from "@/app/images/test/7.jpg";
+import Image from "next/image";
+
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { ProfilePropsOrNull } from "../types/types";
+import Link from "next/link";
+import { Types } from "mongoose";
 
 
-export default function Masonary(){        
-  const images = useMemo(() => [img1, img2, img3, img4, img5, img6, img7, img5, img3], []);
+export default function Masonary({profile}:{profile: ProfilePropsOrNull}){     
+  
+  interface RecipeCardProps {
+    id: Types.ObjectId | undefined,
+    title: string;
+    image: string | string;
+  }
+
     const [totalColumns, setTotalColumns] = useState<number>(1);
-    const [columns, setColumns] = useState<StaticImageData[][]>(() =>
+    const [columns, setColumns] = useState<RecipeCardProps[][]>(() =>
       Array.from({ length: 1 }, () => [])
     );
 
@@ -33,27 +36,40 @@ export default function Masonary(){
   }, [updateColumns]);
 
   useEffect(()=>{
-    const newColumns: StaticImageData[][] = Array.from({ length: totalColumns }, () => []);
-    images.forEach((image, index) => {
-        const columnIndex = index % totalColumns;
-        newColumns[columnIndex].push(image);
-    });
-    setColumns(newColumns);
-  },[totalColumns, images])
+    const newColumns:RecipeCardProps[][] = Array.from({ length: totalColumns }, () => []);
+
+    profile?.recipes && profile?.recipes.map((recipe, index)=>{
+      const recipeCard = {
+        id: recipe._id,
+        title: recipe.title,
+        image: recipe.image || '',
+      }
+      const columnIndex = index % totalColumns;
+      newColumns[columnIndex].push(recipeCard);
+      setColumns(newColumns);
+    })
+  },[totalColumns, profile?.recipes])
 
     return (<>
+    {columns.length > 1 ?
     <div className="masonryContainer">
     {columns.map((column, columnIndex) => (
         <div className="masonryColumn" key={columnIndex}>
-          {column.map((image, imageIndex) => (
-            <div className="masonryImg" key={imageIndex}>
-              <Image src={image} alt={`Image ${imageIndex + 1}`}/>
-              <h1>Pasta Carbonara, extra spicy!</h1>
+          {column.map((recipe, recipeIndex) => (
+            <Link href={`/${profile?.username}/${recipe.id}`} key={recipeIndex} scroll={false}>
+            <div className="masonryImg">
+              <Image width={500} height={500} src={recipe.image || ''} alt={`Image${recipeIndex}`}/>
+              <h1>{recipe.title}</h1>
             </div>
+            </Link>
           ))}
         </div>
       ))}
-    </div>
+    </div>:
+          <div className="noRecipesContainer">
+            <h1>No recipes were found</h1>
+        </div>
+    }
 
     </>)
 }

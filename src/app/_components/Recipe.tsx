@@ -1,180 +1,105 @@
 import Image from "next/image";
-import carrotCake from "@/app/images/test/carrot-cake.jpg";
 import meals from "@/app/images/test/meal.svg";
-import profilePicture from "@/app/images/profile-picture.png";
-import { useMemo } from "react";
+import profilePicturePlaceholder from "@/app/images/profile-picture.png";
+import { ForwardedRef, forwardRef } from "react";
+import { ProfilePropsOrNull } from "../types/types";
+import Link from "next/link";
+import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 
-export default function Recipe({recipe}:{recipe:string}){
+const Recipe = forwardRef<HTMLDivElement, { profile: ProfilePropsOrNull, recipe: SimplifiedRecipeProps }>(function Recipe({ profile, recipe }, ref: ForwardedRef<HTMLDivElement>) {
 
-    const dataValues = useMemo(() => [60, 20, 20], []); //carbs, protein, fat
-    const calorieValues = useMemo(() => [240, 80, 180], []);
-    const totalCalories = useMemo(() => calorieValues.reduce((acc, val) => acc + val, 0), [calorieValues]);
-
-    return <div className="recipeContainer">
+    return <>
+        <div className="recipeContainer" ref={ref}>
         <div className="recipeLeftSideWrapper">
-
         <div className="recipeUserContainer">
-        <div className="recipeProfilePictureContainer">
-        <div className="recipeProfilePicutre">
-        <Image src={profilePicture} alt="profile-picture" />
-        </div>
-        </div>
+        <Link className="flex gap-2" href={`/${profile?.username}`}>
+        <Image width={25} height={25} src={profile?.userContent?.profilePicture || profilePicturePlaceholder} alt="profile-picture" />
         <div>
-            <h2>josefinen</h2>
+            <h2>{profile?.username}</h2>
         </div>
+        </Link>
         </div>
 
-        <h1>Saftig Morotskaka</h1>
+        <h1>{recipe.title}</h1>
         <div className="recipeIngredientsContainer">
+          {recipe.macros && 
                 <div className="recipeMacroContainer">
             <div className="nutritionContainer">
                 <div className="macroContainer">
+            {recipe.macros.carbs && 
             <div className="macroInfo">
                 <div className="carbsColor"></div>
-                <p>Carbs: {dataValues[0]}g</p>
+                <p>Carbs: {recipe.macros.carbs}g</p>
             </div>
+            }
+            {recipe.macros.protein && 
             <div className="macroInfo">
                 <div className="proteinColor"></div>
-                <p>Protein: {dataValues[1]}g</p>
+                <p>Protein: {recipe.macros.protein}g</p>
             </div>
+            }
+            {recipe.macros.fat && 
             <div className="macroInfo">
                 <div className="fatColor"></div>
-                <p>Fat: {dataValues[2]}g</p>
+                <p>Fat: {recipe.macros.fat}g</p>
             </div>
+            }
+            {recipe.macros.calories && 
             <div className="macroInfo">
                 <div className="caloriesColor"></div>
-                <p>Calories: {totalCalories}</p>
+                <p>Calories: {recipe.macros.calories}</p>
                 </div>
+            }
             </div>
             </div>
         </div>
-        <div className="mealsContainer">
-                <Image src={meals} alt="test"/>
-                <p>4</p>
-                </div>
-        <table>
-  <tbody>
-    <tr>
-      <td colSpan={2} className="recipeTitle">Kaka</td>
+        }
+            {recipe.servings &&
+            <div className="mealsContainer">
+                  <Image src={meals} alt="servings"/>
+                  <p>{recipe.servings}</p>
+                  </div>
+            }
+            {recipe.ingredients.map((ingList, ingListIndex) => 
+        <table key={ingListIndex}>
+    <tbody>
+    {ingList.component?.map((comp, compIndex) => 
+    <tr key={compIndex}>
+      <td colSpan={2} className="recipeTitle">{comp.component}</td>
     </tr>
-    <tr>
-      <td className="amount">300 g</td>
-      <td>morötter (4-5 medelstora morötter)</td>
+    )}
+    {ingList.ingredients?.map((ing, ingIndex) => 
+    <tr key={ingIndex}>
+      <td className="amount">{ing.amount} {ing.unit}</td>
+      <td>{ing.ingredient}</td>
     </tr>
-    <tr>
-      <td className="amount">1 dl</td>
-      <td>farinsocker</td>
-    </tr>
-    <tr>
-      <td className="amount">2 msk</td>
-      <td>malen kanel</td>
-    </tr>
-    <tr>
-      <td className="amount">1 msk</td>
-      <td>malen kardemumma</td>
-    </tr>
-    <tr>
-      <td className="amount">2 msk</td>
-      <td>malen ingefära</td>
-    </tr>
-    <tr>
-      <td className="amount">6 st</td>
-      <td>ägg</td>
-    </tr>
-    <tr>
-      <td className="amount">5 dl</td>
-      <td>strösocker</td>
-    </tr>
-    <tr>
-      <td className="amount">2,5 dl</td>
-      <td>neutral olja (raps-, mat- eller solrosolja)</td>
-    </tr>
-    <tr>
-      <td className="amount">1 dl</td>
-      <td>vaniljsocker</td>
-    </tr>
-    <tr>
-      <td className="amount">1 msk</td>
-      <td>bakpulver</td>
-    </tr>
-    <tr>
-      <td className="amount">6 dl</td>
-      <td>vetemjöl</td>
-    </tr>
-  </tbody>
-</table>
-
-<table>
-  <tbody>
-    <tr>
-      <td colSpan={2} className="recipeTitle">Frostning</td>
-    </tr>
-    <tr>
-      <td className="amount">600 g</td>
-      <td>färskost</td>
-    </tr>
-    <tr>
-      <td className="amount">300 g</td>
-      <td>rumstempererat smör</td>
-    </tr>
-    <tr>
-      <td className="amount">2 tsk</td>
-      <td>vaniljsocker</td>
-    </tr>
-    <tr>
-      <td className="amount">4 dl</td>
-      <td>florsocker</td>
-    </tr>
-    <tr>
-      <td className="amount">2 st</td>
-      <td>rivna skal från 2 lime</td>
-    </tr>
-  </tbody>
-</table>
+          )}
+      </tbody>
+      </table>
+      )}
         </div>
         </div>
         <div className="recipeRightSideWrapper">
-        <div className="recipeImageContainer">
-        <Image src={carrotCake} alt="test"/>
-        </div>
+        {recipe.image &&
+        <Image width={1280} height={850} src={recipe.image} alt="recipe-image"/>
+        }
+        
         <div className="recipeInstructionsContainer">
         <table>
     <tbody>
-      <tr>
-        <td>1.</td>
-        <td>Sätt ugnen på 175 grader (över- och undervärme) och täck din långpanna med bakplåtspapper.</td>
+    {recipe.instructions?.map((ins, insIndex) => 
+      <tr key={insIndex}>
+        <td>{insIndex +1}</td>
+        <td>{ins.instruction}</td>
       </tr>
-      <tr>
-        <td>2.</td>
-        <td>Skala morötterna och riv dem fint på ett rivjärn. I en bunke blandar du ihop rivna morötter, farinsocker, kanel, kardemumma och ingefära. Ställ åt sidan för att dra medan du gör resten av smeten. Detta kommer att göra så att smakerna av kryddorna kommer fram extra mycket med hjälp av vätskan från morötterna.</td>
-      </tr>
-      <tr>
-        <td>3.</td>
-        <td>Ta fram en ny bunke som du vispar ägg och strösocker i, vitt och pösigt med elvisp. Ha sedan ner blandningen med rivna morötter och neutral olja. Blanda försiktigt ihop till en jämn smet.</td>
-      </tr>
-      <tr>
-        <td>4.</td>
-        <td>Sikta ner vaniljsocker, bakpulver och vetemjöl. Vänd försiktigt ihop till en jämn smet med slickepott.</td>
-      </tr>
-      <tr>
-        <td>5.</td>
-        <td>Häll upp smeten i långpannan och grädda kakan i nedre delen av ugnen i 40-45 minuter eller tills kakan är helt genomgräddad. Låt kakan svalna helt och hållet i rumstemperatur innan du brer på frosting.</td>
-      </tr>
-      <tr>
-        <td>6.</td>
-        <td>Frostingen gör du genom att vispa ihop färskost och smör riktigt krämigt med elvisp i en bunke.</td>
-      </tr>
-      <tr>
-        <td>7.</td>
-        <td>Sikta ner florsockret och vaniljsocker. Vänd försiktigt ihop till en jämn och krämig frosting med slickepott. Det är viktigt att du verkligen försiktigt vänder ner florsockret och inte blandar för hårt för då kommer frostingen att bli lös. Om du upplever att din frosting ändå blir lös kan du ställa in den i kylskåpet en stund för att tjockna.</td>
-      </tr>
-      <tr>
-        <td>8.</td>
-        <td>Bre ut frostingen på kakan när den svalnat och toppa med det yttersta skalet från 2 limefrukter.</td>
-      </tr>
+    )}
     </tbody>
   </table>
         </div>
         </div>
         </div>
-}
+        <div className="recipeBackground"></div>
+        </>
+});
+
+export default Recipe;

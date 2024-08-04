@@ -539,6 +539,8 @@ h2{
 
 .masonryImg img{
   border-radius: 20px;
+  width: 100%;
+  height:auto
 }
 
 .masonryImg h1{
@@ -546,18 +548,44 @@ h2{
   margin: 5px 0 12px 6px;
 }
 
+.noRecipesContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  margin-top: clamp(60px, 10vh, 100px);
+}
+
+.noRecipesContainer h1{
+  font-size: clamp(18px, 3cqw, 30px);
+}
+
 .recipeContainer{
-  position: absolute;
+  position: fixed;
   z-index: 10;
   display:flex;
-  height:100vh;
-  padding:2% 5%;
-  background-color: #00000085;
-  top:0;
+  height: 85%;
+  width: 80%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+}
+
+.recipeBackground{
+  position: fixed;
+  z-index: 9;
+  display:flex;
+  height: 101%;
+  width: 101%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #0000009e;
 }
 
 .recipeLeftSideWrapper{
-  min-width: 35%;
+  min-width: min-content;
   padding: 20px 40px 20px 40px;
   background-color: white;
   font-size: 14px;
@@ -572,15 +600,12 @@ h2{
   gap:6px;
 }
 
-.recipeProfilePictureContainer{
-  width: 25px;
-}
-
-.recipeProfilePicutre{
+.recipeUserContainer img{
   border-radius: 50%;
-  overflow:hidden;
   height: 25px;
   width: 25px;
+  object-fit: cover;
+  overflow:hidden;
   background-color: #f3f3f3;
 }
 
@@ -595,15 +620,22 @@ h2{
   margin-bottom: 50px;
 }
 
+.recipeRightSideWrapper{
+  width: 100%;
+  background-color: white;
+  overflow-y: scroll;
+  scrollbar-width: none; 
+}
+
 .recipeImageContainer{
   height: 100%;
   max-height: 70%;
   width: 100%;
 }
 
-.recipeImageContainer img{
-  max-width: 100%;
-  height: 100%;
+.recipeRightSideWrapper img{
+  width: 100%;
+  max-height: 80%;
   object-fit: cover;
   object-position: center;
 }
@@ -675,7 +707,8 @@ h2{
 
 .macroContainer{
   display:flex;
-  justify-content: space-between;
+  gap: 30px;
+  width: min-content;
 }
 
 .nutritionContainer p{
@@ -687,15 +720,8 @@ h2{
   font-size: 14px;
 }
 
-.recipeRightSideWrapper{
-  width:auto;
-  background-color: white;
-  overflow-y: scroll;
-  scrollbar-width: none; 
-}
-
 .recipeInstructionsContainer{
-  padding: 40px 20px 40px 0;
+  padding: 0 20px;
 }
 
 tbody{

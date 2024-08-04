@@ -9,6 +9,7 @@ import { useAuth } from "@/app/context/AuthContext";
 export default function AddRecipeForm(){
 
     type RecipeProps = {
+        id: string;
         title: string;
         image?: string;
         ingredients: IngredientListProps[];
@@ -51,6 +52,7 @@ export default function AddRecipeForm(){
     const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<number>();
     const [loadingBtn, setLoadingBtn] = useState(false);
     const [recipe, setRecipe] = useState<RecipeProps>({
+        id: uuidv4(),
         title: imagePreview || '',
         image: '',
         ingredients: [{

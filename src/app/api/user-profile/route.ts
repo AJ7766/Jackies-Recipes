@@ -17,7 +17,6 @@ export async function POST(request: NextRequest) {
     const { id } = decodedToken;
 
     const userData = await fetchProfileFromDatabase(id);
-    console.log(userData)
     return NextResponse.json({message: 'Authorized', userData}, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
@@ -31,7 +30,6 @@ async function fetchProfileFromDatabase(id: string) {
       if (!user) {
         throw new Error(`User not found`);
       }
-      console.log(user.recipes)
       return user;
 
     } catch (error:any) {

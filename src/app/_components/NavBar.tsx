@@ -67,7 +67,6 @@ export default  function NavBar(){
                 throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
               }
               const data = await res.json();
-              console.log(data.existingUsers);
               setSearcResults(true);
               setUsers(data.existingUsers);
             } catch (error:any) {
@@ -99,7 +98,7 @@ export default  function NavBar(){
         <div className="searchContainer">
         <Image src={searchGlass} id="searchGlass" alt="search-glass"/>
         <input type="search" name="query" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
-        {searchResults && 
+        {searchResults && users.length > 0 &&
         <div className="searchedUsersContainer" ref={searchResultsRef}>
         {users.map((user, indexKey) => (
       <Link href={`/${user.username}`} key={indexKey}>
