@@ -40,7 +40,7 @@ type ComponentProps = {
 type IngredientProps = {
     id: string;
     ingredient: string;
-    amount: number | string;
+    amount?: number;
     unit: string;
 }
 

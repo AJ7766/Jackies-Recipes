@@ -6,7 +6,7 @@ import Masonary from "../_components/Masonary";
 import { ProfilePropsOrNull } from "../types/types";
 import ProfilePage from "../_components/Profile";
 import { useAuth } from "../context/AuthContext";
-import ProfileErrorPage from "../_components/ErrorPage";
+import ProfileErrorPage from "../_components/UserError";
 import { usePathname, useRouter } from "next/navigation";
 import Recipe from "../_components/Recipe";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
@@ -19,7 +19,7 @@ export default function UserPage({params, children}: {params: {username:string},
   const recipeRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const pathname = usePathname();
-
+  
   useEffect(() => {
     const fetchSelectedRecipe = async () => {
       const pathParts = pathname.split('/');

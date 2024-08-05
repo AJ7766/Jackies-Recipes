@@ -6,7 +6,6 @@ export default async function ValidationEditSchema(props: EditFormProps){
     const { _id, email, username, fullName, oldPassword, newPassword, confirmPassword, userContent } = props;
     const user = await UserModel.findOne({ _id: _id });
 
-    console.log(user)
     let errorMessage = "";
 
     const profilePictureError = isValidProfilePicture(userContent?.profilePicture || "");
@@ -63,7 +62,6 @@ export default async function ValidationEditSchema(props: EditFormProps){
     return errorMessage;
   }
 
-    //password vali
     if (!user) {
       return console.log("user not found");
     }
@@ -91,7 +89,7 @@ export default async function ValidationEditSchema(props: EditFormProps){
  
  const isValidProfilePicture = (profilePicture: string) => {
   const MAX_SIZE = 20 * 1024 * 1024; 
-  // Extract the data part of the base64 string
+
   if (!profilePicture) {
     return 'Invalid Base64 string.';
   }

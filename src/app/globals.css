@@ -524,6 +524,7 @@ h2{
   grid-template-columns: repeat(3, 1fr);
   margin: 0 20px 20px 20px;
   gap: 15px;
+  margin-top: 10px;
 }
 
 .masonryColumn{
@@ -548,6 +549,15 @@ h2{
   margin: 5px 0 12px 6px;
 }
 
+.recipeSettingsContainer{
+  display:flex;
+  justify-content: space-between;
+}
+
+.recipeSettingsContainer img{
+  height: 24px;
+  margin-right: 5px;
+}
 .noRecipesContainer{
   display: flex;
   justify-content: center;
@@ -1260,8 +1270,110 @@ input::-webkit-inner-spin-button {
     display:flex;
     transform:initial;
   }
+
+  .recipe{
+    gap: 15px;
+  }
+
+  .recipeTitleContainer, .addServingsContainer, .addRecipeSwitchContainer, .addNutritionsContainer,.addComponentsContainer, .addIngredientsContainer{
+    height:auto;
+  }
+
+  .addRecipeForm .recipeLabel{
+    position:initial;
+    display:flex;
+    transform:initial;
+  }
+
+  .addComponentsContainer, .addIngredientsContainer{
+    display:initial;
+    align-items: initial;
+    flex-direction: column;
+  }
+
+  .crossIcon{
+    left: 2.5%;
+    display: inline;
+  }
+
+  .addRecipeSwitchContainer h1 {
+    position:initial;
+    transform:initial;
 }
 
+  .addRecipeSwitchContainer span{
+    width: 41.6px;
+    height: 21.4px;
+  }
+
+  .addRecipeSwitchContainer span::before{
+    width: 16px;
+    height: 16px;
+  }
+
+  .addNutritionsContainer .nutritionLabel {
+    position:initial
+  }
+
+  .addInstructionsContainer{
+    display:grid;
+    grid-template-areas: 
+            "label label"
+            "textarea remove";
+    grid-template-columns: 95% 5%;
+  }
+
+  .addInstructionsContainer .recipeLabel{
+    grid-area:label;
+  }
+
+  .addInstructionsContainer textarea{
+    grid-area:textarea;
+  }
+
+  .addInstructionsContainer span{
+    grid-area:remove;
+    justify-self: flex-end;
+  }
+}
+
+.recipeContainer{
+  flex-direction: column;
+}
+
+.recipeLeftSideWrapper {
+  padding:0;
+}
+
+.recipeLeftSideWrapper h1, .recipeUserContainer {
+  margin-left: 4%;
+}
+
+.recipeRightSideWrapper img {
+  display: none;
+}
+
+.recipeUserContainer{
+  margin-top:4%;
+}
+
+.recipeMacroContainer {
+  white-space: initial;
+}
+
+.nutritionContainer {
+  align-content: center;
+  text-align: center;
+
+}
+
+.mealsContainer {
+  margin-left: 4%;
+}
+
+.recipeIngredientsContainer{
+  margin-left: 4%;
+}
 /* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */ 
 
 @media (max-width: 768px) {

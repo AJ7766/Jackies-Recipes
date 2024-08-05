@@ -13,16 +13,16 @@ export default function AddRecipeForm(){
         title: string;
         image?: string;
         ingredients: IngredientListProps[];
-        servings?: number | string;
+        servings?: number;
         macros?: MacroNutrientsProps;
         instructions?: InstructionProps[];
     }
 
     type MacroNutrientsProps = {
-        carbs?: number | string,
-        protein?: number | string,
-        fat?: number | string,
-        calories?: number | string
+        carbs?: number,
+        protein?: number,
+        fat?: number,
+        calories?: number
     }
 
     type IngredientListProps = {
@@ -38,7 +38,7 @@ export default function AddRecipeForm(){
     type IngredientProps = {
         id: string;
         ingredient: string;
-        amount: number | string;
+        amount?: number;
         unit: string;
     }
 
@@ -49,7 +49,7 @@ export default function AddRecipeForm(){
 
     const [imagePreview, setImagePreview] = useState<string>();
     const [isChecked, setIsChecked] = useState(false);
-    const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<number>();
+    const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
     const [loadingBtn, setLoadingBtn] = useState(false);
     const [recipe, setRecipe] = useState<RecipeProps>({
         id: uuidv4(),
@@ -63,21 +63,25 @@ export default function AddRecipeForm(){
             ingredients: [{
                 id: uuidv4(),
                 ingredient: '',
-                amount: '',
+                amount: undefined,
                 unit:'',
             }]
         }],
-        servings: '',
+        servings: undefined,
         macros: {
-            carbs: '',
-            protein: '',
-            fat: '',
+            carbs: undefined,
+            protein: undefined,
+            fat: undefined,
         },
         instructions: [{
             id: uuidv4(),
             instruction: '',
         }],
     });
+    const [success, setSuccess] = useState('');
+    const [successBoolean, setSuccessBoolean] = useState(false);
+    const [error, setError] = useState('');
+    const [errorBoolean, setErrorBoolean] = useState(false);
 
     const { user } = useAuth();
 
@@ -99,9 +103,13 @@ export default function AddRecipeForm(){
         }
     
         const totalCals = calsFromCarbs + calsFromProtein + calsFromFat;
-
-        setCaloriesPlaceholder(totalCals);
-        
+        if(totalCals > 0){
+            const calsToString = totalCals.toString();
+            setCaloriesPlaceholder(calsToString);
+            return;
+        }
+        setCaloriesPlaceholder(undefined);
+        return;
     }, [recipe]);
 
     useEffect(() =>{
@@ -124,14 +132,17 @@ export default function AddRecipeForm(){
               });
               if (!res.ok) {
                 const errorResponse = await res.json();
-                throw new Error(errorResponse.message || "Failed to register.");
+                throw new Error(errorResponse.message || "Failed to create.");
               } 
               else if(res.ok){
-                let data = await res.json();
-                console.log(data.updatedUser);
+                setErrorBoolean(false);
+                setSuccessBoolean(true);
+                setSuccess("Recipe created successfully!");
         }}
         catch(error: any){
-            console.error("Error:", error.message, error);
+            setSuccessBoolean(false);
+            setErrorBoolean(true);
+            setError(error.message || "Failed to create.");
         }finally{
             setLoadingBtn(false);
         }
@@ -207,8 +218,13 @@ export default function AddRecipeForm(){
     };
 
     const maxFiveInputs = (value: number) => {
-        if (value > 999) {
-            return 999;
+
+        if (value < 0) {
+            return 0;
+        }
+
+        if (value > 99999) {
+            return 99999;
         }
         return value;
     };
@@ -279,9 +295,13 @@ export default function AddRecipeForm(){
                 };
         });
     
+        const filteredIngredients = updatedIngredients?.filter(ingList => 
+            ingList.ingredients.length > 0 || (ingList.component && ingList.component.length > 0)
+        ) || [];
+
         setRecipe(prevRecipe => ({
             ...prevRecipe,
-            ingredients: updatedIngredients || []
+            ingredients: filteredIngredients || []
         }));
     };
 
@@ -304,7 +324,7 @@ export default function AddRecipeForm(){
     const addIngredient = (index: number) => {
         const newIngredient: IngredientProps = {
             id: uuidv4(),
-            amount: '',
+            amount: undefined,
             unit: '',
             ingredient: ''
         };
@@ -330,9 +350,14 @@ export default function AddRecipeForm(){
                 ingredients: ingList.ingredients?.filter(ing => ing.id !== id) || []
             };
         });
+        
+        const filteredIngredients = updatedIngredients?.filter(ingList => 
+            ingList.ingredients.length > 0 || (ingList.component && ingList.component.length > 0)
+        ) || [];
+
         setRecipe(prevRecipe => ({
             ...prevRecipe,
-            ingredients: updatedIngredients || []
+            ingredients: filteredIngredients || []
         }));
     };
 
@@ -346,7 +371,7 @@ export default function AddRecipeForm(){
             ingredients: [{
                 id: uuidv4(),
                 ingredient: '',
-                amount: '',
+                amount: undefined,
                 unit:'',
             }]
         }
@@ -368,6 +393,10 @@ export default function AddRecipeForm(){
     }
 
     const maxTwoInputs = (value: number) => {
+
+        if (value < 0) {
+            return 0;
+        }
         if (value > 99) {
             return 99;
         }
@@ -403,6 +432,17 @@ export default function AddRecipeForm(){
     const handleCaloriesChange = (newValue: number) => {
         handleMacroChange({ calories: newValue });
     }
+
+    const negativeNumber = (value: number) => {
+        if (value < 0) {
+            return 0;
+        }
+
+        if (value > 9999) {
+            return 9999;
+        }
+        return value;
+    };
 
     const handleInstructionChange = (id: string, newValue: string) => {
         const updatedInstructions = recipe.instructions?.map(ins => {
@@ -448,7 +488,8 @@ export default function AddRecipeForm(){
               />
             <Image className="editCamera" src={camera} alt="camera" />
             </div>
-            
+            <div className="recipeSpace"></div>
+
                 <div className="recipeTitleContainer">
                     <label className="recipeLabel" htmlFor="recipe-name">Recipe Name:</label>
                     <input
@@ -529,7 +570,7 @@ export default function AddRecipeForm(){
                     <label className="recipeLabel" htmlFor="servings">Servings:</label>
                     <input
                         type="number"
-                        value={recipe.servings}
+                        value={recipe.servings || ''}
                         onChange={(e) => {
                             const limitedValue = maxTwoInputs(+e.target.value);
                             handleServingsChange(limitedValue);
@@ -556,7 +597,9 @@ export default function AddRecipeForm(){
                                 type="number"
                                 placeholder=""
                                 value={recipe.macros?.carbs || ''}
-                                onChange={(e) => handleCarbsChange(+e.target.value)}
+                                onChange={(e) => {
+                                    const limitedValue = negativeNumber(+e.target.value)
+                                    handleCarbsChange(limitedValue)}}
                             />
                         </div>
 
@@ -566,7 +609,9 @@ export default function AddRecipeForm(){
                                 type="number"
                                 placeholder=""
                                 value={recipe.macros?.protein || ''}
-                                onChange={(e) => handleProteinChange(+e.target.value)}
+                                onChange={(e) => {
+                                    const limitedValue = negativeNumber(+e.target.value)
+                                    handleProteinChange(limitedValue)}}
                             />
                         </div>
 
@@ -576,7 +621,9 @@ export default function AddRecipeForm(){
                                 type="number"
                                 placeholder=""
                                 value={recipe.macros?.fat || ''}
-                                onChange={(e) => handleFatChange(+e.target.value)}
+                                onChange={(e) => {
+                                    const limitedValue = negativeNumber(+e.target.value)
+                                    handleFatChange(limitedValue)}}
                             />
                         </div>
 
@@ -584,9 +631,11 @@ export default function AddRecipeForm(){
                             <label className="recipeLabel" id="calories" htmlFor="calories">Calories:</label>
                             <input
                                 type="number"
-                                placeholder={caloriesPlaceholder?.toString()}
+                                placeholder={caloriesPlaceholder || undefined}
                                 value={recipe.macros?.calories || ''}
-                                onChange={(e) => handleCaloriesChange(+e.target.value)}
+                                onChange={(e) => {
+                                    const limitedValue = negativeNumber(+e.target.value)
+                                    handleCaloriesChange(limitedValue)}}
                             />
                         </div>
                     </>
@@ -609,6 +658,11 @@ export default function AddRecipeForm(){
                 ))}
                 <div className="addButtons">
                     <button type="button" onClick={addInstruction}>Add instruction</button>
+                </div>
+                
+                <div className="h-5">
+                {errorBoolean ? <div className="text-red-600">{error}</div> : <div></div>}
+                {successBoolean ? <div className="text-green-600">{success}</div> : <div></div>}
                 </div>
                 <button type="submit" disabled={loadingBtn}>Upload</button>
             </form>

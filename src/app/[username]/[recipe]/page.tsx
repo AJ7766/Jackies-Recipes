@@ -9,26 +9,33 @@ import { usePathname, useRouter } from "next/navigation";
 import Recipe from "@/app/_components/Recipe";
 import Masonary from "@/app/_components/Masonary";
 import { useAuth } from "@/app/context/AuthContext";
+import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 
-export default function UserPage({params}:{params: {username:string}}) {
+export default function UserPage({params, children}: {params: {username:string},children: {children:React.ReactNode}}) {
   const { initializing } = useAuth();
   const [userFound, setUserFound] = useState(true);
   const [profile, setProfile] = useState<ProfilePropsOrNull>(null);
-  const [selectedRecipe, setSelectedRecipe] = useState<string | null>(null);
+  const [selectedRecipe, setSelectedRecipe] = useState<SimplifiedRecipeProps | null>(null);
   const recipeRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const pathname = usePathname();
+  
+  useEffect(() => {
+    const fetchSelectedRecipe = async () => {
+      const pathParts = pathname.split('/');
+      const recipeId = pathParts[pathParts.length - 1];
 
-    useEffect(() => {
-    const pathParts = pathname.split('/');
-    const recipeId = pathParts[pathParts.length - 1];
-
-    if (recipeId && recipeId !== params.username) {
-        setSelectedRecipe(recipeId);
-    } else {
-        setSelectedRecipe(null);
-    }
-    }, [pathname, params.username]);
+      if (profile?.recipes) {
+        const foundRecipe = profile.recipes.find(recipe => recipe._id?.toString() === recipeId);
+        if (foundRecipe) {
+          setSelectedRecipe(foundRecipe);
+          return;
+        }
+        return setSelectedRecipe(null);
+      }
+    };
+    fetchSelectedRecipe();
+  }, [pathname, profile?.recipes]);
 
     const toggleScrollbars = (disable: boolean) => {
     document.body.style.overflow = disable ? 'hidden' : '';
@@ -36,11 +43,12 @@ export default function UserPage({params}:{params: {username:string}}) {
     };
 
     useEffect(() => {
-    toggleScrollbars(!!selectedRecipe);
+        toggleScrollbars(!!selectedRecipe);
     }, [selectedRecipe]);
 
     const handleCloseRecipe = useCallback(() => {
     router.replace(`/${profile?.username}`, { scroll: false });
+    setSelectedRecipe(null);
     },[profile?.username, router]);
 
     const handleClickOutside = useCallback((event: MouseEvent) => {
@@ -56,10 +64,6 @@ export default function UserPage({params}:{params: {username:string}}) {
         document.removeEventListener('mousedown', handleClickOutside);
       };
     }, [handleClickOutside]);
-
-    const handleRecipeClick = (recipeId: string) => {
-        router.replace(`/${profile?.username}/${recipeId}`, { scroll: false });
-        };
 
   useEffect(() => {
     if (initializing || !params.username) {
@@ -104,13 +108,12 @@ export default function UserPage({params}:{params: {username:string}}) {
     {userFound ? 
       <>
       {selectedRecipe && 
-      <Recipe profile={profile} ref={recipeRef}/>
+      <Recipe profile={profile} recipe={selectedRecipe} ref={recipeRef}/>
       }
       <NavBar />
       <ProfilePage profile={profile} />
       <Categories />
       <Masonary profile={profile}/>
-      <button onClick={() => handleRecipeClick("123")}>TEST</button>
       </>:<>
       <NavBar />
       <ProfileErrorPage />

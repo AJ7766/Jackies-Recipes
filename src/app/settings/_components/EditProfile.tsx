@@ -5,8 +5,7 @@ import camera from "@/app/images/test/camera.svg";
 import { EditFormProps, ProfileProps, ProfilePropsOrNull } from "@/app/types/types";
 import { useState } from "react";
 import Resizer from "react-image-file-resizer";
-import { useAuth } from "@/app/context/AuthContext";
-import SettingsError from "./SettingsErrorPage";
+import SettingsError from "../../_components/ErrorPage";
 
 export default function EditProfile({user}: {user:ProfilePropsOrNull}){
     const [profilePicPreview, setProfilePicPreview] = useState<string>(user?.userContent?.profilePicture || '');
@@ -65,20 +64,17 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
             });
             if (!res.ok) {
               const errorResponse = await res.json();
-              throw new Error(errorResponse.message || "Failed to register.");
+              throw new Error(errorResponse.message || "Failed to update.");
             } 
             else if(res.ok){
-              let successResponse = await res.json();
-              console.log("Registration successful:", successResponse);
               setErrorBoolean(false);
               setSuccessBoolean(true);
-              setSuccess("Successfully Saved!");
+              setSuccess("Successfully saved!");
               window.location.reload();
             }}catch (error:any) {
-            console.error("Error:", error.message, error);
             setSuccessBoolean(false);
             setErrorBoolean(true);
-            setError(error.message || "Failed to register.");
+            setError(error.message || "Failed to update.");
           }finally{
             setLoadingBtn(false);
           }
