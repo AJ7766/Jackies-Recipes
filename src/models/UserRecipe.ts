@@ -1,7 +1,7 @@
 import mongoose, { Model, Schema } from "mongoose";
 
 export interface RecipeProps extends Document {
-    _id?: mongoose.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
     title: string;
     image?: string;
     ingredients: IngredientListProps[];
@@ -11,7 +11,7 @@ export interface RecipeProps extends Document {
 }
 
 export type SimplifiedRecipeProps = {
-    _id?: mongoose.Types.ObjectId;
+    _id: mongoose.Types.ObjectId;
     title: string;
     image?: string;
     ingredients: IngredientListProps[];
@@ -20,45 +20,45 @@ export type SimplifiedRecipeProps = {
     instructions?: InstructionProps[];
   };
 
-type MacroNutrientsProps = {
+export type MacroNutrientsProps = {
     carbs?: number,
     protein?: number,
     fat?: number,
     calories?: number
 }
 
-type IngredientListProps = {
+export type IngredientListProps = {
     component?: ComponentProps[];
     ingredients: IngredientProps[];
 }
 
-type ComponentProps = {
+export type ComponentProps = {
     id: string;
     component: string;
 }
 
-type IngredientProps = {
+export type IngredientProps = {
     id: string;
     ingredient: string;
     amount?: number;
     unit: string;
 }
 
-type InstructionProps = {
+export type InstructionProps = {
     id: string;
     instruction: string;
 }
 
 const ComponentSchema = new Schema<ComponentProps>({
     id: { type: String, required: true },
-    component: { type: String, required: true }
+    component: { type: String }
 });
 
 const IngredientSchema = new Schema<IngredientProps>({
     id: { type: String, required: true },
     ingredient: { type: String, required: true },
     amount: { type: Number },
-    unit: { type: String, required: true }
+    unit: { type: String }
 });
 
 const IngredientListSchema = new Schema<IngredientListProps>({
@@ -75,7 +75,7 @@ const MacroNutrientsSchema = new Schema<MacroNutrientsProps>({
 
 const InstructionSchema = new Schema<InstructionProps>({
     id: { type: String, required: true },
-    instruction: { type: String, required: true }
+    instruction: { type: String }
 });
 
 export const recipeSchema = new Schema<RecipeProps>({

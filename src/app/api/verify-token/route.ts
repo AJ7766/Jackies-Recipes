@@ -5,7 +5,7 @@ const SECRET_KEY = process.env.JWT_SECRET_KEY || 'your-secret-key';
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');
-  
+
   if (!authHeader || !authHeader.startsWith('Bearer')) {
     return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }

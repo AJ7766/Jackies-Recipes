@@ -1262,6 +1262,14 @@ input::-webkit-inner-spin-button {
   width: clamp(300px, 30%, 50%);
 }
 
+.addRecipeForm button.removeRecipeBtn{
+  padding: 5px 20px;
+  border-radius: 5px;
+  color:white;
+  background-color: #ff4242;
+  width: clamp(300px, 30%, 50%);
+}
+
 /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ 
 
 @media screen and (max-width: 1024px){

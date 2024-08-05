@@ -28,7 +28,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
     const [loadingBtn, setLoadingBtn] = useState(false);
 
     if (!user) {
-        const errorPage = ErrorPage();
+        const errorPage = <ErrorPage />;
         return errorPage;
     }
 
