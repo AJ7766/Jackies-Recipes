@@ -5,7 +5,7 @@ import camera from "@/app/images/test/camera.svg";
 import { EditFormProps, ProfileProps, ProfilePropsOrNull } from "@/app/types/types";
 import { useState } from "react";
 import Resizer from "react-image-file-resizer";
-import SettingsError from "../../_components/ErrorPage";
+import ErrorPage from "@/app/_components/ErrorPage";
 
 export default function EditProfile({user}: {user:ProfilePropsOrNull}){
     const [profilePicPreview, setProfilePicPreview] = useState<string>(user?.userContent?.profilePicture || '');
@@ -28,7 +28,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
     const [loadingBtn, setLoadingBtn] = useState(false);
 
     if (!user) {
-        const errorPage = SettingsError();
+        const errorPage = ErrorPage();
         return errorPage;
     }
 

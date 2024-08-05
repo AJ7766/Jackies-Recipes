@@ -22,7 +22,7 @@ export default function Masonary({profile}:{profile: ProfilePropsOrNull}){
       Array.from({ length: 1 }, () => [])
     );
 
-  const { user, isAuthenticated} = useAuth();
+  const { user } = useAuth();
   const pathname = usePathname();
 
   useEffect(()=>{

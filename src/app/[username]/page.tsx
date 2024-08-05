@@ -6,10 +6,10 @@ import Masonary from "../_components/Masonary";
 import { ProfilePropsOrNull } from "../types/types";
 import ProfilePage from "../_components/Profile";
 import { useAuth } from "../context/AuthContext";
-import ProfileErrorPage from "../_components/UserError";
 import { usePathname, useRouter } from "next/navigation";
 import Recipe from "../_components/Recipe";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
+import UserErrorPage from "../_components/UserError";
 
 export default function UserPage({params, children}: {params: {username:string},children: {children:React.ReactNode}}) {
   const { initializing } = useAuth();
@@ -116,7 +116,7 @@ export default function UserPage({params, children}: {params: {username:string},
       <Masonary profile={profile}/>
       </>:<>
       <NavBar />
-      <ProfileErrorPage />
+      <UserErrorPage />
       </>
     }
   </>
