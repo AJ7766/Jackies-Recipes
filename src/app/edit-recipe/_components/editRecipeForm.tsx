@@ -20,7 +20,7 @@ export default function EditRecipeForm({recipeEdit}:{recipeEdit:SimplifiedRecipe
     const [error, setError] = useState('');
     const [errorBoolean, setErrorBoolean] = useState(false);
 
-    const { user } = useAuth();
+    const { user, initializing } = useAuth();
 
     useEffect(() => {
         let calsFromCarbs: number = 0;
@@ -73,9 +73,10 @@ export default function EditRecipeForm({recipeEdit}:{recipeEdit:SimplifiedRecipe
                 throw new Error(errorResponse.message || "Failed to update.");
               } 
               else if(res.ok){
+                const data = await res.json();
                 setErrorBoolean(false);
                 setSuccessBoolean(true);
-                setSuccess("Saved successfully!");
+                setSuccess(data.message);
         }}
         catch(error: any){
             setSuccessBoolean(false);

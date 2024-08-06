@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ProfilePropsOrNull } from "../types/types";
 import Link from "next/link";
 import { Types } from "mongoose";
@@ -73,19 +73,23 @@ export default function Masonary({profile}:{profile: ProfilePropsOrNull}){
     {columns.map((column, columnIndex) => (
         <div className="masonryColumn" key={columnIndex}>
           {column.map((recipe, recipeIndex) => (
-            <Link href={`/${profile?.username}/${recipe.id}`} key={recipeIndex} scroll={false}>
+            <React.Fragment key={recipeIndex}>
+            <Link href={`/${profile?.username}/${recipe.id}`} scroll={false}>
             <div className="masonryImg">
               <Image width={500} height={500} src={recipe.image || ''} alt={`Image${recipeIndex}`}/>
-              <div className="recipeSettingsContainer">
+            </div>
+            </Link>
+             <div className="recipeSettingsContainer">
+             <Link href={`/${profile?.username}/${recipe.id}`} scroll={false}>
               <h1>{recipe.title}</h1>
+              </Link>
               {canEdit &&
               <Link href={`/edit-recipe/${recipe.id}`}>
                 <Image src={cogwheel} alt="edit"/>
               </Link>
               }
               </div>
-            </div>
-            </Link>
+              </React.Fragment>
           ))}
         </div>
       ))}

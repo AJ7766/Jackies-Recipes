@@ -70,9 +70,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem('token');
         setIsAuthenticated(false);
       }
+      finally{
+        console.log("initializing false")
+        setInitializing(false); 
+      }
     }
-    console.log("initializing false")
-    setInitializing(false); 
   }, [fetchUserData]);
 
   useEffect(() => {

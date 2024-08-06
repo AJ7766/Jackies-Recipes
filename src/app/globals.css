@@ -552,10 +552,12 @@ h2{
 .recipeSettingsContainer{
   display:flex;
   justify-content: space-between;
+  margin-top: -10px;
 }
 
 .recipeSettingsContainer img{
   height: 24px;
+  width: auto;
   margin-right: 5px;
 }
 .noRecipesContainer{

@@ -30,21 +30,14 @@ export async function DELETE(request: NextRequest) {
             return NextResponse.json({ message: "User not found" }, { status: 404 });
         }
 
-        const recipeObjectId = new mongoose.Types.ObjectId(recipeId);
-
-        const recipeIndex = user.recipes.findIndex(recipe => recipe._id.toString() === recipeObjectId.toString());
+        const recipeIndex = user.recipes.findIndex(recipe => recipe._id.toString() === recipeId);
         if (recipeIndex === -1) {
             throw new Error('Recipe not found');
         }
 
-        const recipeExists = user.recipes.some(recipe => recipe._id.equals(recipeObjectId));
-        if (!recipeExists) {
-            return NextResponse.json({ message: "Recipe not found or not authorized to delete" }, { status: 404 });
-        }
-
-        const updatedList = user.recipes.filter(recipe => recipe._id.toString() !== recipeObjectId.toString());
-        console.log(updatedList)
+        user.recipes.splice(recipeIndex, 1);
         await user.save();
+        console.log("Recipe successfully deleted")
         return NextResponse.json({ message: 'Recipe successfully deleted' }, { status: 200 });
     } catch (error) {
         console.error('Error:', error);
