@@ -55,6 +55,7 @@ export default function EditRecipeForm({recipeEdit}:{recipeEdit:SimplifiedRecipe
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        console.log(user?.recipes)
         setLoadingBtn(true);
         if (!user?._id) {
             throw new Error('User ID is not available');
@@ -602,6 +603,7 @@ export default function EditRecipeForm({recipeEdit}:{recipeEdit:SimplifiedRecipe
                 {successBoolean ? <div className="text-green-600">{success}</div> : <div></div>}
                 </div>
                 <button type="submit" disabled={loadingBtn}>Save</button>
+                <div className="h-10"></div>
                 <button
                 type="button"
                 className="removeRecipeBtn"

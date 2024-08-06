@@ -11,7 +11,7 @@ import Recipe from "../_components/Recipe";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 import UserErrorPage from "../_components/UserError";
 
-export default function UserPage({params, children}: {params: {username:string},children: {children:React.ReactNode}}) {
+export default function UserPage({params}: {params: {username:string}}) {
   const { initializing } = useAuth();
   const [userFound, setUserFound] = useState(true);
   const [profile, setProfile] = useState<ProfilePropsOrNull>(null);

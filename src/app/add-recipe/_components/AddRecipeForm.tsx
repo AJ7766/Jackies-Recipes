@@ -5,11 +5,12 @@ import camera from "@/app/images/test/camera.svg";
 import imagePlaceholder from "@/app/images/recipe-image-placeholder.svg";
 import Image from "next/image";
 import { useAuth } from "@/app/context/AuthContext";
+import mongoose from "mongoose";
 
 export default function AddRecipeForm(){
 
     type RecipeProps = {
-        id: string;
+        _id?: mongoose.Types.ObjectId;
         title: string;
         image?: string;
         ingredients: IngredientListProps[];
@@ -52,7 +53,6 @@ export default function AddRecipeForm(){
     const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
     const [loadingBtn, setLoadingBtn] = useState(false);
     const [recipe, setRecipe] = useState<RecipeProps>({
-        id: uuidv4(),
         title: imagePreview || '',
         image: '',
         ingredients: [{

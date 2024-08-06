@@ -11,7 +11,7 @@ import Masonary from "@/app/_components/Masonary";
 import { useAuth } from "@/app/context/AuthContext";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 
-export default function UserPage({params, children}: {params: {username:string},children: {children:React.ReactNode}}) {
+export default function UserPage({params}: {params: { recipe:string , username:string}}) {
   const { initializing } = useAuth();
   const [userFound, setUserFound] = useState(true);
   const [profile, setProfile] = useState<ProfilePropsOrNull>(null);

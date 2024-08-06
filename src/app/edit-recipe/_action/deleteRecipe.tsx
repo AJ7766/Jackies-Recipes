@@ -1,4 +1,3 @@
-import { useAuth } from "@/app/context/AuthContext";
 import mongoose from "mongoose";
 
 export default async function DeleteRecipe({ id, username }: { id: mongoose.Types.ObjectId, username?: string }) {
