@@ -628,8 +628,8 @@ h2{
 
 .recipeLeftSideWrapper h1{
   font-family: 'Gotham-Black';
-  font-size: xx-large;
-  margin-bottom: 50px;
+  font-size: clamp(25px, 2cqw, 34px);
+  margin-bottom: clamp(25px, 2cqw, 50px);
 }
 
 .recipeRightSideWrapper{
@@ -675,8 +675,8 @@ h2{
   flex-direction: column;
 }
 
-#macroInfoCalories{
-  margin:auto;
+.macroInfo p{
+  font-size: clamp(10px, 2cqw, 13px);
 }
 
 .carbsColor{
@@ -718,13 +718,7 @@ h2{
 .macroContainer{
   display:flex;
   gap: 30px;
-  flex-wrap: wrap;
   justify-content: space-between;
-}
-
-.nutritionContainer p{
-  font-family: 'Gotham-Book';
-  font-size: 13px;
 }
 
 .recipeInformationContainer tbody{
@@ -736,7 +730,7 @@ h2{
 }
 
 tbody{
-  font-size: 14px;
+  font-size: clamp(12px, 2cqw, 14px);
 }
 
 .recipeInstructionsContainer table{
@@ -785,8 +779,15 @@ tbody{
   white-space: nowrap;
 }
 
-.recipeInstructionsContainer td{
-  padding-right: 15px;
+.recipeInstructionsContainer tbody{
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+
+#instructionIndex{
+  width:20px;
+  flex:none;
 }
 
 .errorContainer{
@@ -1345,9 +1346,20 @@ input::-webkit-inner-spin-button {
     justify-self: flex-end;
   }
 
+  .recipeContainer{
+    gap: 20px;
+    overflow: scroll;
+    scrollbar-width: none;
+  }
+
+  .recipeIngredientsContainer table{
+    margin-left:4%;
+  }
+  
   .recipeRightSideWrapper{
     display:flex;
     flex-direction: column-reverse;
+    overflow-y: initial;
   }
 
   .recipeContainer{
@@ -1356,6 +1368,7 @@ input::-webkit-inner-spin-button {
   
   .recipeLeftSideWrapper {
     padding:0;
+    overflow-y: initial;
   }
   
   .recipeLeftSideWrapper h1, .recipeUserContainer {
@@ -1376,13 +1389,20 @@ input::-webkit-inner-spin-button {
   
   }
   
+  .macroContainer{
+    gap:0;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  #macroInfoCalories{
+    margin:initial;
+  }
+
   .mealsContainer {
     margin-left: 4%;
   }
   
-  .recipeIngredientsContainer{
-    margin-left: 4%;
-  }
 }
 
 /* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */ 

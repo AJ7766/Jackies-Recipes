@@ -28,26 +28,30 @@ const Recipe = forwardRef<HTMLDivElement, { profile: ProfilePropsOrNull, recipe:
                 <div className="macroContainer">
             {recipe.macros.carbs && 
             <div className="macroInfo">
+                <p>Carbs</p>
                 <div className="carbsColor"></div>
-                <p>Carbs: {recipe.macros.carbs}g</p>
+                <p>{recipe.macros.carbs}g</p>
             </div>
             }
             {recipe.macros.protein && 
             <div className="macroInfo">
+                <p>Protein</p>
                 <div className="proteinColor"></div>
-                <p>Protein: {recipe.macros.protein}g</p>
+                <p>{recipe.macros.protein}g</p>
             </div>
             }
             {recipe.macros.fat && 
             <div className="macroInfo">
+                <p>Fat</p>
                 <div className="fatColor"></div>
-                <p>Fat: {recipe.macros.fat}g</p>
+                <p>{recipe.macros.fat}g</p>
             </div>
             }
             {recipe.macros.calories && 
             <div className="macroInfo" id="macroInfoCalories">
+                <p>Calories</p>
                 <div className="caloriesColor"></div>
-                <p>Calories: {recipe.macros.calories}</p>
+                <p>{recipe.macros.calories}</p>
                 </div>
             }
             </div>
@@ -88,8 +92,8 @@ const Recipe = forwardRef<HTMLDivElement, { profile: ProfilePropsOrNull, recipe:
         <table>
     <tbody>
     {recipe.instructions?.map((ins, insIndex) => 
-      <tr key={insIndex}>
-        <td>{insIndex +1}</td>
+      <tr className="flex" key={insIndex}>
+        <td id="instructionIndex">{insIndex +1}.</td>
         <td>{ins.instruction}</td>
       </tr>
     )}
