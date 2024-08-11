@@ -597,8 +597,8 @@ h2{
 }
 
 .recipeLeftSideWrapper{
-  min-width: min-content;
-  padding: 20px 40px 20px 40px;
+  min-width: 25vw;
+  padding: 20px;
   background-color: white;
   font-size: 14px;
   overflow-y: scroll;
@@ -669,16 +669,14 @@ h2{
 .macroInfo{
   height: 100%;
   display: flex;
+  flex-basis: 20%;
   align-items: center;
   gap: 2px;
   flex-direction: column;
 }
 
-.macroInfoCalories{
-  height: 100%;
-  display: flex;
-  gap: 8px;
-  flex-direction: column;
+#macroInfoCalories{
+  margin:auto;
 }
 
 .carbsColor{
@@ -720,7 +718,8 @@ h2{
 .macroContainer{
   display:flex;
   gap: 30px;
-  width: min-content;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .nutritionContainer p{
@@ -1345,45 +1344,47 @@ input::-webkit-inner-spin-button {
     grid-area:remove;
     justify-self: flex-end;
   }
+
+  .recipeRightSideWrapper{
+    display:flex;
+    flex-direction: column-reverse;
+  }
+
+  .recipeContainer{
+    flex-direction: column;
+  }
+  
+  .recipeLeftSideWrapper {
+    padding:0;
+  }
+  
+  .recipeLeftSideWrapper h1, .recipeUserContainer {
+    margin-left: 4%;
+  }
+  
+  .recipeUserContainer{
+    margin-top:4%;
+  }
+  
+  .recipeMacroContainer {
+    white-space: initial;
+  }
+  
+  .nutritionContainer {
+    align-content: center;
+    text-align: center;
+  
+  }
+  
+  .mealsContainer {
+    margin-left: 4%;
+  }
+  
+  .recipeIngredientsContainer{
+    margin-left: 4%;
+  }
 }
 
-.recipeContainer{
-  flex-direction: column;
-}
-
-.recipeLeftSideWrapper {
-  padding:0;
-}
-
-.recipeLeftSideWrapper h1, .recipeUserContainer {
-  margin-left: 4%;
-}
-
-.recipeRightSideWrapper img {
-  display: none;
-}
-
-.recipeUserContainer{
-  margin-top:4%;
-}
-
-.recipeMacroContainer {
-  white-space: initial;
-}
-
-.nutritionContainer {
-  align-content: center;
-  text-align: center;
-
-}
-
-.mealsContainer {
-  margin-left: 4%;
-}
-
-.recipeIngredientsContainer{
-  margin-left: 4%;
-}
 /* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */ 
 
 @media (max-width: 768px) {

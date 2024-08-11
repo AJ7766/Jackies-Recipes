@@ -45,7 +45,7 @@ const Recipe = forwardRef<HTMLDivElement, { profile: ProfilePropsOrNull, recipe:
             </div>
             }
             {recipe.macros.calories && 
-            <div className="macroInfo">
+            <div className="macroInfo" id="macroInfoCalories">
                 <div className="caloriesColor"></div>
                 <p>Calories: {recipe.macros.calories}</p>
                 </div>

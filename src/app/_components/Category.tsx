@@ -1,6 +1,6 @@
 import Image from "next/image";
 import searchGlass from "@/app/images/search-glass.svg";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Categories(){
     const [search, setSearch] = useState("");
