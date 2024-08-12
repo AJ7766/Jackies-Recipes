@@ -113,7 +113,6 @@ export default function UserPage({params}: {params: { recipe:string , username:s
       <NavBar />
       <ProfilePage profile={profile} />
       <Categories />
-      <Masonary profile={profile}/>
       </>:<>
       <NavBar />
       <ProfileErrorPage />
