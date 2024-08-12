@@ -79,7 +79,7 @@ h2{
   height:100vh;
   background: linear-gradient(65deg,#170987, #d333a3, #d33533, #d333a3 ,#dc9fed);
   background-size: 360% 360%;
-  animation: gradient-animation 20s ease infinite;
+  animation: gradient-animation 10s linear infinite;
 }
 
 @keyframes gradient-animation {
@@ -115,6 +115,7 @@ h2{
   align-items: center;
   flex-direction: column;
   justify-content: center;
+  border-radius: 10px;
 }
 
 .registerFormContainer{
@@ -198,6 +199,7 @@ h2{
   border: 2px solid #26323a;
   width: 100%;
   margin-bottom:3%;
+  border-radius:5px;
 }
 
 .blackBtn:hover{
@@ -215,6 +217,7 @@ h2{
   font-weight: 700;
   padding: 7px 15px;
   width: 100%;
+  border-radius:5px;
 }
 
 .redBtn:hover{
@@ -435,7 +438,7 @@ h2{
   font-family: 'Gotham-Medium';
   text-align: center;
   line-height: 1.6;
-  max-width: 35%;
+  max-width: 550px;
 }
 .profileInfo p{
   font-family: 'Gotham-Book';
@@ -457,7 +460,7 @@ h2{
   display: flex;
   gap: 10px;
   width: 100%;
-  margin-top: -7px;
+  margin-bottom: 3px;
   justify-content: center;
 }
 

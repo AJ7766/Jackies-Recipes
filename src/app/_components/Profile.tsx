@@ -9,13 +9,14 @@ import { ProfilePropsOrNull } from "../types/types";
 import Link from "next/link";
 
 export default function ProfilePage({profile}: {profile:ProfilePropsOrNull}){
-
+    const bioText = profile?.userContent?.bio || '';
+    const formattedBio = bioText.replace(/\n/g, '<br>');
     return(
     <div className="profileContainer">
         <div className="profileInfo">
                 <Image  className="profilePicture" height={160} width={160} src={profile?.userContent?.profilePicture || profilePicture} alt="profile-picture" />
             <h1>{profile?.fullName}</h1>
-            <h2>{profile?.userContent?.bio}</h2>
+            <h2 dangerouslySetInnerHTML={{ __html: formattedBio }}></h2>
             <p>@{profile?.username}</p>
             <div className="profileSocialMediaContainer">
             {profile?.userContent?.instagram && (
