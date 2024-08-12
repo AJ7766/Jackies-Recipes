@@ -5,6 +5,7 @@ import { ForwardedRef, forwardRef } from "react";
 import { ProfilePropsOrNull } from "../types/types";
 import Link from "next/link";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
+import closeIcon from "@/app/images/close.svg";
 
 const Recipe = forwardRef<HTMLDivElement, { profile: ProfilePropsOrNull, recipe: SimplifiedRecipeProps }>(function Recipe({ profile, recipe }, ref: ForwardedRef<HTMLDivElement>) {
 
@@ -102,7 +103,9 @@ const Recipe = forwardRef<HTMLDivElement, { profile: ProfilePropsOrNull, recipe:
         </div>
         </div>
         </div>
-        <div className="recipeBackground"></div>
+        <div className="recipeBackground">
+          <Image src={closeIcon} alt="close-recipe" />
+        </div>
         </>
 });
 

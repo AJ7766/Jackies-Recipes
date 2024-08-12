@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
 import { ProfileProps } from "../types/types";
+import logo from "@/app/images/logo-text-free.png";
 
 export default  function NavBar(){
     const [search, setSearch] = useState("");
@@ -85,15 +86,42 @@ export default  function NavBar(){
     };
 
     if (loading) {
-      return null;
+      return (
+      <>
+        <div className="space"></div>
+        <div className="navContainer">
+        <Link href={`/${user?.username}`}>
+        <Image id="logo" className="loginLogo" src={logo} alt="logo"/>
+        </Link>
+        <div className="searchContainer">
+        <Image src={searchGlass} id="searchGlass" alt="search-glass"/>
+        <input type="search" name="query" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
+        {searchResults && users.length > 0 &&
+        <div className="searchedUsersContainer" ref={searchResultsRef}>
+        {users.map((user, indexKey) => (
+      <Link href={`/${user.username}`} key={indexKey}>
+        <div className="searchedUser">
+          <Image height={42} width={42} src={user.userContent?.profilePicture || profilePicture} alt="profile-picture"/>
+          <div>
+          <h2>{user.username}</h2>
+          <p>{user.fullName}</p>
+          </div>
+        </div>
+        </Link>
+      ))}
+        </div>} 
+        </div>
+        <div>Loading...</div> 
+        </div>
+        </>)
   }
-    return(<>
-      
+  
+    return(
         <>
         <div className="space"></div>
         <div className="navContainer">
         <Link href={`/${user?.username}`}>
-        <p>Logo</p>
+        <Image id="logo" className="loginLogo" src={logo} alt="logo"/>
         </Link>
         <div className="searchContainer">
         <Image src={searchGlass} id="searchGlass" alt="search-glass"/>
@@ -148,6 +176,5 @@ export default  function NavBar(){
         }
         </div>
         </>
-      </>
     )
 }

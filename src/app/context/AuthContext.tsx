@@ -6,9 +6,11 @@ import { useRouter } from 'next/navigation';
 interface AuthContextType {
   isAuthenticated: boolean;
   user: ProfileProps | null;
+  updateProfile: (updatedProfile: ProfileProps) => void;
   login: (token: string) => void;
   logout: () => void;
   initializing: boolean;
+  
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -20,8 +22,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   const fetchUserData = useCallback(async (token: string) => {
+    const cachedProfile = sessionStorage.getItem('userProfile');
+    if (cachedProfile) {
+      setUser(JSON.parse(cachedProfile));
+      setInitializing(false);
+      return;
+    }
     if(token){
-        console.log("AuthPage running")
         try {
             const res = await fetch("/api/user-profile", {
                 method: "POST",
@@ -34,13 +41,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
           }
         const data = await res.json();
-        console.log(data.userData);
         setUser(data.userData);
-    } catch (error) {
+        sessionStorage.setItem('userProfile', JSON.stringify(data.userData));
+        setInitializing(false);
+      } catch (error) {
       console.error('Error fetching user data', error);
       setUser(null);
     }
-    }
+  }
 }, []);
 
   const verifyTokenAndFetchUser = useCallback(async (token: string) => {
@@ -58,7 +66,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
         const result = await res.json();
         if (result.valid) {
-            console.log(result.message);
             setIsAuthenticated(true);
             await fetchUserData(token);
         } else {
@@ -68,10 +75,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } catch (error) {
         console.error('Token verification failed', error);
         localStorage.removeItem('token');
+        sessionStorage.removeItem('userProfile');
         setIsAuthenticated(false);
       }
       finally{
-        console.log("initializing false")
         setInitializing(false); 
       }
     }
@@ -82,7 +89,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (token) {
     verifyTokenAndFetchUser(token);
     }else{
-        console.log("token not found")
         setInitializing(false); 
     }
   },[verifyTokenAndFetchUser] );
@@ -94,17 +100,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     localStorage.removeItem('token');
+    sessionStorage.removeItem('userProfile');
     setIsAuthenticated(false);
     setUser(null);
     router.push(`/`);
   };
 
-  if (initializing) {
-    return null;
-  }
+  const updateProfile = (updatedProfile: ProfileProps) => {
+    setUser(updatedProfile);
+    sessionStorage.setItem('userProfile', JSON.stringify(updatedProfile));
+  };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, initializing }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, updateProfile, login, logout, initializing }}>
       {children}
     </AuthContext.Provider>
   );

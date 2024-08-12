@@ -7,6 +7,7 @@ import usernameImg from "@/app/images/register/username.svg";
 import fullNameImg from "@/app/images/register/fullName.svg";
 import passwordImg from "@/app/images/register/password.svg";
 import passwordConfirmImg from "@/app/images/register/passwordConfirm.svg";
+import logo from "@/app/images/logo.png";
 
 export default function RegisterForm() {
   const [email, setEmail] = useState('');
@@ -54,10 +55,12 @@ export default function RegisterForm() {
   };
   return (
       <div className="registerFormContainer">
-        <div>
-          <h1 className="registerText">Register</h1>
-          {errorBoolean ? <p className="-mt-3 -mb-5 text-white text-center">{error}</p> : <p className="-mt-3 -mb-5 text-white text-center">&nbsp;</p>} 
-          {successBoolean ? <p className="-mt-3 -mb-5 text-white text-center">{success}</p>: <p className="-mt-3 -mb-5 text-white text-center">&nbsp;</p>}
+          <div className="loginHeaderContainer">
+          <Image  className="loginLogo" src={logo} alt="logo"/>
+          </div>
+          <div className="h-14 flex items-center px-9">        
+          {errorBoolean ? <p className="loginTextMessage text-gray-500 text-center">{error}</p> : <p className="text-white text-center">&nbsp;</p>} 
+          {successBoolean ? <p className="loginTextMessage text-green-500 text-center">{success}</p>: <p className="text-white text-center">&nbsp;</p>}
           </div>
           <form className="registerForm" onSubmit={handleSubmit}>
             <div className="inputsContainer">
@@ -118,7 +121,7 @@ export default function RegisterForm() {
               </div>
               </div>
               <div className="buttonsContainer">
-              <button type="submit" className={`blueBtn ${loadingBtn ? "blueBtnLoading" : ''}`} disabled={loadingBtn}>
+              <button type="submit" className={`blackBtn ${loadingBtn ? "blackBtn" : ''}`} disabled={loadingBtn}>
             {loadingBtn ? "Registering..." : "Register"}
               </button>
               <Link href="/" prefetch>

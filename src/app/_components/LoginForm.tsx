@@ -7,6 +7,7 @@ import passwordImg from "@/app/images/register/password.svg";
 import { useState } from "react";
 import { useRouter } from 'next/navigation'
 import { useAuth } from "../context/AuthContext";
+import logo from "@/app/images/logo.png";
 
 export default function LoginForm(){
     const [username, setUserName] = useState('');
@@ -50,9 +51,11 @@ export default function LoginForm(){
     return (
       <div className="startingPageBg">
         <div className="loginFormContainer">
-          <div>
-        <h1 className="loginText">LOGIN</h1>
-        {error ? <p className="-mt-3 -mb-5 text-white text-center">{errorMsg}</p> : <p className="-mt-3 -mb-5 text-white text-center">&nbsp;</p>}
+          <div className="loginHeaderContainer">
+        <Image  className="loginLogo" src={logo} alt="logo"/>
+        </div>
+        <div className="h-10 flex items-center px-9">        
+          {error ? <p className="loginTextMessage text-gray-500 text-center">{errorMsg}</p> : <p className="text-white text-center">&nbsp;</p>}
         </div>
         <form className="loginForm flex flex-col" onSubmit={handleSubmit}>
         <div className="inputsContainer">
@@ -76,14 +79,11 @@ export default function LoginForm(){
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
               />
-              <Link href="/forgot-password" prefetch>
-          <p className="w-full h-0 ml-1 text-white hover:underline hover:text-gray-400 block">Forgot your password?</p>
-          </Link>
               <Image src={passwordImg} alt="password"/>
               </div>
           </div>
           <div className="buttonsContainer">
-          <button type="submit" className={`blueBtn ${loadingBtn ? "blueBtnLoading" : ''}`} disabled={loadingBtn}>
+          <button type="submit" className={`blackBtn ${loadingBtn ? "blueBtnLoading" : ''}`} disabled={loadingBtn}>
             {loadingBtn ? "Logging in..." : "Login"}
               </button>
               <Link href="/register" prefetch>

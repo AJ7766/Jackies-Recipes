@@ -83,7 +83,7 @@ export async function POST(request: NextRequest) {
       if (updateResult.modifiedCount  === 0) {
         throw new Error('User not found or data unchanged');
       }
-      const updatedUser = await UserModel.findOne({ _id: user._id }).select('-password -createdAt -updatedAt -_id -userContent._id');
+      const updatedUser = await UserModel.findOne({ _id: user._id });
 
       return NextResponse.json({ message: `Success!`, updatedUser}, { status: 201 })
   } catch (err:any) {

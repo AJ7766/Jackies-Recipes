@@ -3,11 +3,12 @@ import Image from "next/image";
 import profilePicture from "@/app/images/profile-picture.png"
 import camera from "@/app/images/test/camera.svg";
 import { EditFormProps, ProfileProps, ProfilePropsOrNull } from "@/app/types/types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
+import { useAuth } from "@/app/context/AuthContext";
 import ErrorPage from "@/app/_components/ErrorPage";
 
-export default function EditProfile({user}: {user:ProfilePropsOrNull}){
+export default function EditProfile({user}: {user?:ProfilePropsOrNull}){
     const [profilePicPreview, setProfilePicPreview] = useState<string>(user?.userContent?.profilePicture || '');
     const [email, setEmail] = useState<string>(user?.email || '');
     const [username, setUsername] = useState<string>(user?.username || '');
@@ -26,17 +27,37 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
     const [error, setError] = useState('');
     const [errorBoolean, setErrorBoolean] = useState(false);
     const [loadingBtn, setLoadingBtn] = useState(false);
+    const {updateProfile, initializing} = useAuth();
 
-    if (!user) {
-        const errorPage = <ErrorPage />;
-        return errorPage;
-    }
+    useEffect(() => {
+      if (user) {
+        setProfilePicPreview(user.userContent?.profilePicture || '');
+        setEmail(user.email || '');
+        setUsername(user.username || '');
+        setFullName(user.fullName || '');
+        setBio(user.userContent?.bio || '');
+        setInstagram(user.userContent?.instagram || '');
+        setX(user.userContent?.x || '');
+        setTiktok(user.userContent?.tiktok || '');
+        setYoutube(user.userContent?.youtube || '');
+        setFacebook(user.userContent?.facebook || '');
+      }
+    }, [user]);
+
+    if(initializing){
+      return null;
+  }
+
+  if (!user) {
+      const errorPage = <ErrorPage />;
+      return errorPage;
+  }
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoadingBtn(true);
     const updatedProfile: EditFormProps = {
-        _id: user._id,
+        _id: user?._id,
         email,
         username,
         fullName,
@@ -57,7 +78,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
             console.log("Submitting profile:", updatedProfile);
             let res = await fetch("/api/edit-profile", {
               method: "POST",
-              body: JSON.stringify({user: updatedProfile, userId: user._id, newPassword: newPassword, confirmPassword: confirmPassword}),
+              body: JSON.stringify({user: updatedProfile, userId: user?._id, newPassword: newPassword, confirmPassword: confirmPassword}),
               headers: {
                 "Content-Type": "application/json"
               }
@@ -67,6 +88,9 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
               throw new Error(errorResponse.message || "Failed to update.");
             } 
             else if(res.ok){
+              const data = await res.json();
+              updateProfile(data.updatedUser);
+              console.log(data);
               setErrorBoolean(false);
               setSuccessBoolean(true);
               setSuccess("Successfully saved!");
@@ -266,7 +290,7 @@ export default function EditProfile({user}: {user:ProfilePropsOrNull}){
         {errorBoolean ? <div className="text-red-600">{error}</div> : <div></div>}
         {successBoolean ? <div className="text-green-600">{success}</div> : <div></div>}
         </div>
-        <button type="submit" disabled={loadingBtn}>Save</button>
+        <button type="submit" disabled={loadingBtn}>{loadingBtn ? "Loading...": "Save"}</button>
         <div>
         </div>
         </form>

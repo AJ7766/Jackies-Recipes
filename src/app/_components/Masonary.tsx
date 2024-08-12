@@ -7,8 +7,9 @@ import { Types } from "mongoose";
 import { useAuth } from "../context/AuthContext";
 import { usePathname, useRouter } from "next/navigation";
 import cogwheel from "@/app/images/cogwheel.svg";
+import Loader from "./Loader";
 
-export default function Masonary({profile}:{profile: ProfilePropsOrNull}){     
+export default function Masonary({profile, loading}:{profile: ProfilePropsOrNull, loading:boolean}){     
   
   interface RecipeCardProps {
     id: Types.ObjectId | undefined,
@@ -17,7 +18,7 @@ export default function Masonary({profile}:{profile: ProfilePropsOrNull}){
   }
 
     const [totalColumns, setTotalColumns] = useState<number>(1);
-    const [canEdit, setCanEdit] = useState(false)
+    const [canEdit, setCanEdit] = useState(false);
     const [columns, setColumns] = useState<RecipeCardProps[][]>(() =>
       Array.from({ length: 1 }, () => [])
     );
@@ -33,16 +34,14 @@ export default function Masonary({profile}:{profile: ProfilePropsOrNull}){
         setCanEdit(true);
       }
     }
-    fetchAuthenticated();
+    if (user) {
+      fetchAuthenticated();
+    }
   })
 
   const updateColumns = useCallback(() => {
     const width = window.innerWidth;
-    if (width > 768) {
-      setTotalColumns(3);
-    } else {
-      setTotalColumns(2);
-    }
+    setTotalColumns(width > 768 ? 3 : 2);
   }, []);
 
   useEffect(() => {
@@ -52,23 +51,28 @@ export default function Masonary({profile}:{profile: ProfilePropsOrNull}){
     return () => window.removeEventListener('resize', updateColumns);
   }, [updateColumns]);
 
-  useEffect(()=>{
-    const newColumns:RecipeCardProps[][] = Array.from({ length: totalColumns }, () => []);
-
-    profile?.recipes && profile?.recipes.map((recipe, index)=>{
-      const recipeCard = {
-        id: recipe._id,
-        title: recipe.title,
-        image: recipe.image || '',
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      if(profile?.recipes) {
+        const newColumns: RecipeCardProps[][] = Array.from({ length: totalColumns }, () => []);
+        profile.recipes.forEach((recipe, index) => {
+          const recipeCard = {
+            id: recipe._id,
+            title: recipe.title,
+            image: recipe.image || '',
+          };
+          const columnIndex = index % totalColumns;
+          newColumns[columnIndex].push(recipeCard);
+          setColumns(newColumns);
+        });
       }
-      const columnIndex = index % totalColumns;
-      newColumns[columnIndex].push(recipeCard);
-      setColumns(newColumns);
-    })
-  },[totalColumns, profile?.recipes])
+    };
+    fetchRecipes();
+  }, [totalColumns, profile?.recipes]);
 
     return (<>
-    {columns.length > 1 ?
+    {loading ? <Loader />: 
+     columns.length > 1 ? (
     <div className="masonryContainer">
     {columns.map((column, columnIndex) => (
         <div className="masonryColumn" key={columnIndex}>
@@ -93,11 +97,10 @@ export default function Masonary({profile}:{profile: ProfilePropsOrNull}){
           ))}
         </div>
       ))}
-    </div>:
-          <div className="noRecipesContainer">
-            <h1>No recipes were found</h1>
-        </div>
+    </div>) :
+      <div className="noRecipesContainer">
+      <h1>No recipes were found</h1>
+      </div>
     }
-
     </>)
 }

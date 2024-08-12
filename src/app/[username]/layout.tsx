@@ -1,25 +1,24 @@
 "use client"
 import { useCallback, useEffect, useRef, useState } from "react";
 import NavBar from "../_components/NavBar";
-import Categories from "../_components/Category";
 import Masonary from "../_components/Masonary";
 import { ProfilePropsOrNull } from "../types/types";
 import ProfilePage from "../_components/Profile";
-import { useAuth } from "../context/AuthContext";
 import UserErrorPage from "../_components/UserError";
 import { usePathname, useRouter } from "next/navigation";
 import Recipe from "../_components/Recipe";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 
+
 export default function UserPage({params, children}: {params: {username:string},children: {children:React.ReactNode}}) {
-  const { initializing } = useAuth();
   const [userFound, setUserFound] = useState(true);
   const [profile, setProfile] = useState<ProfilePropsOrNull>(null);
   const [selectedRecipe, setSelectedRecipe] = useState<SimplifiedRecipeProps | null>(null);
   const recipeRef = useRef<HTMLDivElement | null>(null);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const pathname = usePathname();
-  
+
   useEffect(() => {
     const fetchSelectedRecipe = async () => {
       const pathParts = pathname.split('/');
@@ -66,10 +65,9 @@ export default function UserPage({params, children}: {params: {username:string},
     }, [handleClickOutside]);
 
   useEffect(() => {
-    if (initializing || !params.username) {
+    if (!params.username) {
       return;
-    }
-    if (params.username) {
+    }else {
     const fetchProfileData = async () => {
           try {
             let res = await fetch("/api/profile", {
@@ -79,7 +77,6 @@ export default function UserPage({params, children}: {params: {username:string},
                   "Content-Type": "application/json"
               },
             });
-            console.log(`Response status: ${res.status}, Response status text: ${res.statusText}`);
           if (!res.ok) {
             const errorResponse = await res.json();
             console.log(errorResponse.message);
@@ -88,20 +85,17 @@ export default function UserPage({params, children}: {params: {username:string},
           }
             const data = await res.json();
             setProfile(data.profileData);
-            console.log(data.profileData)
             setUserFound(true);
         } catch (error:any) {
           console.error("Error fetching profile:", error.message);
           setUserFound(false);
+        }finally{
+          setLoading(false);
         }
         }
       fetchProfileData();
     }
-  },[params.username,initializing]);
-
-  if (initializing) {
-    return null;
-  }
+  },[params.username]);
 
   return (
     <>
@@ -112,8 +106,8 @@ export default function UserPage({params, children}: {params: {username:string},
       }
       <NavBar />
       <ProfilePage profile={profile} />
-      <Categories />
-      <Masonary profile={profile}/>
+      <div className="divider"></div>
+      <Masonary profile={profile} loading={loading}/>
       </>:<>
       <NavBar />
       <UserErrorPage />
