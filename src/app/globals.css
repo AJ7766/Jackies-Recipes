@@ -1393,6 +1393,7 @@ input::-webkit-inner-spin-button {
   
   .recipeLeftSideWrapper h1, .recipeUserContainer {
     margin-left: 4%;
+    margin-right: 4%;
   }
   
   .recipeUserContainer{
