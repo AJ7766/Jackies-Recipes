@@ -1,18 +1,18 @@
-# A project I created myself using TypeScript and Next.js
----------------------------------------------------------------
+#A Project I Created Using TypeScript and Next.js
+---------------------------
 
-# About the project
-- It's a recipe storing social website, where any user can create a account and create their own recipes and share them with their friends. A user has also the ability to customize their profile and search for other profiles and take inspiration.
+# About the Project
+- It's a social website for storing and sharing recipes, where users can create an account, add their own recipes, and share them with friends. Users can also customize their profiles, search for other users, and find inspiration.
 
-# Summary of work in this project
-- Written code in TypeScript with Next.js.
-- Back-end and Front-end
-- MongoDB for storage.
-- Models
-- API calls to the server to make sure information doesn't leak.
-- JSON Web Token for user-authorziation.
+# Summary of Work in This Project
+- Developed the application using TypeScript with Next.js.
+- Worked on both the back-end and front-end.
+- Used MongoDB for data storage, utilizing Mongoose for data modeling and interaction.
+- Created models for database interaction.
+- Implemented API calls to the server to ensure data security.
+- Used JSON Web Tokens (JWT) for user authorization.
 
-# Functions in the project full-stack
+# Full-Stack Features in the Project
 - Register Account
 - Log in
 - Authorization using JWT
@@ -20,10 +20,10 @@
 - Add Recipe
 - Edit Recipe
 - Delete Recipe
-- Search for other users
-- Responsive
+- Search for Other Users
+- Responsive Design
 
 # Future improvements
-- Like a recipe
-- Store the liked recipes
-- User followers and following
+- Implement a "Like" feature for recipes.
+- Allow users to store liked recipes.
+- Add user following and follower functionality.
