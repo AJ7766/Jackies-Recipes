@@ -5,7 +5,7 @@ import { useAuth } from "./context/AuthContext";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, initializing } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -14,7 +14,9 @@ export default function Home() {
       router.push(`/${user.username}`);
     }
   }, [isAuthenticated, user, router]);
-
+  if(initializing){
+    return null;
+  }
   if (!isAuthenticated) {
     return <LoginForm />;
   }
