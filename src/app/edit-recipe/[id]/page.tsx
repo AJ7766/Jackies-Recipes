@@ -20,7 +20,7 @@ export default function EditRecipePage({params}: {params: {id: string}}){
         }
         const fetchRecipe = async () => {
             if (user) {
-                console.log("found")
+                console.log(user)
                 const results = await verifyRecipe(id, user);
                 if(results){
                     setVerifiedRecipe(results);
@@ -34,7 +34,6 @@ export default function EditRecipePage({params}: {params: {id: string}}){
     }, [initializing, id, user, setVerifiedRecipe]);
 
     if(loading || verifiedRecipe == null){
-        console.log("loading")
         return <div>loading...</div>
     }
 

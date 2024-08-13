@@ -7,7 +7,6 @@ import ProfilePage from "@/app/_components/Profile";
 import ProfileErrorPage from "@/app/_components/ErrorPage";
 import { usePathname, useRouter } from "next/navigation";
 import Recipe from "@/app/_components/Recipe";
-import Masonary from "@/app/_components/Masonary";
 import { useAuth } from "@/app/context/AuthContext";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 

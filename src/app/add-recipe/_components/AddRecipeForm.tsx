@@ -83,7 +83,7 @@ export default function AddRecipeForm(){
     const [error, setError] = useState('');
     const [errorBoolean, setErrorBoolean] = useState(false);
 
-    const { user } = useAuth();
+    const { user, updateProfile } = useAuth();
 
     useEffect(() => {
         let calsFromCarbs: number = 0;
@@ -131,6 +131,8 @@ export default function AddRecipeForm(){
                 throw new Error(errorResponse.message || "Failed to create.");
               } 
               else if(res.ok){
+                const data = await res.json();
+                updateProfile(data.updatedUser);
                 setErrorBoolean(false);
                 setSuccessBoolean(true);
                 setSuccess("Recipe created successfully!");

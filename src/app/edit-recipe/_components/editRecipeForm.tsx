@@ -20,7 +20,7 @@ export default function EditRecipeForm({recipeEdit}:{recipeEdit:SimplifiedRecipe
     const [error, setError] = useState('');
     const [errorBoolean, setErrorBoolean] = useState(false);
 
-    const { user, initializing } = useAuth();
+    const { user, updateProfile } = useAuth();
 
     useEffect(() => {
         let calsFromCarbs: number = 0;
@@ -74,6 +74,7 @@ export default function EditRecipeForm({recipeEdit}:{recipeEdit:SimplifiedRecipe
               } 
               else if(res.ok){
                 const data = await res.json();
+                updateProfile(data.updatedUser);
                 setErrorBoolean(false);
                 setSuccessBoolean(true);
                 setSuccess(data.message);
