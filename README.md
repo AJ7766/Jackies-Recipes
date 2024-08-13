@@ -11,6 +11,9 @@
 - Created models for database interaction.
 - Implemented API calls to the server to ensure data security.
 - Used JSON Web Tokens (JWT) for user authorization.
+- Implemented caching for faster load times.
+- Utilized Tailwind CSS for responsive design and styling.
+
 
 # Full-Stack Features in the Project
 - Register Account
