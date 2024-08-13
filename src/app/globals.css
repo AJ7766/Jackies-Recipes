@@ -603,9 +603,9 @@ h2{
 
 .recipeBackground{
   position: fixed;
-  z-index: 9;
-  height: 101%;
-  width: 101%;
+  z-index: 1;
+  height: 100vh;
+  width: 100vw;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -614,8 +614,8 @@ h2{
 
 .recipeBackground img{
   float: right;
-  margin: 2%;
-  width: clamp(25px, 4cqw, 40px);
+  margin: 20px 20px 10px auto;
+  width: clamp(20px, 4cqw, 30px);
   cursor:pointer;
 }
 

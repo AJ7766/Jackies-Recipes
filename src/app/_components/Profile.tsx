@@ -8,13 +8,17 @@ import facebook from "@/app/images/social-media/facebook.svg";
 import { ProfilePropsOrNull } from "../types/types";
 import Link from "next/link";
 
-export default function ProfilePage({profile}: {profile:ProfilePropsOrNull}){
+export default function ProfilePage({profile, loading}: {profile:ProfilePropsOrNull, loading:boolean}){
+
     const bioText = profile?.userContent?.bio || '';
     const formattedBio = bioText.replace(/\n/g, '<br>');
+    if(loading){
+        return null;
+    }
     return(
     <div className="profileContainer">
         <div className="profileInfo">
-                <Image  className="profilePicture" height={160} width={160} src={profile?.userContent?.profilePicture || profilePicture} alt="profile-picture" />
+                <Image  className="profilePicture" height={160} width={160} priority src={profile?.userContent?.profilePicture || profilePicture} alt="profile-picture" />
             <h1>{profile?.fullName}</h1>
             <h2 dangerouslySetInnerHTML={{ __html: formattedBio }}></h2>
             <p>@{profile?.username}</p>

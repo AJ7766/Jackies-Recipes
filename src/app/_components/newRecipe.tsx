@@ -6,36 +6,41 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 import closeIcon from "@/app/images/close.svg";
-import { ProfileProps, ProfilePropsOrNull } from "@/app/types/types";
+import { ProfilePropsOrNull } from "@/app/types/types";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
 
-export default function Recipe() {
+export default function Recipe({recipeRef}: {recipeRef: SimplifiedRecipeProps}) {
   const [selectedRecipe, setSelectedRecipe] = useState<SimplifiedRecipeProps | null>(null);
   const [profile, setProfile] = useState<ProfilePropsOrNull>(null);
   const closeRecipe = useRef<HTMLDivElement | null>(null);
-  const [fetching, setFetching] = useState<boolean>(true);
   const pathname = usePathname();
   const router = useRouter();
   const { initializing } = useAuth();
 
-  const fetchSelectedRecipe = useCallback(async (profile:ProfileProps) => {
-    const pathParts = pathname.split('/');
-    const recipeId = pathParts[pathParts.length - 1];
-    if (profile.recipes) {
-      const foundRecipe = profile.recipes.find(recipe => recipe._id?.toString() === recipeId);
-      if (foundRecipe) {
-        setSelectedRecipe(foundRecipe);
+  const fetchSelectedRecipe = useCallback(async () => {
+    if(recipeRef){
+        console.log("reciperef")
+        setSelectedRecipe(recipeRef);
         return;
       }
-      setSelectedRecipe(null);
-    }
-  }, [pathname]);
-
+      const pathParts = pathname.split('/');
+      const recipeId = pathParts[pathParts.length - 1];
+      if (profile?.recipes) {
+        const foundRecipe = profile.recipes.find(recipe => recipe._id?.toString() === recipeId);
+        if (foundRecipe) {
+          setSelectedRecipe(foundRecipe);
+          return;
+        }
+        setSelectedRecipe(null);
+      }
+    },[pathname, profile?.recipes, recipeRef]);
+    
   useEffect(() => {
     const fetchProfileData = async () => {
       const username = pathname.split('/')[1];
-      if (username){
+      if (!username) return;
+
       try {
         let res = await fetch("/api/profile", {
           method: "POST",
@@ -51,28 +56,14 @@ export default function Recipe() {
         }
         const data = await res.json();
         setProfile(data.profileData);
-        fetchSelectedRecipe(data.profileData);
+        fetchSelectedRecipe();
       } catch (error: any) {
         console.error("Error fetching profile:", error.message);
-      }finally{
-        setFetching(false);
+      } finally {
       }
-    }
     };
     fetchProfileData();
   }, [pathname, fetchSelectedRecipe]);
-
-  useEffect(() => {
-    toggleScrollbars(!!selectedRecipe);
-}, [selectedRecipe]);
-
-  const toggleScrollbars = (disable: boolean) => {
-    document.body.style.overflow = disable ? 'hidden' : '';
-    
-    if(window.innerWidth > 1024){
-      document.body.style.paddingRight = disable? '7px' : '';
-    }
-    };
 
   const handleCloseRecipe = useCallback(() => {
     router.replace(`/${profile?.username}`, { scroll: false });
@@ -93,15 +84,11 @@ export default function Recipe() {
     };
   }, [handleClickOutside]);
 
-  if (initializing || fetching) {
+  if (initializing) {
     return null;
   }
 
-  if (!selectedRecipe){
-    return null;
-  }
   return (
-    <>
     <div className="recipeContainer">
       <div className="recipeLeftSideWrapper">
         <div className="recipeUserContainer">
@@ -202,10 +189,9 @@ export default function Recipe() {
           </table>
         </div>
       </div>
+      <div className="recipeBackground" ref={closeRecipe}>
+        <Image src={closeIcon} alt="close-recipe" />
+      </div>
     </div>
-          <div className="recipeBackground" ref={closeRecipe}>
-          <Image src={closeIcon} alt="close-recipe" />
-        </div>
-        </>
   );
 }

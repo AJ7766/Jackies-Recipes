@@ -31,13 +31,10 @@ export default function EditRecipePage({params}: {params: {id: string}}){
             }setLaoding(false);
         }
         fetchRecipe();
+        
     }, [initializing, id, user, setVerifiedRecipe]);
 
-    if(loading || verifiedRecipe == null){
-        return <div>loading...</div>
-    }
-
-    if (!user) {
+    if (!user || verifiedRecipe == null) {
         console.log("error")
         return <ErrorPage />;
     }

@@ -177,7 +177,7 @@ export default function AddRecipeForm(){
                   1280, // max width
                   850, // max height
                   'JPEG', // format
-                  80, // quality
+                  90, // quality
                   0, // rotation
                   (uri) => {
                     if (typeof uri === 'string') {
