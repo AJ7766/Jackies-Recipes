@@ -249,7 +249,7 @@ h2{
 }
 
 .navContainer #logo{
-  height: 40px;
+  height: clamp(24.5px, 3vw, 28px);
   width: auto;
   object-fit: contain;
 }
@@ -271,7 +271,7 @@ h2{
   border-radius: 12px;
   background-color: #f3f3f3;
   padding: 8px 10px 8px 32px;
-  height: clamp(30px, 5vw, 40px);
+  height: clamp(24px, 5vw, 40px);
   width:100%
 }
 
@@ -327,48 +327,38 @@ h2{
 }
 
 .navContainer .addRecipe img{
-  height: clamp(24.5px, 5vw, 32px);
-  width: clamp(24.5px, 5vw, 32px);
+  height: clamp(20px, 3vw, 28px);
+  width: auto;
   object-fit: cover;
   object-position: center;
 }
 
 .navContainer .profilePictureLink img{
   border-radius: 25%;
-  height: clamp(24.5px, 5vw, 35px);
-  width: clamp(24.5px, 5vw, 35px);
+  height: clamp(20px, 3vw, 28px);
+  width: auto;
   object-fit: cover;
   object-position: center;
 }
 
 .dropdownButton{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 30px;
-  width: 30px;
+  height: clamp(18px, 3vw, 28px);
+  width: auto;
   cursor: pointer;
   border-radius: 50%;
 }
 
 .dropdownButton:hover{
-  box-shadow: 0px 0px 0px 3px #26323a;
+  box-shadow: 0px 0px 0px 2px #26323a;
 }
 
 .dropdownButton.open{
-  box-shadow: 0px 0px 0px 3px #26323a;
-}
-
-.arrowDown{
-  border: solid black;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 5px;
-  transform: translateY(-10%) rotate(45deg);
+  box-shadow: 0px 0px 0px 2px #26323a;
 }
 
 .dropdownContainer{
   position:relative;
+  flex-shrink: 0;
   z-index: 1;
 }
 
@@ -569,11 +559,12 @@ h2{
 .recipeSettingsContainer{
   display:flex;
   justify-content: space-between;
+  align-items: center;
   margin-top: -10px;
 }
 
 .recipeSettingsContainer img{
-  height: 24px;
+  height: clamp(12px, 3cqw, 16px);
   width: auto;
   margin-right: 5px;
 }
@@ -799,6 +790,7 @@ tbody{
 }
 
 .recipeIngredientsContainer td.amount{
+  display:flex;
   white-space: nowrap;
 }
 
@@ -1298,6 +1290,11 @@ input::-webkit-inner-spin-button {
 /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ 
 
 @media screen and (max-width: 1024px){
+
+  .loginFormContainer, .forgotPassFormContainer, .registerFormContainer{
+    max-height:100%;
+    border-radius: initial;
+  }
   .editForm label{
     position:initial;
     display:flex;

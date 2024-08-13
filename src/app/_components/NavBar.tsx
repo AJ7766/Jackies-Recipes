@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
 import { ProfileProps } from "../types/types";
 import logo from "@/app/images/logo-text-free.png";
+import dropdownIcon from "@/app/images/arrow-down.png";
 
 export default  function NavBar(){
     const [search, setSearch] = useState("");
@@ -148,10 +149,8 @@ export default  function NavBar(){
         <Link className="profilePictureLink shrink-0" href={`/${user?.username}`}>
         <Image height={35} width={35} src={user?.userContent?.profilePicture || profilePicture} alt="profile-picture"/>
         </Link>
-        <div className="dropdownContainer" ref={dropdownRef}>
-        <div className={`dropdownButton ${isOpen ? 'open' : ''}`}  onClick={toggleDropdown}>
-            <i className="arrowDown"></i>
-        </div>
+        <div className="dropdownContainer" ref={dropdownRef} >
+        <Image className={`dropdownButton ${isOpen ? 'open' : ''}`} src={dropdownIcon} alt="drop-down-menu" onClick={toggleDropdown}/>
         {isOpen && (
           <div className="dropdownContentContainer">
         <div className="dropdownContent">

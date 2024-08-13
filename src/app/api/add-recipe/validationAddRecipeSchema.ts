@@ -57,7 +57,7 @@ export default async function validationAddRecipeSchema({recipe}:{recipe: Recipe
   };
 
     const isValidRecipeName = (name: string) => {
-    const nameRegex = /^[a-zA-Z\s-]+$/;
+    const nameRegex = /^[a-zA-Zà-ÿÀ-ÿ\s-]+$/;
     
     if(name.length === 0){
         const errorMsg = "Please enter a a Recipe name"
