@@ -90,7 +90,6 @@ export default function EditProfile({user}: {user?:ProfilePropsOrNull}){
             else if(res.ok){
               const data = await res.json();
               updateProfile(data.updatedUser);
-              console.log(data);
               setErrorBoolean(false);
               setSuccessBoolean(true);
               setSuccess("Successfully saved!");
@@ -135,7 +134,6 @@ export default function EditProfile({user}: {user?:ProfilePropsOrNull}){
                       (uri) => {
                         if (typeof uri === 'string') {
                           setProfilePicPreview(uri);
-                          console.log('Base64 string of resized image:', uri);
                         } else {
                           console.error('Unexpected type:', uri);
                         }
