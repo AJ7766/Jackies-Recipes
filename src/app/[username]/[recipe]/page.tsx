@@ -15,7 +15,7 @@ export default function Recipe() {
   const [profile, setProfile] = useState<ProfilePropsOrNull>(null);
   const closeRecipe = useRef<HTMLDivElement | null>(null);
   const [fetching, setFetching] = useState<boolean>(true);
-  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const { initializing } = useAuth();
@@ -67,6 +67,17 @@ export default function Recipe() {
     toggleScrollbars(!!selectedRecipe);
 }, [selectedRecipe]);
 
+useEffect(() => {
+  const checkScreenSize = () => {
+    setIsSmallScreen(window.innerWidth < 1024);
+  };
+  checkScreenSize();
+  window.addEventListener('resize', checkScreenSize);
+  return () => {
+    window.removeEventListener('resize', checkScreenSize);
+  };
+}, []);
+
   const toggleScrollbars = (disable: boolean) => {
     document.body.style.overflow = disable ? 'hidden' : '';
     
@@ -106,6 +117,9 @@ export default function Recipe() {
     <>
     <div className="recipeContainer">
       <div className="recipeLeftSideWrapper">
+      {isSmallScreen && selectedRecipe.image &&
+        <Image width={1280} height={850} src={selectedRecipe.image}  priority alt="recipe-image"/>
+        }
         <div className="recipeUserContainer">
           <Link className="flex gap-2" href={`/${profile?.username}`}>
             <Image
@@ -119,7 +133,6 @@ export default function Recipe() {
             </div>
           </Link>
         </div>
-
         <h1>{selectedRecipe?.title}</h1>
         <div className="recipeIngredientsContainer">
           {selectedRecipe?.macros && (
@@ -187,11 +200,15 @@ export default function Recipe() {
           ))}
         </div>
       </div>
+      
       <div className="recipeRightSideWrapper">
-        {selectedRecipe?.image && (
-          <Image width={1280} height={850} src={selectedRecipe.image} alt="recipe-image" />
-        )}
+        {!isSmallScreen && selectedRecipe.image &&
+        <Image width={1280} height={850} src={selectedRecipe.image}  priority alt="recipe-image"/>
+        }
         <div className="recipeInstructionsContainer">
+        {isSmallScreen && <div className="dividerInstructions"></div>}
+        <div className="dividerInstructions"></div>
+
           <table>
             <tbody>
               {selectedRecipe?.instructions?.map((ins, insIndex) => (

@@ -1,13 +1,31 @@
 import Image from "next/image";
 import meals from "@/app/images/test/meal.svg";
 import profilePicturePlaceholder from "@/app/images/profile-picture.png";
-import { ForwardedRef, forwardRef } from "react";
+import { ForwardedRef, forwardRef, useEffect, useState } from "react";
 import { ProfilePropsOrNull } from "../types/types";
 import Link from "next/link";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 import closeIcon from "@/app/images/close.svg";
 
 const Recipe = forwardRef<HTMLDivElement, { profile: ProfilePropsOrNull, recipe: SimplifiedRecipeProps }>(function Recipe({ profile, recipe }, ref: ForwardedRef<HTMLDivElement>) {
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsSmallScreen(window.innerWidth < 1024);
+    };
+
+    // Initial check
+    checkScreenSize();
+
+    // Add resize event listener
+    window.addEventListener('resize', checkScreenSize);
+
+    // Clean up the event listener on unmount
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, []);
 
     return <>
         <div className="recipeContainer" ref={ref}>
@@ -21,6 +39,9 @@ const Recipe = forwardRef<HTMLDivElement, { profile: ProfilePropsOrNull, recipe:
         </Link>
         </div>
 
+        {isSmallScreen && recipe.image && 
+          <Image width={1280} height={850} src={recipe.image} priority alt="recipe-image"/>
+        }
         <h1>{recipe.title}</h1>
         <div className="recipeIngredientsContainer">
           {recipe.macros && 
@@ -85,8 +106,8 @@ const Recipe = forwardRef<HTMLDivElement, { profile: ProfilePropsOrNull, recipe:
         </div>
         </div>
         <div className="recipeRightSideWrapper">
-        {recipe.image &&
-        <Image width={1280} height={850} src={recipe.image} alt="recipe-image"/>
+        {window.innerWidth > 1024 && recipe.image &&
+        <Image width={1280} height={850} src={recipe.image}  priority alt="recipe-image"/>
         }
         
         <div className="recipeInstructionsContainer">
