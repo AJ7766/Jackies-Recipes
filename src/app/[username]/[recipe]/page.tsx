@@ -15,6 +15,7 @@ export default function Recipe() {
   const [profile, setProfile] = useState<ProfilePropsOrNull>(null);
   const closeRecipe = useRef<HTMLDivElement | null>(null);
   const [fetching, setFetching] = useState<boolean>(true);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
   const pathname = usePathname();
   const router = useRouter();
   const { initializing } = useAuth();
@@ -97,9 +98,10 @@ export default function Recipe() {
     return null;
   }
 
-  if (!selectedRecipe){
+  if(!selectedRecipe){
     return null;
   }
+  
   return (
     <>
     <div className="recipeContainer">
