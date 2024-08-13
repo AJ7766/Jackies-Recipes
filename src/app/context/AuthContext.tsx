@@ -46,6 +46,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setInitializing(false);
       } catch (error) {
       console.error('Error fetching user data', error);
+      localStorage.removeItem('token');
+      sessionStorage.removeItem('userProfile');
       setUser(null);
     }
   }

@@ -112,10 +112,6 @@ export default function AddRecipeForm(){
         return;
     }, [recipe]);
 
-    useEffect(() =>{
-        console.log(recipe);
-    },[recipe])
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoadingBtn(true);
@@ -184,7 +180,6 @@ export default function AddRecipeForm(){
                   (uri) => {
                     if (typeof uri === 'string') {
                       handleRecipeImageChange(uri);
-                      console.log(uri)
                     } else {
                       console.error('Unexpected type:', uri);
                     }
@@ -451,7 +446,6 @@ export default function AddRecipeForm(){
             }
             return ins;
         });
-        console.log(recipe)
         setRecipe(prevRecipe => ({ ...prevRecipe, instructions: updatedInstructions }));
     };
 
