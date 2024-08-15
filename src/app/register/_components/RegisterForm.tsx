@@ -8,6 +8,7 @@ import fullNameImg from "@/app/images/register/fullName.svg";
 import passwordImg from "@/app/images/register/password.svg";
 import passwordConfirmImg from "@/app/images/register/passwordConfirm.svg";
 import logo from "@/app/images/logo.png";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
   const [email, setEmail] = useState('');
@@ -20,6 +21,7 @@ export default function RegisterForm() {
   const [success, setSuccess] = useState('');
   const [successBoolean, setSuccessBoolean] = useState(false);
   const [loadingBtn, setLoadingBtn] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -45,6 +47,7 @@ export default function RegisterForm() {
         let successResponse = await res.json();
         console.log("Registration successful:", successResponse);
         setSuccess(successResponse.message);
+        router.push(`/${username}`);
       }}catch (error:any) {
       console.log(success);
       console.error("Error:", error);

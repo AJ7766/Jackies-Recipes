@@ -112,7 +112,9 @@ useEffect(() => {
   if(!selectedRecipe){
     return null;
   }
-  
+  if (!selectedRecipe?.macros?.calories) {
+    console.log(selectedRecipe?.macros?.calories);
+  }
   return (
     <>
     <div className="recipeContainer">
@@ -139,28 +141,28 @@ useEffect(() => {
             <div className="recipeMacroContainer">
               <div className="nutritionContainer">
                 <div className="macroContainer">
-                  {selectedRecipe?.macros.carbs && (
+                {Number(selectedRecipe?.macros?.carbs) > 0 && (
                     <div className="macroInfo">
                       <p>Carbs</p>
                       <div className="carbsColor"></div>
                       <p>{selectedRecipe?.macros.carbs}g</p>
                     </div>
-                  )}
-                  {selectedRecipe?.macros.protein && (
+                    )}
+                    {Number(selectedRecipe?.macros?.fat) > 0 && (
                     <div className="macroInfo">
                       <p>Protein</p>
                       <div className="proteinColor"></div>
                       <p>{selectedRecipe?.macros.protein}g</p>
                     </div>
-                  )}
-                  {selectedRecipe?.macros.fat && (
+                    )}
+                    {Number(selectedRecipe?.macros?.fat) > 0 && (
                     <div className="macroInfo">
                       <p>Fat</p>
                       <div className="fatColor"></div>
                       <p>{selectedRecipe?.macros.fat}g</p>
                     </div>
-                  )}
-                  {selectedRecipe?.macros.calories && (
+                    )}
+                    {Number(selectedRecipe?.macros?.calories) > 0 && (
                     <div className="macroInfo" id="macroInfoCalories">
                       <p>Calories</p>
                       <div className="caloriesColor"></div>
@@ -171,7 +173,7 @@ useEffect(() => {
               </div>
             </div>
           )}
-          {selectedRecipe?.servings && (
+            {Number(selectedRecipe?.servings) > 0 && (
             <div className="mealsContainer">
               <Image src={meals} alt="servings" />
               <p>{selectedRecipe?.servings}</p>

@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useAuth } from "@/app/context/AuthContext";
 import { SimplifiedRecipeProps, ComponentProps, IngredientProps, IngredientListProps, MacroNutrientsProps, InstructionProps } from "@/models/UserRecipe";
 import DeleteRecipe from "../_action/deleteRecipe";
+import { useRouter } from "next/navigation";
 
 export default function EditRecipeForm({recipeEdit}:{recipeEdit:SimplifiedRecipeProps}){
 
@@ -21,6 +22,7 @@ export default function EditRecipeForm({recipeEdit}:{recipeEdit:SimplifiedRecipe
     const [errorBoolean, setErrorBoolean] = useState(false);
 
     const { user, updateProfile } = useAuth();
+    const router = useRouter();
 
     useEffect(() => {
         let calsFromCarbs: number = 0;
@@ -78,7 +80,8 @@ export default function EditRecipeForm({recipeEdit}:{recipeEdit:SimplifiedRecipe
                 setErrorBoolean(false);
                 setSuccessBoolean(true);
                 setSuccess(data.message);
-        }}
+                router.push(`/${user.username}`);
+            }}
         catch(error: any){
             setSuccessBoolean(false);
             setErrorBoolean(true);
@@ -344,6 +347,15 @@ export default function EditRecipeForm({recipeEdit}:{recipeEdit:SimplifiedRecipe
     };
 
     const toggleSlider = () => {
+        setRecipe(prevList => ({
+            ...prevList,
+            macros: {
+                carbs: 0,
+                protein: 0,
+                fat: 0,
+                calories: 0
+            }
+        }));
         setIsChecked(prevIsChecked => !prevIsChecked);
     };
 

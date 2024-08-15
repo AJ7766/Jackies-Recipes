@@ -2,14 +2,14 @@
 import Image from "next/image";
 import profilePicture from "@/app/images/profile-picture.png"
 import camera from "@/app/images/test/camera.svg";
-import { EditFormProps, ProfileProps, ProfilePropsOrNull } from "@/app/types/types";
+import { EditFormProps, ProfilePropsOrNull } from "@/app/types/types";
 import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { useAuth } from "@/app/context/AuthContext";
 import ErrorPage from "@/app/_components/ErrorPage";
 
 export default function EditProfile({user}: {user?:ProfilePropsOrNull}){
-    const [profilePicPreview, setProfilePicPreview] = useState<string>(user?.userContent?.profilePicture || '');
+    const [profilePicPreview, setProfilePicPreview] = useState<string>(user?.userContent?.profilePicture || profilePicture.src);
     const [email, setEmail] = useState<string>(user?.email || '');
     const [username, setUsername] = useState<string>(user?.username || '');
     const [fullName, setFullName] = useState<string>(user?.fullName || '');
@@ -31,7 +31,7 @@ export default function EditProfile({user}: {user?:ProfilePropsOrNull}){
 
     useEffect(() => {
       if (user) {
-        setProfilePicPreview(user.userContent?.profilePicture || '');
+        setProfilePicPreview(user.userContent?.profilePicture || profilePicture.src);
         setEmail(user.email || '');
         setUsername(user.username || '');
         setFullName(user.fullName || '');

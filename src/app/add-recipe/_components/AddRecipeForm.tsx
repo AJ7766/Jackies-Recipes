@@ -401,6 +401,15 @@ export default function AddRecipeForm(){
     };
 
     const toggleSlider = () => {
+        setRecipe(prevList => ({
+            ...prevList,
+            macros: {
+                carbs: 0,
+                protein: 0,
+                fat: 0,
+                calories: 0
+            }
+        }));
         setIsChecked(prevIsChecked => !prevIsChecked);
     };
 
