@@ -1,5 +1,5 @@
 #A Project I Created Using TypeScript and Next.js
-- For my user with existing recipes, https://jackies-recipes.vercel.app/jackie
+- My account with existing recipes, https://jackies-recipes.vercel.app/jackie
 ---------------------------
 
 # About the Project
