@@ -27,7 +27,7 @@
 - Search for Other Users
 - Responsive Design
 
-# Future improvements
+# Possible Future Functions
 - Implement a "Like" feature for recipes.
 - Allow users to store liked recipes.
 - Add user following and follower functionality.
