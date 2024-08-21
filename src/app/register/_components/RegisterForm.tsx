@@ -47,7 +47,6 @@ export default function RegisterForm() {
         let successResponse = await res.json();
         console.log("Registration successful:", successResponse);
         setSuccess(successResponse.message);
-        router.push(`/${username}`);
       }}catch (error:any) {
       console.log(success);
       console.error("Error:", error);
