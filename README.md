@@ -1,4 +1,4 @@
-#A Project I Created Using TypeScript and Next.js
+#A Project I Created Using TypeScript, Next.js and Node.js
 - My account with existing recipes, https://jackies-recipes.vercel.app/jackie
 ---------------------------
 
@@ -6,7 +6,7 @@
 - It's a social website for storing and sharing recipes, where users can create an account, add their own recipes, and share them with friends. Users can also customize their profiles, search for other users, and find inspiration.
 
 # Summary of Work in This Project
-- Developed the application using TypeScript with Next.js.
+- Developed the application using TypeScript with Next.js and Node.js.
 - Worked on both the back-end and front-end.
 - Used MongoDB for data storage, utilizing Mongoose for data modeling and interaction.
 - Created models for database interaction.
