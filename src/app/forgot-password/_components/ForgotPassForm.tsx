@@ -1,6 +1,7 @@
 import Link from "next/link";
-import emailImg from "@/app/images/register/email.svg";
 import Image from "next/image";
+
+const emailImg = "/images/register/email.svg";
 
 export default function ForgotPassForm(){
     return (
@@ -17,7 +18,7 @@ export default function ForgotPassForm(){
                   name="email"
                   placeholder="Email"
               />
-              <Image src={emailImg} alt="email"/>
+              <Image src={emailImg} width={20} height={20} alt="email"/>
               </div>
             </div>
             <div className="buttonsContainer">

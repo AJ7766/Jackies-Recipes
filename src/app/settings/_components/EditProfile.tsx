@@ -1,15 +1,16 @@
 "use client"
 import Image from "next/image";
-import profilePicture from "@/app/images/profile-picture.png"
-import camera from "@/app/images/test/camera.svg";
 import { EditFormProps, ProfilePropsOrNull } from "@/app/types/types";
 import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { useAuth } from "@/app/context/AuthContext";
 import ErrorPage from "@/app/_components/ErrorPage";
 
+const profilePicture = "/images/profile-picture.png";
+const camera = "/images/images/test/camera.svg";
+
 export default function EditProfile({user}: {user?:ProfilePropsOrNull}){
-    const [profilePicPreview, setProfilePicPreview] = useState<string>(user?.userContent?.profilePicture || profilePicture.src);
+    const [profilePicPreview, setProfilePicPreview] = useState<string>(user?.userContent?.profilePicture || profilePicture);
     const [email, setEmail] = useState<string>(user?.email || '');
     const [username, setUsername] = useState<string>(user?.username || '');
     const [fullName, setFullName] = useState<string>(user?.fullName || '');
@@ -31,7 +32,7 @@ export default function EditProfile({user}: {user?:ProfilePropsOrNull}){
 
     useEffect(() => {
       if (user) {
-        setProfilePicPreview(user.userContent?.profilePicture || profilePicture.src);
+        setProfilePicPreview(user.userContent?.profilePicture || profilePicture);
         setEmail(user.email || '');
         setUsername(user.username || '');
         setFullName(user.fullName || '');
@@ -158,7 +159,7 @@ export default function EditProfile({user}: {user?:ProfilePropsOrNull}){
                 className="hidden"
                 onChange={ProfilePicChange}
               />
-            <Image className="editCamera" src={camera} alt="camera" />
+            <Image className="editCamera" width={50} height={50} src={camera} alt="camera" />
             </div>
 
             <div className="editInputContainer">

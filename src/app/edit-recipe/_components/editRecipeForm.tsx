@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import Resizer from "react-image-file-resizer";
-import camera from "@/app/images/test/camera.svg";
-import imagePlaceholder from "@/app/images/recipe-image-placeholder.svg";
 import Image from "next/image";
 import { useAuth } from "@/app/context/AuthContext";
 import { SimplifiedRecipeProps, ComponentProps, IngredientProps, IngredientListProps, MacroNutrientsProps, InstructionProps } from "@/models/UserRecipe";
 import DeleteRecipe from "../_action/deleteRecipe";
 import { useRouter } from "next/navigation";
+
+const camera = "/images/test/camera.svg";
+const imagePlaceholder = "/images/recipe-image-placeholder.svg";
 
 export default function EditRecipeForm({recipeEdit}:{recipeEdit:SimplifiedRecipeProps}){
 
@@ -438,7 +439,7 @@ export default function EditRecipeForm({recipeEdit}:{recipeEdit:SimplifiedRecipe
                 className="hidden"
                 onChange={imageChange}
               />
-            <Image className="editCamera" src={camera} alt="camera" />
+            <Image className="editCamera" src={camera} width={50} height={50} alt="camera" />
             </div>
             <div className="recipeSpace"></div>
 

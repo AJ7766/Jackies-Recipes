@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import Resizer from "react-image-file-resizer";
-import camera from "@/app/images/test/camera.svg";
-import imagePlaceholder from "@/app/images/recipe-image-placeholder.svg";
 import Image from "next/image";
 import { useAuth } from "@/app/context/AuthContext";
 import mongoose from "mongoose";
+
+const imagePlaceholder = "/images/recipe-image-placeholder.svg";
+const camera = "/images/images/test/camera.svg";
 
 export default function AddRecipeForm(){
 
@@ -491,7 +492,7 @@ export default function AddRecipeForm(){
                 className="hidden"
                 onChange={imageChange}
               />
-            <Image className="editCamera" src={camera} alt="camera" />
+            <Image className="editCamera" width={50} height={50} src={camera} alt="camera" />
             </div>
             <div className="recipeSpace"></div>
 

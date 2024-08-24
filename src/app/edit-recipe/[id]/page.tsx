@@ -8,6 +8,7 @@ import EditRecipeForm from "../_components/editRecipeForm";
 import { useEffect, useState } from "react";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 
+
 export default function EditRecipePage({params}: {params: {id: string}}){
     const { id } = params;
     const { user, initializing } = useAuth();
