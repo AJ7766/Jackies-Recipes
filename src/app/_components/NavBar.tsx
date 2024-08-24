@@ -121,8 +121,8 @@ export default  function NavBar(){
         <>
         <div className="space"></div>
         <div className="navContainer">
-        <Link href={`/${user?.username}`}>
-        <Image id="logo" className="loginLogo" src={logo} alt="logo" width={24} height={24}/>
+        <Link href={user ? `/${user.username}` : "/"}>
+          <Image id="logo" className="loginLogo" src={logo} alt="logo" width={24} height={24}/>
         </Link>
         <div className="searchContainer">
         <Image src={searchGlass} id="searchGlass" alt="search-glass" width={24} height={24}/>
