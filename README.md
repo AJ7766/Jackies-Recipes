@@ -12,7 +12,7 @@
 - Created models for database interaction.
 - Implemented API calls to the server to ensure data security.
 - Used JSON Web Tokens (JWT) for user authorization.
-- Implemented caching for faster load times.
+- Implemented cache in backend with Node-cache to make queries faster.
 - Utilized Tailwind CSS for responsive design and styling.
 
 
