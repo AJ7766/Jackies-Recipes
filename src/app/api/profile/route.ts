@@ -1,11 +1,25 @@
 import { connectDB } from "@/config/database";
 import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server"
+import NodeCache from 'node-cache';
+
+const cache = new NodeCache({ stdTTL: 3600 });
 
 export async function POST(request: NextRequest) {
+
     try {
         const { username } = await request.json();
+
+        const cachedProfile = cache.get(username);
+
+        if (cachedProfile) {
+          console.log(`cached: ${username}`)
+          return NextResponse.json({ message: 'Success fetching profile from cache', profileData: cachedProfile }, { status: 200 });
+        }
+
         const profileData = await fetchProfileFromDatabase(username);
+
+        cache.set(username, profileData);
 
         return NextResponse.json({message: "Success fetching profile", profileData }, { status: 200 });
     } catch (error:any) {
@@ -22,7 +36,6 @@ export async function POST(request: NextRequest) {
           if (!user) {
             throw new Error(`User not found`);
           }
-
           return user;
     
         } catch (error:any) {

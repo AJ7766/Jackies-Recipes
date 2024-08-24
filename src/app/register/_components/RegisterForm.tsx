@@ -2,13 +2,14 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import emailImg from "@/app/images/register/email.svg";
-import usernameImg from "@/app/images/register/username.svg";
-import fullNameImg from "@/app/images/register/fullName.svg";
-import passwordImg from "@/app/images/register/password.svg";
-import passwordConfirmImg from "@/app/images/register/passwordConfirm.svg";
-import logo from "@/app/images/logo.png";
 import { useRouter } from "next/navigation";
+
+const emailImg = "/images/register/email.svg";
+const usernameImg = "/images/register/username.svg";
+const fullNameImg = "/images/register/fullName.svg";
+const passwordImg = "/images/register/password.svg";
+const passwordConfirmImg = "/images/register/passwordConfirm.svg";
+const logo = "/images/logo.png";
 
 export default function RegisterForm() {
   const [email, setEmail] = useState('');
@@ -58,7 +59,7 @@ export default function RegisterForm() {
   return (
       <div className="registerFormContainer">
           <div className="loginHeaderContainer">
-          <Image  className="loginLogo" src={logo} alt="logo"/>
+          <Image className="loginLogo" src={logo} width={150} height={150} alt="logo"/>
           </div>
           <div className="h-14 flex items-center px-9">        
           {errorBoolean ? <p className="loginTextMessage text-gray-500 text-center">{error}</p> : <p className="text-white text-center">&nbsp;</p>} 
@@ -75,7 +76,7 @@ export default function RegisterForm() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
               />
-              <Image src={emailImg} alt="email"/>
+              <Image src={emailImg} width={20} height={20} alt="email"/>
               </div>
               <div>
               <input
@@ -86,7 +87,7 @@ export default function RegisterForm() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
               />
-              <Image src={usernameImg} alt="username"/>
+              <Image src={usernameImg} width={20} height={20} alt="username"/>
               </div>
               <div>
               <input
@@ -97,7 +98,7 @@ export default function RegisterForm() {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
               />
-              <Image src={fullNameImg} alt="full-name"/>
+              <Image src={fullNameImg} width={20} height={20} alt="full-name"/>
               </div>
               <div>
               <input
@@ -108,7 +109,7 @@ export default function RegisterForm() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
               />
-              <Image src={passwordImg} alt="password"/>
+              <Image src={passwordImg} width={20} height={20} alt="password"/>
               </div>
               <div>
               <input
@@ -119,7 +120,7 @@ export default function RegisterForm() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
               />
-              <Image src={passwordConfirmImg} alt="passwordConfirm"/>
+              <Image src={passwordConfirmImg} width={20} height={20} alt="passwordConfirm"/>
               </div>
               </div>
               <div className="buttonsContainer">

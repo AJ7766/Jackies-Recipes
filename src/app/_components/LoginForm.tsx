@@ -53,7 +53,7 @@ export default function LoginForm(){
       <div className="startingPageBg">
         <div className="loginFormContainer">
           <div className="loginHeaderContainer">
-        <Image className="loginLogo" src={logo} alt="logo" />
+        <Image className="loginLogo" src={logo} width={150} height={150} alt="logo" />
         </div>
         <div className="h-10 flex items-center px-9">        
           {error ? <p className="loginTextMessage text-gray-500 text-center">{errorMsg}</p> : <p className="text-white text-center">&nbsp;</p>}
@@ -69,7 +69,7 @@ export default function LoginForm(){
                   value={username}
                   onChange={(e) => setUserName(e.target.value)}
               />
-              <Image src={usernameImg} alt="username"/>
+              <Image src={usernameImg} width={20} height={20} alt="username"/>
               </div>
               <div>
               <input
@@ -80,7 +80,7 @@ export default function LoginForm(){
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
               />
-              <Image src={passwordImg} alt="password"/>
+              <Image src={passwordImg} width={20} height={20} alt="password"/>
               </div>
           </div>
           <div className="buttonsContainer">
