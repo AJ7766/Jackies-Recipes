@@ -2,7 +2,7 @@
 const nextConfig = {
    // reactStrictMode: false,
    images: {
-      unoptimized: true, // Disables image optimization
+      unoptimized: true,
     },
    async headers() {
       return [
@@ -13,6 +13,7 @@ const nextConfig = {
             {
               key: 'Cache-Control',
               value: 'public, max-age=31536000, must-revalidate',
+              //value: 'no-store, no-cache, must-revalidate', Avoid disk caching
             }
           ],
         },
