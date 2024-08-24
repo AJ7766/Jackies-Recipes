@@ -6,7 +6,6 @@ import Link from "next/link";
 import { Types } from "mongoose";
 import { useAuth } from "../context/AuthContext";
 import { usePathname, useRouter } from "next/navigation";
-import cogwheel from "@/app/images/cogwheel.svg";
 import Loader from "./Loader";
 
 export default function Masonary({profile, loading}:{profile: ProfilePropsOrNull, loading:boolean}){     
@@ -89,7 +88,7 @@ export default function Masonary({profile, loading}:{profile: ProfilePropsOrNull
               </Link>
               {canEdit &&
               <Link href={`/edit-recipe/${recipe.id}`}>
-                <Image src={cogwheel} alt="edit"/>
+                <Image src="/images/cogwheel.svg" width={24} height={24} alt="edit"/>
               </Link>
               }
               </div>

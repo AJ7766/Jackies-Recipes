@@ -1,12 +1,12 @@
 import Image from "next/image";
-import profilePicture from "@/app/images/profile-picture.png"
-import instagram from "@/app/images/social-media/instagram.svg";
-import x from "@/app/images/social-media/x.svg";
-import tiktok from "@/app/images/social-media/tiktok.svg";
-import youtube from "@/app/images/social-media/youtube.svg";
-import facebook from "@/app/images/social-media/facebook.svg";
 import { ProfilePropsOrNull } from "../types/types";
 import Link from "next/link";
+const profilePicture = "/images/profile-picture.png";
+const instagram = "/images/social-media/instagram.svg";
+const x = "/images/social-media/x.svg";
+const tiktok = "/images/social-media/tiktok.svg";
+const youtube = "/images/social-media/youtube.svg";
+const facebook = "/images/social-media/facebook.svg";
 
 export default function ProfilePage({profile, loading}: {profile:ProfilePropsOrNull, loading:boolean}){
 
@@ -28,7 +28,7 @@ export default function ProfilePage({profile, loading}: {profile:ProfilePropsOrN
                     target="_blank" 
                     href={profile.userContent.instagram.startsWith('http') ? profile.userContent.instagram : `https://${profile.userContent.instagram}`}
                 >
-                    <Image src={instagram} alt="instagram" />
+                    <Image src={instagram} alt="instagram" width={24} height={24} />
                 </Link>
             )}
             {profile?.userContent?.x && (
@@ -36,7 +36,7 @@ export default function ProfilePage({profile, loading}: {profile:ProfilePropsOrN
                     target="_blank" 
                     href={profile.userContent.x.startsWith('http') ? profile.userContent.x : `https://${profile.userContent.x}`}
                 >
-                    <Image src={x} alt="x" />
+                    <Image src={x} alt="x" width={24} height={24} />
                 </Link>
             )}
             {profile?.userContent?.tiktok && (
@@ -44,7 +44,7 @@ export default function ProfilePage({profile, loading}: {profile:ProfilePropsOrN
                     target="_blank" 
                     href={profile.userContent.tiktok.startsWith('http') ? profile.userContent.tiktok : `https://${profile.userContent.tiktok}`}
                 >
-                    <Image src={tiktok} alt="tiktok" />
+                    <Image src={tiktok} alt="tiktok" width={24} height={24} />
                 </Link>
             )}
             {profile?.userContent?.youtube && (
@@ -52,7 +52,7 @@ export default function ProfilePage({profile, loading}: {profile:ProfilePropsOrN
                     target="_blank" 
                     href={profile.userContent.youtube.startsWith('http') ? profile.userContent.youtube : `https://${profile.userContent.youtube}`}
                 >
-                    <Image src={youtube} alt="youtube" />
+                    <Image src={youtube} alt="youtube" width={24} height={24} />
                 </Link>
             )}
             {profile?.userContent?.facebook && (
@@ -60,7 +60,7 @@ export default function ProfilePage({profile, loading}: {profile:ProfilePropsOrN
                     target="_blank" 
                     href={profile.userContent.facebook.startsWith('http') ? profile.userContent.facebook : `https://${profile.userContent.facebook}`}
                 >
-                    <Image src={facebook} alt="facebook" />
+                    <Image src={facebook} alt="facebook" width={24} height={24}/>
                 </Link>
             )}
 

@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import usernameImg from "@/app/images/register/username.svg";
-import passwordImg from "@/app/images/register/password.svg";
 import { useState } from "react";
 import { useRouter } from 'next/navigation'
 import { useAuth } from "../context/AuthContext";
-import logo from "@/app/images/logo.png";
+
+const usernameImg = "/images/register/username.svg";
+const passwordImg = "/images/register/password.svg";
+const logo = "/images/logo.png";
 
 export default function LoginForm(){
     const [username, setUserName] = useState('');
@@ -52,7 +53,7 @@ export default function LoginForm(){
       <div className="startingPageBg">
         <div className="loginFormContainer">
           <div className="loginHeaderContainer">
-        <Image  className="loginLogo" src={logo} alt="logo"/>
+        <Image className="loginLogo" src={logo} alt="logo" />
         </div>
         <div className="h-10 flex items-center px-9">        
           {error ? <p className="loginTextMessage text-gray-500 text-center">{errorMsg}</p> : <p className="text-white text-center">&nbsp;</p>}

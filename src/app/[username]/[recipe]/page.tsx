@@ -1,14 +1,15 @@
 "use client"
 import Image from "next/image";
-import meals from "@/app/images/test/meal.svg";
-import profilePicturePlaceholder from "@/app/images/profile-picture.png";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
-import closeIcon from "@/app/images/close.svg";
 import { ProfileProps, ProfilePropsOrNull } from "@/app/types/types";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
+
+const meals = "/images/test/meal.svg";
+const profilePicturePlaceholder = "/images/profile-picture.png";
+const closeIcon = "/images/close.svg";
 
 export default function Recipe() {
   const [selectedRecipe, setSelectedRecipe] = useState<SimplifiedRecipeProps | null>(null);
@@ -175,7 +176,7 @@ useEffect(() => {
           )}
             {Number(selectedRecipe?.servings) > 0 && (
             <div className="mealsContainer">
-              <Image src={meals} alt="servings" />
+              <Image src={meals} width={24} height={24} alt="servings" />
               <p>{selectedRecipe?.servings}</p>
             </div>
           )}
@@ -225,7 +226,7 @@ useEffect(() => {
       </div>
     </div>
           <div className="recipeBackground" ref={closeRecipe}>
-          <Image src={closeIcon} alt="close-recipe" />
+          <Image src={closeIcon} width={24} height={24} alt="close-recipe" />
         </div>
         </>
   );

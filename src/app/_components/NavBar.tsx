@@ -1,14 +1,14 @@
-"use client"
-import Image from "next/image";
-import searchGlass from "@/app/images/search-glass.svg";
-import profilePicture from "@/app/images/profile-picture.png";
-import addRecipe from "@/app/images/add.svg";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
 import { ProfileProps } from "../types/types";
-import logo from "@/app/images/logo-text-free.png";
-import dropdownIcon from "@/app/images/arrow-down.png";
+import Image from "next/image";
+
+const searchGlass = "/images/search-glass.svg";
+const profilePicture = "/images/profile-picture.png";
+const addRecipe = "/images/add.svg";
+const logo = "/images/logo-text-free.png";
+const dropdownIcon = "/images/arrow-down.png";
 
 export default  function NavBar(){
     const [search, setSearch] = useState("");
@@ -92,10 +92,10 @@ export default  function NavBar(){
         <div className="space"></div>
         <div className="navContainer">
         <Link href={`/${user?.username}`}>
-        <Image id="logo" className="loginLogo" src={logo} alt="logo"/>
+        <Image id="logo" className="loginLogo" src={logo} alt="logo" width={24} height={24} />
         </Link>
         <div className="searchContainer">
-        <Image src={searchGlass} id="searchGlass" alt="search-glass"/>
+        <Image src={searchGlass} id="searchGlass" alt="search-glass" width={24} height={24}/>
         <input type="search" name="query" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
         {searchResults && users.length > 0 &&
         <div className="searchedUsersContainer" ref={searchResultsRef}>
@@ -122,10 +122,10 @@ export default  function NavBar(){
         <div className="space"></div>
         <div className="navContainer">
         <Link href={`/${user?.username}`}>
-        <Image id="logo" className="loginLogo" src={logo} alt="logo"/>
+        <Image id="logo" className="loginLogo" src={logo} alt="logo" width={24} height={24}/>
         </Link>
         <div className="searchContainer">
-        <Image src={searchGlass} id="searchGlass" alt="search-glass"/>
+        <Image src={searchGlass} id="searchGlass" alt="search-glass" width={24} height={24}/>
         <input type="search" name="query" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
         {searchResults && users.length > 0 &&
         <div className="searchedUsersContainer" ref={searchResultsRef}>
@@ -150,7 +150,7 @@ export default  function NavBar(){
         <Image height={35} width={35} src={user?.userContent?.profilePicture || profilePicture} alt="profile-picture"/>
         </Link>
         <div className="dropdownContainer" ref={dropdownRef} >
-        <Image className={`dropdownButton ${isOpen ? 'open' : ''}`} src={dropdownIcon} alt="drop-down-menu" onClick={toggleDropdown}/>
+        <Image className={`dropdownButton ${isOpen ? 'open' : ''}`} src={dropdownIcon} width={24} height={24} alt="drop-down-menu" onClick={toggleDropdown}/>
         {isOpen && (
           <div className="dropdownContentContainer">
         <div className="dropdownContent">
