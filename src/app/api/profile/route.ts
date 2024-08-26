@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     async function fetchProfileFromDatabase(username: string) {
         try {
           await connectDB();
-          const user = await UserModel.findOne({ username }).select('-password -email -createdAt -updatedAt -_id -userContent._id');
+          const user = await UserModel.findOne({ username }).select('-password -email -createdAt -updatedAt -_id -userContent._id').lean();
 
           if (!user) {
             throw new Error(`User not found`);
