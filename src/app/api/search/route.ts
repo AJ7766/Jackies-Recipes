@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 
     const regex = new RegExp(username, 'i');
     await connectDB();
-    const existingUsers = await UserModel.find({ username: { $regex: regex } }).limit(5).select('-_id username fullName userContent.profilePicture');;
+    const existingUsers = await UserModel.find({ username: { $regex: regex } }).limit(5).select('-_id username fullName userContent.profilePicture').lean();
     if (!existingUsers) {
         throw new Error(`No existing user with username ${username}`);
     }
