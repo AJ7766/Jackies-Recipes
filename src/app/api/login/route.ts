@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
   try {
     const { username, password: userPassword } = await request.json()
     await connectDB();
-    const user = await UserModel.findOne({ username });
+    const user = await UserModel.findOne({ username }).lean();
 
     if (!user) {
       throw new Error('Invalid username or password');

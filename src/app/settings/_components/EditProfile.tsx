@@ -7,7 +7,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import ErrorPage from "@/app/_components/ErrorPage";
 
 const profilePicture = "/images/profile-picture.png";
-const camera = "/images/images/test/camera.svg";
+const camera = "/images/test/camera.svg";
 
 export default function EditProfile({user}: {user?:ProfilePropsOrNull}){
     const [profilePicPreview, setProfilePicPreview] = useState<string>(user?.userContent?.profilePicture || profilePicture);

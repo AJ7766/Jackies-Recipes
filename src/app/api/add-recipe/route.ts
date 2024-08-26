@@ -2,6 +2,7 @@ import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server";
 import validationAddRecipeSchema from "./validationAddRecipeSchema";
 import { RecipeProps } from "@/models/UserRecipe";
+import { connectDB } from "@/config/database";
 
 export async function POST(request: NextRequest) {
     try {
@@ -18,7 +19,7 @@ export async function POST(request: NextRequest) {
         }
 
         const filteredRecipe = await secondValidation(recipe);
-
+        await connectDB();
         const updateResult = await UserModel.updateOne(
             { _id: userId },
             { $push: { recipes: filteredRecipe } }

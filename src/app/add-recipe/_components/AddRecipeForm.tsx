@@ -6,7 +6,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import mongoose from "mongoose";
 
 const imagePlaceholder = "/images/recipe-image-placeholder.svg";
-const camera = "/images/images/test/camera.svg";
+const camera = "/images/test/camera.svg";
 
 export default function AddRecipeForm(){
 

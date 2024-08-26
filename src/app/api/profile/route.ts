@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
         try {
           await connectDB();
           const user = await UserModel.findOne({ username }).select('-password -email -createdAt -updatedAt -_id -userContent._id').lean();
-
+          console.log(user)
           if (!user) {
             throw new Error(`User not found`);
           }

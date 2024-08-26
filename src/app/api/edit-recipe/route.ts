@@ -2,6 +2,7 @@ import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server";
 import validationAddRecipeSchema from "./validationAddRecipeSchema";
 import { RecipeProps } from "@/models/UserRecipe";
+import { connectDB } from "@/config/database";
 
 export async function POST(request: NextRequest) {
     try {
@@ -19,6 +20,7 @@ export async function POST(request: NextRequest) {
 
         const filteredRecipe = await secondValidation(recipe);
 
+        await connectDB();
         const updateResult = await UserModel.updateOne(
             { _id: userId, 'recipes._id': recipe._id }, 
             { $set: { 'recipes.$': filteredRecipe } }
@@ -28,7 +30,7 @@ export async function POST(request: NextRequest) {
             throw new Error('Recipe data not found');
         }
 
-        const updatedUser = await UserModel.findOne({ _id: userId });
+        const updatedUser = await UserModel.findOne({ _id: userId }).lean();
         return NextResponse.json({ success: true, message: "Success", updatedUser }, { status: 200 });
 
     } catch (error) {

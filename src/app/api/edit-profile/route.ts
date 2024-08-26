@@ -2,6 +2,7 @@ import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server"
 import ValidationEditSchema from "./validationEditSchema";
 import bcrypt from "bcrypt";
+import { connectDB } from "@/config/database";
 
 export async function POST(request: NextRequest) {
   
@@ -38,8 +39,8 @@ export async function POST(request: NextRequest) {
       if (typeof validationResponse === 'string') {
         return NextResponse.json({ success: false, message: validationResponse }, { status: 400 });
       }
-      
-      const existingUser = await UserModel.findOne({ $or: [{ email: user.email }, { username: user.username }] });
+      await connectDB();
+      const existingUser = await UserModel.findOne({ $or: [{ email: user.email }, { username: user.username }] }).lean();
     if (existingUser && existingUser._id.toString() !== user._id) {
       let errorMessage = '';
       if (existingUser.email === user.email) {
@@ -50,7 +51,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: false, message: errorMessage }, { status: 400 });
     }
 
-    const userDataForPassword = await UserModel.findOne({ _id: user._id }).select('+password');
+    const userDataForPassword = await UserModel.findOne({ _id: user._id }).select('+password').lean();
 
     let processedPassword;
 
@@ -83,7 +84,7 @@ export async function POST(request: NextRequest) {
       if (updateResult.modifiedCount  === 0) {
         throw new Error('User not found or data unchanged');
       }
-      const updatedUser = await UserModel.findOne({ _id: user._id });
+      const updatedUser = await UserModel.findOne({ _id: user._id }).lean();
 
       return NextResponse.json({ message: `Success!`, updatedUser}, { status: 201 })
   } catch (err:any) {

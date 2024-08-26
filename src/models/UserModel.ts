@@ -29,4 +29,6 @@ const userSchema = new Schema<UserProps>({
     timestamps: true
 });
 
+userSchema.index({ username: 1 });
+
 export const UserModel: Model<UserProps> = mongoose.models.users || mongoose.model<UserProps>('users', userSchema);

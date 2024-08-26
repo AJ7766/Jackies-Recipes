@@ -1,3 +1,4 @@
+import { connectDB } from "@/config/database";
 import { UserModel } from "@/models/UserModel";
 import { RecipeModel } from "@/models/UserRecipe";
 import jwt, { JwtPayload } from "jsonwebtoken";
@@ -23,7 +24,7 @@ export async function DELETE(request: NextRequest) {
         if (!recipeId || !mongoose.isValidObjectId(recipeId)) {
             return NextResponse.json({ message: 'Invalid Recipe ID' }, { status: 400 });
         }
-
+        await connectDB();
         const user = await UserModel.findOne({ _id: userId });
         console.log(user?.username, user?._id)
         if (!user) {
