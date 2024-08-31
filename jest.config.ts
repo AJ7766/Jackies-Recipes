@@ -1,12 +1,10 @@
-import type { Config } from '@jest/types';
-
-const config: Config.InitialOptions = {
-  preset: 'ts-jest',
-  testEnvironment: 'jsdom',
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-  },
-};
-
-export default config;
+module.exports = {
+    preset: 'ts-jest',
+    testEnvironment: 'jsdom',
+    transform: {
+      '^.+\\.(ts|tsx)$': 'ts-jest',
+      '^.+\\.(js|jsx)$': 'babel-jest',
+    },
+    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+    setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  };

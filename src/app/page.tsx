@@ -9,10 +9,10 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (isAuthenticated && user) {
+  if (isAuthenticated && user) {
 
-      router.push(`/${user.username}`);
-    }
+    router.push(`/${user.username}`);
+  }
   }, [isAuthenticated, user, router]);
   if(initializing){
     return null;
@@ -20,5 +20,6 @@ export default function Home() {
   if (!isAuthenticated) {
     return <LoginForm />;
   }
+  return null
 }
 
