@@ -50,7 +50,7 @@ export default function LoginForm(){
       };
       
     return (
-      <div className="startingPageBg">
+      <div className="startingPageBg" data-testid="starting-page-bg">
         <div className="loginFormContainer">
           <div className="loginHeaderContainer">
         <Image className="loginLogo" src={logo} width={150} height={150} alt="logo" />
@@ -58,7 +58,7 @@ export default function LoginForm(){
         <div className="h-10 flex items-center px-9">        
           {error ? <p className="loginTextMessage text-gray-500 text-center">{errorMsg}</p> : <p className="text-white text-center">&nbsp;</p>}
         </div>
-        <form className="loginForm flex flex-col" onSubmit={handleSubmit}>
+        <form className="loginForm flex flex-col" data-testid="login-form" onSubmit={handleSubmit}>
         <div className="inputsContainer">
             <div>
               <input
