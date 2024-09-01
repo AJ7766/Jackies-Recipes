@@ -40,6 +40,13 @@ describe('LoginForm component', () => {
     });
   });
 
+  const fillForm = async (username: string, password: string) => {
+    await act(async()=> {
+        fireEvent.change(screen.getByPlaceholderText('Username') as HTMLInputElement, { target: { value: username } });
+        fireEvent.change(screen.getByPlaceholderText('Password') as HTMLInputElement, { target: { value: password } });
+    })
+  };
+
 describe('Interaction Tests', () => {
 
   test('register button redirects me to /register page', async () => {
@@ -79,17 +86,14 @@ describe('Interaction Tests', () => {
     const originalConsoleError = console.error;
     console.error = jest.fn();
 
+    await act(async () => {
       render(<LoginForm />);
-      const form = screen.getByTestId('login-form');
-      const usernameInput = screen.getByPlaceholderText('Username') as HTMLInputElement;
-      const passwordInput = screen.getByPlaceholderText('Password') as HTMLInputElement;
+    });
+      await fillForm('wronguser', 'wrongpassword');
       const submitButton = await screen.findByRole('button', { name: /login/i });
-      
-      fireEvent.change(usernameInput, { target: { value: 'wronguser' } });
-      fireEvent.change(passwordInput, { target: { value: 'wrongpassword' } });
 
       await waitFor(() => {
-        fireEvent.submit(form);
+        fireEvent.submit(screen.getByTestId('login-form'));
         expect(submitButton).toBeDisabled();
       });
       
@@ -115,18 +119,16 @@ test('displays default error message when server response does not include an er
     const originalConsoleError = console.error;
     console.error = jest.fn();
 
-    render(<LoginForm />);
-    const form = screen.getByTestId('login-form');
-    const usernameInput = screen.getByPlaceholderText('Username') as HTMLInputElement;
-    const passwordInput = screen.getByPlaceholderText('Password') as HTMLInputElement;
+    await act(async () => {
+        render(<LoginForm />);
+    });
+
+    await fillForm('wronguser', 'wrongpassword');
     const submitButton = await screen.findByRole('button', { name: /login/i });
-    
-    fireEvent.change(usernameInput, { target: { value: 'wronguser' } });
-    fireEvent.change(passwordInput, { target: { value: 'wrongpassword' } });
 
     await waitFor(() => {
-      fireEvent.submit(form);
-      expect(submitButton).toBeDisabled();
+        fireEvent.submit(screen.getByTestId('login-form'));
+        expect(submitButton).toBeDisabled();
     });
     
     await waitFor(() => {
@@ -153,20 +155,11 @@ test('submits the form with the right credentials and redirects', async () => {
     render(<LoginForm />);
     });
 
-  const usernameInput = screen.getByPlaceholderText('Username') as HTMLInputElement;
-  const passwordInput = screen.getByPlaceholderText('Password') as HTMLInputElement;
-  const submitButton = await screen.findByRole('button', { name: /login/i }) as HTMLButtonElement;
-
-  act(() => {
-  fireEvent.change(usernameInput, { target: { value: 'correctuser' } });
-  fireEvent.change(passwordInput, { target: { value: 'correctpassword' } });
-  });
-
-  act(() => {
-  fireEvent.submit(screen.getByTestId('login-form'));
-  });
+    await fillForm('correctuser', 'correctpassword');
+    const submitButton = await screen.findByRole('button', { name: /login/i }) as HTMLButtonElement;
   
   await waitFor(() => {
+    fireEvent.submit(screen.getByTestId('login-form'));
     expect(submitButton).toBeDisabled();
   });
 
