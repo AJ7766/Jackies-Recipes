@@ -7,10 +7,8 @@ interface AuthContextType {
   isAuthenticated: boolean;
   user: ProfileProps | null;
   updateProfile: (updatedProfile: ProfileProps) => void;
-  login: (token: string) => void;
   logout: () => void;
   initializing: boolean;
-  
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -95,11 +93,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   },[verifyTokenAndFetchUser] );
 
-  const login = (token: string) => {
-    localStorage.setItem('token', token);
-    verifyTokenAndFetchUser(token);
-  };
-
   const logout = () => {
     localStorage.removeItem('token');
     sessionStorage.removeItem('userProfile');
@@ -114,7 +107,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, updateProfile, login, logout, initializing }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, updateProfile, logout, initializing }}>
       {children}
     </AuthContext.Provider>
   );
