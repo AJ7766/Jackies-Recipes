@@ -37,13 +37,15 @@ export default function LoginForm(){
             setErrorMsg(errorMessage);
             throw new Error(errorMessage);
           } 
-          else if(res.ok){
+          else{
             setError(false);
             let data = await res.json();
             login(data.token);
             router.push(`/${username}`);
           }}catch (error:any) {
-          console.error("Error:", error);
+          const errorMessage = error instanceof Error ? error.message : "Failed to login.";
+          setErrorMsg(errorMessage);
+          setError(true);
         }finally{
           setLoadingBtn(false);
         }

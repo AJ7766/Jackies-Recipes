@@ -1,5 +1,4 @@
 import { render, screen, act  } from '@testing-library/react';
-import fetchMock from 'jest-fetch-mock';
 import '@testing-library/jest-dom';
 import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -7,12 +6,10 @@ import Home from '@/app/page';
 
 
 beforeEach(() => {
-  fetchMock.resetMocks();
   jest.clearAllMocks();
 });
 
 afterEach(() => {
-  fetchMock.resetMocks();
   jest.clearAllMocks();
   document.body.innerHTML = '';
 });

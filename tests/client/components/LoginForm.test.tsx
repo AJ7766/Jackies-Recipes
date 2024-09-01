@@ -41,10 +41,8 @@ describe('LoginForm component', () => {
   });
 
   const fillForm = async (username: string, password: string) => {
-    await act(async()=> {
         fireEvent.change(screen.getByPlaceholderText('Username') as HTMLInputElement, { target: { value: username } });
         fireEvent.change(screen.getByPlaceholderText('Password') as HTMLInputElement, { target: { value: password } });
-    })
   };
 
 describe('Interaction Tests', () => {
@@ -55,8 +53,6 @@ describe('Interaction Tests', () => {
       isAuthenticated: false,
       initializing: false,
     });
-    const originalConsoleError = console.error;
-    console.error = jest.fn();
 
     await act(async () => {
     render(<LoginForm />);
@@ -70,21 +66,43 @@ describe('Interaction Tests', () => {
     });
 
     expect(screen.getByRole('link', { name: /register/i })).toHaveAttribute('href', '/register');
-    console.error = originalConsoleError;
   });
+
+  test('user missed to fill username in the form', async () => {
+    fetchMock.mockResponseOnce(
+        JSON.stringify({ message: 'Invalid username or password.'}),
+        { status: 400 }
+    );
+    await act(async () => {
+        render(<LoginForm />);
+    });
+
+    await fillForm("username", "password123");
+    const submitButton = await screen.findByRole('button', { name: /login/i });
+
+    expect(screen.getByPlaceholderText('Username')).toHaveValue("username");
+    expect(screen.getByPlaceholderText('Password')).toHaveValue("password123");
+
+    await waitFor(() => {
+        fireEvent.submit(screen.getByTestId('login-form'));
+        expect(submitButton).toBeDisabled();
+    });
+
+    await waitFor(() => {
+        expect(screen.getByText('Invalid username or password.')).toBeInTheDocument();
+    });
+});
 
   test('submits the form with the wrong user credentials', async () => {
     fetchMock.mockResponseOnce(
         JSON.stringify({ message: 'Invalid username or password.' }),
         { status: 400 }
-      );
+    );
     (useAuth as jest.Mock).mockReturnValue({
       user: null,
       isAuthenticated: false,
       initializing: false,
     });
-    const originalConsoleError = console.error;
-    console.error = jest.fn();
 
     await act(async () => {
       render(<LoginForm />);
@@ -102,10 +120,29 @@ describe('Interaction Tests', () => {
       });
 
       expect(mockPush).not.toHaveBeenCalled();
-      console.error = originalConsoleError;
 });
 
-test('displays default error message when server response does not include an error message', async () => {
+test('displays default error message when error is not an instance of Error after submitting', async () => {
+  fetchMock.mockReject(() => Promise.reject("Some non-Error message"));
+
+  await act(async () => {
+    render(<LoginForm />);
+  });
+
+  await fillForm('correctuser', 'correctpassword');
+  const submitButton = await screen.findByRole('button', { name: /login/i });
+
+  await waitFor(() => {
+    fireEvent.submit(screen.getByTestId('login-form'));
+    expect(submitButton).toBeDisabled();
+  });
+
+  await waitFor(() => {
+    expect(screen.getByText('Failed to login.')).toBeInTheDocument();
+  });
+});
+
+test('displays default error message when server response does not include an error message after submitting', async () => {
     fetchMock.mockResponseOnce(
       JSON.stringify({}),
       { status: 400 }
@@ -116,8 +153,6 @@ test('displays default error message when server response does not include an er
       isAuthenticated: false,
       initializing: false,
     });
-    const originalConsoleError = console.error;
-    console.error = jest.fn();
 
     await act(async () => {
         render(<LoginForm />);
@@ -136,7 +171,6 @@ test('displays default error message when server response does not include an er
     });
 
     expect(mockPush).not.toHaveBeenCalled();
-    console.error = originalConsoleError;
   });
 
 test('submits the form with the right credentials and redirects', async () => {
