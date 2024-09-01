@@ -18,14 +18,15 @@ export default function RootLayout({
   const [loading, setLoading] = useState(true);
   
   const {username} = useParams();
-  
+  const lowercaseUsername = Array.isArray(username) ? username[0].toLowerCase() : username?.toLowerCase() ?? ''; 
+
   useEffect(() => {
-    if (username) {
+    if (lowercaseUsername) {
     const fetchProfileData = async () => {
           try {
             let res = await fetch("/api/profile", {
                 method: "POST",
-                body: JSON.stringify({ username: username }),
+                body: JSON.stringify({ username: lowercaseUsername}),
                 headers: {
                   "Content-Type": "application/json"
               },
