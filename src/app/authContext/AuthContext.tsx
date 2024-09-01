@@ -7,6 +7,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   user: ProfileProps | null;
   updateProfile: (updatedProfile: ProfileProps) => void;
+  verifyTokenAndFetchUser: (token: string) => void;
   logout: () => void;
   initializing: boolean;
 }
@@ -22,6 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const fetchUserData = useCallback(async (token: string) => {
     const cachedProfile = sessionStorage.getItem('userProfile');
     if (cachedProfile) {
+      setIsAuthenticated(true);
       setUser(JSON.parse(cachedProfile));
       setInitializing(false);
       return;
@@ -88,6 +90,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const token = localStorage.getItem('token');
     if (token) {
     verifyTokenAndFetchUser(token);
+    console.log(isAuthenticated);
     }else{
         setInitializing(false); 
     }
@@ -107,7 +110,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, updateProfile, logout, initializing }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, updateProfile, verifyTokenAndFetchUser, logout, initializing }}>
       {children}
     </AuthContext.Provider>
   );

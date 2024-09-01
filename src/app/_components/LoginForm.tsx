@@ -18,6 +18,8 @@ export default function LoginForm(){
     const [loadingBtn, setLoadingBtn] = useState(false);
     const router = useRouter();
 
+    const {verifyTokenAndFetchUser} = useAuth();
+
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setLoadingBtn(true);
@@ -39,6 +41,8 @@ export default function LoginForm(){
           else{
             setError(false);
             let data = await res.json();
+            localStorage.setItem('token', data.token);
+            verifyTokenAndFetchUser(data.token);
             router.push(`/${username}`);
           }}catch (error:any) {
           const errorMessage = error instanceof Error ? error.message : "Failed to login.";

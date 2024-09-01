@@ -13,7 +13,6 @@ export async function POST(request: NextRequest) {
         const cachedProfile = cache.get(username);
 
         if (cachedProfile) {
-          console.log(`cached: ${username}`)
           return NextResponse.json({ message: 'Success fetching profile from cache', profileData: cachedProfile }, { status: 200 });
         }
 
