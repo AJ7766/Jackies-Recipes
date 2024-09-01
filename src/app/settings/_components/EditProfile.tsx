@@ -3,7 +3,7 @@ import Image from "next/image";
 import { EditFormProps, ProfilePropsOrNull } from "@/app/types/types";
 import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
-import { useAuth } from "@/app/context/AuthContext";
+import { useAuth } from "@/app/authContext/AuthContext";
 import ErrorPage from "@/app/_components/ErrorPage";
 
 const profilePicture = "/images/profile-picture.png";

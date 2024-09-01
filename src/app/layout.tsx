@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider } from "./authContext/AuthContext";
 
 export const metadata: Metadata = {
   title: "Jackies Recipes",

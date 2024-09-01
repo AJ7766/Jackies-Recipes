@@ -1,6 +1,5 @@
 import { render, screen, act, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { useAuth } from '@/app/context/AuthContext';
 import { useRouter } from 'next/navigation';
 import RegisterPage from '@/app/register/page';
 
@@ -12,10 +11,6 @@ afterEach(() => {
   jest.clearAllMocks();
   document.body.innerHTML = '';
 });
-
-jest.mock('@/app/context/AuthContext', () => ({
-  useAuth: jest.fn(),
-}));
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
@@ -33,11 +28,6 @@ describe('Register Page', () => {
   describe('Rendering Tests', () => {
 
     test('initializing: true = does not render any content', async () => {
-      (useAuth as jest.Mock).mockReturnValue({
-        user: null,
-        isAuthenticated: false,
-        initializing: true,
-      });
 
       await act(async() => {
       const { container } = render(<RegisterPage />);
@@ -48,11 +38,6 @@ describe('Register Page', () => {
     });
 
     test('initializing: false = render register form and elements', async () => {
-      (useAuth as jest.Mock).mockReturnValue({
-        user: null,
-        isAuthenticated: false,
-        initializing: false,
-      });
 
       await act(async () => {
         render(<RegisterPage />);

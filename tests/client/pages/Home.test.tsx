@@ -1,6 +1,6 @@
 import { render, screen, act  } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { useAuth } from '@/app/context/AuthContext';
+import { useAuth } from '@/app/authContext/AuthContext';
 import { useRouter } from 'next/navigation';
 import Home from '@/app/page';
 
@@ -14,7 +14,7 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-jest.mock('@/app/context/AuthContext', () => ({
+jest.mock('@/app/authContext/AuthContext', () => ({
   useAuth: jest.fn(),
 }));
 

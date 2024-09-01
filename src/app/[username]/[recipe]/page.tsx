@@ -5,7 +5,7 @@ import Link from "next/link";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 import { ProfileProps, ProfilePropsOrNull } from "@/app/types/types";
 import { usePathname, useRouter } from "next/navigation";
-import { useAuth } from "@/app/context/AuthContext";
+import { useAuth } from "@/app/authContext/AuthContext";
 
 const meals = "/images/test/meal.svg";
 const profilePicturePlaceholder = "/images/profile-picture.png";

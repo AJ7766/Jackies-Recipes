@@ -37,7 +37,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                   "Content-Type": "application/json"
               },
             });
-          if (!res.ok) {
+          if(res.ok){
+            setIsAuthenticated(true);
+          }
+          else{
             throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
           }
         const data = await res.json();
@@ -64,15 +67,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }
         });
         if (!res.ok) {
-          throw new Error(`Failed to verify token: ${res.status} - ${res.statusText}`);
-        }
-        const result = await res.json();
-        if (result.valid) {
-            setIsAuthenticated(true);
-            await fetchUserData(token);
-        } else {
           localStorage.removeItem('token');
           setIsAuthenticated(false);
+          throw new Error(`Failed to verify token: ${res.status} - ${res.statusText}`);
+        }
+        else{
+          await fetchUserData(token);
         }
       } catch (error) {
         console.error('Token verification failed', error);

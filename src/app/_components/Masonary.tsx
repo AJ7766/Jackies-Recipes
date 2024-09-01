@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { ProfilePropsOrNull } from "../types/types";
 import Link from "next/link";
 import { Types } from "mongoose";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../authContext/AuthContext";
 import { usePathname, useRouter } from "next/navigation";
 import Loader from "./Loader";
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from 'uuid';
 import Resizer from "react-image-file-resizer";
 import Image from "next/image";
-import { useAuth } from "@/app/context/AuthContext";
+import { useAuth } from "@/app/authContext/AuthContext";
 import { SimplifiedRecipeProps, ComponentProps, IngredientProps, IngredientListProps, MacroNutrientsProps, InstructionProps } from "@/models/UserRecipe";
 import DeleteRecipe from "../_action/deleteRecipe";
 import { useRouter } from "next/navigation";

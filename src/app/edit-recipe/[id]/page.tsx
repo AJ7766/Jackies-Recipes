@@ -2,7 +2,7 @@
 
 import ErrorPage from "@/app/_components/ErrorPage";
 import NavBar from "@/app/_components/NavBar";
-import { useAuth } from "@/app/context/AuthContext";
+import { useAuth } from "@/app/authContext/AuthContext";
 import { ProfileProps } from "@/app/types/types";
 import EditRecipeForm from "../_components/editRecipeForm";
 import { useEffect, useState } from "react";

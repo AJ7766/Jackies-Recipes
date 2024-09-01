@@ -15,8 +15,8 @@ export async function GET(request: NextRequest) {
   try {
     jwt.verify(token, SECRET_KEY) as JwtPayload;
 
-    return NextResponse.json({ message: 'Token Valid', valid: true}, { status: 200 });
+    return NextResponse.json({ message: 'Token Valid'}, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: 'Token not valid', valid: false }, { status: 401 });
+    return NextResponse.json({ message: 'Token not valid'}, { status: 401 });
   }
 }

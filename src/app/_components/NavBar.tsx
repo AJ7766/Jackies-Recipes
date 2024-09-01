@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useAuth } from "@/app/context/AuthContext";
+import { useAuth } from "@/app/authContext/AuthContext";
 import { ProfileProps } from "../types/types";
 import Image from "next/image";
 

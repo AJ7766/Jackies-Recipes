@@ -2,7 +2,7 @@ import { ReactNode } from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
 import '@testing-library/jest-dom';
-import { useAuth } from '@/app/context/AuthContext';
+import { useAuth } from '@/app/authContext/AuthContext';
 import { useRouter } from 'next/navigation';
 import LoginForm from '@/app/_components/LoginForm';
 
@@ -17,7 +17,7 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-jest.mock('@/app/context/AuthContext', () => ({
+jest.mock('@/app/authContext/AuthContext', () => ({
   useAuth: jest.fn(),
 }));
 
