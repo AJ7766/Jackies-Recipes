@@ -1,14 +1,8 @@
-import { ReactNode } from 'react';
 import { render, screen, fireEvent, waitFor, act, within } from '@testing-library/react';
 import fetchMock from 'jest-fetch-mock';
 import '@testing-library/jest-dom';
 import { useAuth } from '@/app/authContext/AuthContext';
-import { useRouter } from 'next/navigation';
 import NavBar from '@/app/_components/NavBar';
-
-jest.mock('next/navigation', () => ({
-    useRouter: jest.fn(),
-}));
 
 beforeEach(() => {
     fetchMock.resetMocks();
@@ -21,19 +15,14 @@ afterEach(() => {
     document.body.innerHTML = '';
 });
 
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+}));
+
+
 jest.mock('@/app/authContext/AuthContext', () => ({
     useAuth: jest.fn(),
 }));
-
-jest.mock('next/navigation', () => ({
-    useRouter: jest.fn(),
-}));
-
-jest.mock('next/link', () => {
-    return ({ href, children }: { href: string; children: ReactNode }) => {
-      return <a href={href}>{children}</a>;
-    };
-});
 
 const searchInput = async (input: string) => {
   await act(async()=>{
@@ -43,19 +32,6 @@ const searchInput = async (input: string) => {
 };
 
 describe('NavBar component', () => {
-  
-  const mockPush = jest.fn();
-  beforeEach(() => {
-      (useRouter as jest.Mock).mockReturnValue({
-      push: mockPush,
-      });
-  });
-
-  afterEach(() => {
-      fetchMock.resetMocks();
-      jest.clearAllMocks();
-      document.body.innerHTML = '';
-  });
 
   test('initial render', async ()=>{
       (useAuth as jest.Mock).mockReturnValue({
@@ -78,11 +54,10 @@ describe('NavBar component', () => {
 
   test('initial render authorized', async ()=>{
     (useAuth as jest.Mock).mockReturnValue({
-        user: null,
-        isAuthenticated: true,
-        initializing: false,
-      });
-
+      user: null,
+      isAuthenticated: true,
+      initializing: false,
+    });
     render(<NavBar />);
 
     await waitFor(async()=>{
@@ -112,6 +87,7 @@ describe('NavBar component', () => {
   });
 
   test('navbar logo redirects to userpage', async ()=>{
+    jest.spyOn(console, 'error').mockImplementation(() => {});
     (useAuth as jest.Mock).mockReturnValue({
         user: {username: 'testacc'},
         isAuthenticated: false,
@@ -129,9 +105,11 @@ describe('NavBar component', () => {
       expect(logoLink).toBeInTheDocument();
       expect(logoLink).toHaveAttribute('href', '/testacc');
     })
+    expect(console.error).toHaveBeenCalledTimes(1);
   });
 
   test('authenticated profile-picture redirects to userpage', async ()=>{
+    jest.spyOn(console, 'error').mockImplementation(() => {});
     (useAuth as jest.Mock).mockReturnValue({
         user: {username: 'testacc'},
         isAuthenticated: true,
@@ -149,6 +127,7 @@ describe('NavBar component', () => {
       expect(logoLink).toBeInTheDocument();
       expect(logoLink).toHaveAttribute('href', '/testacc');
     })
+    expect(console.error).toHaveBeenCalledTimes(1);
   });
 
   test('user has a profile picture', async () => {

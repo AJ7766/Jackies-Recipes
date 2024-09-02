@@ -13,7 +13,6 @@ jest.mock('next/navigation', () => ({
 
 fetchMock.enableMocks();
 
-
 const DummyComponent = () => {
     useAuth();
     return <div>Dummy</div>;
@@ -141,6 +140,7 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
         await waitFor(() => {
             expect(mockPush).toHaveBeenCalledWith('/');
         });
+        
         await waitFor(() => {
             expect(localStorage.getItem('token')).toBeNull();
             expect(sessionStorage.getItem('userProfile')).toBeNull();

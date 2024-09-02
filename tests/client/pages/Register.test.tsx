@@ -1,6 +1,5 @@
-import { render, screen, act, waitFor } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { useRouter } from 'next/navigation';
 import RegisterPage from '@/app/register/page';
 
 beforeEach(() => {
@@ -12,18 +11,7 @@ afterEach(() => {
   document.body.innerHTML = '';
 });
 
-jest.mock('next/navigation', () => ({
-  useRouter: jest.fn(),
-}));
-
 describe('Register Page', () => {
-  const mockPush = jest.fn();
-
-  beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValue({
-      push: mockPush,
-    });
-  });
 
   describe('Rendering Tests', () => {
 
@@ -39,9 +27,7 @@ describe('Register Page', () => {
 
     test('initializing: false = render register form and elements', async () => {
 
-      await act(async () => {
-        render(<RegisterPage />);
-      });
+      render(<RegisterPage />);
 
       expect(screen.getByTestId('register-form')).toBeInTheDocument();
       expect(screen.getByAltText('logo')).toBeInTheDocument();
