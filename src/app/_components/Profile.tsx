@@ -8,13 +8,10 @@ const tiktok = "/images/social-media/tiktok.svg";
 const youtube = "/images/social-media/youtube.svg";
 const facebook = "/images/social-media/facebook.svg";
 
-export default function ProfilePage({profile, loading}: {profile:ProfilePropsOrNull, loading:boolean}){
+export default function ProfilePage({profile}: {profile:ProfilePropsOrNull}){
 
     const bioText = profile?.userContent?.bio || '';
     const formattedBio = bioText.replace(/\n/g, '<br>');
-    if(loading){
-        return null;
-    }
     return(
     <div className="profileContainer">
         <div className="profileInfo">

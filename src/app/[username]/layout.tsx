@@ -5,7 +5,6 @@ import { useParams } from "next/navigation";
 import { ProfilePropsOrNull } from "../types/types";
 import ProfilePage from "../_components/Profile";
 import Masonary from "../_components/Masonary";
-import UserErrorPage from "../_components/UserError";
 
 export default function RootLayout({
   children,
@@ -50,18 +49,18 @@ export default function RootLayout({
       fetchProfileData();
     }
   },[username]);
+
   return (
     <>
       <NavBar />
       {children}
-      {userFound ?
-    <>    
-      <ProfilePage profile={profile} loading={loading}/>
+      
+      {userFound && !loading &&
+      <>    
+      <ProfilePage profile={profile}/>
       <div className="divider"></div>
-      <Masonary profile={profile} loading={loading}/>
-      </>:<>
-      <UserErrorPage />
+      <Masonary profile={profile}/>
       </>}
-      </>
+    </>
   );
 }

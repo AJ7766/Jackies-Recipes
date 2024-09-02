@@ -1,14 +1,13 @@
 import Image from "next/image";
 
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ProfilePropsOrNull } from "../types/types";
 import Link from "next/link";
 import { Types } from "mongoose";
 import { useAuth } from "../authContext/AuthContext";
-import { usePathname, useRouter } from "next/navigation";
-import Loader from "./Loader";
+import { usePathname } from "next/navigation";
 
-export default function Masonary({profile, loading}:{profile: ProfilePropsOrNull, loading:boolean}){     
+export default function Masonary({profile}:{profile: ProfilePropsOrNull}){     
   
   interface RecipeCardProps {
     id: Types.ObjectId | undefined,
@@ -68,10 +67,8 @@ export default function Masonary({profile, loading}:{profile: ProfilePropsOrNull
     };
     fetchRecipes();
   }, [totalColumns, profile?.recipes]);
-
     return (<>
-    {loading ? <Loader />: 
-     columns.length > 1 ? (
+     {columns.length > 1 ? (
     <div className="masonryContainer">
     {columns.map((column, columnIndex) => (
         <div className="masonryColumn" key={columnIndex}>

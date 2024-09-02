@@ -79,36 +79,9 @@ export default  function NavBar(){
       setIsOpen(!isOpen);
     };
 
-    if (initializing) {
-      return (
-      <>
-        <div className="space"></div>
-        <div className="navContainer">
-        <Link href={`/${user?.username}`}>
-        <Image id="logo" className="loginLogo" src={logo} alt="logo" width={24} height={24} />
-        </Link>
-        <div className="searchContainer">
-        <Image src={searchGlass} id="searchGlass" alt="search-glass" width={24} height={24}/>
-        <input type="search" name="query" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
-        {searchResults && users.length > 0 &&
-        <div className="searchedUsersContainer" ref={searchResultsRef}>
-        {users.map((user, indexKey) => (
-      <Link href={`/${user.username}`} key={indexKey}>
-        <div className="searchedUser">
-          <Image height={42} width={42} src={user.userContent?.profilePicture || profilePicture} alt="profile-picture"/>
-          <div>
-          <h2>{user.username}</h2>
-          <p>{user.fullName}</p>
-          </div>
-        </div>
-        </Link>
-      ))}
-        </div>} 
-        </div>
-        <div>Loading...</div> 
-        </div>
-        </>)
-  }
+    if(initializing){
+      return null;
+    }
   
     return(
         <>
