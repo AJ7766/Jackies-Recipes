@@ -10,7 +10,7 @@ const addRecipe = "/images/add.svg";
 const logo = "/images/logo-text-free.png";
 const dropdownIcon = "/images/arrow-down.png";
 
-export default  function NavBar(){
+export default function NavBar(){
     const [search, setSearch] = useState("");
     const [isOpen, setIsOpen] = useState(false);
     const [debouncedSearch, setDebouncedSearch] = useState(search);
