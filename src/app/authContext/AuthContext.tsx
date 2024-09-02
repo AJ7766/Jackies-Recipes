@@ -29,7 +29,7 @@ const verifyTokenAndFetchUser = useCallback(async (token: string) => {
     return;
   }
       try {
-        const res = await fetch('/api/verify-token', {
+        const res = await fetch('/api/verify-token-fetch-user', {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
@@ -61,11 +61,15 @@ const verifyTokenAndFetchUser = useCallback(async (token: string) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    
+    const fetchTokenAndUser = async () => {
     if (token) {
-      verifyTokenAndFetchUser(token);
+      await verifyTokenAndFetchUser(token);
     }else{
       setInitializing(false); 
     }
+  }
+    fetchTokenAndUser();
   },[verifyTokenAndFetchUser] );
 
   const logout = () => {

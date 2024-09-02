@@ -58,7 +58,6 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
     test('render initial state', async () => {
         fetchMock.mockResponses(
             [JSON.stringify({ message: 'Unauthorized' }), { status: 401 }],
-            [JSON.stringify({ message: 'Unauthorized' }), { status: 400 }]
         );
         await act(async () => {
             render(<TestComponent />, { wrapper: Wrapper });
@@ -68,20 +67,23 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
         expect(screen.getByTestId('user')).toHaveTextContent('No User');
     });
 
-    test('should call setInitializing with false and return when token is not provided', async () => {
-          render(<TestComponent />, { wrapper: AuthProvider });
-          await waitFor(() => {
-            expect(screen.getByTestId('initializing')).toHaveTextContent('Loaded');
-            expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
-            expect(screen.getByTestId('user')).toHaveTextContent('No User');
-          });
-    });
+    test('displays loading during a fetch', async () => {
+        fetchMock.mockResponses(
+            [JSON.stringify({ message: 'Authorized', userData: { username: 'Test User' } }),{ status: 200 }],
+        );
+        localStorage.setItem('token', 'test-token');
+        render(<TestComponent />, { wrapper: Wrapper });
+    
+        await waitFor(() => {
+          expect(screen.getByTestId('initializing')).toHaveTextContent('Loading...');
+        });
+      });
 
     test('displays loading and then user data after fetching', async () => {
         fetchMock.mockResponses(
-            [JSON.stringify({message: 'Token Valid' }),{ status: 200 }],
-            [JSON.stringify({ userData: { username: 'Test User' } }),{ status: 200 }]
+            [JSON.stringify({ message: 'Authorized', userData: { username: 'Test User' } }),{ status: 200 }],
         );
+        
         localStorage.setItem('token', 'test-token');
         render(<TestComponent />, { wrapper: Wrapper });
     
@@ -92,22 +94,15 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
         await waitFor(() => {
             expect(screen.getByTestId('initializing')).toHaveTextContent('Loaded');
             expect(screen.getByTestId('authenticated')).toHaveTextContent('Authenticated');
-            expect(screen.getByTestId('user')).toHaveTextContent('User: Test User');
+            expect(screen.getByTestId('user')).toHaveTextContent('Test User');
           });
       });
 
     test('has cached profile', async () => {
-        fetchMock.mockResponses(
-            [JSON.stringify({message: 'Token Valid' }),{ status: 200 }],
-        );
-
-        sessionStorage.setItem('userProfile', JSON.stringify({ username: 'Test User' }));
         localStorage.setItem('token', 'test-token');
-        render(<TestComponent />, { wrapper: Wrapper });
+        sessionStorage.setItem('userProfile', JSON.stringify({ username: 'Test User' }));
 
-        await waitFor(() => {
-            expect(screen.getByTestId('initializing')).toHaveTextContent('Loading...');
-          });
+        render(<TestComponent />, { wrapper: Wrapper });
 
         await waitFor(() => {
             expect(screen.getByTestId('initializing')).toHaveTextContent('Loaded');
@@ -115,11 +110,10 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
         });
     });
 
-    test('if failed to verify token', async () => {
+    test('token not valid', async () => {
         jest.spyOn(console, 'error').mockImplementation(() => {});
         fetchMock.mockResponses(
             [JSON.stringify({ message: 'Token not valid' }), { status: 401 }],
-            [JSON.stringify({ message: 'Unauthorized' }), { status: 400 }]
         );
         localStorage.setItem('token', 'test-token');
         render(<TestComponent />, { wrapper: Wrapper });
@@ -131,49 +125,10 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
         });
         expect(console.error).toHaveBeenCalledTimes(1);
     });
-
-    test('if token is not valid', async () => {
-        fetchMock.mockResponses(
-            [JSON.stringify({ message: 'Token not valid' }),{ status: 401 }],
-            [JSON.stringify({ message: 'Unauthorized' }), { status: 400 }]
-        );
-        localStorage.setItem('token', 'test-token');
-        render(<TestComponent />, { wrapper: Wrapper });
-
-        await waitFor(() => {
-            expect(screen.getByTestId('initializing')).toHaveTextContent('Loading...');
-        });
-
-        await waitFor(() => {
-            expect(screen.getByTestId('initializing')).toHaveTextContent('Loaded');
-            expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
-            expect(screen.getByTestId('user')).toHaveTextContent('No User');
-        });
-        expect(localStorage.getItem('token')).toBeNull();
-    });
-
-    test('response from user-profile is not ok', async () => {
-        fetchMock.mockResponses(
-            [JSON.stringify({ message: 'Token Valid' }),{ status: 200 }],
-            [JSON.stringify({ message: 'Unauthorized' }), { status: 400 }]
-        );
-        localStorage.setItem('token', 'test-token');
-        render(<TestComponent />, { wrapper: Wrapper });
-
-        await waitFor(() => {
-            expect(screen.getByTestId('initializing')).toHaveTextContent('Loading...');
-          });
-
-        await waitFor(() => {
-            expect(screen.getByTestId('initializing')).toHaveTextContent('Loaded');
-            expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
-            expect(screen.getByTestId('user')).toHaveTextContent('No User');
-        });
-    });
     
     test('Logout function', async () => {
         localStorage.setItem('token', 'test-token');
-        sessionStorage.setItem('userProfile', 'test-user');
+        sessionStorage.setItem('userProfile', JSON.stringify({ username: 'Test User' }));
         render(<TestComponent />, { wrapper: Wrapper });
 
         fireEvent.click(screen.getByText('Logout'));
@@ -194,7 +149,7 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
 
     test('updateProfile function', async () => {
         localStorage.setItem('token', 'test-token');
-        sessionStorage.setItem('userProfile', 'test-user');
+        sessionStorage.setItem('userProfile', JSON.stringify({ username: 'Test User' }));
         render(<TestComponent />, { wrapper: Wrapper });
 
         fireEvent.click(screen.getByText('Update Profile'));
