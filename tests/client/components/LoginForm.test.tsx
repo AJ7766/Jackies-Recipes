@@ -178,12 +178,12 @@ test('submits the form with the right credentials and redirects', async () => {
         JSON.stringify({ token: 'fake-token' }),
         { status: 200 }
       );
-      const mockLogin = jest.fn();
+      const mockVerifyTokenAndFetchUser = jest.fn();
       (useAuth as jest.Mock).mockReturnValue({
         user: null,
         isAuthenticated: false,
         initializing: false,
-        login: mockLogin,
+        verifyTokenAndFetchUser: mockVerifyTokenAndFetchUser,
       });
     await act(async () => {
     render(<LoginForm />);
@@ -198,7 +198,7 @@ test('submits the form with the right credentials and redirects', async () => {
   });
 
   await waitFor(() => {
-    expect(mockLogin).toHaveBeenCalledWith('fake-token');
+    expect(mockVerifyTokenAndFetchUser).toHaveBeenCalledWith('fake-token');
   });
 
   await waitFor(() => {

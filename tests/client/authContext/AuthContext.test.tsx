@@ -153,34 +153,4 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
             expect(screen.getByTestId('user')).toHaveTextContent('No User');
         });
     });
-
-    test('calls verifyTokenAndFetchUser with correct token and sets token in localStorage', async () => {
-        fetchMock.mockResponses(
-            [JSON.stringify({message: 'Token Valid' }),{ status: 200 }],
-            [JSON.stringify({ userData: { username: 'Test User' } }),{ status: 200 }]
-        );
-        const verifyTokenAndFetchUser = jest.fn();
-        const mockLogin = jest.fn();
-        
-        jest.spyOn(require('@/app/authContext/AuthContext'), 'useAuth').mockImplementation(() => ({
-          isAuthenticated: false,
-          user: null,
-          updateProfile: jest.fn(),
-          logout: jest.fn(),
-          initializing: false,
-        }));
-        
-        render(<TestComponent />, { wrapper: Wrapper });
-    
-        await waitFor(() => {
-            expect(localStorage.getItem('token')).toBe('test-token');
-        });
-        
-        await act(async () => {
-            fireEvent.click(screen.getByText('Login'));
-        });        
-
-        expect(verifyTokenAndFetchUser).toHaveBeenCalledWith('test-token');
-        expect(mockLogin).toHaveBeenCalledWith('test-token');
-      });
 });

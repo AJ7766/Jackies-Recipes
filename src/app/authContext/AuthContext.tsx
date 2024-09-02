@@ -90,7 +90,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const token = localStorage.getItem('token');
     if (token) {
     verifyTokenAndFetchUser(token);
-    console.log(isAuthenticated);
     }else{
         setInitializing(false); 
     }
