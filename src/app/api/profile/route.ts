@@ -22,8 +22,7 @@ export async function POST(request: NextRequest) {
 
         return NextResponse.json({message: "Success fetching profile", profileData }, { status: 200 });
     } catch (error:any) {
-        console.error("Error in API handler:", error.message);
-        return NextResponse.json({ message: "Couldn't find user", error }, { status: 400 });
+        return NextResponse.json({ message: "Couldn't find user" }, { status: 400 });
     } 
     }
 

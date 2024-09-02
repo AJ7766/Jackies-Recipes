@@ -7,7 +7,7 @@ import NavBar from '@/app/_components/NavBar';
 beforeEach(() => {
     fetchMock.resetMocks();
     jest.clearAllMocks();
-  });
+});
 
 afterEach(() => {
     fetchMock.resetMocks();

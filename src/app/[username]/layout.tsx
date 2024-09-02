@@ -31,8 +31,6 @@ export default function RootLayout({
               },
             });
           if (!res.ok) {
-            const errorResponse = await res.json();
-            console.log(errorResponse.message);
             setUserFound(false);
             throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
           }
