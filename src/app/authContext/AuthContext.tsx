@@ -20,42 +20,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [initializing, setInitializing] = useState<boolean>(true);
   const router = useRouter();
 
-  const fetchUserData = useCallback(async (token: string) => {
-    const cachedProfile = sessionStorage.getItem('userProfile');
-    if (cachedProfile) {
-      setIsAuthenticated(true);
-      setUser(JSON.parse(cachedProfile));
-      setInitializing(false);
-      return;
-    }
-        try {
-            const res = await fetch("/api/user-profile", {
-                method: "POST",
-                body: JSON.stringify({ token }),
-                headers: {
-                  "Content-Type": "application/json"
-              },
-            });
-          if(res.ok){
-            const data = await res.json();
-            setIsAuthenticated(true);
-            setUser(data.userData);
-            sessionStorage.setItem('userProfile', JSON.stringify(data.userData));
-          }
-          else{
-            throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
-          }
-       }catch (error) {
-      console.error('Error fetching user data', error);
-      localStorage.removeItem('token');
-      sessionStorage.removeItem('userProfile');
-      setUser(null);
-    }finally{
-      setInitializing(false);
-    }
-}, []);
-
 const verifyTokenAndFetchUser = useCallback(async (token: string) => {
+  const cachedProfile = sessionStorage.getItem('userProfile');
+  if (cachedProfile) {
+    setIsAuthenticated(true);
+    setUser(JSON.parse(cachedProfile));
+    setInitializing(false);
+    return;
+  }
       try {
         const res = await fetch('/api/verify-token', {
           method: "GET",
@@ -64,24 +36,28 @@ const verifyTokenAndFetchUser = useCallback(async (token: string) => {
             "Content-Type": "application/json"
           }
         });
-        if (!res.ok) {
+        if (res.ok) {
+          const data = await res.json();
+          setIsAuthenticated(true);
+          setUser(data.userData);
+          sessionStorage.setItem('userProfile', JSON.stringify(data.userData));
+        }
+        else{
           localStorage.removeItem('token');
           setIsAuthenticated(false);
           throw new Error(`Failed to verify token: ${res.status} - ${res.statusText}`);
         }
-        else{
-          await fetchUserData(token);
-        }
       } catch (error) {
-        console.error('Token verification failed', error);
+        console.error('Error', error);
         localStorage.removeItem('token');
         sessionStorage.removeItem('userProfile');
         setIsAuthenticated(false);
       }
       finally{
-        setInitializing(false); 
+        setInitializing(false);
+        return;
       }
-  }, [fetchUserData]);
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('token');

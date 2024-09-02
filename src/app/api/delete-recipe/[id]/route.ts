@@ -17,7 +17,6 @@ export async function DELETE(request: NextRequest) {
     try {
         const decoded = jwt.verify(token, SECRET_KEY) as JwtPayload;
         const userId = decoded.id;
-        console.log(userId)
         const url = new URL(request.url);
         const recipeId = url.pathname.split('/').pop();
 
@@ -26,7 +25,6 @@ export async function DELETE(request: NextRequest) {
         }
         await connectDB();
         const user = await UserModel.findOne({ _id: userId });
-        console.log(user?.username, user?._id)
         if (!user) {
             return NextResponse.json({ message: "User not found" }, { status: 404 });
         }
@@ -38,7 +36,6 @@ export async function DELETE(request: NextRequest) {
 
         user.recipes.splice(recipeIndex, 1);
         await user.save();
-        console.log("Recipe successfully deleted")
         return NextResponse.json({ message: 'Recipe successfully deleted' }, { status: 200 });
     } catch (error) {
         console.error('Error:', error);
