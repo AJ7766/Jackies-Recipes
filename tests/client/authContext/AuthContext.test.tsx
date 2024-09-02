@@ -153,4 +153,20 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
             expect(screen.getByTestId('user')).toHaveTextContent('No User');
         });
     });
+    test('Log out function', async () => {
+        localStorage.setItem('token', 'test-token');
+        sessionStorage.setItem('userProfile', 'test-user');
+        render(<TestComponent />, { wrapper: Wrapper });
+
+        fireEvent.click(screen.getByText('Logout'));
+
+        await waitFor(() => {
+            expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
+            expect(screen.getByTestId('user')).toHaveTextContent('No User');
+        });
+        await waitFor(() => {
+            expect(mockPush).toHaveBeenCalledWith('/');
+        });
+
+    })
 });
