@@ -13,6 +13,11 @@ jest.mock('next/navigation', () => ({
 
   fetchMock.enableMocks();
 
+const DummyComponent = () => {
+    useAuth();
+    return <div>Dummy</div>;
+};
+
 const TestComponent = () => {
     const { isAuthenticated, user, logout, updateProfile, initializing } = useAuth();
     return (
@@ -21,7 +26,7 @@ const TestComponent = () => {
         <div data-testid="authenticated">{isAuthenticated ? 'Authenticated' : 'Not Authenticated'}</div>
         <div data-testid="user">{user ? `User: ${user.username}` : 'No User'}</div>
         <button onClick={logout}>Logout</button>
-        <button onClick={() => updateProfile({ user: 'Updated User' } as ProfileProps)}>Update Profile</button>
+        <button onClick={() => updateProfile({ username: 'Updated User' } as ProfileProps)}>Update Profile</button>
       </div>
     );
 };
@@ -153,7 +158,8 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
             expect(screen.getByTestId('user')).toHaveTextContent('No User');
         });
     });
-    test('Log out function', async () => {
+    
+    test('Logout function', async () => {
         localStorage.setItem('token', 'test-token');
         sessionStorage.setItem('userProfile', 'test-user');
         render(<TestComponent />, { wrapper: Wrapper });
@@ -164,9 +170,30 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
             expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
             expect(screen.getByTestId('user')).toHaveTextContent('No User');
         });
+
         await waitFor(() => {
             expect(mockPush).toHaveBeenCalledWith('/');
         });
-
+        await waitFor(() => {
+            expect(localStorage.getItem('token')).toBeNull();
+            expect(sessionStorage.getItem('userProfile')).toBeNull();
+        });
     })
+
+    test('updateProfile function', async () => {
+        localStorage.setItem('token', 'test-token');
+        sessionStorage.setItem('userProfile', 'test-user');
+        render(<TestComponent />, { wrapper: Wrapper });
+
+        fireEvent.click(screen.getByText('Update Profile'));
+
+        await waitFor(() => {
+            expect(screen.getByTestId('user')).toHaveTextContent('User: Updated User');
+    });
+    })
+    
+    test('throws an error if used outside of AuthProvider', () => {
+        const renderOutsideAuthProvider = () => render(<DummyComponent />);
+        expect(renderOutsideAuthProvider).toThrow('useAuth must be used within an AuthProvider');
+    });
 });

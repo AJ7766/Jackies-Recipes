@@ -15,18 +15,11 @@ export default  function NavBar(){
     const [isOpen, setIsOpen] = useState(false);
     const [debouncedSearch, setDebouncedSearch] = useState(search);
     const [users, setUsers] = useState<ProfileProps[]>([]);
-    const [loading, setLoading] = useState(true);
     const [searchResults, setSearcResults] = useState(false);
     const dropdownRef = useRef<HTMLDivElement | null>(null);
     const searchResultsRef = useRef<HTMLDivElement | null>(null);
 
     const { user, logout, isAuthenticated, initializing } = useAuth();
-
-    useEffect(() => {
-      if (!initializing) {
-          setLoading(false);
-      }
-  }, [initializing]);
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -86,7 +79,7 @@ export default  function NavBar(){
       setIsOpen(!isOpen);
     };
 
-    if (loading) {
+    if (initializing) {
       return (
       <>
         <div className="space"></div>

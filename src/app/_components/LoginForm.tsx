@@ -42,7 +42,7 @@ export default function LoginForm(){
             setError(false);
             let data = await res.json();
             localStorage.setItem('token', data.token);
-            verifyTokenAndFetchUser(data.token);
+            await verifyTokenAndFetchUser(data.token);
             router.push(`/${username}`);
           }}catch (error:any) {
           const errorMessage = error instanceof Error ? error.message : "Failed to login.";

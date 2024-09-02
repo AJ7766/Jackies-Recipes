@@ -7,7 +7,7 @@ interface AuthContextType {
   isAuthenticated: boolean;
   user: ProfileProps | null;
   updateProfile: (updatedProfile: ProfileProps) => void;
-  verifyTokenAndFetchUser: (token: string) => void;
+  verifyTokenAndFetchUser: (token: string) => Promise<void>;
   logout: () => void;
   initializing: boolean;
 }
@@ -38,21 +38,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               },
             });
           if(res.ok){
+            const data = await res.json();
             setIsAuthenticated(true);
+            setUser(data.userData);
+            sessionStorage.setItem('userProfile', JSON.stringify(data.userData));
           }
           else{
             throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
           }
-        const data = await res.json();
-        setUser(data.userData);
-        sessionStorage.setItem('userProfile', JSON.stringify(data.userData));
-        setInitializing(false);
-      } catch (error) {
+       }catch (error) {
       console.error('Error fetching user data', error);
       localStorage.removeItem('token');
       sessionStorage.removeItem('userProfile');
       setUser(null);
+    }finally{
+      setInitializing(false);
     }
+  }else{
+    setInitializing(false);
+    return;
   }
 }, []);
 
@@ -83,15 +87,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       finally{
         setInitializing(false); 
       }
+    }else{
+      setInitializing(false);
+      return;
     }
   }, [fetchUserData]);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
-    verifyTokenAndFetchUser(token);
+      verifyTokenAndFetchUser(token);
     }else{
-        setInitializing(false); 
+      setInitializing(false); 
     }
   },[verifyTokenAndFetchUser] );
 
