@@ -9,9 +9,10 @@ import '@testing-library/jest-dom';
 
 jest.mock('next/navigation', () => ({
     useRouter: jest.fn(),
-  }));
+}));
 
-  fetchMock.enableMocks();
+fetchMock.enableMocks();
+
 
 const DummyComponent = () => {
     useAuth();
@@ -40,6 +41,8 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
         (useRouter as jest.Mock).mockReturnValue({
         push: mockPush,
         });
+        localStorage.clear();
+        sessionStorage.clear();
     });
 
     afterEach(() => {
@@ -63,6 +66,15 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
         expect(screen.getByTestId('initializing')).toHaveTextContent('Loaded');
         expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
         expect(screen.getByTestId('user')).toHaveTextContent('No User');
+    });
+
+    test('should call setInitializing with false and return when token is not provided', async () => {
+          render(<TestComponent />, { wrapper: AuthProvider });
+          await waitFor(() => {
+            expect(screen.getByTestId('initializing')).toHaveTextContent('Loaded');
+            expect(screen.getByTestId('authenticated')).toHaveTextContent('Not Authenticated');
+            expect(screen.getByTestId('user')).toHaveTextContent('No User');
+          });
     });
 
     test('displays loading and then user data after fetching', async () => {
@@ -191,7 +203,7 @@ const Wrapper = ({children}:{children: React.ReactNode}) => {
             expect(screen.getByTestId('user')).toHaveTextContent('User: Updated User');
     });
     })
-    
+
     test('throws an error if used outside of AuthProvider', () => {
         const renderOutsideAuthProvider = () => render(<DummyComponent />);
         expect(renderOutsideAuthProvider).toThrow('useAuth must be used within an AuthProvider');

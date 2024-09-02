@@ -28,7 +28,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setInitializing(false);
       return;
     }
-    if(token){
         try {
             const res = await fetch("/api/user-profile", {
                 method: "POST",
@@ -54,14 +53,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }finally{
       setInitializing(false);
     }
-  }else{
-    setInitializing(false);
-    return;
-  }
 }, []);
 
-  const verifyTokenAndFetchUser = useCallback(async (token: string) => {
-    if(token){
+const verifyTokenAndFetchUser = useCallback(async (token: string) => {
       try {
         const res = await fetch('/api/verify-token', {
           method: "GET",
@@ -87,10 +81,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       finally{
         setInitializing(false); 
       }
-    }else{
-      setInitializing(false);
-      return;
-    }
   }, [fetchUserData]);
 
   useEffect(() => {
