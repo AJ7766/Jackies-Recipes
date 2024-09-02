@@ -59,14 +59,14 @@ export default function NavBar(){
                 }
                 });
               if (!res.ok) {
-                throw new Error(`Failed to fetch profile: ${res.status} - ${res.statusText}`);
+                throw new Error(`Error: ${res.status} - ${res.statusText}`);
               }
               const data = await res.json();
               setSearcResults(true);
               setUsers(data.existingUsers);
+
             } catch (error:any) {
-              console.error("Error fetching profile:", error.message);
-            }finally{
+              console.error("Error:", error.message);
             }
         }
         fetchData();
@@ -94,11 +94,11 @@ export default function NavBar(){
         <Image src={searchGlass} id="searchGlass" alt="search-glass" width={24} height={24}/>
         <input type="search" name="query" value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search..." />
         {searchResults && users.length > 0 &&
-        <div className="searchedUsersContainer" ref={searchResultsRef}>
+        <div className="searchedUsersContainer" data-testid="searchedUsersContainer" ref={searchResultsRef}>
         {users.map((user, indexKey) => (
       <Link href={`/${user.username}`} key={indexKey}>
-        <div className="searchedUser">
-          <Image height={42} width={42} src={user.userContent?.profilePicture || profilePicture} alt="profile-picture"/>
+        <div className="searchedUser" data-testid="searchedUser">
+          <Image height={42} width={42} src={user.userContent?.profilePicture || profilePicture} alt="user-picture"/>
           <div>
           <h2>{user.username}</h2>
           <p>{user.fullName}</p>

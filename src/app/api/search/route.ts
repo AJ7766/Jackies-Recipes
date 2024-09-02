@@ -1,27 +1,20 @@
 import { connectDB } from "@/config/database";
 import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server";
-import NodeCache from 'node-cache';
-
-const cache = new NodeCache({ stdTTL: 60 });
 
 export async function POST(request: NextRequest) {
-    const { username } = await request.json();
+    try {
+        const { username } = await request.json();
 
-    const cacheKey = `userSearch_${username}`;
-    const cachedResults = cache.get(cacheKey);
-        
-    if (cachedResults) {
-        return NextResponse.json({ success: true, existingUsers: cachedResults }, { status: 200 });
+        const regex = new RegExp(username, 'i');
+        await connectDB();
+        const existingUsers = await UserModel.find({ username: { $regex: regex } }).limit(5).select('-_id username fullName userContent.profilePicture').lean();
+
+        if (existingUsers.length === 0) {
+            return NextResponse.json({ success: false, message: `No existing user with username ${username}` }, { status: 404 });
+        }
+        return NextResponse.json({ success: true, existingUsers}, { status: 200 }); 
+    }catch{
+        return NextResponse.json({ success: false, message: 'Internal Server Error'}, { status: 500 });
     }
-
-    const regex = new RegExp(username, 'i');
-    await connectDB();
-    const existingUsers = await UserModel.find({ username: { $regex: regex } }).limit(5).select('-_id username fullName userContent.profilePicture').lean();
-    if (!existingUsers) {
-        throw new Error(`No existing user with username ${username}`);
-    }
-
-    cache.set(cacheKey, existingUsers);
-    return NextResponse.json({ success: true, existingUsers}, { status: 200 }); 
 }
