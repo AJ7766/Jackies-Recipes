@@ -1,3 +1,6 @@
+/**
+ * @jest-environment node
+*/
 import { POST } from '@/app/api/login/route';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcrypt';

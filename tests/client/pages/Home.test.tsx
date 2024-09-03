@@ -39,10 +39,10 @@ describe('Home Page', () => {
       isAuthenticated: false,
       initializing: true,
     });
-    act(() => {
-    const { container } = render(<Home />);
-    expect(container.firstChild).toBeNull();
-    expect(screen.queryByTestId('login-form')).toBeNull();
+      act(() => {
+      const { container } = render(<Home />);
+      expect(container.firstChild).toBeNull();
+      expect(screen.queryByTestId('login-form')).toBeNull();
     });
   });
 
@@ -53,7 +53,7 @@ describe('Home Page', () => {
       initializing: false,
     });
     act(() => {
-    render(<Home />);
+      render(<Home />);
     });
     expect(screen.getByTestId('login-form')).toBeInTheDocument();
     expect(screen.getByAltText('logo')).toBeInTheDocument();
@@ -70,8 +70,8 @@ describe('Home Page', () => {
       initializing: false,
     });
     act( () => {
-    render(<Home />);
-    expect(mockPush).not.toHaveBeenCalled();
+      render(<Home />);
+      expect(mockPush).not.toHaveBeenCalled();
     });
   });
 
@@ -82,7 +82,7 @@ describe('Home Page', () => {
       initializing: false,
     });
     act(() => {
-    render(<Home />);
+      render(<Home />);
     });
     expect(mockPush).toHaveBeenCalledWith('/testuser');
 });
