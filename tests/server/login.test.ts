@@ -1,13 +1,25 @@
 /**
  * @jest-environment node
 */
-import { POST } from '@/app/api/login/route';
-import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import { connectDB } from '@/config/database';
+import { connectDB, getUri } from '@/config/database';
+import mongoose from 'mongoose';
 
-// Mocking dependencies
+jest.mock('@/config/database', () => {
+  const actual = jest.requireActual('@/config/database');
+
+  return {
+    ...actual,
+    getUri: jest.fn().mockResolvedValue('mocked-mongodb-uri'),
+    connectDB: jest.fn().mockImplementation(() => {
+      return {
+        connection: {
+          readyState: 1
+        }
+      };
+    })
+  };
+});
+
 jest.mock('next/server', () => ({
   NextResponse: {
     json: jest.fn().mockImplementation((body: any, options: any) => ({
@@ -17,29 +29,19 @@ jest.mock('next/server', () => ({
   },
 }));
 
-jest.mock('@/config/database', () => ({
-    connectDB: jest.fn().mockResolvedValue({
-        connection: { readyState: 1 }, // Simulate a successful connection
-    }),
-}));
-    
 
 describe('connectDB', () => {
-    beforeEach(() => {
-      // Clear mock history before each test
-      (connectDB as jest.Mock).mockClear();
-    });
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    jest.resetModules();
+    process.env.MONGODB_URI = 'your-mongodb-uri';
+  });
   
-    test('should return mocked database connection', async () => {
-      // Call the mocked function
-      const result = await connectDB();
-  
-      // Assert that connectDB was called
-      expect(connectDB).toHaveBeenCalled();
-  
-      // Assert that the result is what we expect
-      expect(result).toEqual({
-        connection: { readyState: 1 }, // Expected mock value
+    test('should return mocked database connection', async () => {  
+      const client = await connectDB();
+
+      expect(client).toEqual({connection: { readyState: 1 },
       });
     });
   });
