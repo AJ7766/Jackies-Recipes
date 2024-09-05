@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { UserModel } from "@/models/UserModel";
 
 
-const SECRET_KEY = (process.env.JWT_SECRET_KEY as string) || "placeholder";
+const SECRET_KEY = (process.env.JWT_SECRET_KEY as string);
 
 export async function POST(request: NextRequest) {
 
