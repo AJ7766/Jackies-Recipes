@@ -18,8 +18,9 @@ export async function POST(request: NextRequest) {
     if (!user) {
       throw new Error('Invalid username or password');
     }
-    const isMatch = await bcrypt.compare(userPassword, user.password);
 
+    const isMatch = await bcrypt.compare(userPassword, user.password);
+    
     if (!isMatch) {
       throw new Error('Invalid username or password');
     }

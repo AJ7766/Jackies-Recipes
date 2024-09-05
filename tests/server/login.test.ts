@@ -1,8 +1,12 @@
 /**
  * @jest-environment node
 */
-import { connectDB, getUri } from '@/config/database';
-import mongoose from 'mongoose';
+import { connectDB } from '@/config/database';
+import { UserModel } from '@/models/UserModel';
+import { NextRequest, NextResponse } from 'next/server';
+import { POST } from '@/app/api/login/route';
+import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
 
 jest.mock('@/config/database', () => {
   const actual = jest.requireActual('@/config/database');
@@ -22,26 +26,123 @@ jest.mock('@/config/database', () => {
 
 jest.mock('next/server', () => ({
   NextResponse: {
-    json: jest.fn().mockImplementation((body: any, options: any) => ({
-      json: async () => body,
-      status: options?.status || 200,
-    })),
+    json: jest.fn(),
   },
 }));
 
+jest.mock('@/models/UserModel', () => ({
+  UserModel: {
+    findOne: jest.fn(),
+  },
+}));
 
-describe('connectDB', () => {
+jest.mock('bcrypt', () => ({
+  compare: jest.fn(),
+}));
 
-  beforeEach(() => {
-    jest.clearAllMocks();
-    jest.resetModules();
-    process.env.MONGODB_URI = 'your-mongodb-uri';
-  });
-  
-    test('should return mocked database connection', async () => {  
-      const client = await connectDB();
+jest.mock('jsonwebtoken', () => ({
+  sign: jest.fn(),
+}));
 
-      expect(client).toEqual({connection: { readyState: 1 },
-      });
+  describe('connectDB', () => {
+
+    beforeEach(() => {
+      jest.clearAllMocks();
+      jest.resetModules();
+      process.env.MONGODB_URI = 'your-mongodb-uri';
     });
-  });
+
+    test('recieve request from client & logging in successfully', async () => { 
+      const mockRequestBody = { username: 'testuser', password: 'testpassword' };
+      const mockRequest = {
+        json: jest.fn().mockResolvedValue(mockRequestBody),
+      } as unknown as NextRequest;
+
+      await connectDB();
+      
+      (UserModel.findOne as jest.Mock).mockImplementationOnce(() => ({
+        lean: jest.fn().mockResolvedValue({
+          _id: 'mocked-id',
+          username: 'testuser',
+          password: 'hashedpassword',
+        }),
+      }));
+
+      (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+
+      (jwt.sign as jest.Mock).mockReturnValue('mocked-jwt-token');
+
+      await POST(mockRequest);
+
+      expect(mockRequest.json).toHaveBeenCalled();
+      expect(connectDB).toHaveBeenCalled();
+      expect(UserModel.findOne).toHaveBeenCalledWith({ username: 'testuser' });
+      expect(bcrypt.compare).toHaveBeenCalledWith('testpassword', 'hashedpassword');
+      expect(jwt.sign).toHaveBeenCalledWith(
+        { id: 'mocked-id', username: 'testuser' },
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: '30d' }
+      );
+      expect(NextResponse.json).toHaveBeenCalledWith(
+        { message: "Successfully logged in", token: 'mocked-jwt-token' },
+        { status: 200 }
+      );
+});
+
+    test('user not found', async () => { 
+      jest.spyOn(console, 'error').mockImplementation(() => {});
+      const mockRequestBody = { username: 'testuser', password: 'testpassword' };
+      const mockRequest = {
+        json: jest.fn().mockResolvedValue(mockRequestBody),
+      } as unknown as NextRequest;
+
+      await connectDB();
+      
+      (UserModel.findOne as jest.Mock).mockImplementationOnce(() => ({
+        lean: jest.fn().mockResolvedValue(null),
+      }));
+
+      await POST(mockRequest);
+
+      expect(mockRequest.json).toHaveBeenCalled();
+      expect(connectDB).toHaveBeenCalled();
+      expect(UserModel.findOne).toHaveBeenCalledWith({ username: 'testuser' });
+      expect(NextResponse.json).toHaveBeenCalledWith(
+        { message: "Invalid username or password."},
+        { status: 400 }
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+    });
+
+    test('the passwords does not match', async () => { 
+      jest.spyOn(console, 'error').mockImplementation(() => {});
+      const mockRequestBody = { username: 'testuser', password: 'testpassword' };
+      const mockRequest = {
+        json: jest.fn().mockResolvedValue(mockRequestBody),
+      } as unknown as NextRequest;
+
+      await connectDB();
+      
+      (UserModel.findOne as jest.Mock).mockImplementationOnce(() => ({
+        lean: jest.fn().mockResolvedValue({
+          _id: 'mocked-id',
+          username: 'testuser',
+          password: 'hashedpassword',
+        }),
+      }));
+
+      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
+
+      await POST(mockRequest);
+
+      expect(mockRequest.json).toHaveBeenCalled();
+      expect(connectDB).toHaveBeenCalled();
+      expect(UserModel.findOne).toHaveBeenCalledWith({ username: 'testuser' });
+      expect(bcrypt.compare).toHaveBeenCalledWith('testpassword', 'hashedpassword');
+      expect(NextResponse.json).toHaveBeenCalledWith(
+        { message: "Invalid username or password."},
+        { status: 400 }
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+    });
+});
