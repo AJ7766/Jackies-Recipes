@@ -10,7 +10,6 @@ import jwt from 'jsonwebtoken';
 
 jest.mock('@/config/database', () => {
   const actual = jest.requireActual('@/config/database');
-
   return {
     ...actual,
     getUri: jest.fn().mockResolvedValue('mocked-mongodb-uri'),
