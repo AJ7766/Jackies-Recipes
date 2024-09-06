@@ -1,4 +1,3 @@
-import mongoose from "mongoose"
 import { NextRequest, NextResponse } from "next/server"
 import { connectDB } from "../../../config/database"
 import { UserModel } from "../../../models/UserModel"
@@ -15,7 +14,7 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ success: false, message: validationResponse }, { status: 400 });
       }
       
-      await connectDB()
+      await connectDB();
 
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(password, saltRounds);

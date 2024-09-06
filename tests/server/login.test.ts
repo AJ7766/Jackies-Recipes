@@ -43,7 +43,7 @@ jest.mock('jsonwebtoken', () => ({
   sign: jest.fn(),
 }));
 
-  describe('connectDB', () => {
+  describe('api/login endpoint', () => {
 
     beforeEach(() => {
       jest.clearAllMocks();
@@ -52,12 +52,14 @@ jest.mock('jsonwebtoken', () => ({
     });
 
     test('recieve request from client & logging in successfully', async () => { 
-      const mockRequestBody = { username: 'testuser', password: 'testpassword' };
+      const mockRequestBody = { 
+      username: 'testuser',
+      password: 'testpassword'
+      };
+
       const mockRequest = {
         json: jest.fn().mockResolvedValue(mockRequestBody),
       } as unknown as NextRequest;
-
-      await connectDB();
       
       (UserModel.findOne as jest.Mock).mockImplementationOnce(() => ({
         lean: jest.fn().mockResolvedValue({
@@ -71,6 +73,7 @@ jest.mock('jsonwebtoken', () => ({
 
       (jwt.sign as jest.Mock).mockReturnValue('mocked-jwt-token');
 
+      await connectDB();
       await POST(mockRequest);
 
       expect(mockRequest.json).toHaveBeenCalled();
@@ -90,17 +93,21 @@ jest.mock('jsonwebtoken', () => ({
 
     test('user not found', async () => { 
       jest.spyOn(console, 'error').mockImplementation(() => {});
-      const mockRequestBody = { username: 'testuser', password: 'testpassword' };
+
+      const mockRequestBody = { 
+        username: 'testuser',
+        password: 'testpassword'
+      };
+      
       const mockRequest = {
         json: jest.fn().mockResolvedValue(mockRequestBody),
       } as unknown as NextRequest;
-
-      await connectDB();
       
       (UserModel.findOne as jest.Mock).mockImplementationOnce(() => ({
         lean: jest.fn().mockResolvedValue(null),
       }));
 
+      await connectDB();
       await POST(mockRequest);
 
       expect(mockRequest.json).toHaveBeenCalled();
@@ -115,12 +122,15 @@ jest.mock('jsonwebtoken', () => ({
 
     test('the passwords does not match', async () => { 
       jest.spyOn(console, 'error').mockImplementation(() => {});
-      const mockRequestBody = { username: 'testuser', password: 'testpassword' };
+
+      const mockRequestBody = { 
+      username: 'testuser',
+      password: 'testpassword'
+      };
+
       const mockRequest = {
         json: jest.fn().mockResolvedValue(mockRequestBody),
       } as unknown as NextRequest;
-
-      await connectDB();
       
       (UserModel.findOne as jest.Mock).mockImplementationOnce(() => ({
         lean: jest.fn().mockResolvedValue({
@@ -131,7 +141,8 @@ jest.mock('jsonwebtoken', () => ({
       }));
 
       (bcrypt.compare as jest.Mock).mockResolvedValue(false);
-
+      
+      await connectDB();
       await POST(mockRequest);
 
       expect(mockRequest.json).toHaveBeenCalled();
