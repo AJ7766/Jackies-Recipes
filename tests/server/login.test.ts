@@ -9,64 +9,64 @@ import bcrypt from "bcrypt";
 import jwt from 'jsonwebtoken';
 
 jest.mock('@/config/database', () => {
-  const actual = jest.requireActual('@/config/database');
-  return {
-    ...actual,
-    getUri: jest.fn().mockResolvedValue('mocked-mongodb-uri'),
-    connectDB: jest.fn().mockImplementation(() => {
-      return {
-        connection: {
-          readyState: 1
-        }
-      };
-    })
-  };
+   const actual = jest.requireActual('@/config/database');
+   return {
+      ...actual,
+      getUri: jest.fn().mockResolvedValue('mocked-mongodb-uri'),
+      connectDB: jest.fn().mockImplementation(() => {
+         return {
+            connection: {
+               readyState: 1
+            }
+         };
+      })
+   };
 });
 
 jest.mock('next/server', () => ({
-  NextResponse: {
-    json: jest.fn(),
-  },
+   NextResponse: {
+      json: jest.fn(),
+   },
 }));
 
 jest.mock('@/models/UserModel', () => ({
-  UserModel: {
-    findOne: jest.fn(),
-  },
+   UserModel: {
+      findOne: jest.fn(),
+   },
 }));
 
 jest.mock('bcrypt', () => ({
-  compare: jest.fn(),
+   compare: jest.fn(),
 }));
 
 jest.mock('jsonwebtoken', () => ({
-  sign: jest.fn(),
+   sign: jest.fn(),
 }));
 
-  describe('api/login endpoint', () => {
+describe('api/login endpoint', () => {
 
-    beforeEach(() => {
+   beforeEach(() => {
       jest.clearAllMocks();
       jest.resetModules();
       process.env.MONGODB_URI = 'your-mongodb-uri';
-    });
+   });
 
-    test('recieve request from client & logging in successfully', async () => { 
-      const mockRequestBody = { 
-      username: 'testuser',
-      password: 'testpassword'
+   test('recieve request from client & logging in successfully', async () => {
+      const mockRequestBody = {
+         username: 'testuser',
+         password: 'testpassword'
       };
 
       const mockRequest = {
-        json: jest.fn().mockResolvedValue(mockRequestBody),
+         json: jest.fn().mockResolvedValue(mockRequestBody),
       } as unknown as NextRequest;
-      
+
       (UserModel.findOne as jest.Mock).mockImplementationOnce(() => ({
-        lean: jest.fn().mockResolvedValue({
-          _id: 'mocked-id',
-          username: 'testuser',
-          password: 'hashedpassword',
-        }),
+         lean: jest.fn().mockResolvedValue({
+            _id: 'mocked-id',
+            username: 'testuser',
+            password: 'hashedpassword',
+         }),
       }));
 
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
@@ -81,30 +81,30 @@ jest.mock('jsonwebtoken', () => ({
       expect(UserModel.findOne).toHaveBeenCalledWith({ username: 'testuser' });
       expect(bcrypt.compare).toHaveBeenCalledWith('testpassword', 'hashedpassword');
       expect(jwt.sign).toHaveBeenCalledWith(
-        { id: 'mocked-id', username: 'testuser' },
-        process.env.JWT_SECRET_KEY,
-        { expiresIn: '30d' }
+         { id: 'mocked-id', username: 'testuser' },
+         process.env.JWT_SECRET_KEY,
+         { expiresIn: '30d' }
       );
       expect(NextResponse.json).toHaveBeenCalledWith(
-        { message: "Successfully logged in", token: 'mocked-jwt-token' },
-        { status: 200 }
+         { message: "Successfully logged in", token: 'mocked-jwt-token' },
+         { status: 200 }
       );
-});
+   });
 
-    test('user not found', async () => { 
-      jest.spyOn(console, 'error').mockImplementation(() => {});
+   test('user not found', async () => {
+      jest.spyOn(console, 'error').mockImplementation(() => { });
 
-      const mockRequestBody = { 
-        username: 'testuser',
-        password: 'testpassword'
+      const mockRequestBody = {
+         username: 'testuser',
+         password: 'testpassword'
       };
-      
+
       const mockRequest = {
-        json: jest.fn().mockResolvedValue(mockRequestBody),
+         json: jest.fn().mockResolvedValue(mockRequestBody),
       } as unknown as NextRequest;
-      
+
       (UserModel.findOne as jest.Mock).mockImplementationOnce(() => ({
-        lean: jest.fn().mockResolvedValue(null),
+         lean: jest.fn().mockResolvedValue(null),
       }));
 
       await connectDB();
@@ -114,34 +114,34 @@ jest.mock('jsonwebtoken', () => ({
       expect(connectDB).toHaveBeenCalled();
       expect(UserModel.findOne).toHaveBeenCalledWith({ username: 'testuser' });
       expect(NextResponse.json).toHaveBeenCalledWith(
-        { message: "Invalid username or password."},
-        { status: 400 }
+         { message: "Invalid username or password." },
+         { status: 400 }
       );
       expect(console.error).toHaveBeenCalledTimes(1);
-    });
+   });
 
-    test('the passwords does not match', async () => { 
-      jest.spyOn(console, 'error').mockImplementation(() => {});
+   test('the passwords does not match', async () => {
+      jest.spyOn(console, 'error').mockImplementation(() => { });
 
-      const mockRequestBody = { 
-      username: 'testuser',
-      password: 'testpassword'
+      const mockRequestBody = {
+         username: 'testuser',
+         password: 'testpassword'
       };
 
       const mockRequest = {
-        json: jest.fn().mockResolvedValue(mockRequestBody),
+         json: jest.fn().mockResolvedValue(mockRequestBody),
       } as unknown as NextRequest;
-      
+
       (UserModel.findOne as jest.Mock).mockImplementationOnce(() => ({
-        lean: jest.fn().mockResolvedValue({
-          _id: 'mocked-id',
-          username: 'testuser',
-          password: 'hashedpassword',
-        }),
+         lean: jest.fn().mockResolvedValue({
+            _id: 'mocked-id',
+            username: 'testuser',
+            password: 'hashedpassword',
+         }),
       }));
 
       (bcrypt.compare as jest.Mock).mockResolvedValue(false);
-      
+
       await connectDB();
       await POST(mockRequest);
 
@@ -150,9 +150,9 @@ jest.mock('jsonwebtoken', () => ({
       expect(UserModel.findOne).toHaveBeenCalledWith({ username: 'testuser' });
       expect(bcrypt.compare).toHaveBeenCalledWith('testpassword', 'hashedpassword');
       expect(NextResponse.json).toHaveBeenCalledWith(
-        { message: "Invalid username or password."},
-        { status: 400 }
+         { message: "Invalid username or password." },
+         { status: 400 }
       );
       expect(console.error).toHaveBeenCalledTimes(1);
-    });
+   });
 });
