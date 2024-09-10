@@ -127,4 +127,65 @@ describe('api/register endpoint', () => {
       );
    });
 
+   test('request failed, duplicate email error code: 11000', async () => {
+      jest.spyOn(console, 'error').mockImplementation(() => { });
+      const mockRequestBody = {
+         email: 'email@test.com',
+         fullName: 'testname',
+         username: 'testuser',
+         password: 'testpassword',
+         confirmPassword: 'testpassword'
+      };
+      const duplicateKeyError = {
+         code: 11000,
+         keyPattern: { email: 1 },
+         keyValue: { email: 'email@test.com' }
+      };
+      const mockRequest = {
+         json: jest.fn().mockResolvedValue(mockRequestBody),
+      } as unknown as NextRequest;
+   
+      (UserModel.create as jest.Mock).mockRejectedValue(duplicateKeyError);
+      (ValidateRegisterForm as jest.Mock).mockReturnValue(null);
+
+      await POST(mockRequest);
+
+      expect(mockRequest.json).toHaveBeenCalled();
+      expect(NextResponse.json).toHaveBeenCalledWith(
+         { message: "Email 'email@test.com' is already registered." },
+         { status: 400 }
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
+
+   test('request failed, duplicate username error code: 11000', async () => {
+      jest.spyOn(console, 'error').mockImplementation(() => { });
+      const mockRequestBody = {
+         email: 'email@test.com',
+         fullName: 'testname',
+         username: 'testuser',
+         password: 'testpassword',
+         confirmPassword: 'testpassword'
+      };
+      const duplicateKeyError = {
+         code: 11000,
+         keyPattern: { username: 1 },
+         keyValue: { username: 'testuser' }
+      };
+      const mockRequest = {
+         json: jest.fn().mockResolvedValue(mockRequestBody),
+      } as unknown as NextRequest;
+   
+      (UserModel.create as jest.Mock).mockRejectedValue(duplicateKeyError);
+      (ValidateRegisterForm as jest.Mock).mockReturnValue(null);
+
+      await POST(mockRequest);
+
+      expect(mockRequest.json).toHaveBeenCalled();
+      expect(NextResponse.json).toHaveBeenCalledWith(
+         { message: "Username 'testuser' is already taken." },
+         { status: 400 }
+      );
+      expect(console.error).toHaveBeenCalledTimes(1);
+   });
 });
