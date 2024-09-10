@@ -13,7 +13,7 @@
 - Implemented API calls to the server to ensure data security.
 - Used JSON Web Tokens (JWT) for user authorization.
 - Implemented cache in backend with Node-cache to make queries faster.
-- Testing with JEST for Back-end & Front-end.
+- Integration and Unit testing with Jest for Back-end & Front-end.
 - Utilized Tailwind CSS for responsive design and styling.
 
 
