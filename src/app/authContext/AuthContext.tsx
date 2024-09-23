@@ -1,7 +1,13 @@
-"use client"
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { ProfileProps } from '../types/types';
-import { useRouter } from 'next/navigation';
+"use client";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+} from "react";
+import { ProfileProps } from "../types/types";
+import { useRouter } from "next/navigation";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -20,61 +26,60 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [initializing, setInitializing] = useState<boolean>(true);
   const router = useRouter();
 
-const verifyTokenAndFetchUser = useCallback(async (token: string) => {
-  const cachedProfile = sessionStorage.getItem('userProfile');
-  if (cachedProfile) {
-    setIsAuthenticated(true);
-    setUser(JSON.parse(cachedProfile));
-    setInitializing(false);
-    return;
-  }
-      try {
-        const res = await fetch('/api/verify-token-fetch-user', {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          }
-        });
-        if (res.ok) {
-          const data = await res.json();
-          setIsAuthenticated(true);
-          setUser(data.userData);
-          sessionStorage.setItem('userProfile', JSON.stringify(data.userData));
-        }
-        else{
-          localStorage.removeItem('token');
-          setIsAuthenticated(false);
-          throw new Error(`Failed to verify token: ${res.status} - ${res.statusText}`);
-        }
-      } catch (error) {
-        console.error('Error', error);
-        localStorage.removeItem('token');
-        sessionStorage.removeItem('userProfile');
+  const verifyTokenAndFetchUser = useCallback(async (token: string) => {
+    const cachedProfile = sessionStorage.getItem("userProfile");
+    if (cachedProfile) {
+      setIsAuthenticated(true);
+      setUser(JSON.parse(cachedProfile));
+      setInitializing(false);
+      return;
+    }
+    try {
+      const res = await fetch("/api/verify-token-fetch-user", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setIsAuthenticated(true);
+        setUser(data.userData);
+        sessionStorage.setItem("userProfile", JSON.stringify(data.userData));
+      } else {
+        localStorage.removeItem("token");
         setIsAuthenticated(false);
+        throw new Error(
+          `Failed to verify token: ${res.status} - ${res.statusText}`
+        );
       }
-      finally{
-        setInitializing(false);
-        return;
-      }
+    } catch (error) {
+      console.error("Error", error);
+      localStorage.removeItem("token");
+      sessionStorage.removeItem("userProfile");
+      setIsAuthenticated(false);
+    } finally {
+      setInitializing(false);
+      return;
+    }
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    
+    const token = localStorage.getItem("token");
+
     const fetchTokenAndUser = async () => {
-    if (token) {
-      await verifyTokenAndFetchUser(token);
-    }else{
-      setInitializing(false); 
-    }
-  }
+      if (token) {
+        await verifyTokenAndFetchUser(token);
+      } else {
+        setInitializing(false);
+      }
+    };
     fetchTokenAndUser();
-  },[verifyTokenAndFetchUser] );
+  }, [verifyTokenAndFetchUser]);
 
   const logout = () => {
-    localStorage.removeItem('token');
-    sessionStorage.removeItem('userProfile');
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("userProfile");
     setIsAuthenticated(false);
     setUser(null);
     router.push(`/`);
@@ -82,20 +87,29 @@ const verifyTokenAndFetchUser = useCallback(async (token: string) => {
 
   const updateProfile = (updatedProfile: ProfileProps) => {
     setUser(updatedProfile);
-    sessionStorage.setItem('userProfile', JSON.stringify(updatedProfile));
+    sessionStorage.setItem("userProfile", JSON.stringify(updatedProfile));
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, updateProfile, verifyTokenAndFetchUser, logout, initializing }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        user,
+        updateProfile,
+        verifyTokenAndFetchUser,
+        logout,
+        initializing,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
-};
+}
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
