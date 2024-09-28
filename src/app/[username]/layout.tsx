@@ -5,7 +5,6 @@ import { useParams } from "next/navigation";
 import { ProfilePropsOrNull } from "../types/types";
 import ProfilePage from "../_components/Profile";
 import Masonary from "../_components/Masonary";
-import { useAuth } from "../authContext/AuthContext";
 
 export default function RootLayout({
   children,
@@ -15,7 +14,6 @@ export default function RootLayout({
   const [userFound, setUserFound] = useState(true);
   const [profile, setProfile] = useState<ProfilePropsOrNull>(null);
   const [loading, setLoading] = useState(true);
-  const {initializing} = useAuth();
   const { username } = useParams();
   const lowercaseUsername = Array.isArray(username)
     ? username[0].toLowerCase()
