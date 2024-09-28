@@ -11,7 +11,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [userFound, setUserFound] = useState(true);
+  const [userFound, setUserFound] = useState(false);
   const [profile, setProfile] = useState<ProfilePropsOrNull>(null);
   const [loading, setLoading] = useState(true);
   const { username } = useParams();
@@ -31,7 +31,6 @@ export default function RootLayout({
             },
           });
           if (!res.ok) {
-            setUserFound(false);
             throw new Error(
               `Failed to fetch profile: ${res.status} - ${res.statusText}`
             );
@@ -54,13 +53,16 @@ export default function RootLayout({
     <>
       <NavBar />
       {children}
-      {userFound && !loading && (
-        <>
-          <ProfilePage profile={profile} />
-          <div className="divider"></div>
-          <Masonary profile={profile} />
-        </>
-      )} 
+      {!loading && (
+        userFound ? (
+          <>
+            <ProfilePage profile={profile} />
+            <div className="divider"></div>
+            <Masonary profile={profile} />
+          </>
+        ) : (
+          <div>user not found</div>
+        )
+      )}
     </>
-  );
-}
+  )};
