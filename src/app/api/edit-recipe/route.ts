@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import validationAddRecipeSchema from "./validationAddRecipeSchema";
 import { RecipeProps } from "@/models/UserRecipe";
 import { connectDB } from "@/config/database";
+import cache from "@/config/cache";
 
 export async function POST(request: NextRequest) {
     try {
@@ -12,7 +13,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ success: false, message: "No user or recipe found" }, { status: 400 });
         }
 
-        const validationResponse = await validationAddRecipeSchema({recipe});
+        const validationResponse = await validationAddRecipeSchema({ recipe });
 
         if (typeof validationResponse === 'string') {
             return NextResponse.json({ success: false, message: validationResponse }, { status: 400 });
@@ -22,7 +23,7 @@ export async function POST(request: NextRequest) {
 
         await connectDB();
         const updateResult = await UserModel.updateOne(
-            { _id: userId, 'recipes._id': recipe._id }, 
+            { _id: userId, 'recipes._id': recipe._id },
             { $set: { 'recipes.$': filteredRecipe } }
         );
 
@@ -31,6 +32,11 @@ export async function POST(request: NextRequest) {
         }
 
         const updatedUser = await UserModel.findOne({ _id: userId }).lean();
+
+        if (updatedUser?.username) {
+            cache.del(updatedUser.username);
+        }
+
         return NextResponse.json({ success: true, message: "Success", updatedUser }, { status: 200 });
 
     } catch (error) {
@@ -39,11 +45,11 @@ export async function POST(request: NextRequest) {
     }
 }
 
-async function secondValidation(recipe: RecipeProps){
-    const filteredIngredientsList = recipe.ingredients.map((ingList)=>{
+async function secondValidation(recipe: RecipeProps) {
+    const filteredIngredientsList = recipe.ingredients.map((ingList) => {
         const filteredIngredients = ingList.ingredients?.filter(ing => ing.ingredient.length > 0 || [])
         const filteredComponents = ingList.component?.filter(ing => ing.component.length > 0 || [])
-        return{
+        return {
             ...ingList,
             ingredients: filteredIngredients,
             component: filteredComponents
@@ -52,7 +58,7 @@ async function secondValidation(recipe: RecipeProps){
 
     const filteredInstructions = recipe.instructions?.filter(ins => ins.instruction.length > 0 || [])
 
-    return{
+    return {
         ...recipe,
         ingredients: filteredIngredientsList,
         instructions: filteredInstructions

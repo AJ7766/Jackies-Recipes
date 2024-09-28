@@ -1,9 +1,9 @@
 import { connectDB } from "@/config/database";
 import { UserModel } from "@/models/UserModel";
-import { RecipeModel } from "@/models/UserRecipe";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
+import cache from "@/config/cache";
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY || 'your-secret-key';
 
@@ -36,6 +36,9 @@ export async function DELETE(request: NextRequest) {
 
         user.recipes.splice(recipeIndex, 1);
         await user.save();
+        
+        cache.del(user.username);
+        
         return NextResponse.json({ message: 'Recipe successfully deleted' }, { status: 200 });
     } catch (error) {
         console.error('Error:', error);

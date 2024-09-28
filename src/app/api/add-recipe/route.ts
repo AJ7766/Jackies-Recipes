@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import validationAddRecipeSchema from "./validationAddRecipeSchema";
 import { RecipeProps } from "@/models/UserRecipe";
 import { connectDB } from "@/config/database";
+import cache from "@/config/cache";
 
 export async function POST(request: NextRequest) {
     try {
@@ -30,6 +31,11 @@ export async function POST(request: NextRequest) {
         }
 
         const updatedUser = await UserModel.findOne({ _id: userId });
+
+        if (updatedUser?.username) {
+            cache.del(updatedUser.username);
+        
+        }
         return NextResponse.json({ success: true, message: "Success", updatedUser }, { status: 200 });
 
     } catch (error) {

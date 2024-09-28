@@ -1,9 +1,7 @@
 import { connectDB } from "@/config/database";
 import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server"
-import NodeCache from 'node-cache';
-
-const cache = new NodeCache({ stdTTL: 3600 });
+import cache from "@/config/cache";
 
 export async function POST(request: NextRequest) {
 
