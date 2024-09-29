@@ -83,12 +83,9 @@ export default function NavBar() {
     setIsOpen(!isOpen);
   }
 
-  if (initializing) {
-    return null;
-  }
-
   return (
-    <>
+    (!initializing && (
+      <>
       <div className="space"></div>
       <div className="navContainer">
         <Link href={user ? `/${user.username}` : "/"}>
@@ -188,5 +185,6 @@ export default function NavBar() {
         )}
       </div>
     </>
+    ))
   );
 }
