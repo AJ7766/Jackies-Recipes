@@ -61,7 +61,7 @@ export default function RootLayout({
             <Masonary profile={profile} />
           </>
         ) : (
-          <div>user not found</div>
+          <div className="text-xl text-center">User not found</div>
         )
       )}
     </>
