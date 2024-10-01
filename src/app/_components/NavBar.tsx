@@ -119,6 +119,7 @@ export default function NavBar() {
               data-testid="searchedUsersContainer"
               ref={searchResultsRef}
             >
+              <h1>Users</h1>
               {users.map((user, indexKey) => (
                 <Link href={`/${user.username}`} key={indexKey}>
                   <div className="searchedUser" data-testid="searchedUser">

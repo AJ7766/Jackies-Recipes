@@ -49,31 +49,31 @@ export type InstructionProps = {
    instruction: string;
 }
 
-const ComponentSchema = new Schema<ComponentProps>({
+export const ComponentSchema = new Schema<ComponentProps>({
    id: { type: String, required: true },
    component: { type: String }
 });
 
-const IngredientSchema = new Schema<IngredientProps>({
+export const IngredientSchema = new Schema<IngredientProps>({
    id: { type: String, required: true },
    ingredient: { type: String, required: true },
    amount: { type: Number },
    unit: { type: String }
 });
 
-const IngredientListSchema = new Schema<IngredientListProps>({
+export const IngredientListSchema = new Schema<IngredientListProps>({
    component: [ComponentSchema],
    ingredients: [IngredientSchema]
 });
 
-const MacroNutrientsSchema = new Schema<MacroNutrientsProps>({
+export const MacroNutrientsSchema = new Schema<MacroNutrientsProps>({
    carbs: { type: Number },
    protein: { type: Number },
    fat: { type: Number },
    calories: { type: Number }
 });
 
-const InstructionSchema = new Schema<InstructionProps>({
+export const InstructionSchema = new Schema<InstructionProps>({
    id: { type: String, required: true },
    instruction: { type: String }
 });
@@ -86,5 +86,3 @@ export const recipeSchema = new Schema<RecipeProps>({
    macros: MacroNutrientsSchema,
    instructions: [InstructionSchema]
 });
-
-export const RecipeModel: Model<RecipeProps> = mongoose.models.recipes || mongoose.model<RecipeProps>('recipes', recipeSchema);
