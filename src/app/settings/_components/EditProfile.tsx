@@ -58,8 +58,7 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
   }
 
   if (!user) {
-    const errorPage = <ErrorPage />;
-    return errorPage;
+    return <ErrorPage />;
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -151,7 +150,7 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
               console.error("Unexpected type:", uri);
             }
           },
-          "base64" // output type
+          "base64"
         );
       } catch (error) {
         console.error("Error resizing image:", error);
