@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import NavBar from "../_components/NavBar";
 import ProfilePage from "../_components/Profile";
 import Masonary from "../_components/Masonary";
@@ -9,21 +9,21 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const {profile, userFound, loading} = useProfile();
+  const { profile, userFound, loading } = useProfile();
   return (
     <>
       <NavBar />
-      {children}
-      {!loading && (
-        userFound ? (
+      {!loading &&
+        (userFound ? (
           <>
+            {children}
             <ProfilePage profile={profile} />
             <div className="divider"></div>
             <Masonary profile={profile} />
           </>
         ) : (
           <div className="text-xl text-center">User not found</div>
-        )
-      )}
+        ))}
     </>
-  )};
+  );
+}

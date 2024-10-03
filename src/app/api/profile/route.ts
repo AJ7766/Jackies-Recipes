@@ -39,7 +39,6 @@ async function fetchProfileFromDatabase(username: string) {
         model: RecipeModel,
         select: '-__v'
       }).lean();
-    console.log("fetched user:", user)
     if (!user) {
       throw new Error(`User not found`);
     }

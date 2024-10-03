@@ -4,7 +4,6 @@ export default async function validationAddRecipeSchema({recipe}:{recipe: Recipe
 
     let errorMessage = "";
 
-    console.log(recipe)
     const imageError = isValidImage(recipe.image || '');
     if (imageError) {
         errorMessage = imageError;
@@ -34,7 +33,6 @@ export default async function validationAddRecipeSchema({recipe}:{recipe: Recipe
         errorMessage = instructionsError;
         return errorMessage;
     }
-
 };
 
     const isValidImage = (image: string) => {
