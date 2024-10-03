@@ -8,7 +8,7 @@ import {
 } from "@testing-library/react";
 import fetchMock from "jest-fetch-mock";
 import "@testing-library/jest-dom";
-import { useAuth } from "@/app/authContext/AuthContext";
+import { useAuth } from "@/app/context/AuthContext";
 import Layout from "@/app/[username]/layout";
 import { ProfilePropsOrNull } from "@/app/types/types";
 import { useParams } from "next/navigation";

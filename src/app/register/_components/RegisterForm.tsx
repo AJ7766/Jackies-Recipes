@@ -40,12 +40,12 @@ export default function RegisterForm() {
         const errorResponse = await res.json();
         throw new Error(errorResponse.message || "Failed to register.");
       } 
-      else{
         setError(false);
         setSuccessBoolean(true);
         let successResponse = await res.json();
         setSuccess(successResponse.message);
-      }}catch (error:any) {
+        window.location.href=`/${username}`;
+      }catch (error:any) {
         const errorMessage = error instanceof Error ? error.message : "Failed to register.";
         setErrorMsg(errorMessage);
         setError(true);

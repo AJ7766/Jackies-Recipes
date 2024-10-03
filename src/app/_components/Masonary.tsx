@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { ProfilePropsOrNull } from "../types/types";
 import Link from "next/link";
 import { Types } from "mongoose";
-import { useAuth } from "../authContext/AuthContext";
+import { useAuth } from "../context/AuthContext";
 import { usePathname } from "next/navigation";
 
 export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {

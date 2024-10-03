@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Resizer from "react-image-file-resizer";
 import Image from "next/image";
-import { useAuth } from "@/app/authContext/AuthContext";
+import { useAuth } from "@/app/context/AuthContext";
 import mongoose from "mongoose";
 
 const imagePlaceholder = "/images/recipe-image-placeholder.svg";
@@ -140,13 +140,12 @@ export default function AddRecipeForm() {
       if (!res.ok) {
         const errorResponse = await res.json();
         throw new Error(errorResponse.message || "Failed to create.");
-      } else if (res.ok) {
-        const data = await res.json();
-        updateProfile(data.updatedUser);
-        setErrorBoolean(false);
-        setSuccessBoolean(true);
-        setSuccess("Recipe created successfully!");
       }
+      const data = await res.json();
+      setErrorBoolean(false);
+      setSuccessBoolean(true);
+      setSuccess("Recipe created successfully!");
+      
     } catch (error: any) {
       setSuccessBoolean(false);
       setErrorBoolean(true);

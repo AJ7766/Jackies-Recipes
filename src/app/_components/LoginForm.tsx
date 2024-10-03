@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../authContext/AuthContext";
+import { useAuth } from "../context/AuthContext";
 
 const usernameImg = "/images/register/username.svg";
 const passwordImg = "/images/register/password.svg";

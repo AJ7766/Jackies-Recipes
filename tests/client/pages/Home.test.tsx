@@ -1,6 +1,6 @@
 import { render, screen, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { useAuth } from "@/app/authContext/AuthContext";
+import { useAuth } from "@/app/context/AuthContext";
 import { useRouter } from "next/navigation";
 import Home from "@/app/page";
 

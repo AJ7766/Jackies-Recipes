@@ -1,11 +1,10 @@
 import { connectDB } from "@/config/database";
 import { UserModel } from "@/models/UserModel";
-import jwt, { JwtPayload } from "jsonwebtoken";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 import cache from "@/config/cache";
-
-const SECRET_KEY = process.env.JWT_SECRET_KEY || 'your-secret-key';
+import { verifyToken } from "@/config/jwt";
+import { RecipeModel } from "@/models/UserRecipe";
 
 export async function DELETE(request: NextRequest) {
     const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');
@@ -13,12 +12,14 @@ export async function DELETE(request: NextRequest) {
     if (!authHeader || !authHeader.startsWith('Bearer')) {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
-    const token = authHeader.split(' ')[1];
+
     try {
-        const decoded = jwt.verify(token, SECRET_KEY) as JwtPayload;
+        const token = authHeader.split(' ')[1];
+        const decoded = await verifyToken(token);
         const userId = decoded.id;
-        const url = new URL(request.url);
-        const recipeId = url.pathname.split('/').pop();
+
+        const { searchParams } = new URL(request.url);
+        const recipeId = searchParams.get('recipeId');
 
         if (!recipeId || !mongoose.isValidObjectId(recipeId)) {
             return NextResponse.json({ message: 'Invalid Recipe ID' }, { status: 400 });
@@ -29,16 +30,25 @@ export async function DELETE(request: NextRequest) {
             return NextResponse.json({ message: "User not found" }, { status: 404 });
         }
 
-        const recipeIndex = user.recipes.findIndex(recipe => recipe._id.toString() === recipeId);
-        if (recipeIndex === -1) {
-            throw new Error('Recipe not found');
+        const deleteResult = await RecipeModel.deleteOne({ _id: recipeId });
+
+        if (deleteResult.deletedCount !== 1) {
+            return NextResponse.json({ message: 'Recipe not found' }, { status: 404 });
         }
 
-        user.recipes.splice(recipeIndex, 1);
-        await user.save();
-        
+        const updateUserResult = await UserModel.updateOne(
+            { _id: userId },
+            { $pull: { recipes: recipeId } }
+        );
+
+        if (updateUserResult.modifiedCount === 0) {
+            console.log('Failed to remove recipe from user, or recipe not found in user.');
+        } else {
+            console.log('Recipe successfully deleted and removed from user.');
+        }
+
         cache.del(user.username);
-        
+
         return NextResponse.json({ message: 'Recipe successfully deleted' }, { status: 200 });
     } catch (error) {
         console.error('Error:', error);

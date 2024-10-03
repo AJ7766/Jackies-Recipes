@@ -1,7 +1,9 @@
+import { ProfileProps } from "@/app/types/types";
 import mongoose, { Model, Schema } from "mongoose";
 
 export interface RecipeProps extends Document {
    _id: mongoose.Types.ObjectId;
+   user: mongoose.Types.ObjectId;
    title: string;
    image?: string;
    ingredients: IngredientListProps[];
@@ -11,7 +13,8 @@ export interface RecipeProps extends Document {
 }
 
 export type SimplifiedRecipeProps = {
-   _id: mongoose.Types.ObjectId;
+   _id?: mongoose.Types.ObjectId;
+   user: ProfileProps;
    title: string;
    image?: string;
    ingredients: IngredientListProps[];
@@ -79,6 +82,11 @@ export const InstructionSchema = new Schema<InstructionProps>({
 });
 
 export const recipeSchema = new Schema<RecipeProps>({
+   user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'users',
+      required: true
+  },
    title: { type: String, required: true },
    image: { type: String },
    ingredients: [IngredientListSchema],
@@ -86,3 +94,5 @@ export const recipeSchema = new Schema<RecipeProps>({
    macros: MacroNutrientsSchema,
    instructions: [InstructionSchema]
 });
+
+export const RecipeModel: Model<RecipeProps> = mongoose.models.recipes || mongoose.model<RecipeProps>('recipes', recipeSchema);

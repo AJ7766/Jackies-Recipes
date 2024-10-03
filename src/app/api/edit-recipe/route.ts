@@ -1,7 +1,7 @@
 import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server";
 import validationAddRecipeSchema from "./validationAddRecipeSchema";
-import { RecipeProps } from "@/models/UserRecipe";
+import { RecipeModel, RecipeProps } from "@/models/UserRecipe";
 import { connectDB } from "@/config/database";
 import cache from "@/config/cache";
 
@@ -22,9 +22,10 @@ export async function POST(request: NextRequest) {
         const filteredRecipe = await secondValidation(recipe);
 
         await connectDB();
-        const updateResult = await UserModel.updateOne(
-            { _id: userId, 'recipes._id': recipe._id },
-            { $set: { 'recipes.$': filteredRecipe } }
+        const updateResult = await RecipeModel.updateOne(
+            { _id: recipe._id },
+            { $set: filteredRecipe },
+            { new: true }
         );
 
         if (updateResult.modifiedCount === 0) {

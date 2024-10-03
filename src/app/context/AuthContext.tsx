@@ -60,7 +60,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsAuthenticated(false);
     } finally {
       setInitializing(false);
-      return;
     }
   }, []);
 

@@ -6,7 +6,7 @@ import {
   waitFor,
   fireEvent,
 } from "@testing-library/react";
-import { AuthProvider, useAuth } from "@/app/authContext/AuthContext";
+import { AuthProvider, useAuth } from "@/app/context/AuthContext";
 import { ProfileProps } from "@/app/types/types";
 import { useRouter } from "next/navigation";
 import fetchMock from "jest-fetch-mock";

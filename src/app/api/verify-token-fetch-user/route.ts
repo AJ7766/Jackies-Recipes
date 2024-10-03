@@ -1,9 +1,7 @@
 import { connectDB } from '@/config/database';
+import { verifyToken } from '@/config/jwt';
 import { UserModel } from '@/models/UserModel';
-import jwt, { JwtPayload } from 'jsonwebtoken';
 import { NextRequest, NextResponse } from 'next/server';
-
-const SECRET_KEY = process.env.JWT_SECRET_KEY || 'your-secret-key';
 
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');
@@ -12,31 +10,14 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ message: 'No header, Unauthorized' }, { status: 401 });
   }
 
-  const token = authHeader.split(' ')[1];
-
-  const isValidToken = await verifyToken(token);
-  if(!isValidToken){
-    return NextResponse.json({ message: 'Token not valid'}, { status: 401 });
-  }
-  else{
-    try{
-      const decodedToken = jwt.verify(token, SECRET_KEY) as JwtPayload;
-      const { id } = decodedToken;
-      const userData = await fetchProfileFromDatabase(id);
-      return NextResponse.json({ message: 'Authorized', userData }, { status: 200 });
-    }catch(error){
-      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
-    }
-  }
-}
-
-async function verifyToken(token: string) {
   try {
-    jwt.verify(token, SECRET_KEY) as JwtPayload;
-    return true;
+    const token = authHeader.split(' ')[1];
+    const decoded = await verifyToken(token);
+    const userId = decoded.id;
+    const userData = await fetchProfileFromDatabase(userId);
+    return NextResponse.json({ message: 'Authorized', userData }, { status: 200 });
   } catch (error) {
-    console.error('Token verification error:', error);
-    return false;
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
 }
 
@@ -49,7 +30,7 @@ async function fetchProfileFromDatabase(id: string) {
     }
     return user;
 
-  } catch (error:any) {
+  } catch (error: any) {
     throw error;
   }
 }

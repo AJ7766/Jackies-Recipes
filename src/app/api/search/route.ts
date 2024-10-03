@@ -1,19 +1,25 @@
 import { connectDB } from "@/config/database";
 import { UserModel } from "@/models/UserModel";
+import { RecipeModel } from "@/models/UserRecipe";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
     try {
-        const { username } = await request.json();
+        const { searchParams } = new URL(request.url);
+        const search = searchParams.get('search');
+        console.log(search)
+        if (!search) {
+            return NextResponse.json({ success: false, message: "Search term is required." }, { status: 400 });
+        }
 
-        const regex = new RegExp(username, 'i');
+        const regex = new RegExp(search, 'i');
+
         await connectDB();
         const existingUsers = await UserModel.find({ username: { $regex: regex } }).limit(5).select('-_id username fullName userContent.profilePicture').lean();
 
-        if (existingUsers.length === 0) {
-            return NextResponse.json({ success: false, message: `No existing user with username ${username}` }, { status: 404 });
-        }
-        return NextResponse.json({ success: true, existingUsers}, { status: 200 }); 
+        const existingRecipes = await RecipeModel.find({ title: { $regex: regex } }).populate('user', 'username').limit(5).select('_id title image').lean();
+
+        return NextResponse.json({ success: true, existingUsers: existingUsers, existingRecipes: existingRecipes}, { status: 200 }); 
     }catch{
         return NextResponse.json({ success: false, message: 'Internal Server Error'}, { status: 500 });
     }

@@ -1,7 +1,7 @@
 import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server";
 import validationAddRecipeSchema from "./validationAddRecipeSchema";
-import { RecipeProps } from "@/models/UserRecipe";
+import { RecipeModel, RecipeProps } from "@/models/UserRecipe";
 import { connectDB } from "@/config/database";
 import cache from "@/config/cache";
 
@@ -20,23 +20,29 @@ export async function POST(request: NextRequest) {
         }
 
         const filteredRecipe = await secondValidation(recipe);
+
         await connectDB();
-        const updateResult = await UserModel.updateOne(
+
+        const user = await UserModel.findOne({_id: userId});
+        if (!user) {
+            return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
+        }
+        const newRecipe = await RecipeModel.create({
+            ...filteredRecipe,
+            user: userId,
+        });
+
+        await UserModel.updateOne(
             { _id: userId },
-            { $push: { recipes: filteredRecipe } }
+            { $addToSet: { recipes: newRecipe._id } }
         );
 
-        if (updateResult.modifiedCount === 0) {
-            throw new Error('Recipe data not found');
-        }
+        cache.del(user.username);
 
-        const updatedUser = await UserModel.findOne({ _id: userId });
 
-        if (updatedUser?.username) {
-            cache.del(updatedUser.username);
+        cache.del(user.username);
         
-        }
-        return NextResponse.json({ success: true, message: "Success", updatedUser }, { status: 200 });
+        return NextResponse.json({ success: true, message: "Success", user }, { status: 200 });
 
     } catch (error) {
         console.error("Error:", error);
