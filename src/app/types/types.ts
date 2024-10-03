@@ -11,7 +11,7 @@ export type ProfileProps = {
   username?: string;
   password?: string;
   userContent?: SimplifiedUserContentProps;
-  recipes: mongoose.Types.ObjectId[]; 
+  recipes: SimplifiedRecipeProps[]; 
 };
 
 export type ProfilePropsOrNull = ProfileProps | null;
