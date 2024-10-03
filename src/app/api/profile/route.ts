@@ -1,12 +1,13 @@
 import { connectDB } from "@/config/database";
 import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server"
+import { RecipeModel } from "@/models/UserRecipe";
 import cache from "@/config/cache";
-import { migrateRecipes } from "@/config/migration";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const username = searchParams.get('username');
+
   if (!username) {
     return NextResponse.json({ message: "Username is required" }, { status: 400 });
   }
@@ -18,7 +19,7 @@ export async function GET(request: NextRequest) {
     }
 
     const profileData = await fetchProfileFromDatabase(username);
-    
+
     cache.set(username, profileData);
 
     return NextResponse.json({ message: "Success fetching profile", profileData }, { status: 200 });
@@ -35,15 +36,17 @@ async function fetchProfileFromDatabase(username: string) {
       .select('-password -email -createdAt -updatedAt -_id -userContent._id')
       .populate({
         path: 'recipes',
+        model: RecipeModel,
         select: '-__v'
       }).lean();
-
+    console.log("fetched user:", user)
     if (!user) {
       throw new Error(`User not found`);
     }
     return user;
 
   } catch (error: any) {
+    console.error("Error fetching user profile:", error); // Log specific error
     throw new Error(`Error fetching profile`);
   }
 }
