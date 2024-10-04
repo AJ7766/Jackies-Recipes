@@ -3,15 +3,8 @@ import { verifyToken } from '@/config/jwt';
 import { UserModel } from '@/models/UserModel';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function handleGet(request: NextRequest) {
-  const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');
-
-  if (!authHeader || !authHeader.startsWith('Bearer')) {
-    return NextResponse.json({ message: 'No header, Unauthorized' }, { status: 401 });
-  }
-
+export async function handleGet(request: NextRequest, token: string) {
   try {
-    const token = authHeader.split(' ')[1];
     const decoded = await verifyToken(token);
     const userId = decoded.id;
     const userData = await fetchProfileFromDatabase(userId);
