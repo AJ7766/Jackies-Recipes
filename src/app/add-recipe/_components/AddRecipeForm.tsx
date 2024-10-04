@@ -33,7 +33,7 @@ export default function AddRecipeForm() {
     handleMacroChange,
     handleInstructionChange,
     addInstruction,
-    removeInstruction
+    removeInstruction,
   } = recipeFormActions();
   const router = useRouter();
 

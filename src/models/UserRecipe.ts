@@ -5,7 +5,7 @@ export interface RecipeProps extends Document {
    _id: mongoose.Types.ObjectId;
    user: mongoose.Types.ObjectId;
    title: string;
-   image?: string;
+   image: string;
    ingredients: IngredientListProps[];
    servings?: number;
    macros?: MacroNutrientsProps;
@@ -16,7 +16,7 @@ export type SimplifiedRecipeProps = {
    _id?: mongoose.Types.ObjectId;
    user?: ProfileProps;
    title: string;
-   image?: string;
+   image: string;
    ingredients: IngredientListProps[];
    servings?: number;
    macros?: MacroNutrientsProps;

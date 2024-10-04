@@ -6,6 +6,7 @@ import cache from "@/config/cache";
 import recipeValidation from "../validations/recipeValidation";
 
 export async function handlePost(request: NextRequest) {
+    const { formValidation, ingredientListValidation } = await recipeValidation();
     try {
         const { recipe, userId } = await request.json();
 
@@ -13,13 +14,13 @@ export async function handlePost(request: NextRequest) {
             return NextResponse.json({ success: false, message: "No user or recipe found" }, { status: 400 });
         }
 
-        const validationResponse = await recipeValidation({ recipe });
+        const validationResponse = await formValidation({ recipe });
 
         if (typeof validationResponse === 'string') {
             return NextResponse.json({ success: false, message: validationResponse }, { status: 400 });
         }
 
-        const filteredRecipe = await secondValidation(recipe);
+        const filteredRecipe = await ingredientListValidation(recipe);
 
         await connectDB();
 
@@ -47,25 +48,5 @@ export async function handlePost(request: NextRequest) {
     } catch (error) {
         console.error("Error:", error);
         return NextResponse.json({ success: false, message: error }, { status: 500 });
-    }
-}
-
-async function secondValidation(recipe: RecipeProps) {
-    const filteredIngredientsList = recipe.ingredients.map((ingList) => {
-        const filteredIngredients = ingList.ingredients?.filter(ing => ing.ingredient.length > 0 || []);
-        const filteredComponents = ingList.component || undefined;
-        return {
-            ...ingList,
-            ingredients: filteredIngredients,
-            component: filteredComponents
-        }
-    }).filter(ingList => ingList.ingredients.length > 0 || ingList.component);
-
-    const filteredInstructions = recipe.instructions?.filter(ins => ins.instruction.length > 0 || [])
-
-    return {
-        ...recipe,
-        ingredients: filteredIngredientsList,
-        instructions: filteredInstructions
     }
 }
