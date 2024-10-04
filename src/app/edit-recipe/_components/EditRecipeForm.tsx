@@ -231,19 +231,17 @@ export default function EditRecipeForm({
       unit: "",
       ingredient: "",
     };
-    const updatedIngredients = recipe.ingredients?.map((ingList, idx) => {
-      if (idx === index) {
-        return {
-          ...ingList,
-          ingredients: [...ingList.ingredients, newIngredient],
-        };
-      }
-      return ingList;
+
+    setRecipe((prevRecipe) => {
+      const updatedIngredients = [...prevRecipe.ingredients];
+
+      updatedIngredients[index] = {
+        ...updatedIngredients[index],
+        ingredients: [...updatedIngredients[index].ingredients, newIngredient],
+      };
+
+      return { ...prevRecipe, ingredients: updatedIngredients };
     });
-    setRecipe((prevRecipe) => ({
-      ...prevRecipe,
-      ingredients: updatedIngredients || [],
-    }));
   };
 
   const removeIngredient = (id: string) => {

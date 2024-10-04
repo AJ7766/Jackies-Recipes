@@ -31,7 +31,7 @@ export type MacroNutrientsProps = {
 }
 
 export type IngredientListProps = {
-   component?: ComponentProps[];
+   component?: ComponentProps;
    ingredients: IngredientProps[];
 }
 

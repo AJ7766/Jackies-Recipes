@@ -52,14 +52,14 @@ export async function handlePost(request: NextRequest) {
 
 async function secondValidation(recipe: RecipeProps) {
     const filteredIngredientsList = recipe.ingredients.map((ingList) => {
-        const filteredIngredients = ingList.ingredients?.filter(ing => ing.ingredient.length > 0 || [])
-        const filteredComponents = ingList.component?.filter(ing => ing.component.length > 0 || [])
+        const filteredIngredients = ingList.ingredients?.filter(ing => ing.ingredient.length > 0 || []);
+        const filteredComponents = ingList.component || undefined;
         return {
             ...ingList,
             ingredients: filteredIngredients,
             component: filteredComponents
         }
-    }).filter(ingList => ingList.ingredients.length > 0 || (ingList.component && ingList.component.length > 0));
+    }).filter(ingList => ingList.ingredients.length > 0 || ingList.component);
 
     const filteredInstructions = recipe.instructions?.filter(ins => ins.instruction.length > 0 || [])
 
