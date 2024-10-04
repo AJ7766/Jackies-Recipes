@@ -3,56 +3,21 @@ import { v4 as uuidv4 } from "uuid";
 import Resizer from "react-image-file-resizer";
 import Image from "next/image";
 import { useAuth } from "@/app/context/AuthContext";
-import mongoose from "mongoose";
+import {
+  ComponentProps,
+  IngredientListProps,
+  IngredientProps,
+  InstructionProps,
+  SimplifiedRecipeProps,
+} from "@/models/UserRecipe";
+import { useRouter } from "next/navigation";
 
 const imagePlaceholder = "/images/recipe-image-placeholder.svg";
 const camera = "/images/test/camera.svg";
 
 export default function AddRecipeForm() {
-  type RecipeProps = {
-    _id?: mongoose.Types.ObjectId;
-    title: string;
-    image?: string;
-    ingredients: IngredientListProps[];
-    servings?: number;
-    macros?: MacroNutrientsProps;
-    instructions?: InstructionProps[];
-  };
-
-  type MacroNutrientsProps = {
-    carbs?: number;
-    protein?: number;
-    fat?: number;
-    calories?: number;
-  };
-
-  type IngredientListProps = {
-    component?: ComponentProps[];
-    ingredients: IngredientProps[];
-  };
-
-  type ComponentProps = {
-    id: string;
-    component: string;
-  };
-
-  type IngredientProps = {
-    id: string;
-    ingredient: string;
-    amount?: number;
-    unit: string;
-  };
-
-  type InstructionProps = {
-    id: string;
-    instruction: string;
-  };
-
   const [imagePreview, setImagePreview] = useState<string>();
-  const [isChecked, setIsChecked] = useState(false);
-  const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
-  const [loadingBtn, setLoadingBtn] = useState(false);
-  const [recipe, setRecipe] = useState<RecipeProps>({
+  const [recipe, setRecipe] = useState<SimplifiedRecipeProps>({
     title: imagePreview || "",
     image: "",
     ingredients: [
@@ -86,12 +51,12 @@ export default function AddRecipeForm() {
       },
     ],
   });
-  const [success, setSuccess] = useState("");
-  const [successBoolean, setSuccessBoolean] = useState(false);
-  const [error, setError] = useState("");
-  const [errorBoolean, setErrorBoolean] = useState(false);
-
-  const { user, updateProfile } = useAuth();
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
+  const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
+  const [loadingBtn, setLoadingBtn] = useState(false);
+  const { user, deleteCachedUser } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     let calsFromCarbs: number = 0;
@@ -121,7 +86,7 @@ export default function AddRecipeForm() {
     }
     setCaloriesPlaceholder(undefined);
     return;
-  }, [recipe]);
+  }, [recipe.macros]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -141,18 +106,17 @@ export default function AddRecipeForm() {
         const errorResponse = await res.json();
         throw new Error(errorResponse.message || "Failed to create.");
       }
-      const data = await res.json();
-      setErrorBoolean(false);
-      setSuccessBoolean(true);
-      setSuccess("Recipe created successfully!");
-      
+      deleteCachedUser();
+      router.push(`/${user?.username}`);
     } catch (error: any) {
-      setSuccessBoolean(false);
-      setErrorBoolean(true);
-      setError(error.message || "Failed to create.");
+      setErrorMessage(error.message || "Failed to create.");
     } finally {
       setLoadingBtn(false);
     }
+  };
+
+  const handleImageChange = () => {
+    document.getElementById("imageInput")?.click();
   };
 
   const handleRecipeImageChange = (newImg: string) => {
@@ -160,8 +124,8 @@ export default function AddRecipeForm() {
     setImagePreview(newImg);
   };
 
-  const handleTitleChange = (newValue: string) => {
-    setRecipe((prevRecipe) => ({ ...prevRecipe, title: newValue }));
+  const handleTitleChange = (value: string) => {
+    setRecipe((prevRecipe) => ({ ...prevRecipe, title: value }));
   };
 
   const imageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -202,15 +166,24 @@ export default function AddRecipeForm() {
     }
   };
 
-  const handleImageChange = () => {
-    document.getElementById("imageInput")?.click();
-  };
+  const handleAmountChange = (
+    id: string,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { value } = e.target;
 
-  const handleAmountChange = (id: string, newValue: number) => {
+    if (Number(value) < 0) {
+      return 0;
+    }
+
+    if (Number(value) > 99999) {
+      return 99999;
+    }
+
     const updatedIngredients = recipe.ingredients?.map((ingList) => {
       const updatedIngredientList = ingList.ingredients.map((ing) => {
         if (ing.id === id) {
-          return { ...ing, amount: newValue };
+          return { ...ing, amount: Number(value) };
         }
         return ing;
       });
@@ -223,22 +196,11 @@ export default function AddRecipeForm() {
     }));
   };
 
-  const maxFiveInputs = (value: number) => {
-    if (value < 0) {
-      return 0;
-    }
-
-    if (value > 99999) {
-      return 99999;
-    }
-    return value;
-  };
-
-  const handleUnitChange = (id: string, newValue: string) => {
+  const handleUnitChange = (id: string, value: string) => {
     const updatedIngredients = recipe.ingredients?.map((ingList) => {
       const updatedIngredientList = ingList.ingredients.map((ing) => {
         if (ing.id === id) {
-          return { ...ing, unit: newValue };
+          return { ...ing, unit: value };
         }
         return ing;
       });
@@ -250,13 +212,13 @@ export default function AddRecipeForm() {
     }));
   };
 
-  const handleComponentChange = (id: string, newValue: string) => {
+  const handleComponentChange = (id: string, value: string) => {
     const updatedIngredients =
       recipe.ingredients?.map((ingList) => {
         const updatedComponents =
           ingList.component?.map((comp) => {
             if (comp.id === id) {
-              return { ...comp, component: newValue };
+              return { ...comp, component: value };
             }
             return comp;
           }) || [];
@@ -400,21 +362,19 @@ export default function AddRecipeForm() {
     }));
   };
 
-  const handleServingsChange = (newValue: number) => {
-    setRecipe((prevList) => ({
-      ...prevList,
-      servings: newValue,
-    }));
-  };
-
-  const maxTwoInputs = (value: number) => {
-    if (value < 0) {
+  const handleServingsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (Number(value) < 0) {
       return 0;
     }
-    if (value > 99) {
+    if (Number(value) > 99) {
       return 99;
     }
-    return value;
+
+    setRecipe((prevList) => ({
+      ...prevList,
+      servings: Number(value),
+    }));
   };
 
   const toggleSlider = () => {
@@ -430,47 +390,32 @@ export default function AddRecipeForm() {
     setIsChecked((prevIsChecked) => !prevIsChecked);
   };
 
-  const handleMacroChange = (macros: Partial<MacroNutrientsProps>) => {
+  const handleMacroChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+
+    if (Number(value) < 0) {
+      return 0;
+    }
+
+    if (Number(value) > 9999) {
+      return 9999;
+    }
+
     setRecipe((prevList) => ({
       ...prevList,
       macros: {
         ...prevList.macros,
-        ...macros,
+        [name]: value,
       },
     }));
   };
 
-  const handleCarbsChange = (newValue: number) => {
-    handleMacroChange({ carbs: newValue });
-  };
-
-  const handleProteinChange = (newValue: number) => {
-    handleMacroChange({ protein: newValue });
-  };
-
-  const handleFatChange = (newValue: number) => {
-    handleMacroChange({ fat: newValue });
-  };
-
-  const handleCaloriesChange = (newValue: number) => {
-    handleMacroChange({ calories: newValue });
-  };
-
-  const negativeNumber = (value: number) => {
-    if (value < 0) {
-      return 0;
-    }
-
-    if (value > 9999) {
-      return 9999;
-    }
-    return value;
-  };
-
-  const handleInstructionChange = (id: string, newValue: string) => {
+  const handleInstructionChange = (id: string, value: string) => {
     const updatedInstructions = recipe.instructions?.map((ins) => {
       if (ins.id === id) {
-        return { ...ins, instruction: newValue };
+        return { ...ins, instruction: value };
       }
       return ins;
     });
@@ -575,13 +520,11 @@ export default function AddRecipeForm() {
                   >{`Ingredient ${ingIndex + 1}`}</label>
                   <input
                     type="number"
+                    name="amount"
                     className="amount"
                     placeholder="700"
                     value={ing.amount || ""}
-                    onChange={(e) => {
-                      const limitedValue = maxFiveInputs(+e.target.value);
-                      handleAmountChange(ing.id, limitedValue);
-                    }}
+                    onChange={(e) => handleAmountChange(ing.id, e)}
                   />
                   <input
                     type="text"
@@ -633,8 +576,7 @@ export default function AddRecipeForm() {
             type="number"
             value={recipe.servings || ""}
             onChange={(e) => {
-              const limitedValue = maxTwoInputs(+e.target.value);
-              handleServingsChange(limitedValue);
+              handleServingsChange(e);
             }}
           />
         </div>
@@ -659,12 +601,10 @@ export default function AddRecipeForm() {
               </label>
               <input
                 type="number"
+                name="carbs"
                 placeholder=""
                 value={recipe.macros?.carbs || ""}
-                onChange={(e) => {
-                  const limitedValue = negativeNumber(+e.target.value);
-                  handleCarbsChange(limitedValue);
-                }}
+                onChange={handleMacroChange}
               />
             </div>
 
@@ -674,12 +614,10 @@ export default function AddRecipeForm() {
               </label>
               <input
                 type="number"
+                name="protein"
                 placeholder=""
                 value={recipe.macros?.protein || ""}
-                onChange={(e) => {
-                  const limitedValue = negativeNumber(+e.target.value);
-                  handleProteinChange(limitedValue);
-                }}
+                onChange={handleMacroChange}
               />
             </div>
 
@@ -689,12 +627,10 @@ export default function AddRecipeForm() {
               </label>
               <input
                 type="number"
+                name="fat"
                 placeholder=""
                 value={recipe.macros?.fat || ""}
-                onChange={(e) => {
-                  const limitedValue = negativeNumber(+e.target.value);
-                  handleFatChange(limitedValue);
-                }}
+                onChange={handleMacroChange}
               />
             </div>
 
@@ -704,12 +640,10 @@ export default function AddRecipeForm() {
               </label>
               <input
                 type="number"
+                name="calories"
                 placeholder={caloriesPlaceholder || undefined}
                 value={recipe.macros?.calories || ""}
-                onChange={(e) => {
-                  const limitedValue = negativeNumber(+e.target.value);
-                  handleCaloriesChange(limitedValue);
-                }}
+                onChange={handleMacroChange}
               />
             </div>
           </>
@@ -743,16 +677,7 @@ export default function AddRecipeForm() {
         </div>
 
         <div className="h-5">
-          {errorBoolean ? (
-            <div className="text-red-600">{error}</div>
-          ) : (
-            <div></div>
-          )}
-          {successBoolean ? (
-            <div className="text-green-600">{success}</div>
-          ) : (
-            <div></div>
-          )}
+          {errorMessage && <div className="text-red-600">{errorMessage}</div>}
         </div>
         <button type="submit" disabled={loadingBtn}>
           Upload

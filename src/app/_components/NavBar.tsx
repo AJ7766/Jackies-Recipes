@@ -150,7 +150,7 @@ export default function NavBar() {
                   <>
                     <h1>Recipes</h1>
                     {recipes.map((recipe, indexKey) => (
-                      <Link href={`/${recipe.user.username}/${recipe._id}`} key={indexKey}>
+                      <Link href={`/${recipe.user?.username}/${recipe._id}`} key={indexKey}>
                         <div
                           className="searchedUser"
                           data-testid="searchedUser"
@@ -163,7 +163,7 @@ export default function NavBar() {
                           />
                           <div>
                             <h2>{recipe.title}</h2>
-                            <p>{recipe.user.username}</p>
+                            <p>{recipe.user?.username}</p>
                           </div>
                         </div>
                       </Link>

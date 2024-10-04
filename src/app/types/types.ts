@@ -2,20 +2,6 @@ import { UserContentProps, SimplifiedUserContentProps } from '@/models/UserConte
 import { SimplifiedRecipeProps } from '@/models/UserRecipe';
 import mongoose from 'mongoose';
 
-export type ProfileProps = {
-  _id?: mongoose.Types.ObjectId;
-  createdAt?: Date;
-  updatedAt?: Date;
-  email?: string;
-  fullName?: string;
-  username?: string;
-  password?: string;
-  userContent?: SimplifiedUserContentProps;
-  recipes: SimplifiedRecipeProps[]; 
-};
-
-export type ProfilePropsOrNull = ProfileProps | null;
-
 export type RegisterFormProps = {
   email: string;
   username: string;
@@ -36,3 +22,17 @@ export type EditFormProps = {
   userContent?: SimplifiedUserContentProps;
   recipes?: SimplifiedRecipeProps[]; 
 }
+
+export type ProfileProps = {
+  _id?: mongoose.Types.ObjectId;
+  createdAt?: Date;
+  updatedAt?: Date;
+  email?: string;
+  fullName?: string;
+  username?: string;
+  password?: string;
+  userContent?: SimplifiedUserContentProps;
+  recipes: SimplifiedRecipeProps[]; 
+};
+
+export type ProfilePropsOrNull = ProfileProps | null;

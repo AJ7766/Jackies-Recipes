@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 interface AuthContextType {
   isAuthenticated: boolean;
   user: ProfileProps | null;
-  updateProfile: (updatedProfile: ProfileProps) => void;
+  deleteCachedUser: () => void;
   verifyTokenAndFetchUser: (token: string) => Promise<void>;
   logout: () => void;
   initializing: boolean;
@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         const data = await res.json();
         setIsAuthenticated(true);
         setUser(data.userData);
-        sessionStorage.setItem("userProfile", JSON.stringify(data.userData));
+        sessionStorage.setItem("user", JSON.stringify(data.userData));
       } else {
         localStorage.removeItem("token");
         setIsAuthenticated(false);
@@ -84,9 +84,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push(`/`);
   };
 
-  const updateProfile = (updatedProfile: ProfileProps) => {
-    setUser(updatedProfile);
-    sessionStorage.setItem("userProfile", JSON.stringify(updatedProfile));
+  const deleteCachedUser = () => {
+    sessionStorage.removeItem("user");
   };
 
   return (
@@ -94,7 +93,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         isAuthenticated,
         user,
-        updateProfile,
+        deleteCachedUser,
         verifyTokenAndFetchUser,
         logout,
         initializing,

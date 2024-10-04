@@ -3,81 +3,70 @@ import Image from "next/image";
 import { EditFormProps, ProfilePropsOrNull } from "@/app/types/types";
 import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
+import { useAuth } from "@/app/context/AuthContext";
+import { useRouter } from "next/navigation";
 const profilePicture = "/images/profile-picture.png";
 const camera = "/images/test/camera.svg";
 
 export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
-  const [profilePicPreview, setProfilePicPreview] = useState<string>(
-    user?.userContent?.profilePicture || profilePicture
-  );
-  const [email, setEmail] = useState<string>(user?.email || "");
-  const [username, setUsername] = useState<string>(user?.username || "");
-  const [fullName, setFullName] = useState<string>(user?.fullName || "");
-  const [bio, setBio] = useState<string>(user?.userContent?.bio || "");
-  const [instagram, setInstagram] = useState<string>(
-    user?.userContent?.instagram || ""
-  );
-  const [x, setX] = useState<string>(user?.userContent?.x || "");
-  const [tiktok, setTiktok] = useState<string>(user?.userContent?.tiktok || "");
-  const [youtube, setYoutube] = useState<string>(
-    user?.userContent?.youtube || ""
-  );
-  const [facebook, setFacebook] = useState<string>(
-    user?.userContent?.facebook || ""
-  );
-  const [oldPassword, setOldPassword] = useState<string>("");
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [success, setSuccess] = useState("");
-  const [successBoolean, setSuccessBoolean] = useState(false);
-  const [error, setError] = useState("");
-  const [errorBoolean, setErrorBoolean] = useState(false);
+  const [userData, setUserData] = useState<EditFormProps>({
+    email: user?.email || "",
+    username: user?.username || "",
+    fullName: user?.fullName || "",
+    oldPassword: "",
+    newPassword: "",
+    confirmPassword: "",
+    userContent: {
+      profilePicture: user?.userContent?.profilePicture || profilePicture,
+      bio: user?.userContent?.bio || "",
+      instagram: user?.userContent?.instagram || "",
+      x: user?.userContent?.x || "",
+      tiktok: user?.userContent?.tiktok || "",
+      youtube: user?.userContent?.youtube || "",
+      facebook: user?.userContent?.facebook || "",
+    },
+  });
+
+  const [errorMessage, setErrorMessage] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
+  const { deleteCachedUser } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     if (user) {
-      setProfilePicPreview(user.userContent?.profilePicture || profilePicture);
-      setEmail(user.email || "");
-      setUsername(user.username || "");
-      setFullName(user.fullName || "");
-      setBio(user.userContent?.bio || "");
-      setInstagram(user.userContent?.instagram || "");
-      setX(user.userContent?.x || "");
-      setTiktok(user.userContent?.tiktok || "");
-      setYoutube(user.userContent?.youtube || "");
-      setFacebook(user.userContent?.facebook || "");
+      setUserData({
+        _id: user._id,
+        email: user.email || "",
+        username: user.username || "",
+        fullName: user.fullName || "",
+        oldPassword: "",
+        newPassword: "",
+        confirmPassword: "",
+        userContent: {
+          profilePicture: user.userContent?.profilePicture || profilePicture,
+          bio: user.userContent?.bio || "",
+          instagram: user.userContent?.instagram || "",
+          x: user.userContent?.x || "",
+          tiktok: user.userContent?.tiktok || "",
+          youtube: user.userContent?.youtube || "",
+          facebook: user.userContent?.facebook || "",
+        },
+      });
     }
   }, [user]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoadingBtn(true);
-    const updatedProfile: EditFormProps = {
-      _id: user?._id,
-      email,
-      username,
-      fullName,
-      oldPassword,
-      newPassword,
-      confirmPassword,
-      userContent: {
-        profilePicture: profilePicPreview || "",
-        bio,
-        instagram,
-        x,
-        tiktok,
-        youtube,
-        facebook,
-      },
-    };
+
     try {
       let res = await fetch("/api/user", {
         method: "PUT",
         body: JSON.stringify({
-          user: updatedProfile,
+          user: userData,
           userId: user?._id,
-          newPassword: newPassword,
-          confirmPassword: confirmPassword,
+          newPassword: userData.newPassword,
+          confirmPassword: userData.confirmPassword,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -87,14 +76,10 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
         const errorResponse = await res.json();
         throw new Error(errorResponse.message || "Failed to update.");
       }
-        setErrorBoolean(false);
-        setSuccessBoolean(true);
-        setSuccess("Successfully saved!");
-        window.location.reload();
+      deleteCachedUser();
+      router.push(`/${user?.username}`);
     } catch (error: any) {
-      setSuccessBoolean(false);
-      setErrorBoolean(true);
-      setError(error.message || "Failed to update.");
+      setErrorMessage(error.message || "Failed to update.");
     } finally {
       setLoadingBtn(false);
     }
@@ -129,7 +114,13 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
           0, // rotation
           (uri) => {
             if (typeof uri === "string") {
-              setProfilePicPreview(uri);
+              setUserData((prev) => ({
+                ...prev,
+                userContent: {
+                  ...prev.userContent,
+                  profilePicture: uri,
+                },
+              }));
             } else {
               console.error("Unexpected type:", uri);
             }
@@ -142,6 +133,29 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
     }
   };
 
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setUserData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleUserContentChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setUserData((prev) => ({
+      ...prev,
+      userContent: {
+        ...prev.userContent,
+        [name]: value,
+      },
+    }));
+  };
+
   return (
     <form className="editForm" onSubmit={handleSubmit}>
       <div className="editProfilePicutre" onClick={handleProfilePicChange}>
@@ -149,7 +163,7 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
           height={200}
           width={200}
           className="editPreviewProfilePicture"
-          src={profilePicPreview || profilePicture}
+          src={userData.userContent?.profilePicture || profilePicture}
           alt="profile-picture"
         />
         <input
@@ -172,9 +186,10 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
         <label htmlFor="email">Email:</label>
         <input
           type="text"
+          name="email"
           placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={userData.email}
+          onChange={handleInputChange}
         />
       </div>
 
@@ -182,9 +197,10 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
         <label htmlFor="username">Username:</label>
         <input
           type="text"
+          name="username"
           placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={userData.username}
+          onChange={handleInputChange}
         />
       </div>
 
@@ -192,19 +208,21 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
         <label htmlFor="name">Name:</label>
         <input
           type="text"
+          name="fullName"
           placeholder="Name"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
+          value={userData.fullName}
+          onChange={handleInputChange}
         />
       </div>
 
       <div className="editTextareaContainer">
         <label htmlFor="bio">Bio:</label>
         <textarea
+          name="bio"
           maxLength={350}
           placeholder="bio"
-          value={bio}
-          onChange={(e) => setBio(e.target.value)}
+          value={userData.userContent?.bio}
+          onChange={handleUserContentChange}
         />
       </div>
       <h1>
@@ -216,10 +234,11 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
           <label htmlFor="instagram">Instagram:</label>
           <input
             className="socialMediaInputs"
+            name="instagram"
             type="text"
             placeholder="optional"
-            value={instagram}
-            onChange={(e) => setInstagram(e.target.value)}
+            value={userData.userContent?.instagram}
+            onChange={handleUserContentChange}
           />
         </div>
 
@@ -227,10 +246,11 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
           <label htmlFor="x">X:</label>
           <input
             className="socialMediaInputs"
+            name="x"
             type="text"
             placeholder="optional"
-            value={x}
-            onChange={(e) => setX(e.target.value)}
+            value={userData.userContent?.x}
+            onChange={handleUserContentChange}
           />
         </div>
 
@@ -238,10 +258,11 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
           <label htmlFor="tiktok">TikTok:</label>
           <input
             className="socialMediaInputs"
+            name="tiktok"
             type="text"
             placeholder="optional"
-            value={tiktok}
-            onChange={(e) => setTiktok(e.target.value)}
+            value={userData.userContent?.tiktok}
+            onChange={handleUserContentChange}
           />
         </div>
 
@@ -249,10 +270,11 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
           <label htmlFor="youtube">Youtube:</label>
           <input
             className="socialMediaInputs"
+            name="youtube"
             type="text"
             placeholder="optional"
-            value={youtube}
-            onChange={(e) => setYoutube(e.target.value)}
+            value={userData.userContent?.youtube}
+            onChange={handleUserContentChange}
           />
         </div>
 
@@ -260,10 +282,11 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
           <label htmlFor="facebook">Facebook:</label>
           <input
             className="socialMediaInputs"
+            name="facebook"
             type="text"
             placeholder="optional"
-            value={facebook}
-            onChange={(e) => setFacebook(e.target.value)}
+            value={userData.userContent?.facebook}
+            onChange={handleUserContentChange}
           />
         </div>
       </div>
@@ -272,8 +295,9 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
         <label htmlFor="name">Old Password:</label>
         <input
           type="password"
-          value={oldPassword}
-          onChange={(e) => setOldPassword(e.target.value)}
+          name="oldPassword"
+          value={userData.oldPassword}
+          onChange={handleInputChange}
         />
       </div>
 
@@ -281,8 +305,9 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
         <label htmlFor="name">New Password:</label>
         <input
           type="password"
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
+          name="newPassword"
+          value={userData.newPassword}
+          onChange={handleInputChange}
         />
       </div>
 
@@ -290,21 +315,13 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
         <label htmlFor="name">Confirm Password:</label>
         <input
           type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          name="confirmPassword"
+          value={userData.confirmPassword}
+          onChange={handleInputChange}
         />
       </div>
       <div className="h-5">
-        {errorBoolean ? (
-          <div className="text-red-600">{error}</div>
-        ) : (
-          <div></div>
-        )}
-        {successBoolean ? (
-          <div className="text-green-600">{success}</div>
-        ) : (
-          <div></div>
-        )}
+        {errorMessage && <div className="text-red-600">{errorMessage}</div>}
       </div>
       <button type="submit" disabled={loadingBtn}>
         {loadingBtn ? "Loading..." : "Save"}

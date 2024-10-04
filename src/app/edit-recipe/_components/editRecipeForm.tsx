@@ -27,12 +27,9 @@ export default function EditRecipeForm({
   const [loadingBtn, setLoadingBtn] = useState(false);
   const [recipe, setRecipe] = useState<SimplifiedRecipeProps>(recipeEdit);
   const [isChecked, setIsChecked] = useState(true);
-  const [success, setSuccess] = useState("");
-  const [successBoolean, setSuccessBoolean] = useState(false);
-  const [error, setError] = useState("");
-  const [errorBoolean, setErrorBoolean] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const { user, updateProfile } = useAuth();
+  const { user, deleteCachedUser } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -82,18 +79,11 @@ export default function EditRecipeForm({
       if (!res.ok) {
         const errorResponse = await res.json();
         throw new Error(errorResponse.message || "Failed to update.");
-      } else if (res.ok) {
-        const data = await res.json();
-        updateProfile(data.updatedUser);
-        setErrorBoolean(false);
-        setSuccessBoolean(true);
-        setSuccess(data.message);
-        router.push(`/${user.username}`);
       }
+      deleteCachedUser();
+      router.push(`/${user.username}`);
     } catch (error: any) {
-      setSuccessBoolean(false);
-      setErrorBoolean(true);
-      setError(error.message || "Failed to update.");
+      setErrorMessage(error.message || "Failed to update profile.");
     } finally {
       setLoadingBtn(false);
     }
@@ -151,11 +141,24 @@ export default function EditRecipeForm({
     document.getElementById("imageInput")?.click();
   };
 
-  const handleAmountChange = (id: string, newValue: number) => {
+  const handleAmountChange = (
+    id: string,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { value } = e.target;
+
+    if (Number(value) < 0) {
+      return 0;
+    }
+
+    if (Number(value) > 99999) {
+      return 99999;
+    }
+
     const updatedIngredients = recipe.ingredients?.map((ingList) => {
       const updatedIngredientList = ingList.ingredients.map((ing) => {
         if (ing.id === id) {
-          return { ...ing, amount: newValue };
+          return { ...ing, amount: Number(value) };
         }
         return ing;
       });
@@ -166,17 +169,6 @@ export default function EditRecipeForm({
       ...prevRecipe,
       ingredients: updatedIngredients,
     }));
-  };
-
-  const maxFiveInputs = (value: number) => {
-    if (value < 0) {
-      return 0;
-    }
-
-    if (value > 99999) {
-      return 99999;
-    }
-    return value;
   };
 
   const handleUnitChange = (id: string, newValue: string) => {
@@ -345,21 +337,19 @@ export default function EditRecipeForm({
     }));
   };
 
-  const handleServingsChange = (newValue: number) => {
-    setRecipe((prevList) => ({
-      ...prevList,
-      servings: newValue,
-    }));
-  };
-
-  const maxTwoInputs = (value: number) => {
-    if (value < 0) {
+  const handleServingsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    if (Number(value) < 0) {
       return 0;
     }
-    if (value > 99) {
+    if (Number(value) > 99) {
       return 99;
     }
-    return value;
+
+    setRecipe((prevList) => ({
+      ...prevList,
+      servings: Number(value),
+    }));
   };
 
   const toggleSlider = () => {
@@ -375,41 +365,26 @@ export default function EditRecipeForm({
     setIsChecked((prevIsChecked) => !prevIsChecked);
   };
 
-  const handleMacroChange = (macros: Partial<MacroNutrientsProps>) => {
+  const handleMacroChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+
+    if (Number(value) < 0) {
+      return 0;
+    }
+
+    if (Number(value) > 9999) {
+      return 9999;
+    }
+
     setRecipe((prevList) => ({
       ...prevList,
       macros: {
         ...prevList.macros,
-        ...macros,
+        [name]: value,
       },
     }));
-  };
-
-  const handleCarbsChange = (newValue: number) => {
-    handleMacroChange({ carbs: newValue });
-  };
-
-  const handleProteinChange = (newValue: number) => {
-    handleMacroChange({ protein: newValue });
-  };
-
-  const handleFatChange = (newValue: number) => {
-    handleMacroChange({ fat: newValue });
-  };
-
-  const handleCaloriesChange = (newValue: number) => {
-    handleMacroChange({ calories: newValue });
-  };
-
-  const negativeNumber = (value: number) => {
-    if (value < 0) {
-      return 0;
-    }
-
-    if (value > 9999) {
-      return 9999;
-    }
-    return value;
   };
 
   const handleInstructionChange = (id: string, newValue: string) => {
@@ -520,13 +495,11 @@ export default function EditRecipeForm({
                   >{`Ingredient ${ingIndex + 1}`}</label>
                   <input
                     type="number"
+                    name="amount"
                     className="amount"
                     placeholder="700"
                     value={ing.amount || ""}
-                    onChange={(e) => {
-                      const limitedValue = maxFiveInputs(+e.target.value);
-                      handleAmountChange(ing.id, limitedValue);
-                    }}
+                    onChange={(e) => handleAmountChange(ing.id, e)}
                   />
                   <input
                     type="text"
@@ -578,8 +551,7 @@ export default function EditRecipeForm({
             type="number"
             value={recipe.servings || ""}
             onChange={(e) => {
-              const limitedValue = maxTwoInputs(+e.target.value);
-              handleServingsChange(limitedValue);
+              handleServingsChange(e);
             }}
           />
         </div>
@@ -604,12 +576,10 @@ export default function EditRecipeForm({
               </label>
               <input
                 type="number"
+                name="carbs"
                 placeholder=""
                 value={recipe.macros?.carbs || ""}
-                onChange={(e) => {
-                  const limitedValue = negativeNumber(+e.target.value);
-                  handleCarbsChange(limitedValue);
-                }}
+                onChange={handleMacroChange}
               />
             </div>
 
@@ -619,12 +589,10 @@ export default function EditRecipeForm({
               </label>
               <input
                 type="number"
+                name="protein"
                 placeholder=""
                 value={recipe.macros?.protein || ""}
-                onChange={(e) => {
-                  const limitedValue = negativeNumber(+e.target.value);
-                  handleProteinChange(limitedValue);
-                }}
+                onChange={handleMacroChange}
               />
             </div>
 
@@ -634,12 +602,10 @@ export default function EditRecipeForm({
               </label>
               <input
                 type="number"
+                name="fat"
                 placeholder=""
                 value={recipe.macros?.fat || ""}
-                onChange={(e) => {
-                  const limitedValue = negativeNumber(+e.target.value);
-                  handleFatChange(limitedValue);
-                }}
+                onChange={handleMacroChange}
               />
             </div>
 
@@ -649,12 +615,10 @@ export default function EditRecipeForm({
               </label>
               <input
                 type="number"
+                name="calories"
                 placeholder={caloriesPlaceholder || undefined}
                 value={recipe.macros?.calories || ""}
-                onChange={(e) => {
-                  const limitedValue = negativeNumber(+e.target.value);
-                  handleCaloriesChange(limitedValue);
-                }}
+                onChange={handleMacroChange}
               />
             </div>
           </>
@@ -688,16 +652,7 @@ export default function EditRecipeForm({
         </div>
 
         <div className="h-5">
-          {errorBoolean ? (
-            <div className="text-red-600">{error}</div>
-          ) : (
-            <div></div>
-          )}
-          {successBoolean ? (
-            <div className="text-green-600">{success}</div>
-          ) : (
-            <div></div>
-          )}
+          {errorMessage && <div className="text-red-600">{errorMessage}</div>}
         </div>
         <button type="submit" disabled={loadingBtn}>
           Save
