@@ -83,9 +83,8 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
       },
     };
     try {
-      console.log("Submitting profile:", updatedProfile);
       let res = await fetch("/api/edit-profile", {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify({
           user: updatedProfile,
           userId: user?._id,

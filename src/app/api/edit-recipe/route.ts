@@ -5,7 +5,7 @@ import { RecipeModel, RecipeProps } from "@/models/UserRecipe";
 import { connectDB } from "@/config/database";
 import cache from "@/config/cache";
 
-export async function POST(request: NextRequest) {
+export async function PUT(request: NextRequest) {
     try {
         const { recipe, userId } = await request.json();
 

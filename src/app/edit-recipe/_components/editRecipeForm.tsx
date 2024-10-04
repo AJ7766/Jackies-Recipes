@@ -73,7 +73,7 @@ export default function EditRecipeForm({
     }
     try {
       let res = await fetch("/api/edit-recipe", {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify({ recipe: recipe, userId: user?._id }),
         headers: {
           "Content-Type": "application/json",

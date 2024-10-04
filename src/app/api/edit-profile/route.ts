@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import { connectDB } from "@/config/database";
 import cache from "@/config/cache";
 
-export async function POST(request: NextRequest) {
+export async function PUT(request: NextRequest) {
 
   try {
     const { user } = await request.json()
