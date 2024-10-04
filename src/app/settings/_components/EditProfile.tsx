@@ -3,9 +3,6 @@ import Image from "next/image";
 import { EditFormProps, ProfilePropsOrNull } from "@/app/types/types";
 import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
-import { useAuth } from "@/app/context/AuthContext";
-import ErrorPage from "@/app/_components/ErrorPage";
-
 const profilePicture = "/images/profile-picture.png";
 const camera = "/images/test/camera.svg";
 
@@ -36,7 +33,6 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
   const [error, setError] = useState("");
   const [errorBoolean, setErrorBoolean] = useState(false);
   const [loadingBtn, setLoadingBtn] = useState(false);
-  const { updateProfile, initializing } = useAuth();
 
   useEffect(() => {
     if (user) {
@@ -52,14 +48,6 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
       setFacebook(user.userContent?.facebook || "");
     }
   }, [user]);
-
-  if (initializing) {
-    return null;
-  }
-
-  if (!user) {
-    return <ErrorPage />;
-  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -98,14 +86,11 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
       if (!res.ok) {
         const errorResponse = await res.json();
         throw new Error(errorResponse.message || "Failed to update.");
-      } else if (res.ok) {
-        const data = await res.json();
-        updateProfile(data.updatedUser);
+      }
         setErrorBoolean(false);
         setSuccessBoolean(true);
         setSuccess("Successfully saved!");
         window.location.reload();
-      }
     } catch (error: any) {
       setSuccessBoolean(false);
       setErrorBoolean(true);

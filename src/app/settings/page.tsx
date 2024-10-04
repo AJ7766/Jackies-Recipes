@@ -1,31 +1,41 @@
-"use client"
+"use client";
 
 import NavBar from "../_components/NavBar";
 import { useAuth } from "@/app/context/AuthContext";
 import EditProfile from "./_components/EditProfile";
 import { useEffect, useState } from "react";
-import {  ProfilePropsOrNull } from "../types/types";
+import { ProfilePropsOrNull } from "../types/types";
+import ErrorPage from "../_components/ErrorPage";
 
-export default function SettingsPage(){
-    const [fetchedUser, setFetchedUser] = useState<ProfilePropsOrNull>();
-    const {user} = useAuth();
-    
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                if (user) {
-                    setFetchedUser(user);
-                }
-            } catch (err) {
-                console.error("Error fetching user:", err);
-            }
-        };
-        fetchUser();
-    }, [user]);
+export default function SettingsPage() {
+  const [fetchedUser, setFetchedUser] = useState<ProfilePropsOrNull>();
+  const { initializing, user, isAuthenticated } = useAuth();
 
-    return(<>
-    <NavBar />
-    <EditProfile user={fetchedUser}/>
+  useEffect(() => {
+    if (initializing) {
+      return;
+    }
+    const fetchUser = async () => {
+      try {
+        if (isAuthenticated && user) {
+          setFetchedUser(user);
+        }
+      } catch (err) {
+        console.error("Error fetching user:", err);
+      }
+    };
+    fetchUser();
+  }, [initializing, user, isAuthenticated]);
+
+  return (
+    <>
+      <NavBar />
+      {!initializing &&
+        (isAuthenticated && user ? (
+          <EditProfile user={fetchedUser} />
+        ) : (
+          <ErrorPage />
+        ))}
     </>
-    )
+  );
 }
