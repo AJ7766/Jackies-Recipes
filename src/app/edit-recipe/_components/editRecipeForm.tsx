@@ -8,7 +8,6 @@ import {
   ComponentProps,
   IngredientProps,
   IngredientListProps,
-  MacroNutrientsProps,
   InstructionProps,
 } from "@/models/UserRecipe";
 import DeleteRecipe from "../_action/deleteRecipe";
