@@ -12,8 +12,7 @@
   },
   "plugins": ["@typescript-eslint", "react"],
   "rules": {
-    // Add or override rules here
-    "react/react-in-jsx-scope": "off" // Disable if using Next.js which handles React in scope
+    "react/react-in-jsx-scope": "off"
   },
   "settings": {
     "react": {

@@ -2,8 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { handlePut } from "./handlers/handlePut";
 import { handleGet } from "./handlers/handleGet";
 
-export const dynamic = 'force-dynamic';
-
 export async function GET(request: NextRequest) {
     try {
         return await handleGet(request);
