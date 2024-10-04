@@ -6,6 +6,11 @@ import ValidateRegisterForm from "./validateForm";
 import { RegisterFormProps } from "@/app/types/types";
 
 export async function POST(request: NextRequest) {
+   const response = NextResponse.next();
+  
+   response.headers.set('X-Content-Type-Options', 'nosniff');
+   response.headers.set('X-Frame-Options', 'DENY');
+   response.headers.set('X-XSS-Protection', '1; mode=block');
    try {
       const { email, fullName, username, password, confirmPassword }: RegisterFormProps = await request.json()
       const validationResponse = ValidateRegisterForm({ email, fullName, username, password, confirmPassword });
