@@ -6,7 +6,7 @@ import cache from "@/config/cache";
 import { verifyToken } from "@/config/jwt";
 import { RecipeModel } from "@/models/UserRecipe";
 
-export async function DELETE(request: NextRequest) {
+export async function handleDelete(request: NextRequest) {
     const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');
 
     if (!authHeader || !authHeader.startsWith('Bearer')) {

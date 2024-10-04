@@ -14,7 +14,7 @@ export default function useFetchRecipe(recipeId: string) {
         }
         const fetchRecipe = async () => {
             try {
-                const response = await fetch(`/api/get-recipe?recipeId=${recipeId}&userId=${user?._id}`, {
+                const response = await fetch(`/api/recipe?recipeId=${recipeId}&userId=${user?._id}`, {
                     method: "GET",
                 });
                 if (!response.ok) {

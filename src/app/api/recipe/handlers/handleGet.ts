@@ -2,7 +2,7 @@ import { connectDB } from "@/config/database";
 import { NextRequest, NextResponse } from "next/server";
 import { RecipeModel } from "@/models/UserRecipe";
 
-export async function GET(request: NextRequest) {
+export async function handleGet(request: NextRequest) {
     try {
         await connectDB();
         const { searchParams } = new URL(request.url);

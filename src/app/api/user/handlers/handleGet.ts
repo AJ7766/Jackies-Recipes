@@ -3,7 +3,7 @@ import { verifyToken } from '@/config/jwt';
 import { UserModel } from '@/models/UserModel';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: NextRequest) {
+export async function handleGet(request: NextRequest) {
   const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');
 
   if (!authHeader || !authHeader.startsWith('Bearer')) {

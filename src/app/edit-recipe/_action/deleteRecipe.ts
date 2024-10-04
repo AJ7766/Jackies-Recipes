@@ -4,7 +4,7 @@ export default async function DeleteRecipe({ id, username }: { id: mongoose.Type
     const token = localStorage.getItem('token');
     if (token) {
         try {
-            const res = await fetch(`/api/delete-recipe?recipeId=${id.toString()}`, {
+            const res = await fetch(`/api/recipe?recipeId=${id.toString()}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

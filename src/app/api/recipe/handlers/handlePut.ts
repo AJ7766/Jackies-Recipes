@@ -1,11 +1,11 @@
 import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server";
-import validationAddRecipeSchema from "./validationAddRecipeSchema";
 import { RecipeModel, RecipeProps } from "@/models/UserRecipe";
 import { connectDB } from "@/config/database";
 import cache from "@/config/cache";
+import recipeValidation from "../validations/recipeValidation";
 
-export async function PUT(request: NextRequest) {
+export async function handlePut(request: NextRequest) {
     try {
         const { recipe, userId } = await request.json();
 
@@ -13,7 +13,7 @@ export async function PUT(request: NextRequest) {
             return NextResponse.json({ success: false, message: "No user or recipe found" }, { status: 400 });
         }
 
-        const validationResponse = await validationAddRecipeSchema({ recipe });
+        const validationResponse = await recipeValidation({ recipe });
 
         if (typeof validationResponse === 'string') {
             return NextResponse.json({ success: false, message: validationResponse }, { status: 400 });

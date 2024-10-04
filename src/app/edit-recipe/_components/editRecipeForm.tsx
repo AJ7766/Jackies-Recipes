@@ -72,7 +72,7 @@ export default function EditRecipeForm({
       throw new Error("User ID is not available");
     }
     try {
-      let res = await fetch("/api/edit-recipe", {
+      let res = await fetch("/api/recipe", {
         method: "PUT",
         body: JSON.stringify({ recipe: recipe, userId: user?._id }),
         headers: {

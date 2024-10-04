@@ -1,6 +1,6 @@
 import { RecipeProps } from "@/models/UserRecipe";
 
-export default async function validationAddRecipeSchema({recipe}:{recipe: RecipeProps}){
+export default async function recipeValidation({recipe}:{recipe: RecipeProps}){
 
     let errorMessage = "";
 

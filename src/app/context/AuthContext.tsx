@@ -35,7 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
     try {
-      const res = await fetch("/api/verify-token-fetch-user", {
+      const res = await fetch("/api/user", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

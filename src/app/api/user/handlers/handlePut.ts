@@ -1,11 +1,11 @@
 import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server"
-import ValidationEditSchema from "./validationEditSchema";
 import bcrypt from "bcrypt";
 import { connectDB } from "@/config/database";
 import cache from "@/config/cache";
+import userValidation from "../validations/userValidation";
 
-export async function PUT(request: NextRequest) {
+export async function handlePut(request: NextRequest) {
 
   try {
     const { user } = await request.json()
@@ -26,7 +26,7 @@ export async function PUT(request: NextRequest) {
       facebook: user.userContent?.facebook.toLowerCase() || ""
     };
 
-    const validationResponse = await ValidationEditSchema({
+    const validationResponse = await userValidation({
       _id: user._id,
       email,
       username,

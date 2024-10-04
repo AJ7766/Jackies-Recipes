@@ -1,11 +1,11 @@
 import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server";
-import validationAddRecipeSchema from "./validationAddRecipeSchema";
 import { RecipeModel, RecipeProps } from "@/models/UserRecipe";
 import { connectDB } from "@/config/database";
 import cache from "@/config/cache";
+import recipeValidation from "../validations/recipeValidation";
 
-export async function POST(request: NextRequest) {
+export async function handlePost(request: NextRequest) {
     try {
         const { recipe, userId } = await request.json();
 
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ success: false, message: "No user or recipe found" }, { status: 400 });
         }
 
-        const validationResponse = await validationAddRecipeSchema({recipe});
+        const validationResponse = await recipeValidation({ recipe });
 
         if (typeof validationResponse === 'string') {
             return NextResponse.json({ success: false, message: validationResponse }, { status: 400 });
@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
 
         await connectDB();
 
-        const user = await UserModel.findOne({_id: userId});
+        const user = await UserModel.findOne({ _id: userId });
         if (!user) {
             return NextResponse.json({ success: false, message: "User not found" }, { status: 404 });
         }
@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
 
 
         cache.del(user.username);
-        
+
         return NextResponse.json({ success: true, message: "Success", user }, { status: 200 });
 
     } catch (error) {
@@ -50,11 +50,11 @@ export async function POST(request: NextRequest) {
     }
 }
 
-async function secondValidation(recipe: RecipeProps){
-    const filteredIngredientsList = recipe.ingredients.map((ingList)=>{
+async function secondValidation(recipe: RecipeProps) {
+    const filteredIngredientsList = recipe.ingredients.map((ingList) => {
         const filteredIngredients = ingList.ingredients?.filter(ing => ing.ingredient.length > 0 || [])
         const filteredComponents = ingList.component?.filter(ing => ing.component.length > 0 || [])
-        return{
+        return {
             ...ingList,
             ingredients: filteredIngredients,
             component: filteredComponents
@@ -63,7 +63,7 @@ async function secondValidation(recipe: RecipeProps){
 
     const filteredInstructions = recipe.instructions?.filter(ins => ins.instruction.length > 0 || [])
 
-    return{
+    return {
         ...recipe,
         ingredients: filteredIngredientsList,
         instructions: filteredInstructions
