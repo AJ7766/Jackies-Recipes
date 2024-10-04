@@ -44,7 +44,6 @@ export default function RegisterForm() {
         setSuccessBoolean(true);
         let successResponse = await res.json();
         setSuccess(successResponse.message);
-        window.location.href=`/${username}`;
       }catch (error:any) {
         const errorMessage = error instanceof Error ? error.message : "Failed to register.";
         setErrorMsg(errorMessage);
