@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-// Define middleware function
 export function middleware(request: NextRequest) {
     const response = NextResponse.next();
     console.log("Middleware running");
