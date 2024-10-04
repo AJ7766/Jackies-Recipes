@@ -59,34 +59,21 @@ export default function AddRecipeForm() {
   const router = useRouter();
 
   useEffect(() => {
-    let calsFromCarbs: number = 0;
-    let calsFromProtein: number = 0;
-    let calsFromFat: number = 0;
+    calculateCalories();
+  }, [recipe.macros]);
 
-    if (recipe.macros?.carbs !== undefined && recipe.macros?.carbs !== null) {
-      calsFromCarbs = Number(recipe.macros.carbs) * 4;
-    }
-
-    if (
-      recipe.macros?.protein !== undefined &&
-      recipe.macros?.protein !== null
-    ) {
-      calsFromProtein = Number(recipe.macros.protein) * 4;
-    }
-
-    if (recipe.macros?.fat !== undefined && recipe.macros?.fat !== null) {
-      calsFromFat = Number(recipe.macros.fat) * 9;
-    }
+  const calculateCalories = () => {
+    const calsFromCarbs = recipe.macros?.carbs
+      ? Number(recipe.macros.carbs) * 4
+      : 0;
+    const calsFromProtein = recipe.macros?.protein
+      ? Number(recipe.macros.protein) * 4
+      : 0;
+    const calsFromFat = recipe.macros?.fat ? Number(recipe.macros.fat) * 9 : 0;
 
     const totalCals = calsFromCarbs + calsFromProtein + calsFromFat;
-    if (totalCals > 0) {
-      const calsToString = totalCals.toString();
-      setCaloriesPlaceholder(calsToString);
-      return;
-    }
-    setCaloriesPlaceholder(undefined);
-    return;
-  }, [recipe.macros]);
+    setCaloriesPlaceholder(totalCals > 0 ? totalCals.toString() : undefined);
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -165,50 +152,36 @@ export default function AddRecipeForm() {
       }
     }
   };
-
   const handleAmountChange = (
     id: string,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
-    const { value } = e.target;
+    const amount = Math.max(0, Math.min(Number(e.target.value), 99999));
+    updateIngredientList(id, { amount: amount });
+  };
 
-    if (Number(value) < 0) {
-      return 0;
-    }
+  const handleUnitChange = (id: string, value: string) => {
+    updateIngredientList(id, { unit: value });
+  };
 
-    if (Number(value) > 99999) {
-      return 99999;
-    }
+  const handleIngredientChange = (id: string, newValue: string) => {
+    updateIngredientList(id, { ingredient: newValue });
+  };
 
-    const updatedIngredients = recipe.ingredients?.map((ingList) => {
-      const updatedIngredientList = ingList.ingredients.map((ing) => {
-        if (ing.id === id) {
-          return { ...ing, amount: Number(value) };
-        }
-        return ing;
-      });
-      return { ...ingList, ingredients: updatedIngredientList };
-    });
+  const updateIngredientList = (
+    id: string,
+    updatedFields: Partial<IngredientProps>
+  ) => {
+    const updatedIngredients = recipe.ingredients.map((ingList) => ({
+      ...ingList,
+      ingredients: ingList.ingredients.map((ing) =>
+        ing.id === id ? { ...ing, ...updatedFields } : ing
+      ),
+    }));
 
     setRecipe((prevRecipe) => ({
       ...prevRecipe,
       ingredients: updatedIngredients,
-    }));
-  };
-
-  const handleUnitChange = (id: string, value: string) => {
-    const updatedIngredients = recipe.ingredients?.map((ingList) => {
-      const updatedIngredientList = ingList.ingredients.map((ing) => {
-        if (ing.id === id) {
-          return { ...ing, unit: value };
-        }
-        return ing;
-      });
-      return { ...ingList, ingredients: updatedIngredientList };
-    });
-    setRecipe((prevRecipe) => ({
-      ...prevRecipe,
-      ingredients: updatedIngredients || [],
     }));
   };
 
@@ -273,22 +246,6 @@ export default function AddRecipeForm() {
     setRecipe((prevRecipe) => ({
       ...prevRecipe,
       ingredients: filteredIngredients || [],
-    }));
-  };
-
-  const handleIngredientChange = (id: string, newValue: string) => {
-    const updatedIngredients = recipe.ingredients.map((ingList) => {
-      const updatedIngredientList = ingList.ingredients.map((ing) => {
-        if (ing.id === id) {
-          return { ...ing, ingredient: newValue };
-        }
-        return ing;
-      });
-      return { ...ingList, ingredients: updatedIngredientList };
-    });
-    setRecipe((prevRecipe) => ({
-      ...prevRecipe,
-      ingredients: updatedIngredients,
     }));
   };
 
@@ -363,18 +320,8 @@ export default function AddRecipeForm() {
   };
 
   const handleServingsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    if (Number(value) < 0) {
-      return 0;
-    }
-    if (Number(value) > 99) {
-      return 99;
-    }
-
-    setRecipe((prevList) => ({
-      ...prevList,
-      servings: Number(value),
-    }));
+    const servings = Math.max(0, Math.min(Number(e.target.value), 99));
+    setRecipe((prevRecipe) => ({ ...prevRecipe, servings }));
   };
 
   const toggleSlider = () => {
@@ -390,35 +337,21 @@ export default function AddRecipeForm() {
     setIsChecked((prevIsChecked) => !prevIsChecked);
   };
 
-  const handleMacroChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleMacroChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    const macroValue = Math.max(0, Math.min(Number(value), 9999));
 
-    if (Number(value) < 0) {
-      return 0;
-    }
-
-    if (Number(value) > 9999) {
-      return 9999;
-    }
-
-    setRecipe((prevList) => ({
-      ...prevList,
-      macros: {
-        ...prevList.macros,
-        [name]: value,
-      },
+    setRecipe((prevRecipe) => ({
+      ...prevRecipe,
+      macros: { ...prevRecipe.macros, [name]: macroValue },
     }));
   };
 
   const handleInstructionChange = (id: string, value: string) => {
-    const updatedInstructions = recipe.instructions?.map((ins) => {
-      if (ins.id === id) {
-        return { ...ins, instruction: value };
-      }
-      return ins;
-    });
+    const updatedInstructions = recipe.instructions?.map((ins) =>
+      ins.id === id ? { ...ins, instruction: value } : ins
+    );
+
     setRecipe((prevRecipe) => ({
       ...prevRecipe,
       instructions: updatedInstructions,
@@ -426,10 +359,7 @@ export default function AddRecipeForm() {
   };
 
   const addInstruction = () => {
-    const newInstruction: InstructionProps = {
-      id: uuidv4(),
-      instruction: "",
-    };
+    const newInstruction: InstructionProps = { id: uuidv4(), instruction: "" };
     setRecipe((prevRecipe) => ({
       ...prevRecipe,
       instructions: [...(prevRecipe.instructions || []), newInstruction],

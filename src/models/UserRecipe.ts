@@ -86,7 +86,7 @@ export const recipeSchema = new Schema<RecipeProps>({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'users',
       required: true
-  },
+   },
    title: { type: String, required: true },
    image: { type: String },
    ingredients: [IngredientListSchema],
