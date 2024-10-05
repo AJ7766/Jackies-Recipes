@@ -7,7 +7,6 @@ import cache from "@/config/cache";
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const username = searchParams.get('username');
-
   if (!username) {
     return NextResponse.json({ message: "Username is required" }, { status: 400 });
   }
