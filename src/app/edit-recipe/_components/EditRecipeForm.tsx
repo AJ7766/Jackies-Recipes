@@ -17,7 +17,6 @@ export default function EditRecipeForm({
     recipe,
     isChecked,
     caloriesPlaceholder,
-    imagePreview,
     handleImageChange,
     imageChange,
     handleTitleChange,
@@ -116,7 +115,7 @@ export default function EditRecipeForm({
         {recipe.ingredients &&
           recipe.ingredients.map((ingredientList, index) => (
             <div className="recipe" key={index}>
-              {ingredientList.component && (
+              {ingredientList.component !== undefined && (
                 <div className="addComponentsContainer">
                   <label className="recipeLabel" htmlFor="ingredients-for">
                     Component:
@@ -124,7 +123,7 @@ export default function EditRecipeForm({
                   <input
                     type="text"
                     placeholder="Topping, frosting, sauce..."
-                    value={ingredientList.component?.component || ""}
+                    value={ingredientList?.component || ""}
                     onChange={(e) =>
                       handleComponentChange(index, e.target.value)
                     }
@@ -177,7 +176,7 @@ export default function EditRecipeForm({
                 <button type="button" onClick={() => addIngredient(index)}>
                   Add Ingredient
                 </button>
-                {!ingredientList.component && (
+                {ingredientList.component == undefined && (
                   <button type="button" onClick={() => addComponent(index)}>
                     Add Component
                   </button>
@@ -305,7 +304,7 @@ export default function EditRecipeForm({
           {errorMessage && <div className="text-red-600">{errorMessage}</div>}
         </div>
         <button type="submit" disabled={loadingBtn}>
-          Upload
+          Update
         </button>
       </form>
     </>

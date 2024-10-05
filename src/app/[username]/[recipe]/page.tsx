@@ -83,7 +83,9 @@ export default function Recipe() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleClickOutside]);
-
+  if(selectedRecipe){
+  console.log("Selected Recipe:",selectedRecipe.ingredients);
+  }
   return (
     !initializing &&
     !loading &&
@@ -166,16 +168,17 @@ export default function Recipe() {
                   <p>{selectedRecipe?.servings}</p>
                 </div>
               )}
-              {selectedRecipe?.ingredients.map((ingList, ingListIndex) => (
+              {selectedRecipe.ingredients.map((ingList, ingListIndex) => (
                 <table key={ingListIndex}>
                   <tbody>
-                    {ingList.component?.map((comp, compIndex) => (
-                      <tr key={compIndex}>
+                    {ingList.component && (
+                      <tr>
                         <td colSpan={2} className="recipeTitle">
-                          {comp.component}
+                          {ingList.component}
                         </td>
                       </tr>
-                    ))}
+                    )}
+
                     {ingList.ingredients?.map((ing, ingIndex) => (
                       <tr key={ingIndex}>
                         <td className="amount">

@@ -22,7 +22,8 @@ export async function handlePut(request: NextRequest) {
         }
 
         const filteredRecipe = await ingredientListValidation(recipe);
-
+        
+        console.log(filteredRecipe)
         await connectDB();
         const updateResult = await RecipeModel.updateOne(
             { _id: recipe._id },

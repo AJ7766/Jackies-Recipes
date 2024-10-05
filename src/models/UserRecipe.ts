@@ -31,13 +31,8 @@ export type MacroNutrientsProps = {
 }
 
 export type IngredientListProps = {
-   component?: ComponentProps;
+   component?: string;
    ingredients: IngredientProps[];
-}
-
-export type ComponentProps = {
-   id: string;
-   component: string;
 }
 
 export type IngredientProps = {
@@ -52,11 +47,6 @@ export type InstructionProps = {
    instruction: string;
 }
 
-export const ComponentSchema = new Schema<ComponentProps>({
-   id: { type: String, required: true },
-   component: { type: String }
-});
-
 export const IngredientSchema = new Schema<IngredientProps>({
    id: { type: String, required: true },
    ingredient: { type: String, required: true },
@@ -65,7 +55,7 @@ export const IngredientSchema = new Schema<IngredientProps>({
 });
 
 export const IngredientListSchema = new Schema<IngredientListProps>({
-   component: [ComponentSchema],
+   component: { type: String },
    ingredients: [IngredientSchema]
 });
 

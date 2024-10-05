@@ -1,4 +1,4 @@
-import { ComponentProps, IngredientListProps, IngredientProps, InstructionProps, SimplifiedRecipeProps } from "@/models/UserRecipe";
+import { IngredientListProps, IngredientProps, InstructionProps, SimplifiedRecipeProps } from "@/models/UserRecipe";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Resizer from "react-image-file-resizer";
@@ -12,11 +12,7 @@ export function recipeFormActions(recipeEdit?: SimplifiedRecipeProps) {
             image: "",
             ingredients: [
                 {
-                    component:
-                    {
-                        id: uuidv4(),
-                        component: "",
-                    },
+                    component: "",
                     ingredients: [
                         {
                             id: uuidv4(),
@@ -149,27 +145,21 @@ export function recipeFormActions(recipeEdit?: SimplifiedRecipeProps) {
         setRecipe((prevRecipe) => {
             const updatedIngredient = [...prevRecipe.ingredients];
 
-            const currentComponent = updatedIngredient[index].component ?? { id: uuidv4(), component: '' };
-
             updatedIngredient[index] = {
                 ...updatedIngredient[index],
-                component: { ...currentComponent, component: value },
+                component: value ?? '',
             }
             return { ...prevRecipe, ingredients: updatedIngredient }
         });
     }
 
     const addComponent = (index: number) => {
-        const newComponent: ComponentProps = {
-            id: uuidv4(),
-            component: "",
-        };
         setRecipe((prevRecipe) => {
             const updatedIngredient = [...prevRecipe.ingredients];
 
             updatedIngredient[index] = {
                 ...updatedIngredient[index],
-                component: newComponent
+                component: ''
             }
 
             return { ...prevRecipe, ingredients: updatedIngredient }
@@ -235,11 +225,7 @@ export function recipeFormActions(recipeEdit?: SimplifiedRecipeProps) {
 
     const addNewComponent = () => {
         const newIngredientList: IngredientListProps = {
-            component:
-            {
-                id: uuidv4(),
-                component: "",
-            },
+            component: '',
             ingredients: [
                 {
                     id: uuidv4(),
