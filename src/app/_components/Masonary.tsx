@@ -23,13 +23,13 @@ export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
 
   useEffect(() => {
     if (!user) return;
-    
+
     const pathParts = pathname.split("/");
     const usernameLink = pathParts[pathParts.length - 1];
     if (usernameLink === user?.username) {
       setCanEdit(true);
     }
-  });
+  },[user,pathname]);
 
   const updateColumns = useCallback(() => {
     const width = window.innerWidth;
@@ -50,14 +50,17 @@ export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
       { length: totalColumns },
       () => []
     );
-    profile.recipes.forEach((recipe, index) => {
-      const recipeCard = {
+
+    profile.recipes.reduce((currentColumns, recipe, index) => {
+      const recipeCard: RecipeCardProps = {
         id: recipe._id,
         title: recipe.title,
         image: recipe.image || "",
       };
-      newColumns[index % totalColumns].push(recipeCard);
-    });
+      currentColumns[index % totalColumns].push(recipeCard);
+      return currentColumns;
+    }, newColumns);
+
     setColumns(newColumns);
   }, [totalColumns, profile]);
 
