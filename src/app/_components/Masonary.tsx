@@ -49,7 +49,6 @@ export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
   useEffect(() => {
     if (profile?.recipes){
     const fetchRecipes = async () => {
-      console.log("fetching user:", profile?.username)
         const newColumns: RecipeCardProps[][] = Array.from(
           { length: totalColumns },
           () => []

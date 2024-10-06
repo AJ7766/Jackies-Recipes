@@ -16,6 +16,7 @@ export function ProfileProivder({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<ProfilePropsOrNull>(null);
   const [loading, setLoading] = useState(true);
   const { username } = useParams();
+  
   const lowercaseUsername = Array.isArray(username)
     ? username[0].toLowerCase()
     : username?.toLowerCase() ?? "";
