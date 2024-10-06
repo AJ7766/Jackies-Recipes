@@ -5,14 +5,12 @@ import { useParams } from "next/navigation";
 
 interface ProfileContextType {
   profile: ProfilePropsOrNull;
-  userFound: boolean;
   loading: boolean;
 }
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
 export function ProfileProivder({ children }: { children: React.ReactNode }) {
-  const [userFound, setUserFound] = useState(false);
   const [profile, setProfile] = useState<ProfilePropsOrNull>(null);
   const [loading, setLoading] = useState(true);
   const { username } = useParams();
@@ -22,7 +20,7 @@ export function ProfileProivder({ children }: { children: React.ReactNode }) {
     : username?.toLowerCase() ?? "";
 
   useEffect(() => {
-    if (lowercaseUsername) {
+    if(!lowercaseUsername) return;
       const fetchProfileData = async () => {
         try {
           let res = await fetch(`/api/profile?username=${lowercaseUsername}`, {
@@ -35,20 +33,17 @@ export function ProfileProivder({ children }: { children: React.ReactNode }) {
           }
           const data = await res.json();
           setProfile(data.profileData);
-          setUserFound(true);
         } catch (error: any) {
           console.error("Error fetching profile:", error.message);
-          setUserFound(false);
         } finally {
           setLoading(false);
         }
       };
       fetchProfileData();
-    }
   }, [lowercaseUsername]);
 
   return (
-    <ProfileContext.Provider value={{ profile, userFound, loading }}>
+    <ProfileContext.Provider value={{ profile, loading }}>
       {children}
     </ProfileContext.Provider>
   );

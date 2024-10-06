@@ -16,22 +16,19 @@ export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
 
   const [totalColumns, setTotalColumns] = useState<number>(1);
   const [canEdit, setCanEdit] = useState(false);
-  const [columns, setColumns] = useState<RecipeCardProps[][]>(() =>
-    Array.from({ length: 1 }, () => [])
-  );
+  const [columns, setColumns] = useState<RecipeCardProps[][]>([]);
 
   const { user } = useAuth();
   const pathname = usePathname();
 
   useEffect(() => {
-    const fetchAuthenticated = async () => {
-      const pathParts = pathname.split("/");
-      const usernameLink = pathParts[pathParts.length - 1];
-      if (usernameLink === user?.username) {
-        setCanEdit(true);
-      }
-    };
-    fetchAuthenticated();
+    if (!user) return;
+    
+    const pathParts = pathname.split("/");
+    const usernameLink = pathParts[pathParts.length - 1];
+    if (usernameLink === user?.username) {
+      setCanEdit(true);
+    }
   });
 
   const updateColumns = useCallback(() => {
@@ -47,32 +44,26 @@ export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
   }, [updateColumns]);
 
   useEffect(() => {
-    if (profile?.recipes){
-    const fetchRecipes = async () => {
-        const newColumns: RecipeCardProps[][] = Array.from(
-          { length: totalColumns },
-          () => []
-        );
-        profile.recipes.forEach((recipe, index) => {
-          const recipeCard = {
-            id: recipe._id,
-            title: recipe.title,
-            image: recipe.image || "",
-          };
-          const columnIndex = index % totalColumns;
-          newColumns[columnIndex].push(recipeCard);
-          setColumns(newColumns);
-        });
-    };
-    fetchRecipes();
-  }else{
-    setColumns([]);
-  }
+    if (!profile?.recipes) return setColumns([]);
+
+    const newColumns: RecipeCardProps[][] = Array.from(
+      { length: totalColumns },
+      () => []
+    );
+    profile.recipes.forEach((recipe, index) => {
+      const recipeCard = {
+        id: recipe._id,
+        title: recipe.title,
+        image: recipe.image || "",
+      };
+      newColumns[index % totalColumns].push(recipeCard);
+    });
+    setColumns(newColumns);
   }, [totalColumns, profile]);
 
   return (
     <>
-      {columns.length > 1 ? (
+      {profile?.recipes && profile.recipes.length > 0 ? (
         <div className="masonryContainer">
           {columns.map((column, columnIndex) => (
             <div className="masonryColumn" key={columnIndex}>

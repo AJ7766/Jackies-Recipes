@@ -9,12 +9,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { profile, userFound, loading } = useProfile();
+  const { profile, loading } = useProfile();
   return (
     <>
       <NavBar />
       {!loading &&
-        (userFound ? (
+        (profile ? (
           <>
             {children}
             <ProfilePage profile={profile} />
