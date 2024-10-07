@@ -30,16 +30,17 @@ export async function handleDelete(request: NextRequest) {
             return NextResponse.json({ message: "User not found" }, { status: 404 });
         }
 
-        const deleteResult = await RecipeModel.deleteOne({ _id: recipeId });
+        const deleteRecipePromise = RecipeModel.deleteOne({ _id: recipeId });
+        const updateUserPromise = UserModel.updateOne(
+            { _id: userId },
+            { $pull: { recipes: recipeId } }
+        );
+
+        const [deleteResult, updateUserResult] = await Promise.all([deleteRecipePromise, updateUserPromise]);
 
         if (deleteResult.deletedCount !== 1) {
             return NextResponse.json({ message: 'Recipe not found' }, { status: 404 });
         }
-
-        const updateUserResult = await UserModel.updateOne(
-            { _id: userId },
-            { $pull: { recipes: recipeId } }
-        );
 
         if (updateUserResult.modifiedCount === 0) {
             console.log('Failed to remove recipe from user, or recipe not found in user.');

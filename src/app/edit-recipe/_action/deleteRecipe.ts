@@ -1,12 +1,10 @@
 import mongoose from "mongoose";
-import { useRouter } from "next/navigation";
 
-export default async function DeleteRecipe({ id, username }: { id: mongoose.Types.ObjectId, username?: string }) {
+export async function deleteRecipe(router:any, id?: mongoose.Types.ObjectId, username?: string) {
     const token = localStorage.getItem('token');
-    const router = useRouter();
     if (token) {
         try {
-            const res = await fetch(`/api/recipe?recipeId=${id.toString()}`, {
+            const res = await fetch(`/api/recipe?recipeId=${id?.toString()}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -16,7 +14,6 @@ export default async function DeleteRecipe({ id, username }: { id: mongoose.Type
             if (!res.ok) {
                 throw new Error(`Failed to delete recipe: ${res.statusText}`);
             }
-            console.log("deleted")
             router.push(`/${username}`);
 
         } catch (error) {

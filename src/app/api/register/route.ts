@@ -8,7 +8,10 @@ import { RegisterFormProps } from "@/app/types/types";
 export async function POST(request: NextRequest) {
    try {
       const { email, fullName, username, password, confirmPassword }: RegisterFormProps = await request.json()
-      const validationResponse = ValidateRegisterForm({ email, fullName, username, password, confirmPassword });
+      const lowercaseUsername = username.toLowerCase();
+      const lowercaseEmail = email.toLowerCase();
+
+      const validationResponse = ValidateRegisterForm({ email: lowercaseEmail, fullName, username: lowercaseUsername, password, confirmPassword });
 
       if (typeof validationResponse === 'string') {
          return NextResponse.json({ success: false, message: validationResponse }, { status: 400 });
@@ -19,7 +22,7 @@ export async function POST(request: NextRequest) {
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-      await UserModel.create({ email, fullName, username, password: hashedPassword })
+      await UserModel.create({ email: lowercaseEmail, fullName, username: lowercaseUsername, password: hashedPassword })
 
       return NextResponse.json({ message: `Your account ${email} has been successfully created!` }, { status: 201 })
    } catch (err: any) {

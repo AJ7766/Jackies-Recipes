@@ -1287,7 +1287,7 @@ input::-webkit-inner-spin-button {
   width: clamp(300px, 30%, 50%);
 }
 
-.addRecipeForm button.removeRecipeBtn{
+.addRecipeForm button.delete{
   padding: 5px 20px;
   border-radius: 5px;
   color:white;

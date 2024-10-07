@@ -4,6 +4,7 @@ import { useAuth } from "@/app/context/AuthContext";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 import { useRouter } from "next/navigation";
 import { recipeFormActions } from "@/app/_actions/recipeFormActions";
+import { deleteRecipe } from "../_action/deleteRecipe";
 
 const camera = "/images/test/camera.svg";
 const imagePlaceholder = "/images/recipe-image-placeholder.svg";
@@ -305,6 +306,15 @@ export default function EditRecipeForm({
         </div>
         <button type="submit" disabled={loadingBtn}>
           Update
+        </button>
+        <button
+          type="button"
+          className="delete"
+          onClick={() =>
+            deleteRecipe(router, recipe._id, user?.username)
+          }
+        >
+          Delete
         </button>
       </form>
     </>
