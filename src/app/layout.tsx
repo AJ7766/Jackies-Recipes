@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
-import { ProfileProivder } from "./context/ProfileContext";
+import { ProfileProvider } from "./context/ProfileContext";
 
 export const metadata: Metadata = {
   title: "Jackies Recipes",
@@ -18,9 +18,9 @@ export default function RootLayout({
       <head></head>
       <body>
         <AuthProvider>
-          <ProfileProivder>
+          <ProfileProvider>
             {children}
-          </ProfileProivder>
+          </ProfileProvider>
         </AuthProvider>
       </body>
     </html>

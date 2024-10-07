@@ -7,7 +7,6 @@ export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url);
         const search = searchParams.get('search');
-        console.log(search)
         if (!search) {
             return NextResponse.json({ success: false, message: "Search term is required." }, { status: 400 });
         }

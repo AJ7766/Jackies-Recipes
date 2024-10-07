@@ -23,13 +23,12 @@ export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
 
   useEffect(() => {
     if (!user) return;
-
     const pathParts = pathname.split("/");
     const usernameLink = pathParts[pathParts.length - 1];
     if (usernameLink === user?.username) {
       setCanEdit(true);
     }
-  },[user,pathname]);
+  }, [user, pathname]);
 
   const updateColumns = useCallback(() => {
     const width = window.innerWidth;
@@ -44,7 +43,7 @@ export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
   }, [updateColumns]);
 
   useEffect(() => {
-    if (!profile?.recipes) return setColumns([]);
+    if (!profile?.recipes) return;
 
     const newColumns: RecipeCardProps[][] = Array.from(
       { length: totalColumns },
@@ -62,7 +61,7 @@ export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
     }, newColumns);
 
     setColumns(newColumns);
-  }, [totalColumns, profile]);
+  }, [totalColumns, profile?.recipes]);
 
   return (
     <>

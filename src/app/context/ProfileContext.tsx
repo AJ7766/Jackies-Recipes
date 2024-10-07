@@ -10,7 +10,7 @@ interface ProfileContextType {
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
-export function ProfileProivder({ children }: { children: React.ReactNode }) {
+export function ProfileProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<ProfilePropsOrNull>(null);
   const [loading, setLoading] = useState(true);
   const { username } = useParams();
