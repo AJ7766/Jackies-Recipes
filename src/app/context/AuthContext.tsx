@@ -27,7 +27,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   const verifyTokenAndFetchUser = useCallback(async (token: string) => {
-    const cachedProfile = sessionStorage.getItem("userProfile");
+    const cachedProfile = sessionStorage.getItem("user");
     if (cachedProfile) {
       setIsAuthenticated(true);
       setUser(JSON.parse(cachedProfile));

@@ -7,7 +7,6 @@ import {
   fireEvent,
 } from "@testing-library/react";
 import { AuthProvider, useAuth } from "@/app/context/AuthContext";
-import { ProfileProps } from "@/app/types/types";
 import { useRouter } from "next/navigation";
 import fetchMock from "jest-fetch-mock";
 import "@testing-library/jest-dom";
@@ -24,7 +23,7 @@ const DummyComponent = () => {
 };
 
 const TestComponent = () => {
-  const { isAuthenticated, user, logout, updateProfile, initializing } =
+  const { isAuthenticated, user, logout, initializing, deleteCachedUser } =
     useAuth();
   return (
     <div>
@@ -38,13 +37,7 @@ const TestComponent = () => {
         {user ? `User: ${user.username}` : "No User"}
       </div>
       <button onClick={logout}>Logout</button>
-      <button
-        onClick={() =>
-          updateProfile({ username: "Updated User" } as ProfileProps)
-        }
-      >
-        Update Profile
-      </button>
+      <button onClick={deleteCachedUser}>Delete</button>
     </div>
   );
 };
@@ -134,7 +127,7 @@ describe("AuthContext", () => {
   test("has cached profile", async () => {
     localStorage.setItem("token", "test-token");
     sessionStorage.setItem(
-      "userProfile",
+      "user",
       JSON.stringify({ username: "Test User" })
     );
 
@@ -168,7 +161,7 @@ describe("AuthContext", () => {
   test("Logout function", async () => {
     localStorage.setItem("token", "test-token");
     sessionStorage.setItem(
-      "userProfile",
+      "user",
       JSON.stringify({ username: "Test User" })
     );
     render(<TestComponent />, { wrapper: Wrapper });
@@ -192,20 +185,17 @@ describe("AuthContext", () => {
     });
   });
 
-  test("updateProfile function", async () => {
-    localStorage.setItem("token", "test-token");
+  test("Delete cached user function", async () => {
     sessionStorage.setItem(
-      "userProfile",
+      "user",
       JSON.stringify({ username: "Test User" })
     );
     render(<TestComponent />, { wrapper: Wrapper });
 
-    fireEvent.click(screen.getByText("Update Profile"));
+    fireEvent.click(screen.getByText("Delete"));
 
     await waitFor(() => {
-      expect(screen.getByTestId("user")).toHaveTextContent(
-        "User: Updated User"
-      );
+      expect(sessionStorage.getItem("user")).toBeNull();
     });
   });
 

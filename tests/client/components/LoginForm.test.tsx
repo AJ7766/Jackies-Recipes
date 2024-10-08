@@ -22,7 +22,7 @@ afterEach(() => {
   document.body.innerHTML = "";
 });
 
-jest.mock("@/app/authContext/AuthContext", () => ({
+jest.mock("@/app/context/AuthContext", () => ({
   useAuth: jest.fn(),
 }));
 

@@ -1,17 +1,14 @@
 import {
   render,
   screen,
-  fireEvent,
   waitFor,
-  act,
-  within,
 } from "@testing-library/react";
 import fetchMock from "jest-fetch-mock";
 import "@testing-library/jest-dom";
-import { useAuth } from "@/app/context/AuthContext";
 import Layout from "@/app/[username]/layout";
 import { ProfilePropsOrNull } from "@/app/types/types";
 import { useParams } from "next/navigation";
+import { useProfile } from "@/app/context/ProfileContext";
 
 beforeEach(() => {
   fetchMock.resetMocks();
@@ -28,8 +25,8 @@ jest.mock("next/navigation", () => ({
   useParams: jest.fn(),
 }));
 
-jest.mock("@/app/authContext/AuthContext", () => ({
-  useAuth: jest.fn(),
+jest.mock("@/app/context/ProfileContext", () => ({
+  useProfile: jest.fn(),
 }));
 
 jest.mock("@/app/_components/NavBar", () => () => <div>NavBar</div>);
@@ -53,11 +50,7 @@ describe("[username] layout", () => {
 
   test("initial render", async () => {
     jest.spyOn(console, "error").mockImplementation(() => {});
-    (useAuth as jest.Mock).mockReturnValue({
-      user: null,
-      isAuthenticated: false,
-      initializing: false,
-    });
+    (useProfile as jest.Mock).mockReturnValue({ profile: true, loading: false });
 
     render(
       <Layout>
@@ -77,11 +70,7 @@ describe("[username] layout", () => {
       JSON.stringify({ message: "Couldn't find user" }),
       { status: 400 },
     ]);
-    (useAuth as jest.Mock).mockReturnValue({
-      user: null,
-      isAuthenticated: false,
-      initializing: false,
-    });
+    (useProfile as jest.Mock).mockReturnValue({ profile: null, loading: false });
 
     render(
       <Layout>
@@ -109,11 +98,8 @@ describe("[username] layout", () => {
       }),
       { status: 200 },
     ]);
-    (useAuth as jest.Mock).mockReturnValue({
-      user: null,
-      isAuthenticated: false,
-      initializing: false,
-    });
+    (useProfile as jest.Mock).mockReturnValue({ profile: true, loading: false });
+
 
     render(
       <Layout>
@@ -128,27 +114,9 @@ describe("[username] layout", () => {
     });
   });
 
-  test("url in [username] is an array type", async () => {
-    (useAuth as jest.Mock).mockReturnValue({
-      user: null,
-      isAuthenticated: false,
-      initializing: false,
-    });
-
-    (useParams as jest.Mock).mockReturnValue({ username: ["testacc"] });
-    render(
-      <Layout>
-        <div>Child Component</div>
-      </Layout>
-    );
-  });
-
   test("url in [username] is undefined", async () => {
-    (useAuth as jest.Mock).mockReturnValue({
-      user: null,
-      isAuthenticated: false,
-      initializing: false,
-    });
+    (useProfile as jest.Mock).mockReturnValue({ false: null, loading: false });
+
 
     (useParams as jest.Mock).mockReturnValue({ username: undefined });
     render(
