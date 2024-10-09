@@ -1,12 +1,12 @@
-import { IngredientListProps, IngredientProps, InstructionProps, SimplifiedRecipeProps } from "@/models/UserRecipe";
+import { IngredientListProps, IngredientProps, InstructionProps, SimplifiedRecipePropsNoUser } from "@/models/UserRecipe";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Resizer from "react-image-file-resizer";
 
 
-export function recipeFormActions(recipeEdit?: SimplifiedRecipeProps) {
+export function recipeFormActions(recipeEdit?: SimplifiedRecipePropsNoUser) {
     const [imagePreview, setImagePreview] = useState<string>();
-    const [recipe, setRecipe] = useState<SimplifiedRecipeProps>(
+    const [recipe, setRecipe] = useState<SimplifiedRecipePropsNoUser>(
         recipeEdit ?? {
             title: imagePreview || "",
             image: "",
