@@ -150,7 +150,7 @@ export default function NavBar() {
                   <>
                     <h1>Recipes</h1>
                     {recipes.map((recipe, indexKey) => (
-                      <Link href={`/${recipe.user?.username}/${recipe._id}`} key={indexKey}>
+                      <Link href={`/${recipe.user.username}/${recipe._id}`} key={indexKey}>
                         <div
                           className="searchedUser"
                           data-testid="searchedUser"
@@ -158,12 +158,12 @@ export default function NavBar() {
                           <Image
                             height={42}
                             width={42}
-                            src={recipe.image || profilePicture}
+                            src={recipe.image}
                             alt="recipe-image"
                           />
                           <div>
                             <h2>{recipe.title}</h2>
-                            <p>{recipe.user?.username}</p>
+                            <p>{recipe.user.username}</p>
                           </div>
                         </div>
                       </Link>
@@ -173,7 +173,7 @@ export default function NavBar() {
               </div>}
           </div>
           
-          {isAuthenticated ? (
+          {isAuthenticated && user ? (
             <>
               <Link className="addRecipe shrink-0" href="/add-recipe">
                 <Image
@@ -185,12 +185,12 @@ export default function NavBar() {
               </Link>
               <Link
                 className="profilePictureLink shrink-0"
-                href={`/${user?.username}`}
+                href={`/${user.username}`}
               >
                 <Image
                   height={35}
                   width={35}
-                  src={user?.userContent?.profilePicture || profilePicture}
+                  src={user.userContent?.profilePicture || profilePicture}
                   alt="profile-picture"
                 />
               </Link>

@@ -26,7 +26,7 @@ jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
 
-jest.mock("@/app/authContext/AuthContext", () => ({
+jest.mock("@/app/context/AuthContext", () => ({
   useAuth: jest.fn(),
 }));
 
@@ -66,7 +66,7 @@ describe("NavBar component", () => {
 
   test("initial render authorized", async () => {
     (useAuth as jest.Mock).mockReturnValue({
-      user: null,
+      user: { username: "testacc" },
       isAuthenticated: true,
       initializing: false,
     });
@@ -168,14 +168,66 @@ describe("NavBar component", () => {
     });
   });
 
-  test("input in search bar & finding a user", async () => {
+  test("input in search bar & finding a recipe with no users", async () => {
+    fetchMock.mockResponses([
+      JSON.stringify({
+        success: true,
+        existingUsers: [],
+        existingRecipes: [
+          {
+            _id: "testid",
+            title: "testrecipe",
+            image: "/images/test-recipe.png",
+            user: { username: "testacc" },
+          },
+        ],
+      }),
+      { status: 200 },
+    ]);
+
+    (useAuth as jest.Mock).mockReturnValue({
+      user: null,
+      isAuthenticated: false,
+      initializing: false,
+    });
+
+    render(<NavBar />);
+
+    await searchInput("test");
+
+    await waitFor(() => {
+      expect(screen.getByPlaceholderText("Search...")).toHaveValue("test");
+
+      const searchedUsersContainer = screen.getByTestId(
+        "searchedUsersContainer"
+      );
+      expect(searchedUsersContainer).toBeInTheDocument();
+
+      const userElements = screen.queryAllByText("testacc");
+      expect(userElements.length).toBe(1);
+
+      expect(screen.getByText("testrecipe")).toBeInTheDocument();
+      expect(screen.getByAltText("recipe-image")).toBeInTheDocument();
+    });
+  });
+
+  test("input in search bar & finding a user and finding a recipe", async () => {
     fetchMock.mockResponses([
       JSON.stringify({
         success: true,
         existingUsers: [{ username: "testacc" }],
+        existingRecipes: [
+          {
+            _id: "testid",
+            title: "testrecipe",
+            image: "/images/test-recipe.png",
+            user: { username: "testacc" },
+          },
+        ],
       }),
       { status: 200 },
     ]);
+
     (useAuth as jest.Mock).mockReturnValue({
       user: null,
       isAuthenticated: false,
@@ -188,21 +240,29 @@ describe("NavBar component", () => {
 
     await waitFor(async () => {
       expect(screen.getByPlaceholderText("Search...")).toHaveValue("test");
-      expect(
-        screen.queryByTestId("searchedUsersContainer")
-      ).toBeInTheDocument();
-      expect(screen.getByText("testacc")).toBeInTheDocument();
+      const searchedUsersContainer = screen.getByTestId(
+        "searchedUsersContainer"
+      );
+      expect(searchedUsersContainer).toBeInTheDocument();
+
+      const userElements = screen.getAllByText("testacc");
+      userElements.forEach((element) => {
+        expect(element).toBeInTheDocument();
+      });
+
+      expect(screen.getByAltText("recipe-image")).toBeInTheDocument();
+      expect(screen.getByText("testrecipe")).toBeInTheDocument();
     });
   });
 
-  test("input in search bar & no user", async () => {
+  test("input in search bar with no user or recipes", async () => {
     jest.spyOn(console, "error").mockImplementation(() => {});
     fetchMock.mockResponses([
       JSON.stringify({
-        success: true,
-        message: "No existing user with username non-testacc`",
+        success: false,
+        message: "Search term is required.",
       }),
-      { status: 404 },
+      { status: 400 },
     ]);
     (useAuth as jest.Mock).mockReturnValue({
       user: null,
@@ -211,11 +271,11 @@ describe("NavBar component", () => {
     });
 
     render(<NavBar />);
-    await searchInput("non-testacc");
+    await searchInput("no-user-testacc");
 
     await waitFor(async () => {
       expect(screen.getByPlaceholderText("Search...")).toHaveValue(
-        "non-testacc"
+        "no-user-testacc"
       );
     });
     expect(console.error).toHaveBeenCalledTimes(1);
@@ -226,11 +286,20 @@ describe("NavBar component", () => {
       JSON.stringify({
         success: true,
         existingUsers: [{ username: "testacc" }],
+        existingRecipes: [
+          {
+            _id: "testid",
+            title: "testrecipe",
+            image: "/images/test-recipe.png",
+            user: { username: "testacc" },
+          },
+        ],
       }),
       { status: 200 },
     ]);
+
     (useAuth as jest.Mock).mockReturnValue({
-      user: null,
+      user: {username: 'testacc'},
       isAuthenticated: true,
       initializing: false,
     });
@@ -247,7 +316,11 @@ describe("NavBar component", () => {
       expect(
         screen.queryByTestId("searchedUsersContainer")
       ).toBeInTheDocument();
-      expect(screen.getByText("testacc")).toBeInTheDocument();
+
+      const userElements = screen.getAllByText("testacc");
+      userElements.forEach((element) => {
+        expect(element).toBeInTheDocument();
+      });
     });
 
     fireEvent.mouseDown(document.body);
@@ -278,6 +351,14 @@ describe("NavBar component", () => {
               profilePicture:
                 "/_next/image?url=%2Fpath%2Fto%2Fpic.jpg&w=96&q=75",
             },
+          },
+        ],
+        existingRecipes: [
+          {
+            _id: "testid",
+            title: "testrecipe",
+            image: "/images/test-recipe.png",
+            user: { username: "testacc" },
           },
         ],
       }),

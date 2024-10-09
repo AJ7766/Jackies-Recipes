@@ -1,13 +1,8 @@
-import {
-  render,
-  screen,
-  waitFor,
-} from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import fetchMock from "jest-fetch-mock";
 import "@testing-library/jest-dom";
-import Layout from "@/app/[username]/layout";
+import RootLayout from "@/app/[username]/layout";
 import { ProfilePropsOrNull } from "@/app/types/types";
-import { useParams } from "next/navigation";
 import { useProfile } from "@/app/context/ProfileContext";
 
 beforeEach(() => {
@@ -20,10 +15,6 @@ afterEach(() => {
   jest.clearAllMocks();
   document.body.innerHTML = "";
 });
-
-jest.mock("next/navigation", () => ({
-  useParams: jest.fn(),
-}));
 
 jest.mock("@/app/context/ProfileContext", () => ({
   useProfile: jest.fn(),
@@ -44,42 +35,62 @@ jest.mock(
 );
 
 describe("[username] layout", () => {
-  beforeEach(() => {
-    (useParams as jest.Mock).mockReturnValue({ username: "testuser" });
+
+  test("shows nothing while loading", async () => {
+    (useProfile as jest.Mock).mockReturnValue({
+      profile: null,
+      loading: true,
+    });
+
+    render(
+      <RootLayout>
+        <div>Child Component</div>
+      </RootLayout>
+    );
+
+    await waitFor(async () => {
+      expect(screen.queryByText("NavBar")).toBeInTheDocument();
+      expect(screen.queryByText("Child Component")).not.toBeInTheDocument();
+      expect(screen.queryByText("User not found")).not.toBeInTheDocument();
+      expect(screen.queryByText("ProfilePage")).not.toBeInTheDocument();
+    });
   });
 
   test("initial render", async () => {
-    jest.spyOn(console, "error").mockImplementation(() => {});
-    (useProfile as jest.Mock).mockReturnValue({ profile: true, loading: false });
+    (useProfile as jest.Mock).mockReturnValue({
+      profile: true,
+      loading: false,
+    });
 
     render(
-      <Layout>
+      <RootLayout>
         <div>Child Component</div>
-      </Layout>
+      </RootLayout>
     );
     await waitFor(async () => {
       expect(screen.getByText("NavBar")).toBeInTheDocument();
       expect(screen.getByText("Child Component")).toBeInTheDocument();
     });
-    expect(console.error).toHaveBeenCalledTimes(1);
   });
 
-  test("initial render with a non valid username", async () => {
-    jest.spyOn(console, "error").mockImplementation(() => {});
+  test("initial render with a non valid profile", async () => {
     fetchMock.mockResponses([
       JSON.stringify({ message: "Couldn't find user" }),
       { status: 400 },
     ]);
-    (useProfile as jest.Mock).mockReturnValue({ profile: null, loading: false });
+    (useProfile as jest.Mock).mockReturnValue({
+      profile: null,
+      loading: false,
+    });
 
     render(
-      <Layout>
+      <RootLayout>
         <div>Child Component</div>
-      </Layout>
+      </RootLayout>
     );
     await waitFor(async () => {
       expect(screen.getByText("NavBar")).toBeInTheDocument();
-      expect(screen.getByText("Child Component")).toBeInTheDocument();
+      expect(screen.getByText("User not found")).toBeInTheDocument();
       expect(
         screen.queryByText("ProfilePage: No Profile")
       ).not.toBeInTheDocument();
@@ -87,24 +98,18 @@ describe("[username] layout", () => {
         screen.queryByText("Masonary: No Masonary")
       ).not.toBeInTheDocument();
     });
-    expect(console.error).toHaveBeenCalledTimes(1);
   });
 
   test("initial render with a valid username", async () => {
-    fetchMock.mockResponses([
-      JSON.stringify({
-        message: "Success fetching profile",
-        profileData: { username: "testacc" },
-      }),
-      { status: 200 },
-    ]);
-    (useProfile as jest.Mock).mockReturnValue({ profile: true, loading: false });
-
+    (useProfile as jest.Mock).mockReturnValue({
+      profile: true,
+      loading: false,
+    });
 
     render(
-      <Layout>
+      <RootLayout>
         <div>Child Component</div>
-      </Layout>
+      </RootLayout>
     );
     await waitFor(async () => {
       expect(screen.getByText("NavBar")).toBeInTheDocument();
@@ -112,17 +117,5 @@ describe("[username] layout", () => {
       expect(screen.getByText("ProfilePage: Profile Data")).toBeInTheDocument();
       expect(screen.getByText("Masonary: Masonary Data")).toBeInTheDocument();
     });
-  });
-
-  test("url in [username] is undefined", async () => {
-    (useProfile as jest.Mock).mockReturnValue({ false: null, loading: false });
-
-
-    (useParams as jest.Mock).mockReturnValue({ username: undefined });
-    render(
-      <Layout>
-        <div>Child Component</div>
-      </Layout>
-    );
   });
 });
