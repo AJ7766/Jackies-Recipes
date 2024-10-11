@@ -15,7 +15,8 @@ export async function handlePut(request: NextRequest) {
 
   try {
     const token = authHeader.split(' ')[1];
-    await verifyToken(token);
+    const decoded = await verifyToken(token);
+    const userId = decoded.id;
     const { user } = await request.json()
 
     const email = user.email.toLowerCase();
@@ -35,7 +36,7 @@ export async function handlePut(request: NextRequest) {
     };
 
     const validationResponse = await userValidation({
-      _id: user._id,
+      _id: userId,
       email,
       username,
       fullName,
@@ -53,7 +54,7 @@ export async function handlePut(request: NextRequest) {
 
     const existingUser = await UserModel.findOne({ $or: [{ email: user.email }, { username: user.username }] }).lean();
 
-    if (existingUser && existingUser._id.toString() !== user._id) {
+    if (existingUser && existingUser._id.toString() !== userId) {
       let errorMessage = '';
       if (existingUser.email === user.email) {
         errorMessage = `Email '${user.email}' is already registered.`;
@@ -63,7 +64,7 @@ export async function handlePut(request: NextRequest) {
       return NextResponse.json({ success: false, message: errorMessage }, { status: 400 });
     }
 
-    const userDataForPassword = await UserModel.findOne({ _id: user._id }).select('+password').lean();
+    const userDataForPassword = await UserModel.findOne({ _id: userId }).select('+password').lean();
 
     let processedPassword;
 
@@ -75,7 +76,7 @@ export async function handlePut(request: NextRequest) {
     }
 
     const updateResult = await UserModel.updateOne(
-      { _id: user._id },
+      { _id: userId },
       {
         $set: {
           email,
@@ -96,7 +97,7 @@ export async function handlePut(request: NextRequest) {
     if (updateResult.modifiedCount === 0) {
       throw new Error('User not found or data unchanged');
     }
-    const updatedUser = await UserModel.findOne({ _id: user._id }).lean();
+    const updatedUser = await UserModel.findOne({ _id: userId }).lean();
 
     if (updatedUser?.username) {
       cache.del(updatedUser.username);

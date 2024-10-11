@@ -35,7 +35,6 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
   useEffect(() => {
     if (user) {
       setUserData({
-        _id: user._id,
         email: user.email || "",
         username: user.username || "",
         fullName: user.fullName || "",
@@ -63,14 +62,13 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
     if (!user || !token) {
       throw new Error("User or Token is not available");
     }
-    
+
     try {
       setLoadingBtn(true);
       let res = await fetch("/api/user", {
         method: "PUT",
         body: JSON.stringify({
           user: userData,
-          userId: user?._id,
           newPassword: userData.newPassword,
           confirmPassword: userData.confirmPassword,
         }),

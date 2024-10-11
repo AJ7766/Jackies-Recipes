@@ -6,6 +6,10 @@ export default async function userValidation(props: EditFormProps) {
     const { _id, email, username, fullName, oldPassword, newPassword, confirmPassword, userContent } = props;
     const user = await UserModel.findOne({ _id: _id });
 
+    if (!user) {
+        throw new Error("User not found during validation");
+    }
+
     let errorMessage = "";
 
     const profilePictureError = isValidProfilePicture(userContent?.profilePicture || "");
@@ -60,10 +64,6 @@ export default async function userValidation(props: EditFormProps) {
     if (facebookError) {
         errorMessage = facebookError;
         return errorMessage;
-    }
-
-    if (!user) {
-        return console.log("user not found");
     }
 
     if (oldPassword === undefined) {
