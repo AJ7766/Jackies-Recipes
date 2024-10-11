@@ -10,6 +10,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const { profile, loading } = useProfile();
+  console.log("Profile:", profile)
   return (
     <>
       <NavBar />

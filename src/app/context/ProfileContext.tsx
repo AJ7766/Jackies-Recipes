@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { ProfilePropsOrNull } from "@/app/types/types";
 import { useParams } from "next/navigation";
@@ -14,32 +14,33 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<ProfilePropsOrNull>(null);
   const [loading, setLoading] = useState(true);
   const { username } = useParams();
-  
+
   const lowercaseUsername = Array.isArray(username)
     ? username[0].toLowerCase()
     : username?.toLowerCase() ?? "";
 
   useEffect(() => {
-    if(!lowercaseUsername) return;
-      const fetchProfileData = async () => {
-        try {
-          let res = await fetch(`/api/profile?username=${lowercaseUsername}`, {
-            method: "GET",
-          });
-          if (!res.ok) {
-            throw new Error(
-              `Failed to fetch profile: ${res.status} - ${res.statusText}`
-            );
-          }
-          const data = await res.json();
-          setProfile(data.profileData);
-        } catch (error: any) {
-          console.error("Error fetching profile:", error.message);
-        } finally {
-          setLoading(false);
+    if (!lowercaseUsername) return;
+    const fetchProfileData = async () => {
+      try {
+        setLoading(true);
+        let res = await fetch(`/api/profile?username=${lowercaseUsername}`, {
+          method: "GET",
+        });
+        if (!res.ok) {
+          throw new Error(
+            `Failed to fetch profile: ${res.status} - ${res.statusText}`
+          );
         }
-      };
-      fetchProfileData();
+        const data = await res.json();
+        setProfile(data.profileData);
+      } catch (error: any) {
+        console.error("Error fetching profile:", error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProfileData();
   }, [lowercaseUsername]);
 
   return (

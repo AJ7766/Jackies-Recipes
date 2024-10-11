@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Resizer from "react-image-file-resizer";
 
-
 export function recipeFormActions(recipeEdit?: SimplifiedRecipePropsNoUser) {
     const [imagePreview, setImagePreview] = useState<string>();
     const [recipe, setRecipe] = useState<SimplifiedRecipePropsNoUser>(
