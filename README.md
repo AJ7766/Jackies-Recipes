@@ -1,10 +1,9 @@
 #A Project I Created Using TypeScript, Next.js and Node.js
 - My account with existing recipes, https://jackies-recipes.vercel.app/jackie
----------------------------
-# If you don't want to create a account, feel free to use this one.
+- If you don't want to create a account, feel free to use this one.
 - username: recruiter
 - password: recruiter123
-
+---------------------------
 # About the Project
 - It's a social website for storing and sharing recipes, where users can create an account, add their own recipes, and share them with friends. Users can also customize their profiles, search for other users, and find inspiration.
 
