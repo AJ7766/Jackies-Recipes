@@ -1,15 +1,25 @@
 import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server";
-import { RecipeModel, RecipeProps } from "@/models/UserRecipe";
+import { RecipeModel, RecipeProps, SimplifiedRecipePropsNoUser } from "@/models/UserRecipe";
 import { connectDB } from "@/config/database";
 import cache from "@/config/cache";
 import recipeValidation from "../validations/recipeValidation";
+import { verifyToken } from "@/config/jwt";
 
 export async function handlePut(request: NextRequest) {
+    const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');
+
+    if (!authHeader || !authHeader.startsWith('Bearer')) {
+        return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
+
     const { formValidation, ingredientListValidation } = await recipeValidation();
 
     try {
-        const { recipe, userId } = await request.json();
+        const { recipe }: { recipe: SimplifiedRecipePropsNoUser } = await request.json();
+        const token = authHeader.split(' ')[1];
+        const decoded = await verifyToken(token);
+        const userId = decoded.id;
 
         if (!recipe || !userId) {
             return NextResponse.json({ success: false, message: "No user or recipe found" }, { status: 400 });
@@ -22,9 +32,9 @@ export async function handlePut(request: NextRequest) {
         }
 
         const filteredRecipe = await ingredientListValidation(recipe);
-        
-        console.log(filteredRecipe)
+
         await connectDB();
+        
         const updateResult = await RecipeModel.updateOne(
             { _id: recipe._id },
             { $set: filteredRecipe },
@@ -41,10 +51,10 @@ export async function handlePut(request: NextRequest) {
             cache.del(updatedUser.username);
         }
 
-        return NextResponse.json({ success: true, message: "Success", updatedUser }, { status: 200 });
+        return NextResponse.json({ success: true, message: "Success" }, { status: 200 });
 
     } catch (error) {
         console.error("Error:", error);
-        return NextResponse.json({ success: false, message: error }, { status: 500 });
+        return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
     }
 }

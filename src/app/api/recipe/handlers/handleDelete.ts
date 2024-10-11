@@ -42,10 +42,8 @@ export async function handleDelete(request: NextRequest) {
             return NextResponse.json({ message: 'Recipe not found' }, { status: 404 });
         }
 
-        if (updateUserResult.modifiedCount === 0) {
-            console.log('Failed to remove recipe from user, or recipe not found in user.');
-        } else {
-            console.log('Recipe successfully deleted and removed from user.');
+        if (updateUserResult.modifiedCount !== 1) {
+            return NextResponse.json({ message: 'Recipe not found' }, { status: 404 });
         }
 
         cache.del(user.username);
@@ -53,6 +51,6 @@ export async function handleDelete(request: NextRequest) {
         return NextResponse.json({ message: 'Recipe successfully deleted' }, { status: 200 });
     } catch (error) {
         console.error('Error:', error);
-        return NextResponse.json({ message: 'Token not valid or other error occurred' }, { status: 401 });
+        return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
     }
 }

@@ -14,10 +14,13 @@ export async function handleGet(request: NextRequest) {
     const token = authHeader.split(' ')[1];
     const decoded = await verifyToken(token);
     const userId = decoded.id;
+
     const userData = await fetchProfileFromDatabase(userId);
+
     return NextResponse.json({ message: 'Authorized', userData }, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    console.error('Error:', error);
+    return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
   }
 }
 
@@ -31,6 +34,7 @@ async function fetchProfileFromDatabase(id: string) {
     return user;
 
   } catch (error: any) {
-    throw error;
+    console.error('Error:', error);
+    throw new Error(`Fetching Profile Error`);
   }
 }

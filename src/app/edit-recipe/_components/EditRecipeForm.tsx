@@ -45,16 +45,20 @@ export default function EditRecipeForm({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoadingBtn(true);
-    if (!user?._id) {
-      throw new Error("User ID is not available");
+    const token = localStorage.getItem("token");
+
+    if (!user || !token) {
+      throw new Error("User or Token is not available");
     }
+
     try {
+      setLoadingBtn(true);
       let res = await fetch("/api/recipe", {
         method: "PUT",
-        body: JSON.stringify({ recipe: recipe, userId: user?._id }),
+        body: JSON.stringify({ recipe: recipe }),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
       if (!res.ok) {
@@ -310,9 +314,7 @@ export default function EditRecipeForm({
         <button
           type="button"
           className="delete"
-          onClick={() =>
-            deleteRecipe(router, recipe._id, user?.username)
-          }
+          onClick={() => deleteRecipe(router, recipe._id, user?.username)}
         >
           Delete
         </button>

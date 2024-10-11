@@ -4,10 +4,18 @@ import bcrypt from "bcrypt";
 import { connectDB } from "@/config/database";
 import cache from "@/config/cache";
 import userValidation from "../validations/userValidation";
+import { verifyToken } from "@/config/jwt";
 
 export async function handlePut(request: NextRequest) {
+  const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');
+
+  if (!authHeader || !authHeader.startsWith('Bearer')) {
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+  }
 
   try {
+    const token = authHeader.split(' ')[1];
+    await verifyToken(token);
     const { user } = await request.json()
 
     const email = user.email.toLowerCase();
@@ -44,7 +52,7 @@ export async function handlePut(request: NextRequest) {
     await connectDB();
 
     const existingUser = await UserModel.findOne({ $or: [{ email: user.email }, { username: user.username }] }).lean();
-    
+
     if (existingUser && existingUser._id.toString() !== user._id) {
       let errorMessage = '';
       if (existingUser.email === user.email) {
@@ -95,17 +103,18 @@ export async function handlePut(request: NextRequest) {
     }
 
     return NextResponse.json({ message: `Success!`, updatedUser }, { status: 201 })
-  } catch (err: any) {
-    console.error(err)
+  } catch (error: any) {
+    console.error('Error', error)
     let errorMessage = "Failed to register user.";
 
-    if (err.code === 11000) {
-      if (err.keyPattern.email) {
-        errorMessage = `Email '${err.keyValue.email}' is already registered.`;
-      } else if (err.keyPattern.username) {
-        errorMessage = `Username '${err.keyValue.username}' is already taken.`;
+    if (error.code === 11000) {
+      if (error.keyPattern.email) {
+        errorMessage = `Email '${error.keyValue.email}' is already registered.`;
+      } else if (error.keyPattern.username) {
+        errorMessage = `Username '${error.keyValue.username}' is already taken.`;
       }
     }
-    return NextResponse.json({ message: errorMessage }, { status: 400 });
+    console.error('Error:', error);
+    return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
   }
 }

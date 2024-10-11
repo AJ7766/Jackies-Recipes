@@ -57,9 +57,15 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setLoadingBtn(true);
 
+    const token = localStorage.getItem("token");
+
+    if (!user || !token) {
+      throw new Error("User or Token is not available");
+    }
+    
     try {
+      setLoadingBtn(true);
       let res = await fetch("/api/user", {
         method: "PUT",
         body: JSON.stringify({
@@ -70,6 +76,7 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
         }),
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
       if (!res.ok) {

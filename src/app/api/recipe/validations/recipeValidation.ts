@@ -1,7 +1,7 @@
-import { RecipeProps } from "@/models/UserRecipe";
+import { SimplifiedRecipePropsNoUser } from "@/models/UserRecipe";
 
 export default async function recipeValidation() {
-    const formValidation = async ({ recipe }: { recipe: RecipeProps }) => {
+    const formValidation = async ({ recipe }: { recipe: SimplifiedRecipePropsNoUser }) => {
         let errorMessage: string | null;
 
         errorMessage = isValidImage(recipe.image || '');
@@ -22,7 +22,7 @@ export default async function recipeValidation() {
         return null;
     }
 
-    const ingredientListValidation = async (recipe: RecipeProps) =>{
+    const ingredientListValidation = async (recipe: SimplifiedRecipePropsNoUser) =>{
         const filteredIngredientsList = recipe.ingredients.map((ingList) => {
             const filteredIngredients = ingList.ingredients?.filter(ing => ing.ingredient.length > 0 || []);
             const filteredComponents = ingList.component || undefined;
@@ -82,7 +82,7 @@ const isValidRecipeName = (name: string) => {
     return null
 };
 
-const isValidIngredients = (recipe: RecipeProps) => {
+const isValidIngredients = (recipe: SimplifiedRecipePropsNoUser) => {
     for (const ingList of recipe.ingredients) {
         for (const ing of ingList.ingredients) {
             if (ing.ingredient.length < 1) {
@@ -102,7 +102,7 @@ const isValidServings = (servings?: number) => {
     return null;
 };
 
-const isValidInstructions = (recipe: RecipeProps) => {
+const isValidInstructions = (recipe: SimplifiedRecipePropsNoUser) => {
     if (!recipe.instructions || recipe.instructions.length === 0) {
         const errorMsg = "Please type your instructions";
         return errorMsg;
