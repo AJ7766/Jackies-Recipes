@@ -19,7 +19,8 @@ export async function GET(request: NextRequest) {
         const existingRecipes = await RecipeModel.find({ title: { $regex: regex } }).populate('user', 'username').limit(5).select('_id title image').lean();
 
         return NextResponse.json({ success: true, existingUsers: existingUsers, existingRecipes: existingRecipes}, { status: 200 }); 
-    }catch{
+    }catch(error){
+        console.error('Error:', error);
         return NextResponse.json({ success: false, message: 'Internal Server Error'}, { status: 500 });
     }
 }

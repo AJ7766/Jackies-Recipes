@@ -25,17 +25,17 @@ export async function POST(request: NextRequest) {
       await UserModel.create({ email: lowercaseEmail, fullName, username: lowercaseUsername, password: hashedPassword })
 
       return NextResponse.json({ message: `Your account ${email} has been successfully created!` }, { status: 201 })
-   } catch (err: any) {
-      console.error(err)
+   } catch (error: any) {
+      console.error("Error:", error)
       let errorMessage = "Failed to register user.";
 
-      if (err.code === 11000) {
-         if (err.keyPattern.email) {
-            errorMessage = `Email '${err.keyValue.email}' is already registered.`;
-         } else if (err.keyPattern.username) {
-            errorMessage = `Username '${err.keyValue.username}' is already taken.`;
+      if (error.code === 11000) {
+         if (error.keyPattern.email) {
+            errorMessage = `Email '${error.keyValue.email}' is already registered.`;
+         } else if (error.keyPattern.username) {
+            errorMessage = `Username '${error.keyValue.username}' is already taken.`;
          }
       }
-      return NextResponse.json({ message: errorMessage }, { status: 400 });
+      return NextResponse.json({ success: false, message: 'Internal Server Error'}, { status: 500 });
    }
 }
