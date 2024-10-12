@@ -20,18 +20,16 @@ export async function POST(request: NextRequest) {
     }
 
     const isMatch = await bcrypt.compare(userPassword, user.password);
-    
+
     if (!isMatch) {
       throw new Error('Invalid username or password');
     }
 
     const token = jwt.sign({ id: user._id, username: user.username }, SECRET_KEY, { expiresIn: '30d' });
-    return NextResponse.json({ message: "Successfully logged in", token}, { status:200 });
+    return NextResponse.json({ message: "Successfully logged in", token }, { status: 200 });
 
-  } catch (error:any) {
-    let errorMessage = "Invalid username or password.";
-
-    console.error('Error checking login details:', error.message);
-    return NextResponse.json({ message: errorMessage }, { status: 400 });
+  } catch (error: any) {
+    console.error('Error:', error);
+    return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
   }
 }

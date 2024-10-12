@@ -23,7 +23,8 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({ message: "Success fetching profile", profileData }, { status: 200 });
   } catch (error: any) {
-    return NextResponse.json({ message: "Couldn't find user" }, { status: 400 });
+    console.error('Error:', error);
+    return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
   }
 }
 
@@ -44,7 +45,7 @@ async function fetchProfileFromDatabase(username: string) {
     return user;
 
   } catch (error: any) {
-    console.error("Error fetching user profile:", error); // Log specific error
+    console.error("Error fetching user profile:", error);
     throw new Error(`Error fetching profile`);
   }
 }

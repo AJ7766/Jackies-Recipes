@@ -26,7 +26,6 @@ export async function POST(request: NextRequest) {
 
       return NextResponse.json({ message: `Your account ${email} has been successfully created!` }, { status: 201 })
    } catch (error: any) {
-      console.error("Error:", error)
       let errorMessage = "Failed to register user.";
 
       if (error.code === 11000) {
@@ -36,6 +35,7 @@ export async function POST(request: NextRequest) {
             errorMessage = `Username '${error.keyValue.username}' is already taken.`;
          }
       }
+      console.error("Error:", errorMessage, error);
       return NextResponse.json({ success: false, message: 'Internal Server Error'}, { status: 500 });
    }
 }
