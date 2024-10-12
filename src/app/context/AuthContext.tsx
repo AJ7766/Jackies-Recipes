@@ -35,24 +35,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return;
     }
     try {
+      setInitializing(true);
       const res = await fetch("/api/user", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      if (res.ok) {
-        const data = await res.json();
-        setIsAuthenticated(true);
-        setUser(data.userData);
-        sessionStorage.setItem("user", JSON.stringify(data.userData));
-      } else {
+      if (!res.ok) {
         localStorage.removeItem("token");
         setIsAuthenticated(false);
         throw new Error(
           `Failed to verify token: ${res.status} - ${res.statusText}`
         );
       }
+      const data = await res.json();
+      setIsAuthenticated(true);
+      setUser(data.userData);
+      sessionStorage.setItem("user", JSON.stringify(data.userData));
     } catch (error) {
       console.error("Error", error);
       localStorage.removeItem("token");
@@ -62,7 +62,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setInitializing(false);
     }
   }, []);
-
   useEffect(() => {
     const token = localStorage.getItem("token");
 

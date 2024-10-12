@@ -1,3 +1,4 @@
+"use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
@@ -88,7 +89,7 @@ export default function NavBar() {
       <>
         <div className="space"></div>
         <div className="navContainer">
-          <Link href={user ? `/${user.username}` : "/"}>
+          <Link href={"/"}>
             <Image
               id="logo"
               className="loginLogo"
@@ -113,7 +114,7 @@ export default function NavBar() {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search..."
             />
-            {searchResults && (users.length > 0 || recipes.length > 0) &&
+            {searchResults && (users.length > 0 || recipes.length > 0) && (
               <div
                 className="searchedUsersContainer"
                 data-testid="searchedUsersContainer"
@@ -150,7 +151,10 @@ export default function NavBar() {
                   <>
                     <h1>Recipes</h1>
                     {recipes.map((recipe, indexKey) => (
-                      <Link href={`/${recipe.user.username}/${recipe._id}`} key={indexKey}>
+                      <Link
+                        href={`/${recipe.user?.username}/${recipe._id}`}
+                        key={indexKey}
+                      >
                         <div
                           className="searchedUser"
                           data-testid="searchedUser"
@@ -170,9 +174,10 @@ export default function NavBar() {
                     ))}
                   </>
                 )}
-              </div>}
+              </div>
+            )}
           </div>
-          
+
           {isAuthenticated && user ? (
             <>
               <Link className="addRecipe shrink-0" href="/add-recipe">

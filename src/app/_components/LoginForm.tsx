@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useLayoutEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
 
 const usernameImg = "/images/register/username.svg";
@@ -16,9 +15,20 @@ export default function LoginForm() {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
-  const router = useRouter();
 
   const { verifyTokenAndFetchUser } = useAuth();
+
+  useLayoutEffect(() => {
+    const navContainer = document.querySelector(".navContainer");
+    if (navContainer) {
+      navContainer.remove();
+    }
+
+    const spaceElement = document.querySelector(".space");
+    if (spaceElement) {
+      spaceElement.remove();
+    }
+  }, []);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -37,13 +47,12 @@ export default function LoginForm() {
         setError(true);
         setErrorMsg(errorMessage);
         throw new Error(errorMessage);
-      } else {
-        setError(false);
-        let data = await res.json();
-        localStorage.setItem("token", data.token);
-        await verifyTokenAndFetchUser(data.token);
-        router.push(`/${username}`);
       }
+      setError(false);
+      let data = await res.json();
+      localStorage.setItem("token", data.token);
+      await verifyTokenAndFetchUser(data.token);
+      window.location.href = `/${username}`;
     } catch (error: any) {
       const errorMessage =
         error instanceof Error ? error.message : "Failed to login.";
@@ -54,7 +63,7 @@ export default function LoginForm() {
     }
   };
 
-  return (
+  return(
     <div className="startingPageBg" data-testid="starting-page-bg">
       <div className="loginFormContainer">
         <div className="loginHeaderContainer">

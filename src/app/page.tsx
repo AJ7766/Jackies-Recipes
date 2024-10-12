@@ -1,18 +1,78 @@
 "use client";
 import LoginForm from "./_components/LoginForm";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "./context/AuthContext";
-import { useRouter } from "next/navigation";
+import { SimplifiedRecipeProps } from "@/models/UserRecipe";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Home() {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [recipes, setRecipes] = useState<SimplifiedRecipeProps[]>();
   const { user, isAuthenticated, initializing } = useAuth();
-  const router = useRouter();
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      router.push(`/${user.username}`);
+      const fetchRecipes = async () => {
+        try {
+          setLoading(true);
+          let res = await fetch(`/api/all-recipes`, {
+            method: "GET",
+          });
+          if (!res.ok) {
+            throw new Error(
+              `Failed to fetch recipes: ${res.status} - ${res.statusText}`
+            );
+          }
+          const data = await res.json();
+          setRecipes(data.recipes);
+        } catch (error: any) {
+          console.error("Error fetching recipes:", error.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+      fetchRecipes();
     }
-  }, [isAuthenticated, user, router]);
-
-  return (!initializing && !isAuthenticated && !user) && <LoginForm />;
+  }, [isAuthenticated, user]);
+  return (
+    !initializing && (
+      <>
+        {isAuthenticated && user ? (
+          <>
+            {loading ? null : (
+              <>
+                <h1 className="text-xl">
+                  This page is in developement. I am still thinking of how i
+                  want to design this page.
+                </h1>
+                <br />
+                <h1 className="text-xl">All Recipes</h1>
+                {recipes &&
+                  recipes.map((recipe, index) => (
+                    <React.Fragment key={index}>
+                      <Link href={`/${recipe.user.username}/${recipe._id}`}>
+                        <Image
+                          className="h-24 w-24"
+                          src={recipe.image}
+                          width={100}
+                          height={100}
+                          alt={recipe.title}
+                        />
+                        <p>
+                          Recipe:{recipe.title} by {recipe.user.username}
+                        </p>
+                        <br />
+                      </Link>
+                    </React.Fragment>
+                  ))}
+              </>
+            )}
+          </>
+        ) : (
+          <LoginForm />
+        )}
+      </>
+    )
+  );
 }

@@ -18,6 +18,7 @@ export default function Recipe() {
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+  
   const { initializing } = useAuth();
   const { profile, loading } = useProfile();
 
@@ -83,9 +84,7 @@ export default function Recipe() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleClickOutside]);
-  if(selectedRecipe){
-  console.log("Selected Recipe:",selectedRecipe.ingredients);
-  }
+
   return (
     !initializing &&
     !loading &&

@@ -1,8 +1,7 @@
 "use client";
-import NavBar from "../_components/NavBar";
-import ProfilePage from "../_components/Profile";
-import Masonary from "../_components/Masonary";
+import ProfilePage from "./_components/Profile";
 import { useProfile } from "../context/ProfileContext";
+import Masonary from "./_components/Masonary";
 
 export default function RootLayout({
   children,
@@ -12,7 +11,6 @@ export default function RootLayout({
   const { profile, loading } = useProfile();
   return (
     <>
-      <NavBar />
       {!loading &&
         (profile ? (
           <>

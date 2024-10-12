@@ -24,9 +24,7 @@ const userSchema = new Schema<UserProps>({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'recipes'
    }]
-}, {
-   timestamps: true
-});
+}, { timestamps: true });
 
 userSchema.index({ username: 1 });
 

@@ -21,13 +21,11 @@ export type SimplifiedUserContentProps = {
 };
 
 export const userContentSchema = new Schema<UserContentProps>({
-   profilePicture: { type: String },
-   bio: { type: String },
-   instagram: { type: String },
-   x: { type: String },
-   tiktok: { type: String },
-   youtube: { type: String },
-   facebook: { type: String },
+   profilePicture: { type: String, default: null },
+   bio: { type: String, default: null },
+   instagram: { type: String, default: null },
+   x: { type: String, default: null },
+   tiktok: { type: String, default: null },
+   youtube: { type: String, default: null },
+   facebook: { type: String, default: null },
 });
-
-export const UserContentModel: Model<UserContentProps> = mongoose.models.userContents || mongoose.model<UserContentProps>('userContents', userContentSchema);

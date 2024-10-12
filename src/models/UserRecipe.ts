@@ -93,6 +93,6 @@ export const recipeSchema = new Schema<RecipeProps>({
    servings: { type: Number },
    macros: MacroNutrientsSchema,
    instructions: [InstructionSchema]
-});
+}, { timestamps: true });
 
 export const RecipeModel: Model<RecipeProps> = mongoose.models.recipes || mongoose.model<RecipeProps>('recipes', recipeSchema);

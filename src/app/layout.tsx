@@ -1,12 +1,7 @@
-import type { Metadata } from "next";
 import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
 import { ProfileProvider } from "./context/ProfileContext";
-
-export const metadata: Metadata = {
-  title: "Jackies Recipes",
-  description: "Just for fun",
-};
+import NavBar from "./_components/NavBar";
 
 export default function RootLayout({
   children,
@@ -15,10 +10,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head></head>
+      <head>
+        <title>Jackies Recipes</title>
+        <meta name="description" content="Just for fun" />
+      </head>
       <body>
         <AuthProvider>
           <ProfileProvider>
+            <NavBar />
             {children}
           </ProfileProvider>
         </AuthProvider>

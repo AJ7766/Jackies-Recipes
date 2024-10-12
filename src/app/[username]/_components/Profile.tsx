@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ProfilePropsOrNull } from "../types/types";
+import { ProfilePropsOrNull } from "../../types/types";
 import Link from "next/link";
 const profilePicture = "/images/profile-picture.png";
 const instagram = "/images/social-media/instagram.svg";

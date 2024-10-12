@@ -1,11 +1,11 @@
 import Image from "next/image";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { ProfilePropsOrNull } from "../types/types";
 import Link from "next/link";
 import { Types } from "mongoose";
-import { useAuth } from "../context/AuthContext";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/app/context/AuthContext";
+import { ProfilePropsOrNull } from "@/app/types/types";
 
 export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
   interface RecipeCardProps {
