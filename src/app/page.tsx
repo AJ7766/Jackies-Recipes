@@ -48,12 +48,13 @@ export default function Home() {
                 </h1>
                 <br />
                 <h1 className="text-xl">All Recipes</h1>
+                <div className="gap-10 flex flex-wrap">
                 {recipes &&
                   recipes.map((recipe, index) => (
-                    <React.Fragment key={index}>
+                    <div className="flex" key={index}>
                       <Link href={`/${recipe.user.username}/${recipe._id}`}>
                         <Image
-                          className="h-24 w-24"
+                          className="h-24 w-auto"
                           src={recipe.image}
                           width={100}
                           height={100}
@@ -62,10 +63,10 @@ export default function Home() {
                         <p>
                           Recipe:{recipe.title} by {recipe.user.username}
                         </p>
-                        <br />
                       </Link>
-                    </React.Fragment>
+                    </div>
                   ))}
+                  </div>
               </>
             )}
           </>
