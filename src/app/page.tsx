@@ -42,7 +42,7 @@ export default function Home() {
           <>
             {loading ? null : (
               <>
-                <h1 className="text-xl">
+                <h1 className="text-xl text-center">
                   This page is in developement. I am still thinking of how i
                   want to design this page.
                 </h1>
