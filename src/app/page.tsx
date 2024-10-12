@@ -47,7 +47,7 @@ export default function Home() {
                   want to design this page.
                 </h1>
                 <br />
-                <h1 className="text-xl">All Recipes</h1>
+                <h1 className="text-xl text-center mb-10">All Recipes</h1>
                 <div className="gap-10 flex flex-wrap">
                 {recipes &&
                   recipes.map((recipe, index) => (
