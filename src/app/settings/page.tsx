@@ -29,7 +29,6 @@ export default function SettingsPage() {
 
   return (
     <>
-      <NavBar />
       {!initializing &&
         (isAuthenticated && user ? (
           <EditProfile user={fetchedUser} />
