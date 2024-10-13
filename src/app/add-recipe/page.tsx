@@ -10,7 +10,6 @@ export default function AddRecipe() {
 
   return (
     <>
-      <NavBar />
       {!initializing &&
         (isAuthenticated && user ? <AddRecipeForm /> : <ErrorPage />)}
     </>
