@@ -48,7 +48,7 @@ export default function Home() {
                 </h1>
                 <br />
                 <h1 className="text-xl text-center mb-10">All Recipes</h1>
-                <div className="gap-10 flex flex-wrap">
+                <div className="gap-10 flex flex-wrap justify-center">
                 {recipes &&
                   recipes.map((recipe, index) => (
                     <div className="flex" key={index}>
