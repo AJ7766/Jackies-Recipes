@@ -18,7 +18,7 @@ export default function LoginForm() {
 
   const { verifyTokenAndFetchUser } = useAuth();
 
-  useLayoutEffect(() => {
+  /*useLayoutEffect(() => {
     const navContainer = document.querySelector(".navContainer");
     if (navContainer) {
       navContainer.remove();
@@ -29,6 +29,7 @@ export default function LoginForm() {
       spaceElement.remove();
     }
   }, []);
+  */
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -42,8 +43,9 @@ export default function LoginForm() {
         },
       });
       if (!res.ok) {
-        const errorResponse = await res.json();
-        const errorMessage = errorResponse.message || "Failed to login.";
+        const data = await res.json();
+        const errorMessage = data.message || "Failed to login.";
+        console.log(errorMessage)
         setError(true);
         setErrorMsg(errorMessage);
         throw new Error(errorMessage);
@@ -109,6 +111,7 @@ export default function LoginForm() {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="current-password"
               />
               <Image src={passwordImg} width={20} height={20} alt="password" />
             </div>

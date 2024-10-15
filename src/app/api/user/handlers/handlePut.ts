@@ -47,7 +47,7 @@ export async function handlePut(request: NextRequest) {
     });
 
     if (typeof validationResponse === 'string') {
-      return NextResponse.json({ success: false, message: validationResponse }, { status: 400 });
+      return NextResponse.json({ message: validationResponse }, { status: 400 });
     }
 
     await connectDB();
@@ -61,7 +61,7 @@ export async function handlePut(request: NextRequest) {
       } else if (existingUser.username === user.username) {
         errorMessage = `Username '${user.username}' is already taken.`;
       }
-      return NextResponse.json({ success: false, message: errorMessage }, { status: 400 });
+      return NextResponse.json({ message: errorMessage }, { status: 400 });
     }
 
     const userDataForPassword = await UserModel.findOne({ _id: userId }).select('+password').lean();
@@ -116,6 +116,6 @@ export async function handlePut(request: NextRequest) {
       }
     }
     console.error('Error:', error);
-    return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }

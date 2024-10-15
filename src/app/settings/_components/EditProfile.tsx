@@ -301,6 +301,7 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
             name="oldPassword"
             value={userData.oldPassword}
             onChange={handleInputChange}
+            autoComplete="current-password"
           />
         </div>
 
@@ -311,6 +312,7 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
             name="newPassword"
             value={userData.newPassword}
             onChange={handleInputChange}
+            autoComplete="new-password"
           />
         </div>
 

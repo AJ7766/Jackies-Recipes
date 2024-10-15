@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
       const validationResponse = ValidateRegisterForm({ email: lowercaseEmail, fullName, username: lowercaseUsername, password, confirmPassword });
 
       if (typeof validationResponse === 'string') {
-         return NextResponse.json({ success: false, message: validationResponse }, { status: 400 });
+         return NextResponse.json({ message: validationResponse }, { status: 400 });
       }
 
       await connectDB();
@@ -36,6 +36,6 @@ export async function POST(request: NextRequest) {
          }
       }
       console.error("Error:", errorMessage, error);
-      return NextResponse.json({ success: false, message: 'Internal Server Error'}, { status: 500 });
+      return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
    }
 }

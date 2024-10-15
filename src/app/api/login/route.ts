@@ -16,13 +16,13 @@ export async function POST(request: NextRequest) {
     const user = await UserModel.findOne({ username: lowercaseUsername }).lean();
 
     if (!user) {
-      throw new Error('Invalid username or password');
+      return NextResponse.json({ message: 'Invalid username or password' }, { status: 401 });
     }
 
     const isMatch = await bcrypt.compare(userPassword, user.password);
 
     if (!isMatch) {
-      throw new Error('Invalid username or password');
+      return NextResponse.json({  message: 'Invalid username or password' }, { status: 401 });
     }
 
     const token = jwt.sign({ id: user._id, username: user.username }, SECRET_KEY, { expiresIn: '30d' });
@@ -30,6 +30,6 @@ export async function POST(request: NextRequest) {
 
   } catch (error: any) {
     console.error('Error:', error);
-    return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }

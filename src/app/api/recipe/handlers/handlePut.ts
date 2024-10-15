@@ -22,13 +22,13 @@ export async function handlePut(request: NextRequest) {
         const userId = decoded.id;
 
         if (!recipe || !userId) {
-            return NextResponse.json({ success: false, message: "No user or recipe found" }, { status: 400 });
+            return NextResponse.json({ message: "No user or recipe found" }, { status: 400 });
         }
 
         const validationResponse = await formValidation({ recipe });
 
         if (typeof validationResponse === 'string') {
-            return NextResponse.json({ success: false, message: validationResponse }, { status: 400 });
+            return NextResponse.json({ message: validationResponse }, { status: 400 });
         }
 
         const filteredRecipe = await ingredientListValidation(recipe);
@@ -51,10 +51,10 @@ export async function handlePut(request: NextRequest) {
             cache.del(updatedUser.username);
         }
 
-        return NextResponse.json({ success: true, message: "Success" }, { status: 200 });
+        return NextResponse.json({ message: "Success" }, { status: 200 });
 
     } catch (error) {
         console.error("Error:", error);
-        return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
+        return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
     }
 }

@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
         return await handleGet(request);
     } catch (error) {
         console.error("Error:", error);
-        return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
     }
 }
 
@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
         return await handlePost(request);
     } catch (error) {
         console.error("Error:", error);
-        return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
     }
 }
 
@@ -27,7 +27,7 @@ export async function PUT(request: NextRequest) {
         return await handlePut(request);
     } catch (error) {
         console.error("Error:", error);
-        return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
     }
 }
 
@@ -36,6 +36,6 @@ export async function DELETE(request: NextRequest) {
         return await handleDelete(request);
     } catch (error) {
         console.error("Error:", error);
-        return NextResponse.json({ success: false, message: "Internal Server Error" }, { status: 500 });
+        return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
     }
 }

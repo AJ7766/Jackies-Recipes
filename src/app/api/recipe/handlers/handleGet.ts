@@ -17,13 +17,13 @@ export async function handleGet(request: NextRequest) {
             .lean();
 
         if (!recipe) {
-            return NextResponse.json({ success: false, message: "Recipe not found" }, { status: 404 });
+            return NextResponse.json({ message: "Recipe not found" }, { status: 404 });
         }
 
         const isVerified = (userId === recipe.user._id.toString());
 
-        return NextResponse.json({ success: true, isVerified: isVerified, recipe }, { status: 200 });
+        return NextResponse.json({ isVerified: isVerified, recipe }, { status: 200 });
     } catch (error) {
-        return NextResponse.json({ success: false, message: error }, { status: 500 });
+        return NextResponse.json({ message: error }, { status: 500 });
     }
 }

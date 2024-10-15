@@ -42,8 +42,8 @@ export default function RegisterForm() {
       } 
         setError(false);
         setSuccessBoolean(true);
-        let successResponse = await res.json();
-        setSuccess(successResponse.message);
+        let data = await res.json();
+        setSuccess(data.message);
       }catch (error:any) {
         const errorMessage = error instanceof Error ? error.message : "Failed to register.";
         setErrorMsg(errorMessage);
@@ -105,6 +105,7 @@ export default function RegisterForm() {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="new-password"
               />
               <Image src={passwordImg} width={20} height={20} alt="password"/>
               </div>
@@ -116,6 +117,7 @@ export default function RegisterForm() {
                   placeholder="Confirm Password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
+                  autoComplete="new-password"
               />
               <Image src={passwordConfirmImg} width={20} height={20} alt="passwordConfirm"/>
               </div>

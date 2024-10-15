@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ message: "Success fetching profile", profileData }, { status: 200 });
   } catch (error: any) {
     console.error('Error:', error);
-    return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
 
