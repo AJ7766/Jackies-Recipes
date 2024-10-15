@@ -1,3 +1,4 @@
+import { UserModel } from "@/models/UserModel";
 import mongoose from "mongoose";
 
 export const getUri = async () => {
@@ -24,4 +25,5 @@ export async function connectDB() {
    } catch (error: any) {
       throw new Error(error.message);
    }
+   
 }

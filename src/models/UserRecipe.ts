@@ -95,4 +95,6 @@ export const recipeSchema = new Schema<RecipeProps>({
    instructions: [InstructionSchema]
 }, { timestamps: true });
 
+recipeSchema.index({ createdAt: 1 });
+
 export const RecipeModel: Model<RecipeProps> = mongoose.models.recipes || mongoose.model<RecipeProps>('recipes', recipeSchema);
