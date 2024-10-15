@@ -13,6 +13,7 @@ export async function GET() {
                 model: UserModel,
                 select: '-_id username userContent.profilePicture'
             })
+            .select('image title')
             .sort({ createdAt: -1 })
             .lean();
 
