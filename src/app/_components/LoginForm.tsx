@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useLayoutEffect, useState } from "react";
-import { useAuth } from "../context/AuthContext";
 
 const usernameImg = "/images/register/username.svg";
 const passwordImg = "/images/register/password.svg";
@@ -15,8 +14,6 @@ export default function LoginForm() {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
-
-  const { verifyTokenAndFetchUser } = useAuth();
 
   useLayoutEffect(() => {
     const navContainer = document.querySelector(".navContainer");
@@ -53,7 +50,6 @@ export default function LoginForm() {
       setError(false);
       let data = await res.json();
       localStorage.setItem("token", data.token);
-      await verifyTokenAndFetchUser(data.token);
       window.location.href = `/${username}`;
     } catch (error: any) {
       const errorMessage =
