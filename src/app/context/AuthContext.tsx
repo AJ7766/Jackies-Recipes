@@ -56,12 +56,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error("Error", error);
       localStorage.removeItem("token");
-      sessionStorage.removeItem("userProfile");
+      sessionStorage.removeItem("user");
       setIsAuthenticated(false);
     } finally {
       setInitializing(false);
     }
   }, []);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -77,7 +78,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const logout = () => {
     localStorage.removeItem("token");
-    sessionStorage.removeItem("userProfile");
+    sessionStorage.removeItem("user");
     setIsAuthenticated(false);
     setUser(null);
     router.push(`/`);

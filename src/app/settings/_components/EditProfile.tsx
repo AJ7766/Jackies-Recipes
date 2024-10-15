@@ -29,7 +29,7 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
-  const { deleteCachedUser } = useAuth();
+  const { verifyTokenAndFetchUser, deleteCachedUser } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
@@ -82,6 +82,7 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
         throw new Error(errorResponse.message || "Failed to update.");
       }
       deleteCachedUser();
+      await verifyTokenAndFetchUser(token);
       router.push(`/${user?.username}`);
     } catch (error: any) {
       setErrorMessage(error.message || "Failed to update.");

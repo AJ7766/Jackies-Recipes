@@ -103,7 +103,7 @@ export async function handlePut(request: NextRequest) {
       cache.del(updatedUser.username);
     }
 
-    return NextResponse.json({ message: `Success!`, updatedUser }, { status: 201 })
+    return NextResponse.json({ message: `Success!` }, { status: 201 })
   } catch (error: any) {
     console.error('Error', error)
     let errorMessage = "Failed to register user.";

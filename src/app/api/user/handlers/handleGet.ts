@@ -27,7 +27,7 @@ export async function handleGet(request: NextRequest) {
 async function fetchProfileFromDatabase(id: string) {
   try {
     await connectDB();
-    const user = await UserModel.findOne({ _id: id }).lean();
+    const user = await UserModel.findOne({ _id: id }).select('-password -_id').lean();
     if (!user) {
       throw new Error(`User not found`);
     }

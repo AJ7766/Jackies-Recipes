@@ -23,7 +23,7 @@ export default function NavBar() {
   const searchResultsRef = useRef<HTMLDivElement | null>(null);
 
   const { user, logout, isAuthenticated, initializing } = useAuth();
-
+  
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (
       dropdownRef.current &&
