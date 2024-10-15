@@ -4,7 +4,6 @@ import { EditFormProps, ProfilePropsOrNull } from "@/app/types/types";
 import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { useAuth } from "@/app/context/AuthContext";
-import { useRouter } from "next/navigation";
 const profilePicture = "/images/profile-picture.png";
 const camera = "/images/test/camera.svg";
 
@@ -29,8 +28,7 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
-  const { verifyTokenAndFetchUser, deleteCachedUser } = useAuth();
-  const router = useRouter();
+  const { deleteCachedUser } = useAuth();
 
   useEffect(() => {
     if (user) {
@@ -82,8 +80,7 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
         throw new Error(errorResponse.message || "Failed to update.");
       }
       deleteCachedUser();
-      await verifyTokenAndFetchUser(token);
-      router.push(`/${user?.username}`);
+      window.location.href = `/${userData.username}`;
     } catch (error: any) {
       setErrorMessage(error.message || "Failed to update.");
     } finally {
@@ -163,176 +160,176 @@ export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
   };
 
   return (
-    <form className="editForm" onSubmit={handleSubmit}>
-      <div className="editProfilePicutre" onClick={handleProfilePicChange}>
-        <Image
-          height={200}
-          width={200}
-          className="editPreviewProfilePicture"
-          src={userData.userContent?.profilePicture || profilePicture}
-          alt="profile-picture"
-        />
-        <input
-          id="profilePicInput"
-          type="file"
-          accept=".jpg,.jpeg,.png,.webp"
-          className="hidden"
-          onChange={ProfilePicChange}
-        />
-        <Image
-          className="editCamera"
-          width={50}
-          height={50}
-          src={camera}
-          alt="camera"
-        />
-      </div>
-
-      <div className="editInputContainer">
-        <label htmlFor="email">Email:</label>
-        <input
-          type="text"
-          name="email"
-          placeholder="Email"
-          value={userData.email}
-          onChange={handleInputChange}
-        />
-      </div>
-
-      <div className="editInputContainer">
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          value={userData.username}
-          onChange={handleInputChange}
-        />
-      </div>
-
-      <div className="editInputContainer">
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          name="fullName"
-          placeholder="Name"
-          value={userData.fullName}
-          onChange={handleInputChange}
-        />
-      </div>
-
-      <div className="editTextareaContainer">
-        <label htmlFor="bio">Bio:</label>
-        <textarea
-          name="bio"
-          maxLength={350}
-          placeholder="bio"
-          value={userData.userContent?.bio}
-          onChange={handleUserContentChange}
-        />
-      </div>
-      <h1>
-        Social Media{" "}
-        <i className="opacity-50 absolute ml-1 text-xs">optional</i>
-      </h1>
-      <div className="editSocialMediaWrapper">
-        <div className="editSocialMediaContainer">
-          <label htmlFor="instagram">Instagram:</label>
+      <form className="editForm" onSubmit={handleSubmit}>
+        <div className="editProfilePicutre" onClick={handleProfilePicChange}>
+          <Image
+            height={200}
+            width={200}
+            className="editPreviewProfilePicture"
+            src={userData.userContent?.profilePicture || profilePicture}
+            alt="profile-picture"
+          />
           <input
-            className="socialMediaInputs"
-            name="instagram"
-            type="text"
-            placeholder="optional"
-            value={userData.userContent?.instagram}
-            onChange={handleUserContentChange}
+            id="profilePicInput"
+            type="file"
+            accept=".jpg,.jpeg,.png,.webp"
+            className="hidden"
+            onChange={ProfilePicChange}
+          />
+          <Image
+            className="editCamera"
+            width={50}
+            height={50}
+            src={camera}
+            alt="camera"
           />
         </div>
 
-        <div className="editSocialMediaContainer">
-          <label htmlFor="x">X:</label>
+        <div className="editInputContainer">
+          <label htmlFor="email">Email:</label>
           <input
-            className="socialMediaInputs"
-            name="x"
             type="text"
-            placeholder="optional"
-            value={userData.userContent?.x}
-            onChange={handleUserContentChange}
+            name="email"
+            placeholder="Email"
+            value={userData.email}
+            onChange={handleInputChange}
           />
         </div>
 
-        <div className="editSocialMediaContainer">
-          <label htmlFor="tiktok">TikTok:</label>
+        <div className="editInputContainer">
+          <label htmlFor="username">Username:</label>
           <input
-            className="socialMediaInputs"
-            name="tiktok"
             type="text"
-            placeholder="optional"
-            value={userData.userContent?.tiktok}
-            onChange={handleUserContentChange}
+            name="username"
+            placeholder="Username"
+            value={userData.username}
+            onChange={handleInputChange}
           />
         </div>
 
-        <div className="editSocialMediaContainer">
-          <label htmlFor="youtube">Youtube:</label>
+        <div className="editInputContainer">
+          <label htmlFor="name">Name:</label>
           <input
-            className="socialMediaInputs"
-            name="youtube"
             type="text"
-            placeholder="optional"
-            value={userData.userContent?.youtube}
-            onChange={handleUserContentChange}
+            name="fullName"
+            placeholder="Name"
+            value={userData.fullName}
+            onChange={handleInputChange}
           />
         </div>
 
-        <div className="editSocialMediaContainer">
-          <label htmlFor="facebook">Facebook:</label>
-          <input
-            className="socialMediaInputs"
-            name="facebook"
-            type="text"
-            placeholder="optional"
-            value={userData.userContent?.facebook}
+        <div className="editTextareaContainer">
+          <label htmlFor="bio">Bio:</label>
+          <textarea
+            name="bio"
+            maxLength={350}
+            placeholder="bio"
+            value={userData.userContent?.bio}
             onChange={handleUserContentChange}
           />
         </div>
-      </div>
-      <h1>Change Password</h1>
-      <div className="editPasswordContainer">
-        <label htmlFor="name">Old Password:</label>
-        <input
-          type="password"
-          name="oldPassword"
-          value={userData.oldPassword}
-          onChange={handleInputChange}
-        />
-      </div>
+        <h1>
+          Social Media{" "}
+          <i className="opacity-50 absolute ml-1 text-xs">optional</i>
+        </h1>
+        <div className="editSocialMediaWrapper">
+          <div className="editSocialMediaContainer">
+            <label htmlFor="instagram">Instagram:</label>
+            <input
+              className="socialMediaInputs"
+              name="instagram"
+              type="text"
+              placeholder="optional"
+              value={userData.userContent?.instagram}
+              onChange={handleUserContentChange}
+            />
+          </div>
 
-      <div className="editPasswordContainer">
-        <label htmlFor="name">New Password:</label>
-        <input
-          type="password"
-          name="newPassword"
-          value={userData.newPassword}
-          onChange={handleInputChange}
-        />
-      </div>
+          <div className="editSocialMediaContainer">
+            <label htmlFor="x">X:</label>
+            <input
+              className="socialMediaInputs"
+              name="x"
+              type="text"
+              placeholder="optional"
+              value={userData.userContent?.x}
+              onChange={handleUserContentChange}
+            />
+          </div>
 
-      <div className="editPasswordContainer">
-        <label htmlFor="name">Confirm Password:</label>
-        <input
-          type="password"
-          name="confirmPassword"
-          value={userData.confirmPassword}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div className="h-5">
-        {errorMessage && <div className="text-red-600">{errorMessage}</div>}
-      </div>
-      <button type="submit" disabled={loadingBtn}>
-        {loadingBtn ? "Loading..." : "Save"}
-      </button>
-      <div></div>
-    </form>
-  );
+          <div className="editSocialMediaContainer">
+            <label htmlFor="tiktok">TikTok:</label>
+            <input
+              className="socialMediaInputs"
+              name="tiktok"
+              type="text"
+              placeholder="optional"
+              value={userData.userContent?.tiktok}
+              onChange={handleUserContentChange}
+            />
+          </div>
+
+          <div className="editSocialMediaContainer">
+            <label htmlFor="youtube">Youtube:</label>
+            <input
+              className="socialMediaInputs"
+              name="youtube"
+              type="text"
+              placeholder="optional"
+              value={userData.userContent?.youtube}
+              onChange={handleUserContentChange}
+            />
+          </div>
+
+          <div className="editSocialMediaContainer">
+            <label htmlFor="facebook">Facebook:</label>
+            <input
+              className="socialMediaInputs"
+              name="facebook"
+              type="text"
+              placeholder="optional"
+              value={userData.userContent?.facebook}
+              onChange={handleUserContentChange}
+            />
+          </div>
+        </div>
+        <h1>Change Password</h1>
+        <div className="editPasswordContainer">
+          <label htmlFor="name">Old Password:</label>
+          <input
+            type="password"
+            name="oldPassword"
+            value={userData.oldPassword}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="editPasswordContainer">
+          <label htmlFor="name">New Password:</label>
+          <input
+            type="password"
+            name="newPassword"
+            value={userData.newPassword}
+            onChange={handleInputChange}
+          />
+        </div>
+
+        <div className="editPasswordContainer">
+          <label htmlFor="name">Confirm Password:</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={userData.confirmPassword}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div className="h-5">
+          {errorMessage && <div className="text-red-600">{errorMessage}</div>}
+        </div>
+        <button type="submit" disabled={loadingBtn}>
+          {loadingBtn ? "Loading..." : "Save"}
+        </button>
+        <div></div>
+      </form>
+    )
 }
