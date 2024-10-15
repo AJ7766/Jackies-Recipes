@@ -20,7 +20,7 @@ export async function handleGet(request: NextRequest) {
     return NextResponse.json({ message: 'Authorized', userData }, { status: 200 });
   } catch (error) {
     console.error('Error:', error);
-    return NextResponse.json({ success: false, message: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
   }
 }
 

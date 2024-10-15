@@ -18,7 +18,7 @@ export default function LoginForm() {
 
   const { verifyTokenAndFetchUser } = useAuth();
 
-  /*useLayoutEffect(() => {
+  useLayoutEffect(() => {
     const navContainer = document.querySelector(".navContainer");
     if (navContainer) {
       navContainer.remove();
@@ -29,7 +29,7 @@ export default function LoginForm() {
       spaceElement.remove();
     }
   }, []);
-  */
+
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

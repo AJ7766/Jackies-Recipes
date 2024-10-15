@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
         const { searchParams } = new URL(request.url);
         const search = searchParams.get('search');
         if (!search) {
-            return NextResponse.json({ success: false, message: "Search term is required." }, { status: 400 });
+            return NextResponse.json({ message: "Search term is required." }, { status: 400 });
         }
 
         const regex = new RegExp(search, 'i');
@@ -18,9 +18,9 @@ export async function GET(request: NextRequest) {
 
         const existingRecipes = await RecipeModel.find({ title: { $regex: regex } }).populate('user', 'username').limit(5).select('_id title image').lean();
 
-        return NextResponse.json({ success: true, existingUsers: existingUsers, existingRecipes: existingRecipes}, { status: 200 }); 
+        return NextResponse.json({ existingUsers: existingUsers, existingRecipes: existingRecipes}, { status: 200 }); 
     }catch(error){
         console.error('Error:', error);
-        return NextResponse.json({ success: false, message: 'Internal Server Error'}, { status: 500 });
+        return NextResponse.json({ message: 'Internal Server Error'}, { status: 500 });
     }
 }
