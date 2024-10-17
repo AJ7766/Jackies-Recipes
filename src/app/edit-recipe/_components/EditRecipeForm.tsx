@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { recipeFormActions } from "@/app/_actions/recipeFormActions";
 import { deleteRecipe } from "../_action/deleteRecipe";
 
-const camera = "/images/test/camera.svg";
+const camera = "/images/camera.svg";
 const imagePlaceholder = "/images/recipe-image-placeholder.svg";
 
 export default function EditRecipeForm({

@@ -17,20 +17,22 @@ export default function Masonary({
     user: { username: string };
   }
 
-  const [totalColumns, setTotalColumns] = useState<number>(1);
+  const [totalColumns, setTotalColumns] = useState<number>(
+    window.innerWidth > 768 ? 5 : 3
+  );
   const [columns, setColumns] = useState<RecipeCardProps[][]>([]);
 
-  const updateColumns = useCallback(() => {
-    const width = window.innerWidth;
-    setTotalColumns(width > 768 ? 5 : 3);
-  }, []);
-
   useEffect(() => {
-    updateColumns();
+    const updateColumns = () => {
+      setTotalColumns(window.innerWidth > 768 ? 5 : 3);
+    };
+
     window.addEventListener("resize", updateColumns);
 
+    updateColumns();
+
     return () => window.removeEventListener("resize", updateColumns);
-  }, [updateColumns]);
+  }, []);
 
   useEffect(() => {
     const newColumns: RecipeCardProps[][] = Array.from(

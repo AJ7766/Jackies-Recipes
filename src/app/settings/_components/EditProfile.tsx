@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { useAuth } from "@/app/context/AuthContext";
 const profilePicture = "/images/profile-picture.png";
-const camera = "/images/test/camera.svg";
+const camera = "/images/camera.svg";
 
 export default function EditProfile({ user = null }: { user: ProfileProps | null }) {
   const [userData, setUserData] = useState<EditFormProps>({

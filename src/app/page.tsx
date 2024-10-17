@@ -40,9 +40,11 @@ export default function Home() {
       <>
         {isAuthenticated && user ? (
           <>
-            <h1 className="text-xl text-center mb-5">All Recipes</h1>
-            {loading ? <LoadingSpinner /> : (
+            {loading ? (
+              <LoadingSpinner />
+            ) : (
               <>
+                <h1 className="text-xl text-center mb-5">Latest Recipes</h1>
                 <div className="gap-10 flex flex-wrap justify-center">
                   <Masonary recipes={recipes} />
                 </div>

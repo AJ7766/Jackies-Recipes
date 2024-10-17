@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { recipeFormActions } from "@/app/_actions/recipeFormActions";
 
 const imagePlaceholder = "/images/recipe-image-placeholder.svg";
-const camera = "/images/test/camera.svg";
+const camera = "/images/camera.svg";
 
 export default function AddRecipeForm() {
   const [errorMessage, setErrorMessage] = useState("");

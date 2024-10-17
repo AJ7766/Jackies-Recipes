@@ -18,9 +18,11 @@ export default function Masonary({
     image: string | string;
   }
 
-  const [totalColumns, setTotalColumns] = useState<number>(1);
-  const [canEdit, setCanEdit] = useState(false);
+  const [totalColumns, setTotalColumns] = useState<number>(
+    window.innerWidth > 768 ? 5 : 3
+  );
   const [columns, setColumns] = useState<RecipeCardProps[][]>([]);
+  const [canEdit, setCanEdit] = useState(false);
 
   const { user } = useAuth();
   const pathname = usePathname();
@@ -34,17 +36,17 @@ export default function Masonary({
     }
   }, [user, pathname]);
 
-  const updateColumns = useCallback(() => {
-    const width = window.innerWidth;
-    setTotalColumns(width > 768 ? 4 : 3);
-  }, []);
-
   useEffect(() => {
-    updateColumns();
+    const updateColumns = () => {
+      setTotalColumns(window.innerWidth > 768 ? 4 : 3);
+    };
+
     window.addEventListener("resize", updateColumns);
 
+    updateColumns();
+
     return () => window.removeEventListener("resize", updateColumns);
-  }, [updateColumns]);
+  }, []);
 
   useEffect(() => {
     if (!profile?.recipes) return;
