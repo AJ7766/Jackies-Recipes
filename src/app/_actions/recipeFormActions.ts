@@ -40,8 +40,11 @@ export function recipeFormActions(recipeEdit?: SimplifiedRecipePropsNoUser) {
     const [isChecked, setIsChecked] = useState(false);
 
     useEffect(() => {
+        console.log("Recipe macros:", recipe.macros);
+        if (recipe.macros?.carbs === 0 && recipe.macros?.protein === 0 && recipe.macros?.fat === 0 && recipe.macros?.calories === 0) return;
+        recipe.macros && setIsChecked(true);
         calculateCalories();
-    }, [recipe?.macros]);
+    }, [recipe.macros]);
 
     const calculateCalories = () => {
         const calsFromCarbs = recipe?.macros?.carbs

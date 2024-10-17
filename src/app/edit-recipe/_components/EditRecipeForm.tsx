@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { useAuth } from "@/app/context/AuthContext";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";

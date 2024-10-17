@@ -12,9 +12,9 @@ export default function useFetchRecipe(recipeId: string) {
         const token = localStorage.getItem("token");
 
         if (!user || !token) {
-            throw new Error("User or Token is not available");
+            console.error("User or Token is not available");
+            return;
         }
-        
         const fetchRecipe = async () => {
             try {
                 const response = await fetch(`/api/recipe?recipeId=${recipeId}`, {

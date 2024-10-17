@@ -42,12 +42,7 @@ export default function Home() {
       <>
         {isAuthenticated && user ? (
           <>
-            <h1 className="text-xl text-center">
-              This page is in developement. I am still thinking of how i want to
-              design this page.
-            </h1>
-            <br />
-            <h1 className="text-xl text-center mb-10">All Recipes</h1>
+            <h1 className="text-xl text-center mb-5">All Recipes</h1>
             {loading ? <LoadingSpinner /> : (
               <>
                 <div className="gap-10 flex flex-wrap justify-center">
