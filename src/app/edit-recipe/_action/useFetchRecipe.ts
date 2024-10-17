@@ -9,13 +9,19 @@ export default function useFetchRecipe(recipeId: string) {
     const { initializing, user } = useAuth();
 
     useEffect(() => {
-        if(initializing){
-            return;
+        const token = localStorage.getItem("token");
+
+        if (!user || !token) {
+            throw new Error("User or Token is not available");
         }
+        
         const fetchRecipe = async () => {
             try {
-                const response = await fetch(`/api/recipe?recipeId=${recipeId}&userId=${user?._id}`, {
+                const response = await fetch(`/api/recipe?recipeId=${recipeId}`, {
                     method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
                 });
                 if (!response.ok) {
                     throw new Error("Error fetching recipe");
@@ -32,7 +38,7 @@ export default function useFetchRecipe(recipeId: string) {
         if (recipeId) {
             fetchRecipe();
         }
-    }, [initializing, recipeId, user?._id]);
+    }, [initializing, recipeId]);
 
     return { initializing, recipe, isVerified, loading };
 }

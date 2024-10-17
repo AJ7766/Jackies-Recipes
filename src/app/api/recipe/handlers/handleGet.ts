@@ -1,13 +1,21 @@
 import { connectDB } from "@/config/database";
 import { NextRequest, NextResponse } from "next/server";
 import { RecipeModel } from "@/models/UserRecipe";
+import { verifyToken } from "@/config/jwt";
 
 export async function handleGet(request: NextRequest) {
+    const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');
+
+    if (!authHeader || !authHeader.startsWith('Bearer')) {
+        return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    }
     try {
         await connectDB();
         const { searchParams } = new URL(request.url);
         const recipeId = searchParams.get('recipeId');
-        const userId = searchParams.get('userId');
+        const token = authHeader.split(' ')[1];
+        const decoded = await verifyToken(token);
+        const userId = decoded.id;
 
         const recipe = await RecipeModel.findOne({ _id: recipeId })
             .populate({
