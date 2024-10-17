@@ -2,6 +2,7 @@
 import ProfilePage from "./_components/Profile";
 import { useProfile } from "../context/ProfileContext";
 import Masonary from "./_components/Masonary";
+import { LoadingSpinner } from "../_components/LoadingSpinner";
 
 export default function RootLayout({
   children,
@@ -11,7 +12,7 @@ export default function RootLayout({
   const { profile, loading } = useProfile();
   return (
     <>
-      {!loading &&
+      {loading ? <LoadingSpinner /> :
         (profile ? (
           <>
             {children}

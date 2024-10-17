@@ -6,6 +6,7 @@ import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 import Link from "next/link";
 import Image from "next/image";
 import Masonary from "./_components/Masonary";
+import { LoadingSpinner } from "./_components/LoadingSpinner";
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -41,17 +42,17 @@ export default function Home() {
       <>
         {isAuthenticated && user ? (
           <>
-            {loading ? null : (
+            <h1 className="text-xl text-center">
+              This page is in developement. I am still thinking of how i want to
+              design this page.
+            </h1>
+            <br />
+            <h1 className="text-xl text-center mb-10">All Recipes</h1>
+            {loading ? <LoadingSpinner /> : (
               <>
-                <h1 className="text-xl text-center">
-                  This page is in developement. I am still thinking of how i
-                  want to design this page.
-                </h1>
-                <br />
-                <h1 className="text-xl text-center mb-10">All Recipes</h1>
                 <div className="gap-10 flex flex-wrap justify-center">
                   <Masonary recipes={recipes || []} />
-                  </div>
+                </div>
               </>
             )}
           </>

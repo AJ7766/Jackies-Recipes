@@ -19,7 +19,6 @@ export default function Recipe() {
   const pathname = usePathname();
   const router = useRouter();
   
-  const { initializing } = useAuth();
   const { profile, loading } = useProfile();
 
   useEffect(() => {
@@ -86,7 +85,6 @@ export default function Recipe() {
   }, [handleClickOutside]);
 
   return (
-    !initializing &&
     !loading &&
     selectedRecipe && (
       <>

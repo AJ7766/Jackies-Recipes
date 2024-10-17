@@ -59,6 +59,23 @@ body {
   font-size: clamp(10px, 2cqw, 14px)
 }
 
+@keyframes pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+  }
+}
+
+.loading-spinner{
+  position:absolute;
+  width:clamp(80px, 2vw, 100px);
+  left:50%;
+  top:50%;
+  transform: translate(-50%, 50%);
+  animation: pulse 1.3s ease-in-out infinite;
+}
 
 h2{
   font-size: clamp(10px, 2cqw, 14px)

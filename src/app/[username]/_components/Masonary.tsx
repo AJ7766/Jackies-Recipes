@@ -80,7 +80,8 @@ export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
                         width={500}
                         height={500}
                         src={recipe.image || ""}
-                        alt={`Image${recipeIndex}`}
+                        alt={recipe.title}
+                        loading="lazy"
                       />
                     </div>
                   </Link>
