@@ -3,36 +3,26 @@ import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Types } from "mongoose";
-import { usePathname } from "next/navigation";
-import { useAuth } from "@/app/context/AuthContext";
-import { ProfilePropsOrNull } from "@/app/types/types";
+import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 
-export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
+export default function Masonary({
+  recipes = [],
+}: {
+  recipes?: SimplifiedRecipeProps[];
+}) {
   interface RecipeCardProps {
     id: Types.ObjectId | undefined;
     title: string;
     image: string | string;
+    user: { username: string };
   }
 
   const [totalColumns, setTotalColumns] = useState<number>(1);
-  const [canEdit, setCanEdit] = useState(false);
   const [columns, setColumns] = useState<RecipeCardProps[][]>([]);
-
-  const { user } = useAuth();
-  const pathname = usePathname();
-
-  useEffect(() => {
-    if (!user) return;
-    const pathParts = pathname.split("/");
-    const usernameLink = pathParts[pathParts.length - 1];
-    if (usernameLink === user?.username) {
-      setCanEdit(true);
-    }
-  }, [user, pathname]);
 
   const updateColumns = useCallback(() => {
     const width = window.innerWidth;
-    setTotalColumns(width > 768 ? 4 : 3);
+    setTotalColumns(width > 768 ? 5 : 3);
   }, []);
 
   useEffect(() => {
@@ -43,36 +33,37 @@ export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
   }, [updateColumns]);
 
   useEffect(() => {
-    if (!profile?.recipes) return;
-
     const newColumns: RecipeCardProps[][] = Array.from(
       { length: totalColumns },
       () => []
     );
 
-    profile.recipes.reduce((currentColumns, recipe, index) => {
+    recipes.reduce((currentColumns, recipe, index) => {
       const recipeCard: RecipeCardProps = {
         id: recipe._id,
         title: recipe.title,
         image: recipe.image || "",
+        user: {
+          username: recipe.user.username || "",
+        },
       };
       currentColumns[index % totalColumns].push(recipeCard);
       return currentColumns;
     }, newColumns);
 
     setColumns(newColumns);
-  }, [totalColumns, profile?.recipes]);
+  }, [totalColumns, recipes]);
 
   return (
     <>
-      {profile?.recipes && profile.recipes.length > 0 ? (
-        <div className="masonryContainer">
+      {recipes.length > 0 ? (
+        <div className="masonryContainerMainPage">
           {columns.map((column, columnIndex) => (
             <div className="masonryColumn" key={columnIndex}>
               {column.map((recipe, recipeIndex) => (
                 <React.Fragment key={recipeIndex}>
                   <Link
-                    href={`/${profile?.username}/${recipe.id}`}
+                    href={`/${recipe.user.username}/${recipe.id}`}
                     scroll={false}
                   >
                     <div className="masonryImg">
@@ -86,21 +77,11 @@ export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
                   </Link>
                   <div className="recipeSettingsContainer">
                     <Link
-                      href={`/${profile?.username}/${recipe.id}`}
+                      href={`/${recipe.user.username}/${recipe.id}`}
                       scroll={false}
                     >
                       <h1>{recipe.title}</h1>
                     </Link>
-                    {canEdit && (
-                      <Link href={`/edit-recipe/${recipe.id}`}>
-                        <Image
-                          src="/images/cogwheel.svg"
-                          width={24}
-                          height={24}
-                          alt="edit"
-                        />
-                      </Link>
-                    )}
                   </div>
                 </React.Fragment>
               ))}

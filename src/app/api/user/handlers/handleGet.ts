@@ -15,7 +15,7 @@ export async function handleGet(request: NextRequest) {
     const decoded = await verifyToken(token);
     const userId = decoded.id;
 
-    const userData = await fetchProfileFromDatabase(userId);
+    const userData = await fetchProfile(userId);
 
     return NextResponse.json({ message: 'Authorized', userData }, { status: 200 });
   } catch (error) {
@@ -24,7 +24,7 @@ export async function handleGet(request: NextRequest) {
   }
 }
 
-async function fetchProfileFromDatabase(id: string) {
+async function fetchProfile(id: string) {
   try {
     await connectDB();
     const user = await UserModel.findOne({ _id: id }).select('-password -_id').lean();

@@ -13,7 +13,7 @@ export interface UserProps extends Document {
 
 const userSchema = new Schema<UserProps>({
    email: { type: String, required: true, unique: true },
-   username: { type: String, required: true, unique: true },
+   username: { type: String, required: true, unique: true, index: true },
    fullName: { type: String, required: true },
    password: { type: String, required: true },
    userContent: {
@@ -25,7 +25,5 @@ const userSchema = new Schema<UserProps>({
       ref: 'recipes'
    }]
 }, { timestamps: true });
-
-userSchema.index({ username: 1 });
 
 export const UserModel: Model<UserProps> = mongoose.models.users || mongoose.model<UserProps>('users', userSchema);

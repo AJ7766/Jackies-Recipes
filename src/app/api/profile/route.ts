@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ message: 'Success fetching profile from cache', profileData: cachedProfile }, { status: 200 });
     }
 
-    const profileData = await fetchProfileFromDatabase(username);
+    const profileData = await fetchProfile(username);
 
     cache.set(username, profileData);
 
@@ -28,7 +28,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
-async function fetchProfileFromDatabase(username: string) {
+async function fetchProfile(username: string) {
   try {
     await connectDB();
 
@@ -39,6 +39,7 @@ async function fetchProfileFromDatabase(username: string) {
         model: RecipeModel,
         select: '-__v'
       }).lean();
+
     if (!user) {
       throw new Error(`User not found`);
     }

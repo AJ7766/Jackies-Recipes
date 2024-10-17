@@ -5,6 +5,7 @@ import { useAuth } from "./context/AuthContext";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 import Link from "next/link";
 import Image from "next/image";
+import Masonary from "./_components/Masonary";
 
 export default function Home() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -49,23 +50,7 @@ export default function Home() {
                 <br />
                 <h1 className="text-xl text-center mb-10">All Recipes</h1>
                 <div className="gap-10 flex flex-wrap justify-center">
-                {recipes &&
-                  recipes.map((recipe, index) => (
-                    <div className="flex" key={index}>
-                      <Link href={`/${recipe.user.username}/${recipe._id}`}>
-                        <Image
-                          className="h-24 w-auto"
-                          src={recipe.image}
-                          width={100}
-                          height={100}
-                          alt={recipe.title}
-                        />
-                        <p>
-                          Recipe:{recipe.title} by {recipe.user.username}
-                        </p>
-                      </Link>
-                    </div>
-                  ))}
+                  <Masonary recipes={recipes || []} />
                   </div>
               </>
             )}
