@@ -3,8 +3,6 @@ import LoginForm from "./_components/LoginForm";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "./context/AuthContext";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
-import Link from "next/link";
-import Image from "next/image";
 import Masonary from "./_components/Masonary";
 import { LoadingSpinner } from "./_components/LoadingSpinner";
 

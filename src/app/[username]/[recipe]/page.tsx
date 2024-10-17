@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 import { usePathname, useRouter } from "next/navigation";
-import { useAuth } from "@/app/context/AuthContext";
 import { useProfile } from "@/app/context/ProfileContext";
 
 const meals = "/images/test/meal.svg";

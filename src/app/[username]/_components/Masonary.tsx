@@ -5,9 +5,13 @@ import Link from "next/link";
 import { Types } from "mongoose";
 import { usePathname } from "next/navigation";
 import { useAuth } from "@/app/context/AuthContext";
-import { ProfilePropsOrNull } from "@/app/types/types";
+import { ProfileProps } from "@/app/types/types";
 
-export default function Masonary({ profile }: { profile: ProfilePropsOrNull }) {
+export default function Masonary({
+  profile = null,
+}: {
+  profile: ProfileProps | null;
+}) {
   interface RecipeCardProps {
     id: Types.ObjectId | undefined;
     title: string;

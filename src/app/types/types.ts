@@ -34,5 +34,3 @@ export type ProfileProps = {
   userContent?: SimplifiedUserContentProps;
   recipes: SimplifiedRecipeProps[]; 
 };
-
-export type ProfilePropsOrNull = ProfileProps | null;

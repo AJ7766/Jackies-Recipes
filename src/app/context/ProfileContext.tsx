@@ -1,17 +1,17 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { ProfilePropsOrNull } from "@/app/types/types";
+import { ProfileProps } from "@/app/types/types";
 import { useParams } from "next/navigation";
 
 interface ProfileContextType {
-  profile: ProfilePropsOrNull;
+  profile: ProfileProps | null;
   loading: boolean;
 }
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
-  const [profile, setProfile] = useState<ProfilePropsOrNull>(null);
+  const [profile, setProfile] = useState<ProfileProps | null>(null);
   const [loading, setLoading] = useState(true);
   const { username } = useParams();
 

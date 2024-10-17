@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ProfilePropsOrNull } from "../../types/types";
+import { ProfileProps } from "../../types/types";
 import Link from "next/link";
 const profilePicture = "/images/profile-picture.png";
 const instagram = "/images/social-media/instagram.svg";
@@ -9,9 +9,9 @@ const youtube = "/images/social-media/youtube.svg";
 const facebook = "/images/social-media/facebook.svg";
 
 export default function ProfilePage({
-  profile,
+  profile = null,
 }: {
-  profile: ProfilePropsOrNull;
+  profile: ProfileProps | null;
 }) {
   const bioText = profile?.userContent?.bio || "";
   const formattedBio = bioText.replace(/\n/g, "<br>");
