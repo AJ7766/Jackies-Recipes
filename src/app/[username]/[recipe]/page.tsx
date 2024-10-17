@@ -6,7 +6,7 @@ import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 import { usePathname, useRouter } from "next/navigation";
 import { useProfile } from "@/app/context/ProfileContext";
 
-const meals = "/images/test/meal.svg";
+const meals = "/images/meal.svg";
 const profilePicturePlaceholder = "/images/profile-picture.png";
 const closeIcon = "/images/close.svg";
 
