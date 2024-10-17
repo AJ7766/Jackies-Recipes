@@ -1,13 +1,13 @@
 "use client";
 import Image from "next/image";
-import { EditFormProps, ProfilePropsOrNull } from "@/app/types/types";
+import { EditFormProps, ProfileProps } from "@/app/types/types";
 import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { useAuth } from "@/app/context/AuthContext";
 const profilePicture = "/images/profile-picture.png";
 const camera = "/images/test/camera.svg";
 
-export default function EditProfile({ user }: { user?: ProfilePropsOrNull }) {
+export default function EditProfile({ user = null }: { user: ProfileProps | null }) {
   const [userData, setUserData] = useState<EditFormProps>({
     email: user?.email || "",
     username: user?.username || "",
