@@ -538,7 +538,7 @@ h2{
   display:grid;
   grid-template-columns: repeat(4, 1fr);
   margin: 0 20px 20px 20px;
-  gap: 15px;
+  gap: clamp(10px, 2vw, 15px);
   margin-top: 10px;
 }
 
@@ -546,7 +546,7 @@ h2{
   display:grid;
   grid-template-columns: repeat(5, 1fr);
   margin: 0 20px 20px 20px;
-  gap: 15px;
+  gap: clamp(10px, 2vw, 15px);
   margin-top: 10px;
 }
 
@@ -562,9 +562,9 @@ h2{
 }
 
 .masonryImg img{
-  border-radius: 20px;
+  border-radius: clamp(15px, 2vw, 20px);
   width: 100%;
-  height:auto
+  height:auto;
 }
 
 .masonryImg h1{
