@@ -16,7 +16,7 @@ export default function RootLayout({
         (profile ? (
           <>
             {children}
-            <ProfilePage profile={profile || null} />
+            <ProfilePage profile={profile} />
             <div className="divider"></div>
             <Masonary profile={profile} />
           </>

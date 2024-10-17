@@ -44,7 +44,7 @@ export default function Home() {
             {loading ? <LoadingSpinner /> : (
               <>
                 <div className="gap-10 flex flex-wrap justify-center">
-                  <Masonary recipes={recipes || []} />
+                  <Masonary recipes={recipes} />
                 </div>
               </>
             )}
