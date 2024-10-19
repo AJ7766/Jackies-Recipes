@@ -17,23 +17,23 @@
 }
 
 @font-face {
-  font-family: 'Gotham-Medium';
-  src: url('fonts/Gotham-Medium.otf');
+  font-family: "Gotham-Medium";
+  src: url("fonts/Gotham-Medium.otf");
 }
 
 @font-face {
-  font-family: 'Gotham-Book';
-  src: url('fonts/Gotham-Book.otf');
+  font-family: "Gotham-Book";
+  src: url("fonts/Gotham-Book.otf");
 }
 
 @font-face {
-  font-family: 'Gotham-Bold';
-  src: url('fonts/Gotham-Bold.otf');
+  font-family: "Gotham-Bold";
+  src: url("fonts/Gotham-Bold.otf");
 }
 
 @font-face {
-  font-family: 'Gotham-Black';
-  src: url('fonts/Gotham-Black.otf');
+  font-family: "Gotham-Black";
+  src: url("fonts/Gotham-Black.otf");
 }
 
 ::-webkit-scrollbar {
@@ -41,26 +41,27 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1; 
+  background: #f1f1f1;
 }
- 
+
 ::-webkit-scrollbar-thumb {
-  background: #888; 
+  background: #888;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; 
+  background: #555;
 }
 
 body {
-  font-family: 'Gotham-Medium';
+  font-family: "Gotham-Medium";
   background: white;
   color: #26323a;
-  font-size: clamp(10px, 2cqw, 14px)
+  font-size: clamp(10px, 2cqw, 14px);
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(-50%, -50%) scale(1);
   }
   50% {
@@ -76,35 +77,73 @@ body {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
 }
-
-}.loading-spinner{
-  position:absolute;
-  width:clamp(80px, 2vw, 100px);
-  left:50%;
-  top:50%;
+.loading-spinner {
+  position: absolute;
+  width: clamp(80px, 2vw, 100px);
+  left: 50%;
+  top: 50%;
   transform: translate(-50%, 50%);
   animation: pulse 1.3s ease-in-out infinite;
 }
 
-h2{
-  font-size: clamp(10px, 2cqw, 14px)
+.cookie-consent-wrapper {
+  position: fixed;
+  display: flex;
+  bottom: 1%;
+  right: 0;
+  background: white;
+  padding: 20px;
+  gap: 20px;
+  align-items: center;
+  z-index: 99;
 }
 
-.startingPageBg{
-  position:relative;
-  width:100vw;
-  height:100vh;
-  overflow:hidden;
+.cookie-consent-wrapper p {
+  font-size: 12px;
+  max-width: 400px;
 }
 
-.startingPageBg::before{
-  content:'';
-  position:absolute;
-  top:0%;
-  width:200vw;
-  height:100vh;
-  background: linear-gradient(65deg,#170987, #d333a3, #d33533, #d333a3 ,#dc9fed);
+.cookie-consent-wrapper .accept-btn {
+  color: white;
+  background: #5067e7;
+  padding: 10px 20px;
+  height: max-content;
+}
+
+.cookie-consent-wrapper .decline-btn {
+  box-shadow: inset 0px 0px 0px 1px #26323a;
+  box-sizing: content-box;
+  padding: 10px 20px;
+  height: max-content;
+}
+
+h2 {
+  font-size: clamp(10px, 2cqw, 14px);
+}
+
+.startingPageBg {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.startingPageBg::before {
+  content: "";
+  position: absolute;
+  top: 0%;
+  width: 200vw;
+  height: 100vh;
+  background: linear-gradient(
+    65deg,
+    #170987,
+    #d333a3,
+    #d33533,
+    #d333a3,
+    #dc9fed
+  );
   background-size: 360% 360%;
   animation: gradient-animation 10s linear infinite;
 }
@@ -127,17 +166,19 @@ h2{
   }
 }
 
-.loginFormContainer, .forgotPassFormContainer, .registerFormContainer{
+.loginFormContainer,
+.forgotPassFormContainer,
+.registerFormContainer {
   position: relative;
   top: 50%;
   left: 50%;
   max-width: 450px;
   max-height: 500px;
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
   transform: translate(-50%, -50%);
   background: white;
-  overflow:hidden;
+  overflow: hidden;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -145,39 +186,39 @@ h2{
   border-radius: 10px;
 }
 
-.registerFormContainer{
+.registerFormContainer {
   max-height: 700px;
 }
 
-.loginHeaderContainer{
-  display:flex;
-  gap:10px;
+.loginHeaderContainer {
+  display: flex;
+  gap: 10px;
   flex-direction: column;
   align-items: center;
 }
 
-.loginLogo{
+.loginLogo {
   width: 130px;
-  text-align:center;
+  text-align: center;
 }
 
-.loginTextMessage{
+.loginTextMessage {
   font-size: clamp(10px, 2cqw, 12px);
 }
-.loginForm{
-  width:60%;
+.loginForm {
+  width: 60%;
   gap: 2cqh;
 }
 
-.forgotPassForm{
-  display:flex;
+.forgotPassForm {
+  display: flex;
   flex-direction: column;
-  width:60%;
-  gap:2.8vw;
+  width: 60%;
+  gap: 2.8vw;
 }
 
-.forgotPasswordText{
-  font-family: 'Enchilada';
+.forgotPasswordText {
+  font-family: "Enchilada";
   color: #e5a369;
   text-shadow: 2px 2px #f9e8d9;
   font-size: 3.5cqw;
@@ -185,20 +226,20 @@ h2{
   text-align: center;
 }
 
-.registerForm{
-  display:flex;
+.registerForm {
+  display: flex;
   flex-direction: column;
-  width:60%;
-  gap:2cqh;
+  width: 60%;
+  gap: 2cqh;
 }
 
-.inputsContainer{
+.inputsContainer {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
-.inputsContainer div{
-  position:relative;
+.inputsContainer div {
+  position: relative;
 }
 
 .inputsContainer div img {
@@ -210,13 +251,13 @@ h2{
   width: 5%;
 }
 
-.inputsContainer input{
-  width:100%;
-  border: 2px solid #e9e9e9 ;
-  padding:5px;
+.inputsContainer input {
+  width: 100%;
+  border: 2px solid #e9e9e9;
+  padding: 5px;
 }
 
-.blackBtn{
+.blackBtn {
   font-size: clamp(12px, 2cqw, 14px);
   letter-spacing: 0.1em;
   background-color: #26323a;
@@ -225,16 +266,16 @@ h2{
   padding: 7px 15px;
   border: 2px solid #26323a;
   width: 100%;
-  margin-bottom:3%;
-  border-radius:5px;
+  margin-bottom: 3%;
+  border-radius: 5px;
 }
 
-.blackBtn:hover{
-  color:#26323a;
+.blackBtn:hover {
+  color: #26323a;
   background-color: white;
 }
 
-.redBtn{
+.redBtn {
   border: 4px solid white;
   font-size: clamp(12px, 2cqw, 14px);
   letter-spacing: 0.1em;
@@ -244,11 +285,11 @@ h2{
   font-weight: 700;
   padding: 7px 15px;
   width: 100%;
-  border-radius:5px;
+  border-radius: 5px;
 }
 
-.redBtn:hover{
-  color:#ef4444;
+.redBtn:hover {
+  color: #ef4444;
   background-color: white;
 }
 
@@ -258,11 +299,11 @@ h2{
   }
 }
 
-.space{
-  height:80px;
+.space {
+  height: 80px;
 }
 
-.navContainer{
+.navContainer {
   display: flex;
   padding: clamp(5px, 1vw, 20px);
   box-sizing: border-box;
@@ -275,34 +316,34 @@ h2{
   z-index: 1;
 }
 
-.navContainer #logo{
+.navContainer #logo {
   height: clamp(24.5px, 3vw, 28px);
   width: auto;
   object-fit: contain;
 }
 
-.searchContainer{
-  position:relative;
+.searchContainer {
+  position: relative;
   width: 100%;
 }
 
-.searchContainer #searchGlass{
-  position:absolute;
+.searchContainer #searchGlass {
+  position: absolute;
   width: clamp(12px, 2cqw, 16px);
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
 }
 
-.searchContainer input[type="search"]{
+.searchContainer input[type="search"] {
   border-radius: 12px;
   background-color: #f3f3f3;
   padding: 8px 10px 8px 32px;
   height: clamp(24px, 5vw, 40px);
-  width:100%
+  width: 100%;
 }
 
-.searchedUsersContainer{
+.searchedUsersContainer {
   display: flex;
   gap: 10px;
   flex-direction: column;
@@ -316,28 +357,28 @@ h2{
   box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 15%);
 }
 
-.searchedUser{
-  display:flex;
+.searchedUser {
+  display: flex;
   align-items: center;
-  gap:10px;
+  gap: 10px;
   overflow: hidden;
 }
 
-.searchedUser:hover{
+.searchedUser:hover {
   border-left: 5px solid #26323a;
   padding-left: 10px;
 }
 
-.searchedUser h2{
+.searchedUser h2 {
   margin-bottom: -3px;
 }
 
-.searchedUser p{
-  font-family: 'Gotham-Book';
+.searchedUser p {
+  font-family: "Gotham-Book";
   opacity: 50%;
 }
 
-.searchedUsersContainer img{
+.searchedUsersContainer img {
   border-radius: 50%;
   height: clamp(30px, 5vw, 42px);
   width: clamp(30px, 5vw, 42px);
@@ -345,22 +386,26 @@ h2{
   object-position: center;
 }
 
-.navContainer .profilePictureLink, .navContainer .addRecipe, .navContainer #logo{
+.navContainer .profilePictureLink,
+.navContainer .addRecipe,
+.navContainer #logo {
   transition: 0.33s cubic-bezier(0.29, 0.96, 0.81, 1.43);
 }
 
-.navContainer .profilePictureLink:hover, .navContainer .addRecipe:hover, .navContainer #logo:hover{
-  scale:1.07;
+.navContainer .profilePictureLink:hover,
+.navContainer .addRecipe:hover,
+.navContainer #logo:hover {
+  scale: 1.07;
 }
 
-.navContainer .addRecipe img{
+.navContainer .addRecipe img {
   height: clamp(20px, 3vw, 28px);
   width: auto;
   object-fit: cover;
   object-position: center;
 }
 
-.navContainer .profilePictureLink img{
+.navContainer .profilePictureLink img {
   border-radius: 25%;
   height: clamp(20px, 3vw, 28px);
   width: auto;
@@ -368,28 +413,28 @@ h2{
   object-position: center;
 }
 
-.dropdownButton{
+.dropdownButton {
   height: clamp(18px, 3vw, 28px);
   width: auto;
   cursor: pointer;
   border-radius: 50%;
 }
 
-.dropdownButton:hover{
+.dropdownButton:hover {
   box-shadow: 0px 0px 0px 2px #26323a;
 }
 
-.dropdownButton.open{
+.dropdownButton.open {
   box-shadow: 0px 0px 0px 2px #26323a;
 }
 
-.dropdownContainer{
-  position:relative;
+.dropdownContainer {
+  position: relative;
   flex-shrink: 0;
   z-index: 1;
 }
 
-.dropdownContentContainer{
+.dropdownContentContainer {
   position: absolute;
   top: 50px;
   right: 0;
@@ -400,68 +445,69 @@ h2{
   box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 15%);
 }
 
-.dropdownContent{
-  display:flex;
+.dropdownContent {
+  display: flex;
   flex-direction: column;
   margin-left: 10px;
   height: 100%;
   justify-content: space-evenly;
 }
 
-.dropdownContent a, .dropdownContent button{
+.dropdownContent a,
+.dropdownContent button {
   padding: 3px 0px 3px 10px;
   text-align: left;
   border-radius: 5px;
 }
 
-.dropdownContent a:hover{
-  background-color:#f3f3f3;
-  width: calc(100% - 10px)
+.dropdownContent a:hover {
+  background-color: #f3f3f3;
+  width: calc(100% - 10px);
 }
 
-.dropdownContent button:hover{
-  background-color:#ff6060;
-  color:white;
-  width: calc(100% - 10px)
+.dropdownContent button:hover {
+  background-color: #ff6060;
+  color: white;
+  width: calc(100% - 10px);
 }
 
-.profileContainer{
+.profileContainer {
   display: flex;
-  font-family: 'Gotham-Book';
+  font-family: "Gotham-Book";
   margin: 20px 20px 10px 20px;
   min-height: 50vh;
   flex-direction: column;
   justify-content: center;
 }
 
-.profileInfo{
-  position:relative;
+.profileInfo {
+  position: relative;
   background-size: cover;
   background-position: center;
   flex-direction: column;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
-  height:100%;
-  gap:10px;
+  height: 100%;
+  gap: 10px;
 }
 
-.profileInfo h1{
-  font-family: 'Gotham-Medium';
+.profileInfo h1 {
+  font-family: "Gotham-Medium";
   font-size: clamp(18px, 3cqw, 30px);
 }
 
-.profileInfo h2{
-  font-family: 'Gotham-Medium';
+.profileInfo h2 {
+  font-family: "Gotham-Medium";
   text-align: center;
   line-height: 1.6;
   max-width: 550px;
 }
-.profileInfo p{
-  font-family: 'Gotham-Book';
+.profileInfo p {
+  font-family: "Gotham-Book";
 }
 
-.profilePicture{
+.profilePicture {
   border-radius: 50%;
   height: clamp(160px, 20vw, 200px);
   width: clamp(160px, 20vw, 200px);
@@ -469,11 +515,11 @@ h2{
   object-position: center;
 }
 
-.profileInfo::before{
-  width:35%;
+.profileInfo::before {
+  width: 35%;
 }
 
-.profileSocialMediaContainer{
+.profileSocialMediaContainer {
   display: flex;
   gap: 10px;
   width: 100%;
@@ -481,61 +527,61 @@ h2{
   justify-content: center;
 }
 
-.profileSocialMediaContainer img{
-  width:auto;
+.profileSocialMediaContainer img {
+  width: auto;
   height: clamp(24px, 2cqw, 26px);
 }
 
-.searchRecipesContainer{
-  position:relative;
-  width:100%;
+.searchRecipesContainer {
+  position: relative;
+  width: 100%;
   padding: 0 20px;
 }
 
-.searchRecipesContainer img{
-  position:absolute;
+.searchRecipesContainer img {
+  position: absolute;
   width: clamp(12px, 2cqw, 16px);
   left: 30px;
   top: 50%;
   transform: translateY(-50%);
 }
 
-.searchRecipesContainer input[type="search"]{
+.searchRecipesContainer input[type="search"] {
   border-radius: 12px;
   background-color: #f3f3f3;
   padding: 8px 10px 8px 32px;
   height: clamp(30px, 5vw, 40px);
-  width:100%;
+  width: 100%;
 }
 
-.divider{
-  height:2px;
-  width:50%;
-  margin:auto;
+.divider {
+  height: 2px;
+  width: 50%;
+  margin: auto;
   background: #e9e9e9;
-  margin-bottom:20px;
+  margin-bottom: 20px;
 }
 
-.dividerInstructions{
-  height:1px;
-  margin:auto;
+.dividerInstructions {
+  height: 1px;
+  margin: auto;
   background: #e9e9e9;
-  width:80%;
+  width: 80%;
 }
 
-.newUserButtons{
+.newUserButtons {
   display: flex;
   gap: clamp(10px, 2.5vw, 20px);
 }
 
-.newUserButtons button{
+.newUserButtons button {
   padding: 5px clamp(7px, 2vw, 20px);
   border-radius: 5px;
-  color:white;
+  color: white;
   background-color: #26323a;
 }
 
-.categories{
+.categories {
   display: flex;
   flex-direction: row;
   padding: 0 25px;
@@ -545,13 +591,13 @@ h2{
   flex-wrap: wrap;
 }
 
-.categories span{
-  position:relative;
+.categories span {
+  position: relative;
   padding: 5px 0px 0px 0px;
-  font-family: 'Gotham-Medium';
+  font-family: "Gotham-Medium";
 }
 
-.categories span::after{
+.categories span::after {
   position: absolute;
   width: 40%;
   height: 1.5px;
@@ -561,8 +607,8 @@ h2{
   background-color: #0c1216;
 }
 
-.masonryContainer{
-  display:grid;
+.masonryContainer {
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
   margin: 0 20px 20px 20px;
   gap: clamp(10px, 2vw, 15px);
@@ -570,8 +616,8 @@ h2{
   animation: fadeInFromBottom 0.5s linear;
 }
 
-.masonryContainerMainPage{
-  display:grid;
+.masonryContainerMainPage {
+  display: grid;
   grid-template-columns: repeat(5, 1fr);
   margin: 0 20px 20px 20px;
   gap: clamp(10px, 2vw, 15px);
@@ -579,41 +625,41 @@ h2{
   animation: fadeInFromBottom 0.5s linear;
 }
 
-.masonryColumn{
-  display:flex;
+.masonryColumn {
+  display: flex;
   flex-direction: column;
-  width:100%;
+  width: 100%;
   gap: 15px;
 }
 
-.masonryImg{
+.masonryImg {
   max-width: 100%;
 }
 
-.masonryImg img{
+.masonryImg img {
   border-radius: clamp(15px, 2vw, 20px);
   width: 100%;
-  height:auto;
+  height: auto;
 }
 
-.masonryImg h1{
-  font-family: 'Gotham-Medium';
+.masonryImg h1 {
+  font-family: "Gotham-Medium";
   margin: 5px 0 12px 6px;
 }
 
-.recipeSettingsContainer{
-  display:flex;
+.recipeSettingsContainer {
+  display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: -10px;
 }
 
-.recipeSettingsContainer img{
+.recipeSettingsContainer img {
   height: clamp(12px, 3cqw, 16px);
   width: auto;
   margin-right: 5px;
 }
-.noRecipesContainer{
+.noRecipesContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -621,14 +667,14 @@ h2{
   margin-top: clamp(60px, 10vh, 100px);
 }
 
-.noRecipesContainer h1{
+.noRecipesContainer h1 {
   font-size: clamp(18px, 3cqw, 30px);
 }
 
-.recipeContainer{
+.recipeContainer {
   position: fixed;
   z-index: 10;
-  display:flex;
+  display: flex;
   height: 85%;
   width: 80%;
   top: 50%;
@@ -637,7 +683,7 @@ h2{
   background: white;
 }
 
-.recipeBackground{
+.recipeBackground {
   position: fixed;
   z-index: 1;
   height: 100vh;
@@ -648,14 +694,14 @@ h2{
   background: #0000009e;
 }
 
-.recipeBackground img{
+.recipeBackground img {
   float: right;
   margin: 20px 20px 10px auto;
   width: clamp(20px, 4cqw, 30px);
-  cursor:pointer;
+  cursor: pointer;
 }
 
-.recipeLeftSideWrapper{
+.recipeLeftSideWrapper {
   min-width: 25vw;
   padding: 20px;
   background-color: white;
@@ -664,67 +710,67 @@ h2{
   scrollbar-width: none;
 }
 
-.recipeUserContainer{
-  display:flex;
+.recipeUserContainer {
+  display: flex;
   align-items: center;
   margin-bottom: 30px;
-  gap:6px;
+  gap: 6px;
 }
 
-.recipeUserContainer img{
+.recipeUserContainer img {
   border-radius: 50%;
   height: 25px;
   width: 25px;
   object-fit: cover;
-  overflow:hidden;
+  overflow: hidden;
   background-color: #f3f3f3;
 }
 
-.recipeUserContainer h2{
-  font-family: 'Gotham-Book';
+.recipeUserContainer h2 {
+  font-family: "Gotham-Book";
   font-weight: bold;
 }
 
-.recipeLeftSideWrapper h1{
-  font-family: 'Gotham-Black';
+.recipeLeftSideWrapper h1 {
+  font-family: "Gotham-Black";
   font-size: clamp(25px, 2cqw, 34px);
   margin-bottom: clamp(25px, 2cqw, 50px);
 }
 
-.recipeRightSideWrapper{
+.recipeRightSideWrapper {
   width: 100%;
   background-color: white;
   overflow-y: scroll;
-  scrollbar-width: none; 
+  scrollbar-width: none;
 }
 
-.recipeImageContainer{
+.recipeImageContainer {
   height: 100%;
   max-height: 70%;
   width: 100%;
 }
 
-.recipeRightSideWrapper img{
+.recipeRightSideWrapper img {
   width: 100%;
   max-height: 80%;
   object-fit: cover;
   object-position: center;
 }
 
-.recipeMacroContainer{
+.recipeMacroContainer {
   display: flex;
   width: 100%;
   align-items: flex-end;
   white-space: nowrap;
 }
 
-.doughnutChart{
+.doughnutChart {
   height: 100px !important;
   width: 100px !important;
   margin-left: -1.5px;
 }
 
-.macroInfo{
+.macroInfo {
   height: 100%;
   display: flex;
   flex-basis: 20%;
@@ -734,167 +780,167 @@ h2{
   margin: 20px 0;
 }
 
-.macroInfo p{
+.macroInfo p {
   font-size: clamp(10px, 2cqw, 13px);
 }
 
-.carbsColor{
+.carbsColor {
   height: 5px;
   border-radius: 3px;
   width: 36px;
   background-color: #ff829d;
 }
 
-.proteinColor{
+.proteinColor {
   height: 5px;
   border-radius: 3px;
   width: 36px;
   background-color: #5eb4ef;
 }
 
-.fatColor{
+.fatColor {
   height: 5px;
   border-radius: 3px;
   width: 36px;
   background-color: #ffd878;
 }
 
-.caloriesColor{
+.caloriesColor {
   height: 5px;
   border-radius: 3px;
   width: 36px;
   background-color: #a9b0b4;
 }
 
-.nutritionContainer{
-  display:flex;
+.nutritionContainer {
+  display: flex;
   width: 100%;
   flex-direction: column;
   flex-wrap: wrap;
-  gap:10px;
+  gap: 10px;
 }
 
-.macroContainer{
-  display:flex;
+.macroContainer {
+  display: flex;
   gap: 30px;
   justify-content: space-between;
 }
 
-.recipeInformationContainer tbody{
+.recipeInformationContainer tbody {
   font-size: 14px;
 }
 
-.recipeInstructionsContainer{
+.recipeInstructionsContainer {
   padding: 0 20px;
 }
 
-tbody{
+tbody {
   font-size: clamp(12px, 2cqw, 14px);
 }
 
-.recipeInstructionsContainer table{
+.recipeInstructionsContainer table {
   border-spacing: 0 10px;
   border-collapse: separate;
 }
 
-.recipeIngredientsContainer{
+.recipeIngredientsContainer {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 15px;
 }
 
-.mealsContainer{
-  display:flex;
+.mealsContainer {
+  display: flex;
   align-items: center;
   gap: 5px;
   margin-left: 0.5px;
 }
 
-.mealsContainer img{
+.mealsContainer img {
   height: 24px;
   width: auto;
 }
 
-.mealsContainer p{
+.mealsContainer p {
   font-size: larger;
 }
 
-.recipeIngredientsContainer table{
+.recipeIngredientsContainer table {
   border-spacing: 0 5px;
   border-collapse: separate;
 }
 
-.recipeTitle{
-  font-family: 'Gotham-Bold';
+.recipeTitle {
+  font-family: "Gotham-Bold";
   font-size: larger;
 }
 
-.recipeIngredientsContainer td{
+.recipeIngredientsContainer td {
   padding-right: 25px;
 }
 
-.recipeIngredientsContainer td.amount{
-  display:flex;
+.recipeIngredientsContainer td.amount {
+  display: flex;
   white-space: nowrap;
 }
 
-.recipeInstructionsContainer tbody{
+.recipeInstructionsContainer tbody {
   display: flex;
   gap: 10px;
   flex-direction: column;
 }
 
-#instructionIndex{
-  width:20px;
-  flex:none;
+#instructionIndex {
+  width: 20px;
+  flex: none;
 }
 
-.errorContainer{
+.errorContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   height: calc(100vh - 80px);
 }
 
-.errorContainer h1{
+.errorContainer h1 {
   font-size: clamp(18px, 3cqw, 30px);
 }
 
-.editForm{
-  font-family: 'Gotham-Book';
+.editForm {
+  font-family: "Gotham-Book";
   margin: 20px 20px 10px 20px;
   background-size: cover;
   background-position: center;
   flex-direction: column;
-  display:flex;
+  display: flex;
   justify-content: center;
   align-items: center;
-  gap:10px;
+  gap: 10px;
 }
 
-.editForm h1{
+.editForm h1 {
   margin-top: clamp(5px, 1vw, 15px);
 }
 
-.editProfilePicutre{
-  position:relative;
+.editProfilePicutre {
+  position: relative;
   border-radius: 50%;
-  overflow:hidden;
+  overflow: hidden;
   height: 200px;
   width: auto;
   background-color: #f3f3f3;
   cursor: pointer;
 }
 
-.editPreviewProfilePicture{
+.editPreviewProfilePicture {
   filter: contrast(0.4);
   height: 200px;
   object-fit: cover;
   object-position: center;
 }
 
-.editProfilePicutre .editCamera{
+.editProfilePicutre .editCamera {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -902,21 +948,21 @@ tbody{
   transform: translate(-50%, -50%);
 }
 
-.editInputContainer{
-  position:relative;
+.editInputContainer {
+  position: relative;
   width: clamp(300px, 30%, 50%);
 }
 
-.editForm label{
-  position:absolute;
-  font-family: 'Gotham-Medium';
+.editForm label {
+  position: absolute;
+  font-family: "Gotham-Medium";
   top: 50%;
   left: -15px;
   transform: translate(-100%, -50%);
 }
 
-.editInputContainer input{
-  font-family: 'Gotham-Medium';
+.editInputContainer input {
+  font-family: "Gotham-Medium";
   text-align: center;
   border: 2px solid #e9e9e9;
   border-radius: 5px;
@@ -925,18 +971,19 @@ tbody{
   width: 100%;
 }
 
-.editForm input::placeholder, .editForm textarea::placeholder {
+.editForm input::placeholder,
+.editForm textarea::placeholder {
   font-style: italic;
-  font-family: 'Gotham-Medium';
+  font-family: "Gotham-Medium";
 }
 
-.editTextareaContainer{
-  position:relative;
+.editTextareaContainer {
+  position: relative;
   width: clamp(300px, 30%, 50%);
 }
 
-.editForm textarea{
-  font-family: 'Gotham-Medium';
+.editForm textarea {
+  font-family: "Gotham-Medium";
   text-align: center;
   line-height: 1.6;
   padding: 4px 3px;
@@ -944,64 +991,64 @@ tbody{
   border: 2px solid #bababa;
   border-radius: 5px;
   resize: none;
-  width:100%;
+  width: 100%;
 }
 
-.editSocialMediaWrapper{
-  display:flex;
+.editSocialMediaWrapper {
+  display: flex;
   gap: 10px;
   flex-direction: column;
   width: clamp(300px, 30%, 50%);
 }
 
-.editForm h1{
-  font-family: 'Gotham-Medium';
+.editForm h1 {
+  font-family: "Gotham-Medium";
 }
 
-.editSocialMediaContainer{
-  position:relative;
+.editSocialMediaContainer {
+  position: relative;
 }
 
 .editSocialMediaContainer input {
-  font-family: 'Gotham-Medium';
+  font-family: "Gotham-Medium";
   width: 100%;
   border: 2px solid #e9e9e9;
   border-radius: 5px;
   padding: 4px 0px 4px 8px;
   box-sizing: border-box;
-  width:100%;
+  width: 100%;
 }
 
-.editPasswordContainer{
+.editPasswordContainer {
   position: relative;
   width: clamp(300px, 30%, 50%);
 }
 
 .editPasswordContainer input {
-  font-family: 'Gotham-Medium';
+  font-family: "Gotham-Medium";
   width: 100%;
   border: 2px solid #e9e9e9;
   border-radius: 5px;
   padding: 4px 0px 4px 8px;
   box-sizing: border-box;
-  width:100%
+  width: 100%;
 }
 
-.editForm button[type="submit"]{
+.editForm button[type="submit"] {
   padding: 5px 20px;
   border-radius: 5px;
   width: 100%;
-  color:white;
+  color: white;
   background-color: #26323a;
   width: clamp(300px, 30%, 50%);
 }
 
-.profileInfo p{
-  font-family: 'Gotham-Book';
+.profileInfo p {
+  font-family: "Gotham-Book";
 }
 
 .addRecipeForm {
-  font-family: 'Gotham-Book';
+  font-family: "Gotham-Book";
   margin: 20px 20px 50px 20px;
   background-size: cover;
   background-position: center;
@@ -1012,10 +1059,10 @@ tbody{
   gap: 10px;
 }
 
-.editRecipeImage{
-  position:relative;
+.editRecipeImage {
+  position: relative;
   border-radius: 10%;
-  overflow:hidden;
+  overflow: hidden;
   height: 250px;
   width: auto;
   background-color: #f3f3f3;
@@ -1024,14 +1071,14 @@ tbody{
   justify-content: center;
 }
 
-.editRecipeImagePreview{
+.editRecipeImagePreview {
   filter: contrast(0.4);
   height: 250px;
   object-fit: cover;
   object-position: center;
 }
 
-.editRecipeImage .editCamera{
+.editRecipeImage .editCamera {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1039,24 +1086,24 @@ tbody{
   transform: translate(-50%, -50%);
 }
 
-.addRecipeTitle{
-  font-family: 'Gotham-Medium';
+.addRecipeTitle {
+  font-family: "Gotham-Medium";
   font-size: clamp(20px, 3cqw, 24px);
 }
 
-.addRecipeInputContainer{
-  position:relative;
+.addRecipeInputContainer {
+  position: relative;
   width: clamp(300px, 30%, 50%);
 }
 
-.recipeTitleContainer{
-  position:relative;
+.recipeTitleContainer {
+  position: relative;
   height: 30px;
   width: clamp(300px, 30%, 50%);
 }
 
-.recipeTitleContainer input{
-  font-family: 'Gotham-Medium';
+.recipeTitleContainer input {
+  font-family: "Gotham-Medium";
   border: 2px solid #e9e9e9;
   border-radius: 5px;
   padding: 2px 0 2px 9px;
@@ -1064,33 +1111,33 @@ tbody{
   width: 100%;
 }
 
-.recipeTitleContainer input::placeholder{
+.recipeTitleContainer input::placeholder {
   font-style: italic;
 }
 
-.addRecipeForm .recipeLabel{
-  position:absolute;
-  font-family: 'Gotham-Medium';
+.addRecipeForm .recipeLabel {
+  position: absolute;
+  font-family: "Gotham-Medium";
   top: 50%;
   left: -15px;
   transform: translate(-100%, -50%);
 }
 
-.addRecipeSwitchContainer{
-  position:relative;
+.addRecipeSwitchContainer {
+  position: relative;
   height: 30px;
   width: clamp(300px, 30%, 50%);
 }
 
-.addRecipeSwitchContainer h1{
+.addRecipeSwitchContainer h1 {
   position: absolute;
-  font-family: 'Gotham-Medium';
+  font-family: "Gotham-Medium";
   top: 50%;
   left: -15px;
   transform: translate(-100%, -50%);
 }
 
-.addRecipeSwitchContainer span{
+.addRecipeSwitchContainer span {
   position: relative;
   display: inline-block;
   width: 52px;
@@ -1102,47 +1149,47 @@ tbody{
   transition: 0.33s ease-in-out;
 }
 
-.addRecipeSwitchContainer span::before{
-  content:"";
+.addRecipeSwitchContainer span::before {
+  content: "";
   position: absolute;
-  top:50%;
+  top: 50%;
   left: 4px;
   height: 22px;
   width: 22px;
   background: white;
-  border-radius:50%;
+  border-radius: 50%;
   transform: translateY(-50%);
   transition: 0.33s ease-in-out;
 }
 
-.sliderContainer input{
-  display:none;
+.sliderContainer input {
+  display: none;
 }
 
-.sliderContainer input:checked + .slider{
-  background:#26323a;
+.sliderContainer input:checked + .slider {
+  background: #26323a;
 }
 
 .sliderContainer input:checked + span::before {
   transform: translate(100%, -50%);
 }
 
-.addNutritionsContainer{
-  position:relative;
+.addNutritionsContainer {
+  position: relative;
   height: 30px;
   width: clamp(300px, 30%, 50%);
 }
 
-.addNutritionsContainer .nutritionLabel{
+.addNutritionsContainer .nutritionLabel {
   position: absolute;
-  font-family: 'Gotham-Medium';
+  font-family: "Gotham-Medium";
   top: 50%;
   left: -40px;
   transform: translate(-100%, -50%);
 }
 
-.addNutritionsContainer input{
-  font-family: 'Gotham-Medium';
+.addNutritionsContainer input {
+  font-family: "Gotham-Medium";
   border: 2px solid #e9e9e9;
   border-radius: 5px;
   padding: 2px 0 2px 9px;
@@ -1150,9 +1197,9 @@ tbody{
   width: 100%;
 }
 
-.recipeSpace{
-  height:1px;
-  border-radius:25%;
+.recipeSpace {
+  height: 1px;
+  border-radius: 25%;
   width: clamp(300px, 30%, 50%);
   background: #e9e9e9;
 }
@@ -1163,7 +1210,7 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-.recipe{
+.recipe {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -1173,25 +1220,25 @@ input::-webkit-inner-spin-button {
   padding: 3px;
 }
 
-.addComponentsContainer{
-  display:flex;
+.addComponentsContainer {
+  display: flex;
   align-items: center;
-  position:relative;
+  position: relative;
   height: 30px;
   width: 100%;
   justify-content: space-between;
 }
 
-.addComponentsContainer .nutritionLabel{
+.addComponentsContainer .nutritionLabel {
   position: absolute;
-  font-family: 'Gotham-Medium';
+  font-family: "Gotham-Medium";
   top: 50%;
   left: -40px;
   transform: translate(-100%, -50%);
 }
 
-.addComponentsContainer input{
-  font-family: 'Gotham-Medium';
+.addComponentsContainer input {
+  font-family: "Gotham-Medium";
   border: 2px solid #e9e9e9;
   border-radius: 5px;
   padding: 2px 0 2px 9px;
@@ -1199,7 +1246,7 @@ input::-webkit-inner-spin-button {
   width: 95%;
 }
 
-.addComponentsContainer input::placeholder{
+.addComponentsContainer input::placeholder {
   font-style: italic;
 }
 
@@ -1208,50 +1255,50 @@ input::-webkit-inner-spin-button {
   display: inline-block;
   width: 7%;
   height: 20px;
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .crossIcon::before,
 .crossIcon::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 2px;
-    height: 100%;
-    background-color: black;
-    transform: translate(-50%, -50%) rotate(45deg);
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 100%;
+  background-color: black;
+  transform: translate(-50%, -50%) rotate(45deg);
 }
 
 .crossIcon::after {
-    transform: translate(-50%, -50%) rotate(-45deg);
+  transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-.addIngredientsContainer{
-  display:flex;
+.addIngredientsContainer {
+  display: flex;
   align-items: center;
-  position:relative;
+  position: relative;
   height: 30px;
   width: 100%;
 }
 
-.addButtons{
-  display:flex;
+.addButtons {
+  display: flex;
   gap: 5px;
   height: 30px;
   width: clamp(300px, 30%, 50%);
 }
 
-.addButtons button{
-  font-family: 'Gotham-Medium';
+.addButtons button {
+  font-family: "Gotham-Medium";
   border: 2px solid #e9e9e9;
   border-radius: 5px;
   padding: 2px 9px 2px 9px;
   box-sizing: border-box;
 }
 
-.addIngredientsContainer .amount{
-  font-family: 'Gotham-Medium';
+.addIngredientsContainer .amount {
+  font-family: "Gotham-Medium";
   border: 2px solid #e9e9e9;
   border-radius: 5px;
   padding: 2px 0 2px 4px;
@@ -1260,8 +1307,8 @@ input::-webkit-inner-spin-button {
   width: 15%;
 }
 
-.addIngredientsContainer .unit{
-  font-family: 'Gotham-Medium';
+.addIngredientsContainer .unit {
+  font-family: "Gotham-Medium";
   border: 2px solid #e9e9e9;
   border-radius: 5px;
   padding: 2px 0 2px 4px;
@@ -1270,8 +1317,8 @@ input::-webkit-inner-spin-button {
   width: 15%;
 }
 
-.addIngredientsContainer .ingredient{
-  font-family: 'Gotham-Medium';
+.addIngredientsContainer .ingredient {
+  font-family: "Gotham-Medium";
   border: 2px solid #e9e9e9;
   border-radius: 5px;
   padding: 2px 0 2px 9px;
@@ -1279,18 +1326,18 @@ input::-webkit-inner-spin-button {
   width: 63%;
 }
 
-.addIngredientsContainer input::placeholder{
+.addIngredientsContainer input::placeholder {
   font-style: italic;
 }
 
-.addServingsContainer{
-  position:relative;
+.addServingsContainer {
+  position: relative;
   height: 30px;
   width: clamp(300px, 30%, 50%);
 }
 
-.addServingsContainer input{
-  font-family: 'Gotham-Medium';
+.addServingsContainer input {
+  font-family: "Gotham-Medium";
   border: 2px solid #e9e9e9;
   border-radius: 5px;
   padding: 2px 0 2px 9px;
@@ -1298,15 +1345,15 @@ input::-webkit-inner-spin-button {
   width: 100%;
 }
 
-.addInstructionsContainer{
-  position:relative;
-  display:flex;
+.addInstructionsContainer {
+  position: relative;
+  display: flex;
   align-items: center;
   width: clamp(300px, 30%, 50%);
 }
 
-.addInstructionsContainer textarea{
-  font-family: 'Gotham-Medium';
+.addInstructionsContainer textarea {
+  font-family: "Gotham-Medium";
   resize: none;
   border: 2px solid #e9e9e9;
   border-radius: 5px;
@@ -1315,149 +1362,160 @@ input::-webkit-inner-spin-button {
   width: 100%;
 }
 
-.addRecipeForm button[type="submit"]{
+.addRecipeForm button[type="submit"] {
   padding: 5px 20px;
   border-radius: 5px;
   width: 100%;
-  color:white;
+  color: white;
   background-color: #26323a;
   width: clamp(300px, 30%, 50%);
 }
 
-.addRecipeForm button.delete{
+.addRecipeForm button.delete {
   padding: 5px 20px;
   border-radius: 5px;
-  color:white;
+  color: white;
   background-color: #ff4242;
   width: clamp(300px, 30%, 50%);
 }
 
-/* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ 
+/* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */ /* Tablet Mode */
 
-@media screen and (max-width: 1024px){
+@media screen and (max-width: 1024px) {
+  .cookie-consent-wrapper {
+    flex-direction: column;
+  }
 
-  .loginFormContainer, .forgotPassFormContainer, .registerFormContainer{
-    max-height:100%;
+  .loginFormContainer,
+  .forgotPassFormContainer,
+  .registerFormContainer {
+    max-height: 100%;
     border-radius: initial;
   }
-  .editForm label{
-    position:initial;
-    display:flex;
-    transform:initial;
+  .editForm label {
+    position: initial;
+    display: flex;
+    transform: initial;
   }
 
-  .recipe{
+  .recipe {
     gap: 15px;
   }
 
-  .recipeTitleContainer, .addServingsContainer, .addRecipeSwitchContainer, .addNutritionsContainer,.addComponentsContainer, .addIngredientsContainer{
-    height:auto;
+  .recipeTitleContainer,
+  .addServingsContainer,
+  .addRecipeSwitchContainer,
+  .addNutritionsContainer,
+  .addComponentsContainer,
+  .addIngredientsContainer {
+    height: auto;
   }
 
-  .addRecipeForm .recipeLabel{
-    position:initial;
-    display:flex;
-    transform:initial;
+  .addRecipeForm .recipeLabel {
+    position: initial;
+    display: flex;
+    transform: initial;
   }
 
-  .addComponentsContainer, .addIngredientsContainer{
-    display:initial;
+  .addComponentsContainer,
+  .addIngredientsContainer {
+    display: initial;
     align-items: initial;
     flex-direction: column;
   }
 
-  .crossIcon{
+  .crossIcon {
     left: 2.5%;
     display: inline;
   }
 
   .addRecipeSwitchContainer h1 {
-    position:initial;
-    transform:initial;
-}
+    position: initial;
+    transform: initial;
+  }
 
-  .addRecipeSwitchContainer span{
+  .addRecipeSwitchContainer span {
     width: 41.6px;
     height: 21.4px;
   }
 
-  .addRecipeSwitchContainer span::before{
+  .addRecipeSwitchContainer span::before {
     width: 16px;
     height: 16px;
   }
 
   .addNutritionsContainer .nutritionLabel {
-    position:initial
+    position: initial;
   }
 
-  .addInstructionsContainer{
-    display:grid;
-    grid-template-areas: 
-            "label label"
-            "textarea remove";
+  .addInstructionsContainer {
+    display: grid;
+    grid-template-areas:
+      "label label"
+      "textarea remove";
     grid-template-columns: 95% 5%;
   }
 
-  .addInstructionsContainer .recipeLabel{
-    grid-area:label;
+  .addInstructionsContainer .recipeLabel {
+    grid-area: label;
   }
 
-  .addInstructionsContainer textarea{
-    grid-area:textarea;
+  .addInstructionsContainer textarea {
+    grid-area: textarea;
   }
 
-  .addInstructionsContainer span{
-    grid-area:remove;
+  .addInstructionsContainer span {
+    grid-area: remove;
     justify-self: flex-end;
   }
 
-  .recipeContainer{
+  .recipeContainer {
     gap: 20px;
     overflow: scroll;
     scrollbar-width: none;
   }
 
-  .recipeIngredientsContainer table{
-    margin-left:4%;
+  .recipeIngredientsContainer table {
+    margin-left: 4%;
   }
-  
-  .recipeRightSideWrapper{
-    display:flex;
+
+  .recipeRightSideWrapper {
+    display: flex;
     flex-direction: column-reverse;
     overflow-y: initial;
   }
 
-  .recipeContainer{
+  .recipeContainer {
     flex-direction: column;
   }
-  
+
   .recipeLeftSideWrapper {
-    padding:0;
+    padding: 0;
     overflow-y: initial;
   }
-  
-  .recipeLeftSideWrapper h1, .recipeUserContainer {
+
+  .recipeLeftSideWrapper h1,
+  .recipeUserContainer {
     margin-left: 4%;
     margin-right: 4%;
-    margin-bottom:10px;
+    margin-bottom: 10px;
   }
-  
-  .recipeUserContainer{
-    margin-top:4%;
+
+  .recipeUserContainer {
+    margin-top: 4%;
   }
-  
+
   .recipeMacroContainer {
     white-space: initial;
   }
-  
+
   .nutritionContainer {
     align-content: center;
     text-align: center;
-  
   }
-  
-  .macroContainer{
-    gap:0;
+
+  .macroContainer {
+    gap: 0;
     flex-wrap: wrap;
     width: 100%;
   }
@@ -1465,14 +1523,14 @@ input::-webkit-inner-spin-button {
   .mealsContainer {
     margin-left: 4%;
   }
-  
 }
 
-/* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */ 
+/* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */
 
 @media (max-width: 768px) {
-  .masonryContainer, .masonryContainerMainPage {
+  .masonryContainer,
+  .masonryContainerMainPage {
     grid-template-columns: repeat(3, 1fr);
-    animation:none;
+    animation: none;
   }
 }

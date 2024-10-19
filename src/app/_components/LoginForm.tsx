@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useLayoutEffect, useState } from "react";
+import { useState } from "react";
+import { useRefContext } from "../layout";
 
 const usernameImg = "/images/register/username.svg";
 const passwordImg = "/images/register/password.svg";
@@ -14,19 +15,8 @@ export default function LoginForm() {
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
-
-  useLayoutEffect(() => {
-    const navContainer = document.querySelector(".navContainer");
-    if (navContainer) {
-      navContainer.remove();
-    }
-
-    const spaceElement = document.querySelector(".space");
-    if (spaceElement) {
-      spaceElement.remove();
-    }
-  }, []);
-
+  
+  const ref = useRefContext();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -42,7 +32,7 @@ export default function LoginForm() {
       if (!res.ok) {
         const data = await res.json();
         const errorMessage = data.message || "Failed to login.";
-        console.log(errorMessage)
+        console.log(errorMessage);
         setError(true);
         setErrorMsg(errorMessage);
         throw new Error(errorMessage);
@@ -61,9 +51,9 @@ export default function LoginForm() {
     }
   };
 
-  return(
+  return (
     <div className="startingPageBg" data-testid="starting-page-bg">
-      <div className="loginFormContainer">
+      <div ref={ref} className="loginFormContainer">
         <div className="loginHeaderContainer">
           <Image
             className="loginLogo"
@@ -71,6 +61,7 @@ export default function LoginForm() {
             width={150}
             height={150}
             alt="logo"
+            priority
           />
         </div>
         <div className="h-10 flex items-center px-9">
@@ -96,6 +87,7 @@ export default function LoginForm() {
                 placeholder="Username"
                 value={username}
                 onChange={(e) => setUserName(e.target.value)}
+                autoComplete="username"
               />
               <Image src={usernameImg} width={20} height={20} alt="username" />
             </div>

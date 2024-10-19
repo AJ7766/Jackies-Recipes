@@ -7,7 +7,6 @@ import React, {
   useCallback,
 } from "react";
 import { ProfileProps } from "../types/types";
-import { useRouter } from "next/navigation";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -24,7 +23,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<ProfileProps | null>(null);
   const [initializing, setInitializing] = useState<boolean>(true);
-  const router = useRouter();
 
   const verifyTokenAndFetchUser = useCallback(async (token: string) => {
     const cachedProfile = sessionStorage.getItem("user");
@@ -77,11 +75,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [verifyTokenAndFetchUser]);
 
   const logout = () => {
+    window.location.href = "/";
     localStorage.removeItem("token");
     sessionStorage.removeItem("user");
     setIsAuthenticated(false);
     setUser(null);
-    router.push(`/`);
   };
 
   const deleteCachedUser = () => {

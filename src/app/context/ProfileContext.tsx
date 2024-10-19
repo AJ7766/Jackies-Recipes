@@ -1,11 +1,12 @@
 "use client";
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import { ProfileProps } from "@/app/types/types";
 import { useParams } from "next/navigation";
 
 interface ProfileContextType {
   profile: ProfileProps | null;
   loading: boolean;
+  ref: React.RefObject<HTMLDivElement>;
 }
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
@@ -13,6 +14,7 @@ const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<ProfileProps | null>(null);
   const [loading, setLoading] = useState(true);
+  const ref = useRef<HTMLDivElement | null>(null);
   const { username } = useParams();
 
   const lowercaseUsername = Array.isArray(username)
@@ -44,7 +46,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
   }, [lowercaseUsername]);
 
   return (
-    <ProfileContext.Provider value={{ profile, loading }}>
+    <ProfileContext.Provider value={{ ref, profile, loading }}>
       {children}
     </ProfileContext.Provider>
   );

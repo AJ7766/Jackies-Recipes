@@ -6,10 +6,10 @@ import { ProfileProps } from "../types/types";
 import Image from "next/image";
 import { SimplifiedRecipeProps } from "@/models/UserRecipe";
 
+const logo = "/images/logo-text-free.png";
 const searchGlass = "/images/search-glass.svg";
 const profilePicture = "/images/profile-picture.png";
 const addRecipe = "/images/add.svg";
-const logo = "/images/logo-text-free.png";
 const dropdownIcon = "/images/arrow-down.png";
 
 export default function NavBar() {
@@ -92,11 +92,11 @@ export default function NavBar() {
           <Link href={"/"}>
             <Image
               id="logo"
-              className="loginLogo"
               src={logo}
               alt="logo"
               width={24}
               height={24}
+              priority
             />
           </Link>
           <div className="searchContainer">
