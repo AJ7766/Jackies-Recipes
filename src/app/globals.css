@@ -1123,6 +1123,11 @@ tbody {
   transform: translate(-100%, -50%);
 }
 
+.cookieConsentSwitchContainer {
+  width: max-content;
+  margin: auto;
+}
+
 .addRecipeSwitchContainer {
   position: relative;
   height: 30px;
@@ -1137,7 +1142,8 @@ tbody {
   transform: translate(-100%, -50%);
 }
 
-.addRecipeSwitchContainer span {
+.addRecipeSwitchContainer span,
+.cookieConsentSwitchContainer span {
   position: relative;
   display: inline-block;
   width: 52px;
@@ -1149,7 +1155,8 @@ tbody {
   transition: 0.33s ease-in-out;
 }
 
-.addRecipeSwitchContainer span::before {
+.addRecipeSwitchContainer span::before,
+.cookieConsentSwitchContainer span::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -1160,6 +1167,13 @@ tbody {
   border-radius: 50%;
   transform: translateY(-50%);
   transition: 0.33s ease-in-out;
+}
+
+.cookieConsentSwitchContainer .sliderContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .sliderContainer input {

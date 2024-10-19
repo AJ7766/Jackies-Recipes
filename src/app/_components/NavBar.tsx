@@ -212,6 +212,7 @@ export default function NavBar() {
                   <div className="dropdownContentContainer">
                     <div className="dropdownContent">
                       <Link href="/settings">Settings</Link>
+                      <Link href="/privacy-policy">Privacy Policy</Link>
                       <button onClick={logout}>Logout</button>
                     </div>
                   </div>
