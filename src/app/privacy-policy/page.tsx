@@ -1,16 +1,25 @@
 "use client";
 
 import { useCookieConsent } from "@/config/cookies";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function PrivatePolicyPage() {
   const { cookies, acceptCookies, declineCookies } = useCookieConsent();
+  const [isClient, setIsClient] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const toggleSlider = () => {
-    if (cookies.cookieConsent) {
-      declineCookies();
-    } else {
-      acceptCookies();
+    if (isClient) {
+      if (cookies.cookieConsent) {
+        console.log("true");
+        declineCookies();
+      } else {
+        console.log("false");
+        acceptCookies();
+      }
     }
   };
 
@@ -101,7 +110,11 @@ export default function PrivatePolicyPage() {
       <div className="cookieConsentSwitchContainer">
         <label className="sliderContainer text-xl">
           I Accept
-          <input type="checkbox" checked={!!cookies.cookieConsent} onChange={toggleSlider} />
+          <input
+            type="checkbox"
+            checked={!!cookies.cookieConsent}
+            onChange={toggleSlider}
+          />
           <span className="slider"></span>
         </label>
       </div>
