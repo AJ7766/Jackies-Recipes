@@ -35,6 +35,8 @@ export async function handlePut(request: NextRequest) {
       facebook: user.userContent?.facebook.toLowerCase() || ""
     };
 
+    await connectDB();
+
     const validationResponse = await userValidation({
       _id: userId,
       email,
@@ -49,8 +51,6 @@ export async function handlePut(request: NextRequest) {
     if (typeof validationResponse === 'string') {
       return NextResponse.json({ message: validationResponse }, { status: 400 });
     }
-
-    await connectDB();
 
     const existingUser = await UserModel.findOne({ $or: [{ email: user.email }, { username: user.username }] }).lean();
 
