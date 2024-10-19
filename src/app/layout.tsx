@@ -87,9 +87,11 @@ export default function RootLayout({
     console.log(pathname);
   }, [isClient, ref, pathname]);
 
+  /*
   useEffect(() => {
     resetCookieConsent();
-  }, []);
+  }, []); 
+  */
   return (
     <html lang="en">
       <head>
