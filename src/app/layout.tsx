@@ -79,12 +79,10 @@ export default function RootLayout({
 
   useLayoutEffect(() => {
     if (ref.current) {
-      console.log(ref, ref.current);
       setLoginPage(true);
     } else {
       setLoginPage(false);
     }
-    console.log(pathname);
   }, [isClient, ref, pathname]);
 
   /*
