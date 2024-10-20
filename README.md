@@ -24,6 +24,7 @@
 - Register Account
 - Log in
 - Authorization using JWT
+- Cookie Consent
 - Edit Profile
 - Add Recipe
 - Edit Recipe
