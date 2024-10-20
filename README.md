@@ -16,6 +16,7 @@
 - Used JSON Web Tokens (JWT) for user authorization.
 - Implemented cache in backend with Node-cache to make queries faster.
 - Integration and Unit testing with Jest for Back-end & Front-end.
+- Cookies for user consent.
 - Utilized Tailwind CSS for responsive design and styling.
 
 

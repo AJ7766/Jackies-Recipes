@@ -70,10 +70,16 @@ export default async function userValidation(props: EditFormProps) {
         throw new Error('Old password is required');
     }
 
+
     const newPasswordOrUndefined = newPassword || "";
     const isMatch = await bcrypt.compare(oldPassword, user.password);
 
     const passwordError = isValidPassword(newPassword || "", confirmPassword || "")
+
+    if (oldPassword && !newPasswordOrUndefined && !confirmPassword) {
+        errorMessage = 'Old password does not match';
+        return 'Old password does not match';
+    }
     if (newPasswordOrUndefined.length > 1 && !isMatch) {
         errorMessage = 'Old password does not match';
         return errorMessage;
