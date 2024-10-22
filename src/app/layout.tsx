@@ -107,6 +107,11 @@ export default function RootLayout({
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6350037682611520"
           crossOrigin="anonymous"
         ></script>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6350037682611520"
+          crossOrigin="anonymous"
+        ></script>
       </head>
       <body>
         <AuthProvider>
