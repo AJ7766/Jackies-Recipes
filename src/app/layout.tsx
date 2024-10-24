@@ -96,7 +96,7 @@ export default function RootLayout({
         <title>Jackies Recipes</title>
         <meta
           name="description"
-          content="Social food recipe sharing platform"
+          content="Social platform for sharing recipes"
         />
         <script
           async
