@@ -29,7 +29,7 @@
 - Add Recipe
 - Edit Recipe
 - Delete Recipe
-- Search for Other Users
+- Search for Users & Recipes
 - Responsive Design
 
 # Possible Future Functions
