@@ -8,7 +8,7 @@ export default function UserAccountPolicyPage() {
         User Account Policy for Jackies Recipes
       </h1>
       <p className="mb-2">
-        <strong>Effective Date:</strong> 2024-10-19
+        <strong>Effective Date:</strong> 2024-10-29
       </p>
 
       <p className="mb-4">
