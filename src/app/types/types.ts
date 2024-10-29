@@ -2,7 +2,7 @@ import { UserContentProps, SimplifiedUserContentProps } from '@/models/UserConte
 import { SimplifiedRecipeProps } from '@/models/UserRecipe';
 import mongoose from 'mongoose';
 
-export type RegisterFormProps = {
+export interface RegisterFormProps {
   email: string;
   username: string;
   fullName: string;

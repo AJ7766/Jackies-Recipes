@@ -14,16 +14,12 @@ export default function PrivatePolicyPage() {
   const toggleSlider = () => {
     if (isClient) {
       if (cookies.cookieConsent) {
-        console.log("true");
         declineCookies();
       } else {
-        console.log("false");
         acceptCookies();
       }
     }
   };
-
-  console.log("Cookie consent:", cookies.cookieConsent);
 
   return (
     <div className="p-6 max-w-2xl mx-auto">

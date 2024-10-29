@@ -5,9 +5,18 @@ import bcrypt from "bcrypt";
 import ValidateRegisterForm from "./validateForm";
 import { RegisterFormProps } from "@/app/types/types";
 
+interface RegisterFormWithCheckboxProps extends RegisterFormProps {
+   isChecked: boolean;
+}
+
 export async function POST(request: NextRequest) {
    try {
-      const { email, fullName, username, password, confirmPassword }: RegisterFormProps = await request.json()
+      const { isChecked, email, fullName, username, password, confirmPassword }: RegisterFormWithCheckboxProps = await request.json();
+
+      if (!isChecked) {
+         return NextResponse.json({ message: "You must accept the User Account Policy to register." }, { status: 400 })
+      }
+
       const lowercaseUsername = username.toLowerCase();
       const lowercaseEmail = email.toLowerCase();
 

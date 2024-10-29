@@ -15,9 +15,7 @@ import {
 import { CookieConsent } from "./_components/CookieConsent";
 import { usePathname } from "next/navigation";
 
-const RefContext = createContext<React.RefObject<HTMLDivElement> | undefined>(
-  undefined
-);
+const RefContext = createContext<React.RefObject<HTMLDivElement> | undefined>(undefined);
 
 export function useRefContext() {
   const context = useContext(RefContext);
