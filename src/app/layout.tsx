@@ -33,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const [isClient, setIsClient] = useState(false);
-  const [loginPage, setLoginPage] = useState(false);
+  const [showNavBar, setShowNavBar] = useState(false);
 
   const { cookies, resetCookieConsent } = useCookieConsent();
 
@@ -79,9 +79,9 @@ export default function RootLayout({
 
   useLayoutEffect(() => {
     if (ref.current) {
-      setLoginPage(true);
+      setShowNavBar(true);
     } else {
-      setLoginPage(false);
+      setShowNavBar(false);
     }
   }, [isClient, ref, pathname]);
 
@@ -118,7 +118,7 @@ export default function RootLayout({
         <AuthProvider>
           <ProfileProvider>
             <RefContext.Provider value={ref}>
-              {!loginPage && <NavBar />}
+              {!showNavBar && <NavBar />}
               {children}
               {isClient && cookies.cookieConsent == undefined && (
                 <CookieConsent />

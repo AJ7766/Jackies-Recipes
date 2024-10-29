@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRefContext } from "@/app/layout";
 
 const emailImg = "/images/register/email.svg";
 const usernameImg = "/images/register/username.svg";
@@ -21,6 +22,8 @@ export default function RegisterForm() {
   const [success, setSuccess] = useState('');
   const [successBoolean, setSuccessBoolean] = useState(false);
   const [loadingBtn, setLoadingBtn] = useState(false);
+
+  const ref = useRefContext();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -54,7 +57,7 @@ export default function RegisterForm() {
     }
   };
   return (
-      <div className="registerFormContainer">
+      <div ref={ref} className="registerFormContainer">
           <div className="loginHeaderContainer">
           <Image className="loginLogo" src={logo} width={150} height={150} alt="logo"/>
           </div>
