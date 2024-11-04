@@ -1,6 +1,6 @@
-import { Schema, Document } from 'mongoose';
+import { Schema } from 'mongoose';
 
-export interface UserContentProps extends Document {
+export interface UserContentProps {
    profilePicture?: string;
    bio?: string;
    instagram?: string;
