@@ -62,9 +62,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-
     const fetchTokenAndUser = async () => {
+      const token = localStorage.getItem("token");
       if (token) {
         await verifyTokenAndFetchUser(token);
       } else {
