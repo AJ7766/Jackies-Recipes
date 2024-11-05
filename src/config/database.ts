@@ -1,4 +1,3 @@
-import { UserModel } from "@/models/UserModel";
 import mongoose from "mongoose";
 
 export const getUri = async () => {
