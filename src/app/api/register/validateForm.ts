@@ -1,42 +1,33 @@
 import { RegisterFormProps } from "@/app/types/types";
 
-
 const isValidEmail = (email: string) => {
    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-   if (!emailRegex.test(email)) {
-      return "Please enter a valid Email address.";
-   }
+
+   if (!emailRegex.test(email)) return "Please enter a valid Email address.";
+
    return null
 };
 
 const isValidUsername = (username: string) => {
    const usernameRegex = /^[a-zA-Z]+$/;
-   if (!usernameRegex.test(username)) {
-      const errorMsg = "Username can only contain letters."
-      return errorMsg
-   }
-   if (username.length < 4) {
-      const errorMsg = "Username must be atleast 4 letters."
-      return errorMsg;
-   }
+
+   if (!usernameRegex.test(username)) return "Username can only contain letters."
+
+   if (username.length < 4) return "Username must be atleast 4 letters.";
+
    return null
 };
 
 const isValidPassword = (password: string, confirmPassword: string) => {
-   if (password.length < 6) {
-      const errorMsg = "Password must be atleast 6 characters."
-      return errorMsg
-   }
-   if (password !== confirmPassword) {
-      const errorMsg = "Passwords do not match."
-      return errorMsg;
-   }
+   if (password.length < 6) return "Password must be atleast 6 characters.";
+   
+   if (password !== confirmPassword) return "Passwords do not match.";
+
    return null
 }
 
 export default function ValidateRegisterForm(props: RegisterFormProps) {
    const { email, username, fullName, password, confirmPassword } = props;
-   let errorMessage = "";
 
    if (!email || !fullName || !username || !password || !confirmPassword) {
       const missingFields = [];
@@ -46,28 +37,18 @@ export default function ValidateRegisterForm(props: RegisterFormProps) {
       if (!password) missingFields.push('Password');
       if (!confirmPassword) missingFields.push('Confirm Password');
 
-      errorMessage = `Please fill out ${missingFields.join(', ')}.`;
-
-      console.error(errorMessage);
-      return errorMessage;
+      console.error(`Please fill out ${missingFields.join(', ')}.`);
+      return `Please fill out ${missingFields.join(', ')}.`;
    }
 
    const emailError = isValidEmail(email);
-   if (emailError) {
-      errorMessage = emailError;
-      return errorMessage
-   }
+   if (emailError) return emailError
 
    const usernameError = isValidUsername(username)
-   if (usernameError) {
-      errorMessage = usernameError;
-      return errorMessage;
-   }
+   if (usernameError) return usernameError;
 
    const passwordError = isValidPassword(password, confirmPassword)
-   if (passwordError) {
-      errorMessage = passwordError;
-      return errorMessage;
-   }
+   if (passwordError) return passwordError;
+   
    return true;
 }
