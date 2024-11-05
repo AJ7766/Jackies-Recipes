@@ -71,7 +71,7 @@ export default function RootLayout({
         page_path: window.location.pathname,
       });
     }
-  }, [cookies.cookieConsent]);
+  }, [cookies.cookieConsent, window.location.pathname]);
   
   const pathname = usePathname();
 
