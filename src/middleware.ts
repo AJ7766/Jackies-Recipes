@@ -8,10 +8,6 @@ export function middleware() {
     response.headers.set('X-XSS-Protection', '1; mode=block');
     response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
     response.headers.set('Cross-Origin-Resource-Policy', 'same-origin');
-    response.headers.set(
-        'Content-Security-Policy',
-        "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com; img-src 'self' data:;"
-    );
 
     return response;
 }
