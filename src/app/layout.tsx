@@ -50,16 +50,15 @@ export default function RootLayout({
       const script = document.createElement("script");
       script.src = "https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ";
       script.async = true;
-
+  
       script.onload = () => {
         window.dataLayer = window.dataLayer || [];
-        function gtag() {
+        window.gtag = function () {
           window.dataLayer.push(arguments);
-        }
-        window.gtag = gtag;
-
+        };
+  
         window.gtag("js", new Date());
-
+  
         if (cookies.cookieConsent) {
           window.gtag("config", "G-W37LZK4XFJ", {
             page_path: window.location.pathname,
@@ -73,6 +72,7 @@ export default function RootLayout({
       });
     }
   }, [cookies.cookieConsent]);
+  
   const pathname = usePathname();
 
   useLayoutEffect(() => {
@@ -96,10 +96,6 @@ export default function RootLayout({
           name="description"
           content="Social platform for sharing recipes"
         />
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ"
-        ></script>
         {/* 
         <script
           async
