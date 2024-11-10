@@ -10,7 +10,7 @@ const passwordImg = "/images/register/password.svg";
 const logo = "/images/logo.png";
 
 export default function LoginForm() {
-  const [username, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -86,7 +86,7 @@ export default function LoginForm() {
                 name="username"
                 placeholder="Username"
                 value={username}
-                onChange={(e) => setUserName(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
                 autoComplete="username"
               />
               <Image src={usernameImg} width={20} height={20} alt="username" />
