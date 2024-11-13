@@ -1,34 +1,24 @@
 import { NextRequest, NextResponse } from "next/server"
 import { connectDB } from "../../config/database"
-import bcrypt from "bcrypt";
-import jwt from 'jsonwebtoken';
-import { UserModel } from "@/models/UserModel";
+import { loginServices } from "./services/loginServices";
+import { comparePasswords } from "@/utils/bcrypt";
+import { assignToken } from "@/utils/jwt";
 
-
-const SECRET_KEY = (process.env.JWT_SECRET_KEY as string);
-
-export async function POST(request: NextRequest) {
-
+export async function POST(request: NextRequest) { //Login user
+  await connectDB();
   try {
-    const { username, password: userPassword } = await request.json()
+    const { username, password } = await request.json()
     const lowercaseUsername = username.toLowerCase();
-    const user = await UserModel.findOne({ username: lowercaseUsername }).lean();
 
-    if (!user) {
-      return NextResponse.json({ message: 'Invalid username or password' }, { status: 401 });
-    }
+    const user = await loginServices(lowercaseUsername);
 
-    const isMatch = await bcrypt.compare(userPassword, user.password);
+    await comparePasswords(password, user.password);
 
-    if (!isMatch) {
-      return NextResponse.json({  message: 'Invalid username or password' }, { status: 401 });
-    }
+    const token = await assignToken(user._id, username);
 
-    const token = jwt.sign({ id: user._id, username: user.username }, SECRET_KEY, { expiresIn: '30d' });
     return NextResponse.json({ message: "Successfully logged in", token }, { status: 200 });
-
-  } catch (error: any) {
-    console.error('Error:', error);
-    return NextResponse.json({ message: 'Internal Server Error' }, { status: 500 });
+  } catch (error) {
+    console.error('Login error:', error);
+    return NextResponse.json({ message: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
   }
 }

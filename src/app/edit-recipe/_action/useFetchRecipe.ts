@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 export default function useFetchRecipe(recipeId: string) {
     const [recipe, setRecipe] = useState<SimplifiedRecipeProps>();
-    const [isVerified, setIsVerified] = useState<boolean>(false);
+    const [userHasRecipe, setUserHasRecipe] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
     const { initializing, user } = useAuth();
 
@@ -28,7 +28,7 @@ export default function useFetchRecipe(recipeId: string) {
                 }
                 const data = await response.json();
                 setRecipe(data.recipe);
-                data.isVerified && setIsVerified(true);
+                data.userHasRecipe && setUserHasRecipe(true);
             } catch (error) {
                 console.error(error);
             } finally {
@@ -40,5 +40,5 @@ export default function useFetchRecipe(recipeId: string) {
         }
     }, [initializing, recipeId]);
 
-    return { initializing, recipe, isVerified, loading };
+    return { initializing, recipe, userHasRecipe, loading };
 }

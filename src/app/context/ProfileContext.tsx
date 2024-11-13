@@ -35,7 +35,7 @@ export function ProfileProvider({ children }: { children: React.ReactNode }) {
           );
         }
         const data = await res.json();
-        setProfile(data.profileData);
+        setProfile(data.profile);
       } catch (error: any) {
         console.error("Error fetching profile:", error.message);
       } finally {

@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import cache from "@/app/config/cache";
 import { getProfileService, getUsernameFromUrlService } from "./services/profileServices";
+import { connectDB } from "@/app/config/database";
 
 export async function GET(req: NextRequest) { //Get Profile Controller
-
+  await connectDB();
   try {
     const username = await getUsernameFromUrlService(req);
     const cachedProfile = cache.get(username);
