@@ -5,12 +5,13 @@ import { comparePasswords } from "@/utils/bcrypt";
 import { assignToken } from "@/utils/jwt";
 
 export async function POST(request: NextRequest) { //Login user
-  await connectDB();
   try {
-    const { username, password } = await request.json()
-    const lowercaseUsername = username.toLowerCase();
+    await connectDB();
 
-    const user = await loginServices(lowercaseUsername);
+    const { username, password } = await request.json()
+    const lowercase_username = username.toLowerCase();
+
+    const user = await loginServices(lowercase_username);
 
     await comparePasswords(password, user.password);
 

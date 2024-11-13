@@ -1,9 +1,19 @@
 import { NextRequest } from "next/server";
-import { getProfile } from "../repositories/getProfile";
 import mongoose from "mongoose";
+import { addRecipeToUser, deleteUserRecipe, getUser, getUserPopulated } from "../repositories/profileRepository";
+import { RecipeProps } from "@/models/UserRecipe";
 
-export const getProfileService = async (username: string) => {
-    const user = getProfile(username);
+export const getUserPopulatedService = async (username: string) => {
+    const user = await getUserPopulated(username);
+
+    if (!user)
+        throw new Error(`User not found`);
+
+    return user;
+}
+
+export const getUserService = async (user_id?: mongoose.Types.ObjectId, username?: string) => {
+    const user = await getUser(user_id, username);
 
     if (!user)
         throw new Error(`User not found`);
@@ -21,8 +31,24 @@ export const getUsernameFromUrlService = async (req: NextRequest) => {
     return username;
 }
 
-export const checkUserHasRecipeService = async (user_id: mongoose.Types.ObjectId, recipe_user_id: mongoose.Types.ObjectId | null) => {
-    const userHasRecipe = user_id === recipe_user_id && recipe_user_id.toString();
+export const addRecipeToUserService = async (user_id: mongoose.Types.ObjectId, new_recipe: RecipeProps) => {
+    const updated_user = await addRecipeToUser(user_id, new_recipe);
+    if (!updated_user)
+        throw new Error('Failed to add recipe to user');
 
-    return userHasRecipe;
+    return updated_user;
+}
+
+export const deleteUserRecipeService = async (user_id: mongoose.Types.ObjectId, recipe_id: mongoose.Types.ObjectId) => {
+    const updated_user = await deleteUserRecipe(user_id, recipe_id);
+    if (!updated_user)
+        throw new Error('Failed to update recipe');
+
+    return updated_user;
+}
+
+export const checkUserHasRecipeService = async (user_id: mongoose.Types.ObjectId, recipe_user_id: mongoose.Types.ObjectId | null) => {
+    const user_has_recipe = user_id === recipe_user_id && recipe_user_id.toString();
+
+    return user_has_recipe;
 }

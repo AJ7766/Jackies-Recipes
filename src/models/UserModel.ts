@@ -22,8 +22,8 @@ const userSchema = new Schema<UserProps>({
    },
    recipes: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'recipes'
+      ref: 'Recipe'
    }]
 }, { timestamps: true });
 
-export const UserModel: Model<UserProps> = mongoose.models.users || mongoose.model<UserProps>('users', userSchema);
+export const UserModel: Model<UserProps> = mongoose.models.users || mongoose.model<UserProps>('User', userSchema);

@@ -1,19 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import cache from "@/app/config/cache";
-import { getProfileService, getUsernameFromUrlService } from "./services/profileServices";
+import { getUsernameFromUrlService, getUserPopulatedService } from "./services/profileServices";
 import { connectDB } from "@/app/config/database";
 
-export async function GET(req: NextRequest) { //Get Profile Controller
-  await connectDB();
+export async function GET(req: NextRequest) { // Get Profile
   try {
-    const username = await getUsernameFromUrlService(req);
-    const cachedProfile = cache.get(username);
+    await connectDB();
 
-    if (cachedProfile) {
-      return NextResponse.json({ message: 'Success fetching profile from cache', profileData: cachedProfile }, { status: 200 });
+    const username = await getUsernameFromUrlService(req);
+    const cached_profile = cache.get(username);
+
+    if (cached_profile) {
+      return NextResponse.json({ message: 'Success fetching profile from cache', profile: cached_profile }, { status: 200 });
     }
 
-    const profile = await getProfileService(username);
+    const profile = await getUserPopulatedService(username);
 
     cache.set(username, profile);
 

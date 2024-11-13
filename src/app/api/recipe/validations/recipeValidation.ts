@@ -1,49 +1,45 @@
-import { SimplifiedRecipePropsNoUser } from "@/models/UserRecipe";
+import { RecipeProps, SimplifiedRecipePropsNoUser } from "@/models/UserRecipe";
 
-export default async function recipeValidation() {
-    const formValidation = async ({ recipe }: { recipe: SimplifiedRecipePropsNoUser }) => {
-        let errorMessage: string | null;
+export const formValidation = async (recipe: RecipeProps) => {
+    let errorMessage: string | null;
 
-        errorMessage = isValidImage(recipe.image || '');
-        if (errorMessage) return errorMessage;
+    errorMessage = isValidImage(recipe.image || '');
+    if (errorMessage) return errorMessage;
 
-        errorMessage = isValidRecipeName(recipe.title || '');
-        if (errorMessage) return errorMessage;
+    errorMessage = isValidRecipeName(recipe.title || '');
+    if (errorMessage) return errorMessage;
 
-        errorMessage = isValidIngredients(recipe);
-        if (errorMessage) return errorMessage;
+    errorMessage = isValidIngredients(recipe);
+    if (errorMessage) return errorMessage;
 
-        errorMessage = isValidServings(recipe.servings);
-        if (errorMessage) return errorMessage;
+    errorMessage = isValidServings(recipe.servings);
+    if (errorMessage) return errorMessage;
 
-        errorMessage = isValidInstructions(recipe);
-        if (errorMessage) return errorMessage;
+    errorMessage = isValidInstructions(recipe);
+    if (errorMessage) return errorMessage;
 
-        return null;
-    }
+    return null;
+}
 
-    const ingredientListValidation = async (recipe: SimplifiedRecipePropsNoUser) => {
-        const filteredIngredientsList = recipe.ingredients.map((ingList) => {
-            const filteredIngredients = ingList.ingredients?.filter(ing => ing.ingredient.length > 0 || []);
-            const filteredComponents = ingList.component || undefined;
-            return {
-                ...ingList,
-                ingredients: filteredIngredients,
-                component: filteredComponents
-            }
-        }).filter(ingList => ingList.ingredients.length > 0 || ingList.component);
-
-        const filteredInstructions = recipe.instructions?.filter(ins => ins.instruction.length > 0 || [])
-
+export const ingredientListValidation = async (recipe: RecipeProps) => {
+    const filteredIngredientsList = recipe.ingredients.map((ingList) => {
+        const filteredIngredients = ingList.ingredients?.filter(ing => ing.ingredient.length > 0 || []);
+        const filteredComponents = ingList.component || undefined;
         return {
-            ...recipe,
-            ingredients: filteredIngredientsList,
-            instructions: filteredInstructions
+            ...ingList,
+            ingredients: filteredIngredients,
+            component: filteredComponents
         }
-    }
+    }).filter(ingList => ingList.ingredients.length > 0 || ingList.component);
 
-    return { formValidation, ingredientListValidation }
-};
+    const filteredInstructions = recipe.instructions?.filter(ins => ins.instruction.length > 0 || [])
+
+    return {
+        ...recipe,
+        ingredients: filteredIngredientsList,
+        instructions: filteredInstructions
+    }
+}
 
 const isValidImage = (image: string) => {
     const MAX_SIZE = 20 * 1024 * 1024;
