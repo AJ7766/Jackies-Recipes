@@ -55,7 +55,7 @@ export default function EditRecipeForm({
       setLoadingBtn(true);
       let res = await fetch("/api/recipe", {
         method: "PUT",
-        body: JSON.stringify({ recipe: recipe }),
+        body: JSON.stringify(recipe),
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

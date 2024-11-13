@@ -12,9 +12,8 @@ export const getUserPopulatedService = async (username: string) => {
     return user;
 }
 
-export const getUserService = async (user_id?: mongoose.Types.ObjectId, username?: string) => {
-    const user = await getUser(user_id, username);
-
+export const getUserService = async (user_id: mongoose.Types.ObjectId) => {
+    const user = await getUser(user_id);
     if (!user)
         throw new Error(`User not found`);
 
@@ -31,7 +30,7 @@ export const getUsernameFromUrlService = async (req: NextRequest) => {
     return username;
 }
 
-export const addRecipeToUserService = async (user_id: mongoose.Types.ObjectId, new_recipe: RecipeProps) => {
+export const addRecipeToUserService = async (new_recipe: RecipeProps, user_id: mongoose.Types.ObjectId) => {
     const updated_user = await addRecipeToUser(user_id, new_recipe);
     if (!updated_user)
         throw new Error('Failed to add recipe to user');

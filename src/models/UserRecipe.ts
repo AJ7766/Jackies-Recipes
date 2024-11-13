@@ -93,7 +93,7 @@ interface RecipeDocument extends RecipeProps, Document{
 export const recipeSchema = new Schema<RecipeDocument>({
    user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'users',
       required: true
    },
    title: { type: String, required: true },
@@ -106,4 +106,4 @@ export const recipeSchema = new Schema<RecipeDocument>({
 
 recipeSchema.index({ createdAt: 1 });
 
-export const RecipeModel: Model<RecipeProps> = mongoose.models.recipes || mongoose.model<RecipeProps>('Recipe', recipeSchema);
+export const RecipeModel: Model<RecipeProps> = mongoose.models.recipes || mongoose.model<RecipeProps>('recipes', recipeSchema);

@@ -12,6 +12,7 @@ export const getToken = async (req: NextRequest) => {
 
     return authHeader.split(' ')[1];
 }
+
 export const verifyToken = async (token: string) => {
     try {
         const decoded = jwt.verify(token, SECRET_KEY) as JwtPayload;

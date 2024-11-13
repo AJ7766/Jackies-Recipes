@@ -3,8 +3,8 @@ import { connectDB } from "@/app/config/database";
 import { getToken, verifyToken } from "@/utils/jwt";
 import { createRecipeService, deleteRecipeService, getRecipeIdFromUrlService, getRecipeService, updateRecipeService, validateRecipeService } from "./services/recipeServices";
 import { addRecipeToUserService, checkUserHasRecipeService, deleteUserRecipeService, getUserService } from "../profile/services/profileServices";
-import { deleteCache } from "@/app/config/cache";
 import { RecipeProps } from "@/models/UserRecipe";
+import { deleteCache } from "@/app/config/cache";
 
 export async function GET(req: NextRequest) { // Get recipe
     try {
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) { // Get recipe
 
         const recipe = await getRecipeService(recipe_id);
 
-        const userHasRecipe = checkUserHasRecipeService(decoded.user_id, recipe?.user._id && recipe.user._id || null);
+        const userHasRecipe = checkUserHasRecipeService(decoded.id, recipe?.user._id && recipe.user._id || null);
 
         return NextResponse.json({ userHasRecipe, recipe }, { status: 200 });
     } catch (error) {
@@ -35,10 +35,9 @@ export async function POST(req: NextRequest) { // Create recipe
 
         await validateRecipeService(recipe);
 
-        await getUserService(decoded.user_id, undefined);
-
-        await createRecipeService(recipe, decoded.user_id);
-        await addRecipeToUserService(decoded.user_id, recipe);
+        await getUserService(decoded.id);
+        const new_recipe = await createRecipeService(recipe, decoded.id);
+        await addRecipeToUserService(new_recipe, decoded.id);
 
         await deleteCache(decoded.username);
 
@@ -53,13 +52,13 @@ export async function PUT(req: NextRequest) { // Update recipe
     try {
         await connectDB();
 
-        const { recipe }: { recipe: RecipeProps } = await req.json();
+        const recipe: RecipeProps  = await req.json();
         const token = await getToken(req)
         const decoded = await verifyToken(token);
 
         await validateRecipeService(recipe);
 
-        await getUserService(decoded.user_id, undefined);
+        await getUserService(decoded.id);
 
         await updateRecipeService(recipe);
 
@@ -75,13 +74,14 @@ export async function PUT(req: NextRequest) { // Update recipe
 export async function DELETE(req: NextRequest) { // Delete recipe
     try {
         await connectDB();
-        const { recipe }: { recipe: RecipeProps } = await req.json();
+        
+        const recipe_id = await getRecipeIdFromUrlService(req);
         const token = await getToken(req)
         const decoded = await verifyToken(token);
+        
+        await getUserService(decoded.id);
 
-        await getUserService(decoded.user_id, undefined);
-
-        await Promise.all([deleteRecipeService(recipe._id), deleteUserRecipeService(decoded.user_id, recipe._id)]);
+        await Promise.all([deleteRecipeService(recipe_id), deleteUserRecipeService(decoded.id, recipe_id)]);
 
         await deleteCache(decoded.username);
 

@@ -4,21 +4,21 @@ import { RecipeProps } from "@/models/UserRecipe";
 import { formValidation, ingredientListValidation } from "../validations/recipeValidation";
 import mongoose from "mongoose";
 
-export const getRecipeIdFromUrlService = async (req: NextRequest) => {
+export const getRecipeIdFromUrlService = async (req: NextRequest): Promise<mongoose.Types.ObjectId> => {
     const { searchParams } = new URL(req.url);
     const recipe_id = searchParams.get('recipeId');
 
     if (!recipe_id)
         throw new Error("Couldn't get recipe from URL");
 
-    return recipe_id;
+    return new mongoose.Types.ObjectId(recipe_id);
 }
 
 export const validateRecipeService = async (recipe: RecipeProps) => {
-    const validationResponse = await formValidation(recipe);
-    if (typeof validationResponse === 'string')
-        throw new Error(validationResponse);
-    return validationResponse;
+    const validation_response = await formValidation(recipe);
+    if (typeof validation_response === 'string')
+        throw new Error(validation_response);
+    return validation_response;
 }
 
 export const createRecipeService = async (recipe: RecipeProps, user_id: mongoose.Types.ObjectId) => {
@@ -57,7 +57,7 @@ export const deleteRecipeService = async (recipe_id: mongoose.Types.ObjectId) =>
     return recipe;
 }
 
-export const getRecipeService = async (recipe_id: string) => {
+export const getRecipeService = async (recipe_id: mongoose.Types.ObjectId) => {
     const recipe = getRecipe(recipe_id);
 
     if (!recipe)

@@ -1,7 +1,7 @@
 import mongoose, { Schema, Model, Document } from 'mongoose';
 import { UserContentProps, userContentSchema } from './UserContent';
 
-export interface UserProps extends Document {
+export interface UserProps {
    _id: mongoose.Types.ObjectId,
    email: string;
    fullName: string;
@@ -11,7 +11,11 @@ export interface UserProps extends Document {
    recipes: mongoose.Types.ObjectId[];
 }
 
-const userSchema = new Schema<UserProps>({
+export interface UserDocument extends UserProps, Document{
+   _id: mongoose.Types.ObjectId;
+}
+
+const userSchema = new Schema<UserDocument>({
    email: { type: String, required: true, unique: true },
    username: { type: String, required: true, unique: true, index: true },
    fullName: { type: String, required: true },
@@ -22,8 +26,8 @@ const userSchema = new Schema<UserProps>({
    },
    recipes: [{
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Recipe'
+      ref: 'recipes'
    }]
 }, { timestamps: true });
 
-export const UserModel: Model<UserProps> = mongoose.models.users || mongoose.model<UserProps>('User', userSchema);
+export const UserModel: Model<UserProps> = mongoose.models.users || mongoose.model<UserProps>('users', userSchema);

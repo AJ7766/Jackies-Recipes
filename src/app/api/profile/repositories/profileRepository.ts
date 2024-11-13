@@ -2,8 +2,8 @@ import { UserModel } from "@/models/UserModel";
 import { RecipeModel, RecipeProps } from "@/models/UserRecipe";
 import mongoose from "mongoose";
 
-export const getUser = async (user_id?: mongoose.Types.ObjectId, username?: string) => {
-    return await UserModel.findOne({ $or: [{ _id: user_id }, { username }] })
+export const getUser = async (user_id: mongoose.Types.ObjectId) => {
+    return await UserModel.findById(user_id)
         .select('-password -email -createdAt -updatedAt -_id -userContent._id')
         .lean();
 }
@@ -19,16 +19,15 @@ export const getUserPopulated = async (username: string) => {
 }
 
 export const addRecipeToUser = async (user_id: mongoose.Types.ObjectId, new_recipe: RecipeProps) => {
-    return await UserModel.findByIdAndUpdate(
-        { _id: user_id },
+    console.log("new recipe:", new_recipe._id);
+    return await UserModel.findByIdAndUpdate(user_id,
         { $addToSet: { recipes: new_recipe._id } },
         { new: true }
     ).lean();
 }
 
 export const deleteUserRecipe = async (user_id: mongoose.Types.ObjectId, recipe_id: mongoose.Types.ObjectId) => {
-    return UserModel.findByIdAndUpdate(
-        { _id: user_id },
+    return UserModel.findByIdAndUpdate(user_id,
         { $pull: { recipes: recipe_id } },
         { new: true }
     ).lean();
