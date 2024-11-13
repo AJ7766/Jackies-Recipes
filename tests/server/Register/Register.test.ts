@@ -6,7 +6,7 @@ import { UserModel } from '@/models/UserModel';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from "bcrypt";
 import { POST } from '@/app/api/register/route';
-import ValidateRegisterForm from '@/app/api/register/validateForm';
+import ValidateRegisterForm from '@/app/api/register/validations/registerValidation';
 
 jest.mock('@/config/database', () => {
    const actual = jest.requireActual('@/config/database');

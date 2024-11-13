@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
 import { ProfileProps } from "../types/types";
 import Image from "next/image";
-import { SimplifiedRecipeProps } from "@/models/UserRecipe";
+import { SimplifiedRecipeProps } from "@/models/RecipeModel";
 
 const logo = "/images/logo-text-free.png";
 const searchGlass = "/images/search-glass.svg";

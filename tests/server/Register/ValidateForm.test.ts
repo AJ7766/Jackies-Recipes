@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
 */
-import ValidateRegisterForm from '@/app/api/register/validateForm';
+import ValidateRegisterForm from '@/app/api/register/validations/registerValidation';
 
 describe('Validation-form for register endpoint', () => {
 

@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { SimplifiedRecipeProps } from "@/models/UserRecipe";
+import { SimplifiedRecipeProps } from "@/models/RecipeModel";
 import { usePathname, useRouter } from "next/navigation";
 import { useProfile } from "@/app/context/ProfileContext";
 

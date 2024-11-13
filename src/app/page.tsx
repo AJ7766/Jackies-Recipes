@@ -2,7 +2,7 @@
 import LoginForm from "./_components/LoginForm";
 import React, { useEffect, useState } from "react";
 import { useAuth } from "./context/AuthContext";
-import { SimplifiedRecipeProps } from "@/models/UserRecipe";
+import { SimplifiedRecipeProps } from "@/models/RecipeModel";
 import Masonary from "./_components/Masonary";
 import { LoadingSpinner } from "./_components/LoadingSpinner";
 

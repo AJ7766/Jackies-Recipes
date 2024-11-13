@@ -1,15 +1,6 @@
-import { UserContentProps, SimplifiedUserContentProps } from '@/models/UserContent';
-import { SimplifiedRecipeProps } from '@/models/UserRecipe';
+import { SimplifiedRecipeProps } from '@/models/RecipeModel';
+import { UserContentProps } from '@/models/UserModel';
 import mongoose from 'mongoose';
-
-export interface RegisterFormProps {
-  email: string;
-  username: string;
-  fullName: string;
-  password: string;
-  confirmPassword: string;
-  userContent?: UserContentProps;
-}
 
 export type EditFormProps = {
   _id?: mongoose.Types.ObjectId;
@@ -19,7 +10,7 @@ export type EditFormProps = {
   oldPassword?: string;
   newPassword?: string;
   confirmPassword?: string;
-  userContent?: SimplifiedUserContentProps;
+  userContent?: UserContentProps;
   recipes?: SimplifiedRecipeProps[]; 
 }
 
@@ -31,6 +22,6 @@ export type ProfileProps = {
   fullName?: string;
   username?: string;
   password?: string;
-  userContent?: SimplifiedUserContentProps;
+  userContent?: UserContentProps;
   recipes: SimplifiedRecipeProps[]; 
 };

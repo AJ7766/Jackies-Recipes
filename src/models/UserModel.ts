@@ -1,5 +1,4 @@
 import mongoose, { Schema, Model, Document } from 'mongoose';
-import { UserContentProps, userContentSchema } from './UserContent';
 
 export interface UserProps {
    _id: mongoose.Types.ObjectId,
@@ -8,10 +7,35 @@ export interface UserProps {
    username: string;
    password: string;
    userContent?: UserContentProps;
-   recipes: mongoose.Types.ObjectId[];
+   recipes?: mongoose.Types.ObjectId[];
 }
 
-export interface UserDocument extends UserProps, Document{
+export interface RegisterFormProps extends Omit<UserProps, '_id'> {
+   isChecked: boolean;
+   confirmPassword: string;
+}
+
+export interface UserContentProps {
+   profilePicture?: string;
+   bio?: string;
+   instagram?: string;
+   x?: string;
+   tiktok?: string;
+   youtube?: string;
+   facebook?: string;
+}
+
+const userContentSchema = new Schema<UserContentProps>({
+   profilePicture: { type: String, default: null },
+   bio: { type: String, default: null },
+   instagram: { type: String, default: null },
+   x: { type: String, default: null },
+   tiktok: { type: String, default: null },
+   youtube: { type: String, default: null },
+   facebook: { type: String, default: null },
+});
+
+export interface UserDocument extends UserProps, Document {
    _id: mongoose.Types.ObjectId;
 }
 

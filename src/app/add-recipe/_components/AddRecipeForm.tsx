@@ -49,7 +49,7 @@ export default function AddRecipeForm() {
       setLoadingBtn(true);
       let res = await fetch("/api/recipe", {
         method: "POST",
-        body: JSON.stringify({recipe}),
+        body: JSON.stringify(recipe),
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

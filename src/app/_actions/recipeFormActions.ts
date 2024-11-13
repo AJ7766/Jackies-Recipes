@@ -1,4 +1,4 @@
-import { IngredientListProps, IngredientProps, InstructionProps, SimplifiedRecipePropsNoUser } from "@/models/UserRecipe";
+import { IngredientListProps, IngredientProps, InstructionProps, SimplifiedRecipePropsNoUser } from "@/models/RecipeModel";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Resizer from "react-image-file-resizer";

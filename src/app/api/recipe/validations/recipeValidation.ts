@@ -1,4 +1,4 @@
-import { RecipeProps, SimplifiedRecipePropsNoUser } from "@/models/UserRecipe";
+import { RecipeProps, SimplifiedRecipePropsNoUser } from "@/models/RecipeModel";
 
 export const formValidation = async (recipe: RecipeProps) => {
     let errorMessage: string | null;

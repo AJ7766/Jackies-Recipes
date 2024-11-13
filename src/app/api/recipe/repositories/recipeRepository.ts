@@ -1,4 +1,4 @@
-import { RecipeModel, RecipeProps } from "@/models/UserRecipe";
+import { RecipeModel, RecipeProps } from "@/models/RecipeModel";
 import mongoose from "mongoose";
 
 export const getRecipe = async (recipe_id: mongoose.Types.ObjectId) => {

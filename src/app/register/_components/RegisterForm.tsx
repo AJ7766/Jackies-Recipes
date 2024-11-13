@@ -1,9 +1,9 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRefContext } from "@/app/layout";
-
+import { RegisterFormProps } from "@/models/UserModel";
 const emailImg = "/images/register/email.svg";
 const usernameImg = "/images/register/username.svg";
 const fullNameImg = "/images/register/fullName.svg";
@@ -12,19 +12,36 @@ const passwordConfirmImg = "/images/register/passwordConfirm.svg";
 const logo = "/images/logo.png";
 
 export default function RegisterForm() {
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [user, setUser] = useState<RegisterFormProps>({
+    isChecked: false,
+    email: "",
+    username: "",
+    fullName: "",
+    password: "",
+    confirmPassword: "",
+  });
   const [errorMsg, setErrorMsg] = useState("");
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState("");
   const [successBoolean, setSuccessBoolean] = useState(false);
   const [loadingBtn, setLoadingBtn] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
 
   const ref = useRefContext();
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, type, value } = e.target;
+    if (type === "checkbox") {
+      setUser((prevUser) => ({
+        ...prevUser,
+        [name]: !user.isChecked,
+      }));
+    } else {
+      setUser((prevUser) => ({
+        ...prevUser,
+        [name]: value,
+      }));
+    }
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,14 +50,7 @@ export default function RegisterForm() {
     try {
       let res = await fetch("/api/register", {
         method: "POST",
-        body: JSON.stringify({
-          isChecked,
-          email,
-          username,
-          fullName,
-          password,
-          confirmPassword,
-        }),
+        body: JSON.stringify(user),
         headers: {
           "Content-Type": "application/json",
         },
@@ -102,47 +112,43 @@ export default function RegisterForm() {
           <div>
             <input
               type="text"
-              id="email"
               name="email"
               placeholder="Email"
-              value={email}
+              value={user.email}
               autoComplete="email"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleInputChange}
             />
             <Image src={emailImg} width={20} height={20} alt="email" />
           </div>
           <div>
             <input
               type="text"
-              id="username"
               name="username"
               placeholder="Username"
-              value={username}
+              value={user.username}
               autoComplete="username"
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={handleInputChange}
             />
             <Image src={usernameImg} width={20} height={20} alt="username" />
           </div>
           <div>
             <input
               type="text"
-              id="fname"
-              name="fname"
+              name="fullName"
               placeholder="Full Name"
               autoComplete="name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              value={user.fullName}
+              onChange={handleInputChange}
             />
             <Image src={fullNameImg} width={20} height={20} alt="full-name" />
           </div>
           <div>
             <input
               type="password"
-              id="password"
               name="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={user.password}
+              onChange={handleInputChange}
               autoComplete="new-password"
             />
             <Image src={passwordImg} width={20} height={20} alt="password" />
@@ -150,11 +156,10 @@ export default function RegisterForm() {
           <div>
             <input
               type="password"
-              id="confirmPassword"
               name="confirmPassword"
               placeholder="Confirm Password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              value={user.confirmPassword}
+              onChange={handleInputChange}
               autoComplete="new-password"
             />
             <Image
@@ -167,10 +172,11 @@ export default function RegisterForm() {
         </div>
         <div>
           <input
+            name="isChecked"
             className="mr-0.5"
             type="checkbox"
-            checked={isChecked}
-            onChange={(e) => setIsChecked(e.target.checked)}
+            checked={user.isChecked}
+            onChange={handleInputChange}
           />
           <label htmlFor="consent">
             I have read and agree to the

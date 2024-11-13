@@ -1,6 +1,6 @@
 import { connectDB } from "@/app/config/database";
 import { UserModel } from "@/models/UserModel";
-import { RecipeModel } from "@/models/UserRecipe";
+import { RecipeModel } from "@/models/RecipeModel";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {

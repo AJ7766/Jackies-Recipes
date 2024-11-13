@@ -3,7 +3,7 @@ import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Types } from "mongoose";
-import { SimplifiedRecipeProps } from "@/models/UserRecipe";
+import { SimplifiedRecipeProps } from "@/models/RecipeModel";
 
 export default function Masonary({
   recipes = [],
