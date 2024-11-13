@@ -1,9 +1,9 @@
-import { connectDB } from "@/config/database";
+import { connectDB } from "@/app/config/database";
 import { UserModel } from "@/models/UserModel";
 import mongoose from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
-import cache from "@/config/cache";
-import { verifyToken } from "@/config/jwt";
+import cache from "@/app/config/cache";
+import { verifyToken } from "@/utils/jwt";
 import { RecipeModel } from "@/models/UserRecipe";
 
 export async function handleDelete(request: NextRequest) {

@@ -3,7 +3,7 @@ import "./globals.css";
 import { AuthProvider } from "./context/AuthContext";
 import { ProfileProvider } from "./context/ProfileContext";
 import NavBar from "./_components/NavBar";
-import { useCookieConsent } from "@/config/cookies";
+import { useCookieConsent } from "@/utils/cookies";
 import {
   createContext,
   useContext,

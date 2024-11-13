@@ -1,4 +1,4 @@
-import { useCookieConsent } from "@/config/cookies";
+import { useCookieConsent } from "@/utils/cookies";
 
 export function CookieConsent() {
   const { acceptCookies, declineCookies } = useCookieConsent();

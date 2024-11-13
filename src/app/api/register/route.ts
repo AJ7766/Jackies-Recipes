@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { connectDB } from "../../../config/database"
+import { connectDB } from "../../config/database"
 import { UserModel } from "../../../models/UserModel"
 import bcrypt from "bcrypt";
 import ValidateRegisterForm from "./validateForm";

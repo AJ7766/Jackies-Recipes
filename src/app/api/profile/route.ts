@@ -1,8 +1,8 @@
-import { connectDB } from "@/config/database";
+import { connectDB } from "@/app/config/database";
 import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server"
 import { RecipeModel } from "@/models/UserRecipe";
-import cache from "@/config/cache";
+import cache from "@/app/config/cache";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);

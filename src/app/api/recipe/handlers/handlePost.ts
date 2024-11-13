@@ -1,10 +1,10 @@
 import { UserModel } from "@/models/UserModel";
 import { NextRequest, NextResponse } from "next/server";
 import { RecipeModel, SimplifiedRecipePropsNoUser } from "@/models/UserRecipe";
-import { connectDB } from "@/config/database";
-import cache from "@/config/cache";
+import { connectDB } from "@/app/config/database";
+import cache from "@/app/config/cache";
 import recipeValidation from "../validations/recipeValidation";
-import { verifyToken } from "@/config/jwt";
+import { verifyToken } from "@/utils/jwt";
 
 export async function handlePost(request: NextRequest) {
     const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');

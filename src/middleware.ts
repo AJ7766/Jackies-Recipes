@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
+import { connectDB } from './app/config/database';
 
-export function middleware() {
+export async function middleware() {
     const response = NextResponse.next();
 
     response.headers.set('X-Content-Type-Options', 'nosniff');
@@ -13,7 +14,7 @@ export function middleware() {
         "default-src 'self'; script-src 'self' 'unsafe-inline' https://trusted-cdn.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' https: data:; frame-ancestors 'self';"
     );
     
-
+    await connectDB();
     return response;
 }
 

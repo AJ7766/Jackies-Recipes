@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
 */
-import { connectDB } from '@/config/database';
+import { connectDB } from '@/app/config/database';
 import { UserModel } from '@/models/UserModel';
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from "bcrypt";

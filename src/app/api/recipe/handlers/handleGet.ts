@@ -1,7 +1,7 @@
-import { connectDB } from "@/config/database";
+import { connectDB } from "@/app/config/database";
 import { NextRequest, NextResponse } from "next/server";
 import { RecipeModel } from "@/models/UserRecipe";
-import { verifyToken } from "@/config/jwt";
+import { verifyToken } from "@/utils/jwt";
 
 export async function handleGet(request: NextRequest) {
     const authHeader = request.headers.get('Authorization') || request.headers.get('authorization');

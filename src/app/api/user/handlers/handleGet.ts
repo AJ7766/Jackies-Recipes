@@ -1,5 +1,5 @@
-import { connectDB } from '@/config/database';
-import { verifyToken } from '@/config/jwt';
+import { connectDB } from '@/app/config/database';
+import { verifyToken } from '@/utils/jwt';
 import { UserModel } from '@/models/UserModel';
 import { NextRequest, NextResponse } from 'next/server';
 

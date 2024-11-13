@@ -1,6 +1,6 @@
 "use client";
 
-import { useCookieConsent } from "@/config/cookies";
+import { useCookieConsent } from "@/utils/cookies";
 import { useEffect, useState } from "react";
 
 export default function PrivatePolicyPage() {
