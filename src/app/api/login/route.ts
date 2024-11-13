@@ -12,7 +12,6 @@ export async function POST(request: NextRequest) {
   try {
     const { username, password: userPassword } = await request.json()
     const lowercaseUsername = username.toLowerCase();
-    await connectDB();
     const user = await UserModel.findOne({ username: lowercaseUsername }).lean();
 
     if (!user) {
