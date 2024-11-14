@@ -2,9 +2,9 @@
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { SimplifiedRecipeProps } from "@/models/RecipeModel";
 import { usePathname, useRouter } from "next/navigation";
 import { useProfile } from "@/app/context/ProfileContext";
+import { RecipePopulatedProps } from "@/models/RecipeModel";
 
 const meals = "/images/meal.svg";
 const profilePicturePlaceholder = "/images/profile-picture.png";
@@ -12,7 +12,7 @@ const closeIcon = "/images/close.svg";
 
 export default function Recipe() {
   const [selectedRecipe, setSelectedRecipe] =
-    useState<SimplifiedRecipeProps | null>(null);
+    useState<RecipePopulatedProps | null>(null);
   const closeRecipe = useRef<HTMLDivElement | null>(null);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const pathname = usePathname();
@@ -30,7 +30,7 @@ export default function Recipe() {
     if (profile?.recipes) {
       const foundRecipe = profile.recipes.find(
         (recipe) => recipe._id?.toString() === recipeId
-      ) as SimplifiedRecipeProps | undefined;
+      ) as RecipePopulatedProps | undefined;
       setSelectedRecipe(foundRecipe ?? null);
     }
   }, [pathname, profile]);
