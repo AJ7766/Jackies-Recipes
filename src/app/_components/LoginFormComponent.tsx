@@ -2,58 +2,31 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { useRefContext } from "../layout";
-
 const usernameImg = "/images/register/username.svg";
 const passwordImg = "/images/register/password.svg";
 const logo = "/images/logo.png";
 
-export default function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
-  const [loadingBtn, setLoadingBtn] = useState(false);
-  
-  const ref = useRefContext();
-
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setLoadingBtn(true);
-    try {
-      let res = await fetch("/api/login", {
-        method: "POST",
-        body: JSON.stringify({ username, password }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      if (!res.ok) {
-        const data = await res.json();
-        const errorMessage = data.message || "Failed to login.";
-        console.log(errorMessage);
-        setError(true);
-        setErrorMsg(errorMessage);
-        throw new Error(errorMessage);
-      }
-      setError(false);
-      let data = await res.json();
-      localStorage.setItem("token", data.token);
-      window.location.href = `/${username}`;
-    } catch (error: any) {
-      const errorMessage =
-        error instanceof Error ? error.message : "Failed to login.";
-      setErrorMsg(errorMessage);
-      setError(true);
-    } finally {
-      setLoadingBtn(false);
-    }
+interface LoginFormProps {
+  user: {
+    username: string;
+    password: string;
   };
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  message: string;
+  loadingBtn: boolean;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+}
 
+export default function LoginFormComponent({
+  user = {username: "", password: ""},
+  handleInputChange,
+  message,
+  loadingBtn,
+  onSubmit,
+}: LoginFormProps) {
   return (
     <div className="startingPageBg" data-testid="starting-page-bg">
-      <div ref={ref} className="loginFormContainer">
+      <div className="loginFormContainer">
         <div className="loginHeaderContainer">
           <Image
             className="loginLogo"
@@ -65,9 +38,9 @@ export default function LoginForm() {
           />
         </div>
         <div className="h-10 flex items-center px-9">
-          {error ? (
+          {message ? (
             <p className="loginTextMessage text-gray-500 text-center">
-              {errorMsg}
+              {message}
             </p>
           ) : (
             <p className="text-white text-center">&nbsp;</p>
@@ -76,17 +49,16 @@ export default function LoginForm() {
         <form
           className="loginForm flex flex-col"
           data-testid="login-form"
-          onSubmit={handleSubmit}
+          onSubmit={onSubmit}
         >
           <div className="inputsContainer">
             <div>
               <input
                 type="text"
-                id="username"
                 name="username"
                 placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={user.username}
+                onChange={handleInputChange}
                 autoComplete="username"
               />
               <Image src={usernameImg} width={20} height={20} alt="username" />
@@ -94,11 +66,10 @@ export default function LoginForm() {
             <div>
               <input
                 type="password"
-                id="password"
                 name="password"
                 placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={user.password}
+                onChange={handleInputChange}
                 autoComplete="current-password"
               />
               <Image src={passwordImg} width={20} height={20} alt="password" />

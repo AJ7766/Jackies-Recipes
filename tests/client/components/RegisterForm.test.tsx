@@ -9,7 +9,7 @@ import {
 import fetchMock from "jest-fetch-mock";
 import "@testing-library/jest-dom";
 import { useRouter } from "next/navigation";
-import RegisterForm from "@/app/register/_components/RegisterForm";
+import RegisterForm from "@/app/register/components/RegisterFormComponent";
 
 beforeEach(() => {
   fetchMock.resetMocks();

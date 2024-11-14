@@ -1,4 +1,3 @@
-"use client";
 import React, {
   createContext,
   useContext,
@@ -14,7 +13,6 @@ interface AuthContextType {
   deleteCachedUser: () => void;
   verifyTokenAndFetchUser: (token: string) => Promise<void>;
   logout: () => void;
-  initializing: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -22,18 +20,15 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<ProfileProps | null>(null);
-  const [initializing, setInitializing] = useState<boolean>(true);
 
   const verifyTokenAndFetchUser = useCallback(async (token: string) => {
     const cachedProfile = sessionStorage.getItem("user");
     if (cachedProfile) {
       setIsAuthenticated(true);
       setUser(JSON.parse(cachedProfile));
-      setInitializing(false);
       return;
     }
     try {
-      setInitializing(true);
       const res = await fetch("/api/user", {
         method: "GET",
         headers: {
@@ -56,19 +51,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.removeItem("token");
       sessionStorage.removeItem("user");
       setIsAuthenticated(false);
-    } finally {
-      setInitializing(false);
     }
   }, []);
 
   useEffect(() => {
     const fetchTokenAndUser = async () => {
       const token = localStorage.getItem("token");
-      if (token) {
+      if (token) 
         await verifyTokenAndFetchUser(token);
-      } else {
-        setInitializing(false);
-      }
     };
     fetchTokenAndUser();
   }, [verifyTokenAndFetchUser]);
@@ -93,7 +83,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         deleteCachedUser,
         verifyTokenAndFetchUser,
         logout,
-        initializing,
       }}
     >
       {children}

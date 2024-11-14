@@ -17,27 +17,6 @@ export interface RecipePopulatedProps extends Omit<RecipeProps, 'user'>{
    user: UserProps;
 }
 
-export type SimplifiedRecipeProps = {
-   _id?: mongoose.Types.ObjectId;
-   user: ProfileProps;
-   title: string;
-   image: string;
-   ingredients: IngredientListProps[];
-   servings?: number;
-   macros?: MacroNutrientsProps;
-   instructions?: InstructionProps[];
-};
-
-export type SimplifiedRecipePropsNoUser = {
-   _id?: mongoose.Types.ObjectId;
-   title: string;
-   image: string;
-   ingredients: IngredientListProps[];
-   servings?: number;
-   macros?: MacroNutrientsProps;
-   instructions?: InstructionProps[];
-};
-
 export type MacroNutrientsProps = {
    carbs?: number,
    protein?: number,

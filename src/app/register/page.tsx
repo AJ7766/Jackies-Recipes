@@ -1,10 +1,5 @@
-import RegisterForm from "./_components/RegisterForm";
+import RegisterPage from "./containers/RegisterPage";
 
-export default function RegisterPage() {
-    return (
-        <div className="startingPageBg">
-        <RegisterForm />
-        </div>
-    );
-  }
-  
+export default function Register() {
+  return <RegisterPage />;
+}

@@ -10,7 +10,7 @@ export interface UserProps {
    recipes?: mongoose.Types.ObjectId[];
 }
 
-export interface RegisterFormProps extends Omit<UserProps, '_id'> {
+export interface UserRegisterProps extends Omit<UserProps, '_id'> {
    isChecked: boolean;
    confirmPassword: string;
 }
