@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
 import { ProfileProps } from "../types/types";
 import Image from "next/image";
-import { SimplifiedRecipeProps } from "@/models/RecipeModel";
+import { RecipePopulatedProps } from "@/models/RecipeModel";
 
 const logo = "/images/logo-text-free.png";
 const searchGlass = "/images/search-glass.svg";
@@ -17,12 +17,12 @@ export default function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
   const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [users, setUsers] = useState<ProfileProps[]>([]);
-  const [recipes, setRecipes] = useState<SimplifiedRecipeProps[]>([]);
+  const [recipes, setRecipes] = useState<RecipePopulatedProps[]>([]);
   const [searchResults, setSearchResults] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const searchResultsRef = useRef<HTMLDivElement | null>(null);
 
-  const { user, logout, isAuthenticated, initializing } = useAuth();
+  const { user, logout, isAuthenticated } = useAuth();
   
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (
@@ -67,8 +67,8 @@ export default function NavBar() {
           }
           const data = await res.json();
           setSearchResults(true);
-          setUsers(data.existingUsers);
-          setRecipes(data.existingRecipes);
+          setUsers(data.searchedUsers);
+          setRecipes(data.searchedRecipes);
         } catch (error: any) {
           console.error("Error:", error.message);
         }
@@ -85,7 +85,6 @@ export default function NavBar() {
   }
 
   return (
-    !initializing && (
       <>
         <div className="space"></div>
         <div className="navContainer">
@@ -231,6 +230,5 @@ export default function NavBar() {
           )}
         </div>
       </>
-    )
-  );
+    );
 }

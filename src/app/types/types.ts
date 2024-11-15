@@ -1,4 +1,3 @@
-import { SimplifiedRecipeProps } from '@/models/RecipeModel';
 import { UserContentProps } from '@/models/UserModel';
 import mongoose from 'mongoose';
 

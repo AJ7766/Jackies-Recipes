@@ -1,26 +1,23 @@
 import { connectDB } from "@/app/config/database";
-import { UserModel } from "@/models/UserModel";
-import { RecipeModel } from "@/models/RecipeModel";
 import { NextRequest, NextResponse } from "next/server";
+import { getSearchedRecipesService, getSearchedUsersService, getSearchFromUrlService } from "./services/searchService";
 
-export async function GET(request: NextRequest) {
+export async function GET(req: NextRequest) {
     try {
-        const { searchParams } = new URL(request.url);
-        const search = searchParams.get('search');
-        if (!search) {
-            return NextResponse.json({ message: "Search term is required." }, { status: 400 });
-        }
+        await connectDB();
+
+        const search = await getSearchFromUrlService(req);
 
         const regex = new RegExp(search, 'i');
 
-        await connectDB();
-        const existingUsers = await UserModel.find({ username: { $regex: regex } }).limit(5).select('-_id username fullName userContent.profilePicture').lean();
+        const [searchedUsers, searchedRecipes] = await Promise.all([
+            getSearchedUsersService(search),
+            getSearchedRecipesService(search)
+        ])
 
-        const existingRecipes = await RecipeModel.find({ title: { $regex: regex } }).populate('user', 'username').limit(5).select('_id title image').lean();
-
-        return NextResponse.json({ existingUsers: existingUsers, existingRecipes: existingRecipes}, { status: 200 }); 
+        return NextResponse.json({ searchedUsers, searchedRecipes}, { status: 200 }); 
     }catch(error){
-        console.error('Error:', error);
-        return NextResponse.json({ message: 'Internal Server Error'}, { status: 500 });
+        console.error('Error fetching search:', error);
+        return NextResponse.json({ message: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 }

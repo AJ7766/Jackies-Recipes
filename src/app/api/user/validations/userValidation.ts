@@ -1,196 +1,137 @@
-import { EditFormProps } from "@/app/types/types";
-import { UserModel } from "@/models/UserModel";
-import bcrypt from "bcrypt";
+import { UserEditProps } from "@/models/UserModel";
+import { compareEditUserPasswords } from "@/utils/bcrypt";
 
-export default async function userValidation(props: EditFormProps) {
-    const { _id, email, username, fullName, oldPassword, newPassword, confirmPassword, userContent } = props;
-    const user = await UserModel.findOne({ _id: _id });
+export interface UserEditPropsWithPassword {
+    user: UserEditProps;
+    existing_password: string;
+}
 
-    if (!user) {
-        throw new Error("User not found during validation");
+export default async function userValidation({ user, existing_password }: UserEditPropsWithPassword) {
+    const { email, username, fullName, password, newPassword, confirmPassword, userContent } = user;
+
+    await isValidEmail(email);
+    await isValidUsername(username);
+    await isValidFullName(fullName);
+
+    if (userContent?.profilePicture) {
+        await isValidProfilePicture(userContent.profilePicture);
+    }
+    if (userContent?.instagram) {
+        await isValidInstagram(userContent.instagram);
+    }
+    if (userContent?.x) {
+        await isValidX(userContent.x);
+    }
+    if (userContent?.tiktok) {
+        await isValidTikTok(userContent.tiktok);
+    }
+    if (userContent?.youtube) {
+        await isValidYouTube(userContent.youtube);
+    }
+    if (userContent?.facebook) {
+        await isValidFacebook(userContent.facebook);
     }
 
-    let errorMessage = "";
+    await isValidPassword(password, newPassword, confirmPassword, existing_password);
 
-    const profilePictureError = isValidProfilePicture(userContent?.profilePicture || "");
-    if (profilePictureError) {
-        errorMessage = profilePictureError;
-        return errorMessage
-    }
-
-    const emailError = isValidEmail(email || "");
-    if (emailError) {
-        errorMessage = emailError;
-        return errorMessage
-    }
-
-    const usernameError = isValidUsername(username || "")
-    if (usernameError) {
-        errorMessage = usernameError;
-        return errorMessage;
-    }
-
-    const fullNameError = isValidFullName(fullName || "")
-    if (fullNameError) {
-        errorMessage = fullNameError;
-        return errorMessage;
-    }
-
-    const instagramError = isValidInstagram(userContent?.instagram || "")
-    if (instagramError) {
-        errorMessage = instagramError;
-        return errorMessage;
-    }
-
-    const xError = isValidX(userContent?.x || "");
-    if (xError) {
-        errorMessage = xError;
-        return errorMessage;
-    }
-
-    const tiktokError = isValidTikTok(userContent?.tiktok || "");
-    if (tiktokError) {
-        errorMessage = tiktokError;
-        return errorMessage;
-    }
-
-    const youtubeError = isValidYouTube(userContent?.youtube || "");
-    if (youtubeError) {
-        errorMessage = youtubeError;
-        return errorMessage;
-    }
-
-    const facebookError = isValidFacebook(userContent?.facebook || "");
-    if (facebookError) {
-        errorMessage = facebookError;
-        return errorMessage;
-    }
-
-    if (oldPassword === undefined) {
-        throw new Error('Old password is required');
-    }
-
-
-    const newPasswordOrUndefined = newPassword || "";
-    const isMatch = await bcrypt.compare(oldPassword, user.password);
-
-    const passwordError = isValidPassword(newPassword || "", confirmPassword || "")
-
-    if (oldPassword && !newPasswordOrUndefined && !confirmPassword) {
-        errorMessage = 'Old password does not match';
-        return 'Old password does not match';
-    }
-    if (newPasswordOrUndefined.length > 1 && !isMatch) {
-        errorMessage = 'Old password does not match';
-        return errorMessage;
-    }
-    if (passwordError) {
-        errorMessage = passwordError;
-        return errorMessage;
-    }
-
-    return true;
+    return;
 }
 
 
-const isValidProfilePicture = (profilePicture: string) => {
+const isValidProfilePicture = async (profilePicture: string) => {
     const MAX_SIZE = 20 * 1024 * 1024;
 
-    if (!profilePicture) {
-        return 'Invalid Base64 string.';
-    }
+    if (!profilePicture)
+        throw new Error('Invalid Base64 string.');
 
     const base64Data = profilePicture.split(';base64,').pop();
-    if (!base64Data) {
-        return 'Invalid Base64 data.';
-    }
+    if (!base64Data)
+        throw new Error('Invalid Base64 data.');
 
     const buffer = Buffer.from(base64Data, 'base64');
-    if (buffer.length > MAX_SIZE) {
-        return 'Image size exceeds 20MB.';
-    }
-    return null;
+    if (buffer.length > MAX_SIZE)
+        throw new Error('Image size exceeds 20MB.');
 };
 
-const isValidEmail = (email: string) => {
+const isValidEmail = async (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        return "Please enter a valid Email address";
-    }
-    return null
+    if (!emailRegex.test(email))
+        throw new Error("Please enter a valid Email address");
 };
 
-const isValidUsername = (username: string) => {
+const isValidUsername = async (username: string) => {
     const usernameRegex = /^[a-zA-Z]+$/;
-    if (!usernameRegex.test(username)) {
-        const errorMsg = "Username can only contain letters"
-        return errorMsg
-    }
-    if (username.length < 4) {
-        const errorMsg = "Username must be atleast 4 letters"
-        return errorMsg;
-    }
-    return null
+    if (!usernameRegex.test(username))
+        throw new Error("Username can only contain letters");
+    if (username.length < 4)
+        throw new Error("Username must be at least 4 letters");
 };
 
-const isValidFullName = (fullName: string) => {
+const isValidFullName = async (fullName: string) => {
     const nameRegex = /^[a-zA-Z]+( [a-zA-Z]+)*$/;
-    if (!nameRegex.test(fullName)) {
-        const errorMsg = "Name can only contain letters"
-        return errorMsg
-    }
-    return null
+    if (!nameRegex.test(fullName))
+        throw new Error("Name can only contain letters");
 };
 
-const isValidInstagram = (instagram: string) => {
-    if (instagram.length > 1 && !instagram.includes("instagram.com")) {
-        const errorMsg = "Link must be from Instagram"
-        return errorMsg
-    }
-    return null
+const isValidInstagram = async (instagram: string) => {
+    if (instagram.length > 1 && !instagram.includes("instagram.com"))
+        throw new Error("Link must be from Instagram");
 };
 
-const isValidX = (x: string) => {
-    if (x.length > 1 && !x.includes("x.com")) {
-        const errorMsg = "Link must be from X (Twitter)";
-        return errorMsg;
-    }
-    return null;
+const isValidX = async (x: string) => {
+    if (x.length > 1 && !x.includes("x.com"))
+        throw new Error("Link must be from X (Twitter)");
 };
 
-const isValidTikTok = (tiktok: string) => {
-    if (tiktok.length > 1 && !tiktok.includes("tiktok.com")) {
-        const errorMsg = "Link must be from TikTok";
-        return errorMsg;
-    }
-    return null;
+const isValidTikTok = async (tiktok: string) => {
+    if (tiktok.length > 1 && !tiktok.includes("tiktok.com"))
+        throw new Error("Link must be from TikTok");
 };
 
-const isValidYouTube = (youtube: string) => {
-    if (youtube.length > 1 && !youtube.includes("youtube.com")) {
-        const errorMsg = "Link must be from YouTube";
-        return errorMsg;
-    }
-    return null;
+const isValidYouTube = async (youtube: string) => {
+    if (youtube.length > 1 && !youtube.includes("youtube.com"))
+        throw new Error("Link must be from YouTube");
 };
 
-const isValidFacebook = (facebook: string) => {
-    if (facebook.length > 1 && !facebook.includes("facebook.com")) {
-        const errorMsg = "Link must be from Facebook";
-        return errorMsg;
-    }
-    return null;
+const isValidFacebook = async (facebook: string) => {
+    if (facebook.length > 1 && !facebook.includes("facebook.com"))
+        throw new Error("Link must be from Facebook");
 };
 
-const isValidPassword = (newPassword: string, confirmPassword: string) => {
-    if (newPassword.length > 1 && newPassword.length < 6) {
-        const errorMsg = "Password must be atleast 6 characters"
-        return errorMsg
+const isValidPassword = async (
+    password: string | undefined,
+    newPassword: string | undefined,
+    confirmPassword: string | undefined,
+    existing_password: string
+) => {
+    let errorMessage: string[] = [];
+
+    if (password && (!newPassword || !confirmPassword)) {
+        if (!newPassword) errorMessage.push('New password');
+        if (!confirmPassword) errorMessage.push('Confirm password');
     }
 
-    if (newPassword !== confirmPassword) {
-        const errorMsg = "Passwords do not match"
-        return errorMsg;
+    if (newPassword && (!password || !confirmPassword)) {
+        if (!password) errorMessage.push('Old password');
+        if (!confirmPassword) errorMessage.push('Confirm password');
     }
-    return null
-}
+
+    if (confirmPassword && (!password || !newPassword)) {
+        if (!password) errorMessage.push('Old password');
+        if (!newPassword) errorMessage.push('New password');
+    }
+
+    if (errorMessage.length > 0) {
+        throw new Error(`The following fields are required: ${errorMessage.join(', ')}`);
+    }
+    
+    if (newPassword && newPassword.length < 6)
+        throw new Error('Password must be at least 6 characters');
+
+    if (newPassword !== confirmPassword)
+        throw new Error('Passwords do not match');
+
+    if (password) {
+        await compareEditUserPasswords(password, existing_password);
+    }
+};

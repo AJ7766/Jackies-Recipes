@@ -2,7 +2,7 @@ import { UserModel } from "@/models/UserModel";
 import { RecipeModel, RecipeProps } from "@/models/RecipeModel";
 import mongoose from "mongoose";
 
-export const getUser = async (user_id: mongoose.Types.ObjectId) => {
+export const getUserNoContent = async (user_id: mongoose.Types.ObjectId) => {
     return await UserModel.findById(user_id)
         .select('-password -email -createdAt -updatedAt -_id -userContent._id')
         .lean();
@@ -19,7 +19,6 @@ export const getUserPopulated = async (username: string) => {
 }
 
 export const addRecipeToUser = async (user_id: mongoose.Types.ObjectId, new_recipe: RecipeProps) => {
-    console.log("new recipe:", new_recipe._id);
     return await UserModel.findByIdAndUpdate(user_id,
         { $addToSet: { recipes: new_recipe._id } },
         { new: true }

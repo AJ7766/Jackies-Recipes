@@ -1,12 +1,14 @@
-import { IngredientListProps, IngredientProps, InstructionProps, SimplifiedRecipePropsNoUser } from "@/models/RecipeModel";
+import { IngredientListProps, IngredientProps, InstructionProps, RecipePopulatedProps, RecipeProps } from "@/models/RecipeModel";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import Resizer from "react-image-file-resizer";
 
-export function recipeFormActions(recipeEdit?: SimplifiedRecipePropsNoUser) {
+export interface RecipeFormProps extends Omit<RecipeProps, 'user' | '_id'> {}
+ 
+export function recipeFormActions(existingRecipe?: RecipeFormProps) {
     const [imagePreview, setImagePreview] = useState<string>();
-    const [recipe, setRecipe] = useState<SimplifiedRecipePropsNoUser>(
-        recipeEdit ?? {
+    const [recipe, setRecipe] = useState<RecipeFormProps>({
+        ...(existingRecipe ?? {
             title: imagePreview || "",
             image: "",
             ingredients: [
@@ -34,8 +36,8 @@ export function recipeFormActions(recipeEdit?: SimplifiedRecipePropsNoUser) {
                     instruction: "",
                 },
             ],
-        }
-    );
+        }),
+    });
     const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
     const [isChecked, setIsChecked] = useState(false);
 

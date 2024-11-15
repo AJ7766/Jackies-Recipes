@@ -1,18 +1,19 @@
 "use client";
 import Image from "next/image";
-import { EditFormProps, ProfileProps } from "@/app/types/types";
+import { ProfileProps } from "@/app/types/types";
 import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { useAuth } from "@/app/context/AuthContext";
+import { UserEditProps } from "@/models/UserModel";
 const profilePicture = "/images/profile-picture.png";
 const camera = "/images/camera.svg";
 
 export default function EditProfile({ user = null }: { user: ProfileProps | null }) {
-  const [userData, setUserData] = useState<EditFormProps>({
+  const [userData, setUserData] = useState<UserEditProps>({
     email: user?.email || "",
     username: user?.username || "",
     fullName: user?.fullName || "",
-    oldPassword: "",
+    password: "",
     newPassword: "",
     confirmPassword: "",
     userContent: {
@@ -36,7 +37,7 @@ export default function EditProfile({ user = null }: { user: ProfileProps | null
         email: user.email || "",
         username: user.username || "",
         fullName: user.fullName || "",
-        oldPassword: "",
+        password: "",
         newPassword: "",
         confirmPassword: "",
         userContent: {
@@ -62,14 +63,11 @@ export default function EditProfile({ user = null }: { user: ProfileProps | null
     }
 
     try {
+      console.log("Client User:", userData)
       setLoadingBtn(true);
       let res = await fetch("/api/user", {
         method: "PUT",
-        body: JSON.stringify({
-          user: userData,
-          newPassword: userData.newPassword,
-          confirmPassword: userData.confirmPassword,
-        }),
+        body: JSON.stringify({user: userData}),
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -298,8 +296,8 @@ export default function EditProfile({ user = null }: { user: ProfileProps | null
           <label htmlFor="name">Old Password:</label>
           <input
             type="password"
-            name="oldPassword"
-            value={userData.oldPassword}
+            name="password"
+            value={userData.password}
             onChange={handleInputChange}
             autoComplete="current-password"
           />

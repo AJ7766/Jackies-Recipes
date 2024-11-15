@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import mongoose from "mongoose";
-import { addRecipeToUser, deleteUserRecipe, getUser, getUserPopulated } from "../repositories/profileRepository";
+import { addRecipeToUser, deleteUserRecipe, getUserNoContent, getUserPopulated } from "../repositories/profileRepository";
 import { RecipeProps } from "@/models/RecipeModel";
 
 export const getUserPopulatedService = async (username: string) => {
@@ -12,8 +12,8 @@ export const getUserPopulatedService = async (username: string) => {
     return user;
 }
 
-export const getUserService = async (user_id: mongoose.Types.ObjectId) => {
-    const user = await getUser(user_id);
+export const getUserNoContentService = async (user_id: mongoose.Types.ObjectId) => {
+    const user = await getUserNoContent(user_id);
     if (!user)
         throw new Error(`User not found`);
 

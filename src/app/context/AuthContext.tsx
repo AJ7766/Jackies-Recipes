@@ -44,8 +44,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       const data = await res.json();
       setIsAuthenticated(true);
-      setUser(data.userData);
-      sessionStorage.setItem("user", JSON.stringify(data.userData));
+      setUser(data.user);
+      sessionStorage.setItem("user", JSON.stringify(data.user));
     } catch (error) {
       console.error("Error", error);
       localStorage.removeItem("token");

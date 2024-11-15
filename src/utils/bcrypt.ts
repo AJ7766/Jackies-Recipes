@@ -14,3 +14,11 @@ export const comparePasswords = async (newPassword: string, oldPassword: string)
     
     return isMatch;
 };
+
+export const compareEditUserPasswords = async (newPassword: string, oldPassword: string) => {
+    const isMatch = await bcrypt.compare(newPassword, oldPassword);
+    if (!isMatch)
+        throw new Error('Incorrect password');
+    
+    return isMatch;
+};
