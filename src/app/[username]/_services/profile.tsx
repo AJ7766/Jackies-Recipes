@@ -1,5 +1,5 @@
 import { LoadingSpinner } from "@/app/_components/LoadingSpinner";
-import { UserPopulatedRecipePopulatedProps } from "@/models/UserModel";
+import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 import { useState, useEffect } from "react";
 
 export const ClientGuard = ({

@@ -1,4 +1,4 @@
-import { UserPopulatedRecipePopulatedProps } from "@/models/UserModel";
+import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";

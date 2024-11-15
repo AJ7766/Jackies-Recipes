@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useAuth } from "@/app/context/AuthContext";
+import { useAuth } from "@/app/_context/AuthContext";
 import { useRouter } from "next/navigation";
 import { recipeFormActions } from "@/app/_actions/recipeFormActions";
 

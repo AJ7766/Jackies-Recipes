@@ -1,4 +1,4 @@
-import { UserEditProps } from "@/models/UserModel";
+import { UserEditProps } from "@/_models/UserModel";
 
 export const fetchUpdateUserAPI = async (user: UserEditProps, token: string) => {
     try {

@@ -1,4 +1,4 @@
-import { UserRegisterProps } from "@/models/UserModel";
+import { UserRegisterProps } from "@/_models/UserModel";
 
 export const fetchRegisterAPI = async (user: UserRegisterProps) => {
     try {

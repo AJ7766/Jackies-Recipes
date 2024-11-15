@@ -1,6 +1,6 @@
 "use client";
 import ErrorPage from "../_errors/ErrorPage";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../_context/AuthContext";
 import AddRecipeForm from "./_components/AddRecipeForm";
 
 export default function AddRecipe() {

@@ -1,6 +1,6 @@
 "use client";
 import ProfilePage from "./_components/ProfileComponent";
-import { useProfile } from "../context/ProfileContext";
+import { useProfile } from "../_context/ProfileContext";
 import { ClientGuard } from "./_services/profile";
 import MasonaryProfile from "./_containers/MasonaryProfile";
 import { ReactNode } from "react";

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import cache from "@/app/config/cache";
+import cache from "@/app/_config/cache";
 import { getUsernameFromUrlService, getUserPopulatedService } from "./services/profileServices";
-import { connectDB } from "@/app/config/database";
+import { connectDB } from "@/app/_config/database";
 
 export async function GET(req: NextRequest) { // Get Profile
   try {

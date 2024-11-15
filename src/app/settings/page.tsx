@@ -1,5 +1,5 @@
 "use client";
-import { useAuth } from "@/app/context/AuthContext";
+import { useAuth } from "@/app/_context/AuthContext";
 import { AuthGuardEditUser } from "./services/editProfile";
 import EditProfile from "./containers/EditProfile";
 

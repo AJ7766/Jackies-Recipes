@@ -1,5 +1,5 @@
-import { useAuth } from "@/app/context/AuthContext";
-import { SimplifiedRecipeProps } from "@/models/RecipeModel";
+import { useAuth } from "@/app/_context/AuthContext";
+import { SimplifiedRecipeProps } from "@/_models/RecipeModel";
 import { useEffect, useState } from "react";
 
 export default function useFetchRecipe(recipeId: string) {

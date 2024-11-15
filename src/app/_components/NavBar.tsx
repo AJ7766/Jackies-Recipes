@@ -1,10 +1,10 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useAuth } from "@/app/context/AuthContext";
+import { useAuth } from "@/app/_context/AuthContext";
 import Image from "next/image";
-import { RecipePopulatedProps } from "@/models/RecipeModel";
-import { UserProps } from "@/models/UserModel";
+import { RecipePopulatedProps } from "@/_models/RecipeModel";
+import { UserProps } from "@/_models/UserModel";
 
 const logo = "/images/logo-text-free.png";
 const searchGlass = "/images/search-glass.svg";

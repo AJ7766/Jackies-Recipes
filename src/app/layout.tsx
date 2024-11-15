@@ -1,8 +1,8 @@
 "use client";
 import "./globals.css";
-import { AuthProvider, useAuth } from "./context/AuthContext";
-import { ProfileProvider } from "./context/ProfileContext";
-import { useCookieConsent } from "@/utils/cookies";
+import { AuthProvider, useAuth } from "./_context/AuthContext";
+import { ProfileProvider } from "./_context/ProfileContext";
+import { useCookieConsent } from "@/_utils/cookies";
 import { useEffect, useState } from "react";
 import { CookieConsent } from "./_components/CookieConsent";
 import NavBar from "./_components/NavBar";

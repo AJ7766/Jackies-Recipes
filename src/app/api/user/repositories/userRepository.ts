@@ -1,4 +1,4 @@
-import { UserEditProps, UserModel } from "@/models/UserModel";
+import { UserEditProps, UserModel } from "@/_models/UserModel";
 import mongoose from "mongoose";
 
 export const getUser = async (user_id: mongoose.Types.ObjectId) => {

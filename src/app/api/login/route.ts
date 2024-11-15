@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
-import { connectDB } from "../../config/database"
+import { connectDB } from "../../_config/database"
 import { loginServices } from "./services/loginServices";
-import { comparePasswords } from "@/utils/bcrypt";
-import { assignToken } from "@/utils/jwt";
+import { comparePasswords } from "@/_utils/bcrypt";
+import { assignToken } from "@/_utils/jwt";
 
 export async function POST(request: NextRequest) { //Login user
   try {

@@ -1,5 +1,5 @@
-import { RecipeModel } from "@/models/RecipeModel";
-import { UserModel } from "@/models/UserModel";
+import { RecipeModel } from "@/_models/RecipeModel";
+import { UserModel } from "@/_models/UserModel";
 
 export const getSearchedUsers = async (search: string) => {
     return await UserModel.find({ username: { $regex: new RegExp(search, 'i') } }).limit(5).select('-_id username fullName userContent.profilePicture').lean();

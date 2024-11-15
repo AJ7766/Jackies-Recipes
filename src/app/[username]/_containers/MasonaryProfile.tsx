@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Types } from "mongoose";
-import { UserPopulatedRecipePopulatedProps } from "@/models/UserModel";
-import { useAuth } from "@/app/context/AuthContext";
+import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
+import { useAuth } from "@/app/_context/AuthContext";
 import { usePathname } from "next/navigation";
 import MasonaryProfileComponent from "../_components/MasonaryProfileComponent";
 

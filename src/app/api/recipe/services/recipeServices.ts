@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { createRecipe, deleteRecipe, getRecipe, updateRecipe } from "../repositories/recipeRepository";
-import { RecipeProps } from "@/models/RecipeModel";
+import { RecipeProps } from "@/_models/RecipeModel";
 import { formValidation, ingredientListValidation } from "../validations/recipeValidation";
 import mongoose from "mongoose";
 

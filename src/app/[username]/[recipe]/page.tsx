@@ -3,8 +3,8 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useProfile } from "@/app/context/ProfileContext";
-import { RecipePopulatedProps } from "@/models/RecipeModel";
+import { useProfile } from "@/app/_context/ProfileContext";
+import { RecipePopulatedProps } from "@/_models/RecipeModel";
 
 const meals = "/images/meal.svg";
 const profilePicturePlaceholder = "/images/profile-picture.png";

@@ -1,5 +1,5 @@
-import { RecipeModel } from "@/models/RecipeModel";
-import { UserModel } from "@/models/UserModel";
+import { RecipeModel } from "@/_models/RecipeModel";
+import { UserModel } from "@/_models/UserModel";
 
 export const getRecipes = async () => {
     return await RecipeModel.find({})

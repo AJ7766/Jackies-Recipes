@@ -3,7 +3,7 @@ import fetchMock from "jest-fetch-mock";
 import "@testing-library/jest-dom";
 import RootLayout from "@/app/[username]/layout";
 import { ProfilePropsOrNull } from "@/app/types/types";
-import { useProfile } from "@/app/context/ProfileContext";
+import { useProfile } from "@/app/_context/ProfileContext";
 
 beforeEach(() => {
   fetchMock.resetMocks();

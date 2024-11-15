@@ -1,4 +1,4 @@
-import { UserProps } from "@/models/UserModel";
+import { UserProps } from "@/_models/UserModel";
 import React, {
   createContext,
   useContext,

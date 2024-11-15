@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/app/config/database";
-import { getToken, verifyToken } from "@/utils/jwt";
+import { connectDB } from "@/app/_config/database";
+import { getToken, verifyToken } from "@/_utils/jwt";
 import { getUserService, updateUserService, validateUserService } from "./services/userService";
-import { deleteCache } from "@/app/config/cache";
+import { deleteCache } from "@/app/_config/cache";
 
 export async function GET(req: NextRequest) { // Get user
     try {

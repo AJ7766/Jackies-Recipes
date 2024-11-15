@@ -1,4 +1,4 @@
-import { RecipePopulatedProps } from "@/models/RecipeModel";
+import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { useEffect, useState } from "react";
 import MasonaryComponent from "../_components/MasonaryComponent";
 import { fetchRecipesAPI } from "../_services/fetchRecipesAPI";

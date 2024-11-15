@@ -1,4 +1,4 @@
-import { connectDB } from "@/app/config/database";
+import { connectDB } from "@/app/_config/database";
 import { NextRequest, NextResponse } from "next/server";
 import { getSearchedRecipesService, getSearchedUsersService, getSearchFromUrlService } from "./services/searchService";
 

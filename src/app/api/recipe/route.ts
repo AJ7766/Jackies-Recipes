@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/app/config/database";
-import { getToken, verifyToken } from "@/utils/jwt";
+import { connectDB } from "@/app/_config/database";
+import { getToken, verifyToken } from "@/_utils/jwt";
 import { createRecipeService, deleteRecipeService, getRecipeIdFromUrlService, getRecipeService, updateRecipeService, validateRecipeService } from "./services/recipeServices";
 import { addRecipeToUserService, checkUserHasRecipeService, deleteUserRecipeService } from "../profile/services/profileServices";
-import { RecipeProps } from "@/models/RecipeModel";
-import { deleteCache } from "@/app/config/cache";
+import { RecipeProps } from "@/_models/RecipeModel";
+import { deleteCache } from "@/app/_config/cache";
 import { getUserService } from "../user/services/userService";
 
 export async function GET(req: NextRequest) { // Get recipe

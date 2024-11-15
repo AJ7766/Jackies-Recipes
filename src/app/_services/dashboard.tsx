@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../_context/AuthContext";
 import LoginPage from "../_containers/LoginPage";
 
 export const AuthGuard = ({ children }: {children: JSX.Element}) => {

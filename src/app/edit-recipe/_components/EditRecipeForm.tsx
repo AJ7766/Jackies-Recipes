@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import { useAuth } from "@/app/context/AuthContext";
-import { SimplifiedRecipeProps } from "@/models/RecipeModel";
+import { useAuth } from "@/app/_context/AuthContext";
+import { SimplifiedRecipeProps } from "@/_models/RecipeModel";
 import { useRouter } from "next/navigation";
 import { recipeFormActions } from "@/app/_actions/recipeFormActions";
 import { deleteRecipe } from "../_action/deleteRecipe";

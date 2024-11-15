@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 import { getUser, getUserPassword, updateUser } from "../repositories/userRepository";
-import { UserEditProps } from "@/models/UserModel";
+import { UserEditProps } from "@/_models/UserModel";
 import userValidation from "../validations/userValidation";
-import { hashPassword } from "@/utils/bcrypt";
+import { hashPassword } from "@/_utils/bcrypt";
 
 export const getUserService = async (user_id: mongoose.Types.ObjectId) => {
     const user = await getUser(user_id);

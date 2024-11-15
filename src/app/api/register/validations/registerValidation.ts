@@ -1,4 +1,4 @@
-import { RegisterFormProps } from "@/models/UserModel";
+import { RegisterFormProps } from "@/_models/UserModel";
 
 const checkIfChecked = async (isChecked: boolean) => {
    if (!isChecked)

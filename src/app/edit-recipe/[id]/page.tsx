@@ -1,7 +1,7 @@
 "use client";
 import ErrorPage from "@/app/_errors/ErrorPage";
 import useFetchRecipe from "../_action/useFetchRecipe";
-import { useAuth } from "@/app/context/AuthContext";
+import { useAuth } from "@/app/_context/AuthContext";
 import EditRecipeForm from "../_components/EditRecipeForm";
 
 export default function EditRecipePage({ params }: { params: { id: string } }) {

@@ -1,5 +1,5 @@
-import { UserModel } from "@/models/UserModel";
-import { RecipeModel, RecipeProps } from "@/models/RecipeModel";
+import { UserModel } from "@/_models/UserModel";
+import { RecipeModel, RecipeProps } from "@/_models/RecipeModel";
 import mongoose from "mongoose";
 
 export const getUserNoContent = async (user_id: mongoose.Types.ObjectId) => {

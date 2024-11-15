@@ -1,5 +1,5 @@
 import ErrorPage from "@/app/_errors/ErrorPage";
-import { useAuth } from "@/app/context/AuthContext";
+import { useAuth } from "@/app/_context/AuthContext";
 import { useState, useEffect } from "react";
 
 export const AuthGuardEditUser = ({ children }: {children: JSX.Element}) => {
