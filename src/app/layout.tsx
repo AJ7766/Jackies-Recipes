@@ -6,6 +6,7 @@ import { useCookieConsent } from "@/utils/cookies";
 import { useEffect, useState } from "react";
 import { CookieConsent } from "./_components/CookieConsent";
 import NavBar from "./_components/NavBar";
+import { usePathname  } from "next/navigation";
 
 export default function RootLayout({
   children,
@@ -14,6 +15,8 @@ export default function RootLayout({
 }>) {
   const [isClient, setIsClient] = useState(false);
   const { cookies, resetCookieConsent } = useCookieConsent();
+
+  const pathname = usePathname();
 
   useEffect(() => {
     setIsClient(true);
@@ -49,7 +52,7 @@ export default function RootLayout({
     }
   }, [cookies.cookieConsent]);
 
-  /*
+  /* For testing
   useEffect(() => {
     resetCookieConsent();
   }, []); 
@@ -57,13 +60,9 @@ export default function RootLayout({
 
   const NavBarGate = ({ children }: { children: JSX.Element }) => {
     const { isAuthenticated } = useAuth();
+    if (!isClient) return null;
 
-    if (!isAuthenticated) return null;
-
-    if (
-      (window.location.pathname === "/" && !isAuthenticated) ||
-      (window.location.pathname === "/register")
-    )
+    if ((pathname === "/" && !isAuthenticated) || pathname === "/register")
       return null;
 
     return <>{children}</>;

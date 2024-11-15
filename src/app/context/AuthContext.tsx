@@ -1,3 +1,4 @@
+import { UserProps } from "@/models/UserModel";
 import React, {
   createContext,
   useContext,
@@ -5,11 +6,11 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import { ProfileProps } from "../types/types";
+import { fetchGetUserAPI } from "../_services/fetchGetUserAPI";
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  user: ProfileProps | null;
+  user: UserProps | null;
   deleteCachedUser: () => void;
   verifyTokenAndFetchUser: (token: string) => Promise<void>;
   logout: () => void;
@@ -19,7 +20,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<ProfileProps | null>(null);
+  const [user, setUser] = useState<UserProps | null>(null);
 
   const verifyTokenAndFetchUser = useCallback(async (token: string) => {
     const cachedProfile = sessionStorage.getItem("user");
@@ -28,37 +29,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(JSON.parse(cachedProfile));
       return;
     }
-    try {
-      const res = await fetch("/api/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (!res.ok) {
-        localStorage.removeItem("token");
-        setIsAuthenticated(false);
-        throw new Error(
-          `Failed to verify token: ${res.status} - ${res.statusText}`
-        );
-      }
-      const data = await res.json();
-      setIsAuthenticated(true);
-      setUser(data.user);
-      sessionStorage.setItem("user", JSON.stringify(data.user));
-    } catch (error) {
-      console.error("Error", error);
+    const { fetchedUser, message } = await fetchGetUserAPI(token);
+    if (!fetchedUser) {
       localStorage.removeItem("token");
       sessionStorage.removeItem("user");
       setIsAuthenticated(false);
+      console.error("Error", message);
+      throw new Error(message);
     }
+    setIsAuthenticated(true);
+    setUser(fetchedUser);
+    sessionStorage.setItem("user", JSON.stringify(fetchedUser));
   }, []);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     const fetchTokenAndUser = async () => {
-      const token = localStorage.getItem("token");
-      if (token) 
-        await verifyTokenAndFetchUser(token);
+      if (!token) {
+        localStorage.removeItem("token");
+        sessionStorage.removeItem("user");
+        setIsAuthenticated(false);
+        return;
+      }
+      await verifyTokenAndFetchUser(token);
     };
     fetchTokenAndUser();
   }, [verifyTokenAndFetchUser]);

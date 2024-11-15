@@ -1,28 +1,19 @@
 "use client";
-import ProfilePage from "./_components/Profile";
+import ProfilePage from "./_components/ProfileComponent";
 import { useProfile } from "../context/ProfileContext";
-import Masonary from "./_components/Masonary";
-import { LoadingSpinner } from "../_components/LoadingSpinner";
+import { ClientGuard } from "./_services/profile";
+import MasonaryProfile from "./_containers/MasonaryProfile";
+import { ReactNode } from "react";
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const { profile, loading } = useProfile();
+export default function RootLayout({ children }: { children: ReactNode }) {
+  const { profile, fetchingProfile } = useProfile();
   return (
-    <>
-      {loading ? <LoadingSpinner /> :
-        (profile ? (
-          <>
-            {children}
-            <ProfilePage profile={profile} />
-            <div className="divider"></div>
-            <Masonary profile={profile} />
-          </>
-        ) : (
-          <div className="text-xl text-center">User not found</div>
-        ))}
-    </>
+    <ClientGuard profile={profile || null} fetchingProfile={fetchingProfile}>
+      <>
+        {children}
+        <ProfilePage profile={profile} />
+        <MasonaryProfile profile={profile} />
+      </>
+    </ClientGuard>
   );
 }

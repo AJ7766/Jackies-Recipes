@@ -1,19 +1,14 @@
 "use client";
 import { useAuth } from "@/app/context/AuthContext";
-import EditProfile from "./_components/EditProfile";
-import ErrorPage from "../_components/ErrorPage";
+import { AuthGuardEditUser } from "./services/editProfile";
+import EditProfile from "./containers/EditProfile";
 
 export default function SettingsPage() {
-  const { initializing, user, isAuthenticated } = useAuth();
+  const { user } = useAuth();
 
   return (
-    <>
-      {!initializing &&
-        (isAuthenticated && user ? (
-          <EditProfile user={user} />
-        ) : (
-          <ErrorPage />
-        ))}
-    </>
+    <AuthGuardEditUser>
+      <EditProfile user={user || null} />
+    </AuthGuardEditUser>
   );
 }

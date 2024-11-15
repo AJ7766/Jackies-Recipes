@@ -1,4 +1,5 @@
 import mongoose, { Schema, Model, Document } from 'mongoose';
+import { RecipePopulatedProps, RecipeProps } from './RecipeModel';
 
 export interface UserProps {
    _id: mongoose.Types.ObjectId,
@@ -9,6 +10,14 @@ export interface UserProps {
    userContent?: UserContentProps;
    recipes?: mongoose.Types.ObjectId[];
 }
+
+export interface UserPopulatedProps extends Omit<UserProps, 'recipes'> {
+   recipes: RecipeProps[];
+}
+
+export interface UserPopulatedRecipePopulatedProps extends Omit<UserProps, "recipes"> {
+   recipes: RecipePopulatedProps[];
+ }
 
 export interface UserEditProps extends Omit<UserProps, '_id' | 'recipes'> {
    newPassword: string;

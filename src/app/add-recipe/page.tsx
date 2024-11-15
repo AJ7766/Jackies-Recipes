@@ -1,5 +1,5 @@
 "use client";
-import ErrorPage from "../_components/ErrorPage";
+import ErrorPage from "../_errors/ErrorPage";
 import { useAuth } from "../context/AuthContext";
 import AddRecipeForm from "./_components/AddRecipeForm";
 

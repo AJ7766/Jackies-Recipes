@@ -1,3 +1,3 @@
-export default function UserPage() {
-  return null
+export default function PlaceholderPage() {
+  return null;
 }

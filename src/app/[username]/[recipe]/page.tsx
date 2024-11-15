@@ -18,12 +18,9 @@ export default function Recipe() {
   const pathname = usePathname();
   const router = useRouter();
   
-  const { profile, loading } = useProfile();
+  const { profile } = useProfile();
 
   useEffect(() => {
-    if (loading) {
-      return;
-    }
     const pathParts = pathname.split("/");
     const recipeId = pathParts[pathParts.length - 1];
 
@@ -84,7 +81,6 @@ export default function Recipe() {
   }, [handleClickOutside]);
 
   return (
-    !loading &&
     selectedRecipe && (
       <>
         <div className="recipeContainer">

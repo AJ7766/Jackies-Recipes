@@ -1,52 +1,46 @@
 "use client";
-import React, { createContext, useContext, useEffect, useRef, useState } from "react";
-import { ProfileProps } from "@/app/types/types";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { UserPopulatedProps, UserPopulatedRecipePopulatedProps } from "@/models/UserModel";
+import { fetchGetProfileAPI } from "../_services/fetchGerProfileAPI";
 
 interface ProfileContextType {
-  profile: ProfileProps | null;
-  loading: boolean;
-  ref: React.RefObject<HTMLDivElement>;
+  profile: UserPopulatedRecipePopulatedProps | null;
+  fetchingProfile: boolean;
 }
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
-  const [profile, setProfile] = useState<ProfileProps | null>(null);
-  const [loading, setLoading] = useState(true);
-  const ref = useRef<HTMLDivElement | null>(null);
+  const [profile, setProfile] = useState<UserPopulatedRecipePopulatedProps | null>(null);
+  const [fetchingProfile, setFetchingProfile] = useState<boolean>(true);
   const { username } = useParams();
 
   const lowercaseUsername = Array.isArray(username)
     ? username[0].toLowerCase()
-    : username?.toLowerCase() ?? "";
+    : username?.toLowerCase() ?? username;
 
   useEffect(() => {
     if (!lowercaseUsername) return;
     const fetchProfileData = async () => {
-      try {
-        setLoading(true);
-        let res = await fetch(`/api/profile?username=${lowercaseUsername}`, {
-          method: "GET",
-        });
-        if (!res.ok) {
-          throw new Error(
-            `Failed to fetch profile: ${res.status} - ${res.statusText}`
-          );
-        }
-        const data = await res.json();
-        setProfile(data.profile);
-      } catch (error: any) {
-        console.error("Error fetching profile:", error.message);
-      } finally {
-        setLoading(false);
+      setFetchingProfile(true);
+      const { fetchedProfile, message } = await fetchGetProfileAPI(
+        lowercaseUsername
+      );
+      if (!fetchedProfile) {
+        console.error(message);
+        setProfile(null);
+        setFetchingProfile(false);
+        return;
       }
+      setProfile(fetchedProfile);
+      setFetchingProfile(false);
     };
     fetchProfileData();
   }, [lowercaseUsername]);
 
   return (
-    <ProfileContext.Provider value={{ ref, profile, loading }}>
+    <ProfileContext.Provider value={{ profile, fetchingProfile }}>
       {children}
     </ProfileContext.Provider>
   );

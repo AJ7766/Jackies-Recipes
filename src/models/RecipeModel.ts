@@ -1,4 +1,3 @@
-import { ProfileProps } from "@/app/types/types";
 import mongoose, { Model, Schema, Document } from "mongoose";
 import { UserProps } from "./UserModel";
 
