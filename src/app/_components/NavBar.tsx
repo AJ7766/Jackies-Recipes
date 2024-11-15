@@ -2,9 +2,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/app/context/AuthContext";
-import { ProfileProps } from "../types/types";
 import Image from "next/image";
 import { RecipePopulatedProps } from "@/models/RecipeModel";
+import { UserProps } from "@/models/UserModel";
 
 const logo = "/images/logo-text-free.png";
 const searchGlass = "/images/search-glass.svg";
@@ -16,7 +16,7 @@ export default function NavBar() {
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [debouncedSearch, setDebouncedSearch] = useState(search);
-  const [users, setUsers] = useState<ProfileProps[]>([]);
+  const [users, setUsers] = useState<UserProps[]>([]);
   const [recipes, setRecipes] = useState<RecipePopulatedProps[]>([]);
   const [searchResults, setSearchResults] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
