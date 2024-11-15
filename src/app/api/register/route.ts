@@ -1,12 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
 import { connectDB } from "../../config/database"
-import { RegisterFormProps } from "../../../models/UserModel"
 import { registerService, registerValidateService } from "./services/registerServices";
+import { UserRegisterProps } from "@/models/UserModel";
 
 export async function POST(req: NextRequest) { // Register user
    try {
       await connectDB();
-      const user: RegisterFormProps = await req.json();
+      const user: UserRegisterProps = await req.json();
 
       await registerValidateService(user);
 

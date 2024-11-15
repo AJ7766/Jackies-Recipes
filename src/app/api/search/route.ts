@@ -2,7 +2,7 @@ import { connectDB } from "@/app/config/database";
 import { NextRequest, NextResponse } from "next/server";
 import { getSearchedRecipesService, getSearchedUsersService, getSearchFromUrlService } from "./services/searchService";
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest) { // Get searched users & recipes
     try {
         await connectDB();
 

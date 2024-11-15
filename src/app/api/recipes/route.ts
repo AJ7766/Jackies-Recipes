@@ -2,7 +2,7 @@ import { connectDB } from "@/app/config/database";
 import { NextResponse } from "next/server";
 import { getRecipesService } from "./services/recipesService";
 
-export async function GET() {
+export async function GET() { // Get all recipes
     try {
         await connectDB();
 

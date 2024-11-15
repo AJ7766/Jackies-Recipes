@@ -4,7 +4,7 @@ import { getToken, verifyToken } from "@/utils/jwt";
 import { getUserService, updateUserService, validateUserService } from "./services/userService";
 import { deleteCache } from "@/app/config/cache";
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest) { // Get user
     try {
         await connectDB();
 
@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({ message: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
     }
 }
-export async function PUT(req: NextRequest) {
+export async function PUT(req: NextRequest) { // Update user
     const { user } = await req.json()
     try {
         console.log("User:", user)
