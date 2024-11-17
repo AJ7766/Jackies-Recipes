@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import { RecipeFormProps } from "../containers/AddRecipe";
 import { handleImageClick } from "@/app/_services/recipeServices";
+import { RecipeFormProps } from "@/_models/RecipeModel";
 const imagePlaceholder = "/images/recipe-image-placeholder.svg";
 const camera = "/images/camera.svg";
 

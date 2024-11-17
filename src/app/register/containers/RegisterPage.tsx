@@ -4,14 +4,6 @@ import { fetchRegisterAPI } from "../services/fetchRegisterAPI";
 import { UserRegisterProps } from "@/_models/UserModel";
 import RegisterFormComponent from "../components/RegisterFormComponent";
 
-export interface RegisterFormProps {
-  user: UserRegisterProps;
-  message: string;
-  loadingBtn: boolean;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-}
-
 export default function RegisterPage() {
   const [user, setUser] = useState<UserRegisterProps>({
     isChecked: false,

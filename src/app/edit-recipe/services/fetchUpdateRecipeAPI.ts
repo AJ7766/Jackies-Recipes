@@ -1,4 +1,4 @@
-import { RecipeFormProps } from "@/app/add-recipe/containers/AddRecipe";
+import { RecipeFormProps } from "@/_models/RecipeModel";
 
 export const fetchUpdateRecipeAPI = async (
     token: string,

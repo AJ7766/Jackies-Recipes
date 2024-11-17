@@ -1,10 +1,10 @@
 import React from "react";
 import Image from "next/image";
 import { handleImageClick } from "@/app/_services/recipeServices";
-import { RecipeFormProps } from "@/app/add-recipe/containers/AddRecipe";
 import { handleDeleteRecipe } from "../services/editRecipeServices";
 import mongoose from "mongoose";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
+import { RecipeFormProps } from "@/_models/RecipeModel";
 const imagePlaceholder = "/images/recipe-image-placeholder.svg";
 const camera = "/images/camera.svg";
 

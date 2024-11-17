@@ -1,5 +1,4 @@
-import { RecipeProps } from "@/_models/RecipeModel";
-import { RecipeFormProps } from "@/app/add-recipe/containers/AddRecipe";
+import { RecipeFormProps, RecipeProps } from "@/_models/RecipeModel";
 
 export const formValidation = async (recipe: RecipeProps) => {
     let errorMessage: string | null;

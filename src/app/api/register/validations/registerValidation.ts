@@ -1,4 +1,4 @@
-import { RegisterFormProps } from "@/_models/UserModel";
+import { UserRegisterProps } from "@/_models/UserModel";
 
 const checkIfChecked = async (isChecked: boolean) => {
    if (!isChecked)
@@ -38,7 +38,7 @@ const isValidPassword = async (password: string, confirmPassword: string) => {
    return null
 }
 
-export default async function ValidateRegisterForm(user: RegisterFormProps) {
+export default async function ValidateRegisterForm(user: UserRegisterProps) {
    const { isChecked, email, username, fullName, password, confirmPassword } = user;
 
    if (!email || !fullName || !username || !password || !confirmPassword) {

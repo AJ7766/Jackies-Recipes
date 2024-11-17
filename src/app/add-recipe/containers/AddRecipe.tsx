@@ -3,11 +3,9 @@ import { useAuth } from "@/app/_context/AuthContext";
 import { useRouter } from "next/navigation";
 import { fetchPostRecipeAPI } from "@/app/add-recipe/services/fetchPostRecipeAPI";
 import AddRecipeComponent from "../components/AddRecipeComponent";
-import { RecipeProps } from "@/_models/RecipeModel";
 import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, imageChange, updateIngredientComponent, updateInstruction } from "@/app/_services/recipeServices";
 import ErrorPage from "@/app/_errors/ErrorPage";
-
-export interface RecipeFormProps extends Omit<RecipeProps, "user" | "_id"> { }
+import { RecipeFormProps } from "@/_models/RecipeModel";
 
 export default function AddRecipe() {
   const [imagePreview, setImagePreview] = useState<string>();

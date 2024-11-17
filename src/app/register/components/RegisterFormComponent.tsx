@@ -1,13 +1,21 @@
 "use client";
+import { UserRegisterProps } from "@/_models/UserModel";
 import Image from "next/image";
 import Link from "next/link";
-import { RegisterFormProps } from "../containers/RegisterPage";
 const emailImg = "/images/register/email.svg";
 const usernameImg = "/images/register/username.svg";
 const fullNameImg = "/images/register/fullName.svg";
 const passwordImg = "/images/register/password.svg";
 const passwordConfirmImg = "/images/register/passwordConfirm.svg";
 const logo = "/images/logo.png";
+
+interface RegisterFormProps {
+  user: UserRegisterProps;
+  message: string;
+  loadingBtn: boolean;
+  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+}
 
 export default function RegisterFormComponent({
   user,

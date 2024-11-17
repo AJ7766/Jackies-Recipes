@@ -16,6 +16,8 @@ export interface RecipePopulatedProps extends Omit<RecipeProps, 'user'>{
    user: UserProps;
 }
 
+export interface RecipeFormProps extends Omit<RecipeProps, "user" | "_id"> { }
+
 export type MacroNutrientsProps = {
    carbs?: number,
    protein?: number,

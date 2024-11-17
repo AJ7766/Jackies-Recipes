@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
 import { fetchGetRecipeAPI } from "../services/fetchGetRecipeAPI";
 import mongoose from "mongoose";
-import { RecipeFormProps } from "@/app/add-recipe/containers/AddRecipe";
 import EditRecipeComponent from "../_components/EditRecipeComponent";
 import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, imageChange, updateIngredientComponent, updateInstruction } from "@/app/_services/recipeServices";
 import ErrorPage from "@/app/_errors/ErrorPage";
 import { fetchUpdateRecipeAPI } from "../services/fetchUpdateRecipeAPI";
 import { useRouter } from "next/navigation";
+import { RecipeFormProps } from "@/_models/RecipeModel";
 
 export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     const [imagePreview, setImagePreview] = useState<string>();
