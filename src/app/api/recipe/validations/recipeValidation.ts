@@ -1,22 +1,16 @@
 import { RecipeFormProps, RecipeProps } from "@/_models/RecipeModel";
 
-export const formValidation = async (recipe: RecipeProps) => {
-    let errorMessage: string | null;
+export default async function ValidateRecipeForm(recipe: RecipeProps) {
 
-    errorMessage = isValidImage(recipe.image || '');
-    if (errorMessage) return errorMessage;
+    await isValidImage(recipe.image || '');
 
-    errorMessage = isValidRecipeName(recipe.title || '');
-    if (errorMessage) return errorMessage;
+    await isValidRecipeName(recipe.title || '');
 
-    errorMessage = isValidIngredients(recipe);
-    if (errorMessage) return errorMessage;
+    await isValidIngredients(recipe);
 
-    errorMessage = isValidServings(recipe.servings);
-    if (errorMessage) return errorMessage;
+    await isValidServings(recipe.servings);
 
-    errorMessage = isValidInstructions(recipe);
-    if (errorMessage) return errorMessage;
+    await isValidInstructions(recipe);
 
     return null;
 }
@@ -41,49 +35,57 @@ export const ingredientListValidation = async (recipe: RecipeProps) => {
     }
 }
 
-const isValidImage = (image: string) => {
+const isValidImage = async (image: string) => {
     const MAX_SIZE = 20 * 1024 * 1024;
 
-    if (!image) return 'Please upload a image';
+    if (!image)
+        throw new Error('Please upload a image');
 
     const base64Data = image.split(';base64,').pop();
-    if (!base64Data) return 'Invalid Base64 data';
+    if (!base64Data)
+        throw new Error('Invalid Base64 data');
 
     const buffer = Buffer.from(base64Data, 'base64');
-    if (buffer.length > MAX_SIZE) return 'Image size exceeds 20MB';
+    if (buffer.length > MAX_SIZE)
+        throw new Error('Image size exceeds 20MB')
 
     return null;
 };
 
-const isValidRecipeName = (name: string) => {
+const isValidRecipeName = async (name: string) => {
     const nameRegex = /^[a-zA-Zà-ÿÀ-ÿ\s-]+$/;
 
-    if (name.length === 0) return "Please enter a a Recipe name";
+    if (name.length === 0)
+        throw new Error("Please enter a Recipe name");
 
-    if (!nameRegex.test(name)) return "Recipe name can only contain letters";
+    if (!nameRegex.test(name))
+        throw new Error("Recipe name can only contain letters");
 
-    if (name.length < 3) return "Recipe name must be atleast 3 letters";
+    if (name.length < 3)
+        throw new Error("Recipe name must be atleast 3 letters");
 
     return null
 };
 
-const isValidIngredients = (recipe: RecipeFormProps) => {
+const isValidIngredients = async (recipe: RecipeFormProps) => {
     for (const ingList of recipe.ingredients) {
         for (const ing of ingList.ingredients) {
-            if (ing.ingredient.length < 1) return "Please fill in an ingredient";
+            if (ing.ingredient.length < 1)
+                throw new Error("Please fill in an ingredient");
         }
     }
     return null;
 };
 
-const isValidServings = (servings?: number | string) => {
-
-    if (typeof servings !== 'number') return "Servings can only be numbers";
+const isValidServings = async (servings?: number | string) => {
+    if (typeof servings !== 'number')
+        throw new Error("Servings can only be numbers");
 
     return null;
 };
 
-const isValidInstructions = (recipe: RecipeFormProps) => {
-    if (!recipe.instructions || recipe.instructions.length === 0) return "Please type your instructions";
+const isValidInstructions = async (recipe: RecipeFormProps) => {
+    if (!recipe.instructions || recipe.instructions.length === 0)
+        throw new Error("Please type your instructions");
     return null;
 };

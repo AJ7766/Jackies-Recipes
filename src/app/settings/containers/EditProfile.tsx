@@ -6,9 +6,9 @@ import { UserEditProps, UserProps } from "@/_models/UserModel";
 import { fetchUpdateUserAPI } from "../services/fetchUpdateUserAPI";
 import EditProfileComponent from "../components/EditProfileComponent";
 const profilePicture = "/images/profile-picture.png";
-const camera = "/images/camera.svg";
 
-export default function EditProfile({ user }: { user: UserProps | null }) {
+export default function EditProfile() {
+  const { user } = useAuth();
   const [userData, setUserData] = useState<UserEditProps>({
     email: user?.email || "",
     username: user?.username || "",
@@ -130,7 +130,7 @@ export default function EditProfile({ user }: { user: UserProps | null }) {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-  
+
     setUserData((prev) => {
       if (name in (prev.userContent || {})) {
         return {

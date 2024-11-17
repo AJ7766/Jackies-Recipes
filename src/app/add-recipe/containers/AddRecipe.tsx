@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { fetchPostRecipeAPI } from "@/app/add-recipe/services/fetchPostRecipeAPI";
 import AddRecipeComponent from "../components/AddRecipeComponent";
 import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, imageChange, updateIngredientComponent, updateInstruction } from "@/app/_services/recipeServices";
-import ErrorPage from "@/app/_errors/ErrorPage";
 import { RecipeFormProps } from "@/_models/RecipeModel";
 
 export default function AddRecipe() {
@@ -42,13 +41,9 @@ export default function AddRecipe() {
   const { user, deleteCachedUser } = useAuth();
   const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
   const [isChecked, setIsChecked] = useState(false);
-  const [isClient, setIsClient] = useState(false);
-  const { isAuthenticated } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    setIsClient(true);
-
     if (
       recipe.macros?.carbs === 0 &&
       recipe.macros?.protein === 0 &&
@@ -214,12 +209,6 @@ export default function AddRecipe() {
       return prevRecipe;
     });
   }
-
-  if (!isClient)
-    return null;
-
-  if (!isAuthenticated)
-    return <ErrorPage />
 
   return (
     <AddRecipeComponent

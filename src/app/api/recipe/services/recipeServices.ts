@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { createRecipe, deleteRecipe, getRecipe, updateRecipe } from "../repositories/recipeRepository";
 import { RecipeProps } from "@/_models/RecipeModel";
-import { formValidation, ingredientListValidation } from "../validations/recipeValidation";
+import ValidateRecipeForm, { ingredientListValidation } from "../validations/recipeValidation";
 import mongoose from "mongoose";
 
 export const getRecipeIdFromUrlService = async (req: NextRequest): Promise<mongoose.Types.ObjectId> => {
@@ -15,7 +15,7 @@ export const getRecipeIdFromUrlService = async (req: NextRequest): Promise<mongo
 }
 
 export const validateRecipeService = async (recipe: RecipeProps) => {
-    const validation_response = await formValidation(recipe);
+    const validation_response = await ValidateRecipeForm(recipe);
     if (typeof validation_response === 'string')
         throw new Error(validation_response);
     return validation_response;

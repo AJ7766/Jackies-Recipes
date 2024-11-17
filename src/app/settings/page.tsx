@@ -1,14 +1,12 @@
 "use client";
-import { useAuth } from "@/app/_context/AuthContext";
-import { AuthGuardEditUser } from "./services/editProfile";
+import { AuthGuard } from "../_services/authGuard";
 import EditProfile from "./containers/EditProfile";
 
 export default function SettingsPage() {
-  const { user } = useAuth();
 
   return (
-    <AuthGuardEditUser>
-      <EditProfile user={user || null} />
-    </AuthGuardEditUser>
+    <AuthGuard>
+      <EditProfile />
+    </AuthGuard>
   );
 }

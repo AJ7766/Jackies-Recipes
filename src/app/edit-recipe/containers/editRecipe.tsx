@@ -40,17 +40,15 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
         ],
     }); const [loadingBtn, setLoadingBtn] = useState(false);
     const [message, setMessage] = useState("");
-    const { user, isAuthenticated, deleteCachedUser } = useAuth();
+    const { user, deleteCachedUser } = useAuth();
     const [token, setToken] = useState<string>("");
     const [userHasRecipe, setUserHasRecipe] = useState<boolean>(false);
     const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
     const [isFetching, setIsFetcing] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
-    const [isClient, setIsClient] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
-        setIsClient(true);
         const token = localStorage.getItem("token");
         if (!token) return;
 
@@ -238,11 +236,11 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
         });
     }
 
-    if (!isClient || isFetching)
+    if(isFetching)
         return null;
 
-    if (!isAuthenticated || !userHasRecipe)
-        return <ErrorPage />
+    if (!userHasRecipe)
+        return <ErrorPage />;
 
     return <EditRecipeComponent
         recipe={recipe}
