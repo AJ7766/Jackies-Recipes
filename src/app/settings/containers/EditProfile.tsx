@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { useAuth } from "@/app/_context/AuthContext";
@@ -131,23 +130,23 @@ export default function EditProfile({ user }: { user: UserProps | null }) {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setUserData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleUserContentChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setUserData((prev) => ({
-      ...prev,
-      userContent: {
-        ...prev.userContent,
-        [name]: value,
-      },
-    }));
+  
+    setUserData((prev) => {
+      if (name in (prev.userContent || {})) {
+        return {
+          ...prev,
+          userContent: {
+            ...prev.userContent,
+            [name]: value,
+          },
+        };
+      } else {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      }
+    });
   };
 
   return (
@@ -155,7 +154,6 @@ export default function EditProfile({ user }: { user: UserProps | null }) {
       user={userData}
       handleSubmit={handleSubmit}
       handleInputChange={handleInputChange}
-      handleUserContentChange={handleUserContentChange}
       handleProfilePicChange={handleProfilePicChange}
       ProfilePicChange={ProfilePicChange}
       message={message}

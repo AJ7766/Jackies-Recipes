@@ -22,7 +22,7 @@ export default function NavBar() {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const searchResultsRef = useRef<HTMLDivElement | null>(null);
 
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated, fetchingUser } = useAuth();
   
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (
@@ -84,6 +84,9 @@ export default function NavBar() {
     setIsOpen(!isOpen);
   }
 
+  if(fetchingUser)
+    return null;
+  
   return (
       <>
         <div className="space"></div>

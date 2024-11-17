@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useCallback,
 } from "react";
-import { fetchGetUserAPI } from "../_services/fetchGetUserAPI";
+import { fetchGetUserAPI } from "../_services/api/fetchGetUserAPI";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -14,6 +14,7 @@ interface AuthContextType {
   deleteCachedUser: () => void;
   verifyTokenAndFetchUser: (token: string) => Promise<void>;
   logout: () => void;
+  fetchingUser: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,12 +22,15 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<UserProps | null>(null);
+  const [fetchingUser, setFetchinguser] = useState(true);
 
   const verifyTokenAndFetchUser = useCallback(async (token: string) => {
     const cachedProfile = sessionStorage.getItem("user");
+    setFetchinguser(true);
     if (cachedProfile) {
       setIsAuthenticated(true);
       setUser(JSON.parse(cachedProfile));
+      setFetchinguser(false);
       return;
     }
     const { fetchedUser, message } = await fetchGetUserAPI(token);
@@ -34,12 +38,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.removeItem("token");
       sessionStorage.removeItem("user");
       setIsAuthenticated(false);
-      console.error("Error", message);
+      setFetchinguser(false);
       throw new Error(message);
     }
     setIsAuthenticated(true);
     setUser(fetchedUser);
     sessionStorage.setItem("user", JSON.stringify(fetchedUser));
+    setFetchinguser(false);
   }, []);
 
   useEffect(() => {
@@ -49,6 +54,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem("token");
         sessionStorage.removeItem("user");
         setIsAuthenticated(false);
+        setFetchinguser(false);
         return;
       }
       await verifyTokenAndFetchUser(token);
@@ -76,6 +82,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         deleteCachedUser,
         verifyTokenAndFetchUser,
         logout,
+        fetchingUser
       }}
     >
       {children}

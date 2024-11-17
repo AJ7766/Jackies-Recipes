@@ -1,4 +1,5 @@
-import { RecipeProps, SimplifiedRecipePropsNoUser } from "@/_models/RecipeModel";
+import { RecipeProps } from "@/_models/RecipeModel";
+import { RecipeFormProps } from "@/app/add-recipe/containers/AddRecipe";
 
 export const formValidation = async (recipe: RecipeProps) => {
     let errorMessage: string | null;
@@ -67,7 +68,7 @@ const isValidRecipeName = (name: string) => {
     return null
 };
 
-const isValidIngredients = (recipe: SimplifiedRecipePropsNoUser) => {
+const isValidIngredients = (recipe: RecipeFormProps) => {
     for (const ingList of recipe.ingredients) {
         for (const ing of ingList.ingredients) {
             if (ing.ingredient.length < 1) return "Please fill in an ingredient";
@@ -76,13 +77,14 @@ const isValidIngredients = (recipe: SimplifiedRecipePropsNoUser) => {
     return null;
 };
 
-const isValidServings = (servings?: number) => {
-    if (servings !== undefined && typeof servings !== 'number') return "Servings can only be numbers";
+const isValidServings = (servings?: number | string) => {
+
+    if (typeof servings !== 'number') return "Servings can only be numbers";
 
     return null;
 };
 
-const isValidInstructions = (recipe: SimplifiedRecipePropsNoUser) => {
+const isValidInstructions = (recipe: RecipeFormProps) => {
     if (!recipe.instructions || recipe.instructions.length === 0) return "Please type your instructions";
     return null;
 };

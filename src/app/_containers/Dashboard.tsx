@@ -1,7 +1,7 @@
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { useEffect, useState } from "react";
 import MasonaryComponent from "../_components/MasonaryComponent";
-import { fetchRecipesAPI } from "../_services/fetchRecipesAPI";
+import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
 import { Types } from "mongoose";
 import { LoadingSpinner } from "../_components/LoadingSpinner";
 

@@ -12,9 +12,6 @@ interface EditProfileProps {
   handleInputChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-  handleUserContentChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
   loadingBtn: boolean;
   message: string;
 }
@@ -23,7 +20,6 @@ export default function EditProfileComponent({
   user,
   handleSubmit,
   handleInputChange,
-  handleUserContentChange,
   handleProfilePicChange,
   ProfilePicChange,
   message,
@@ -41,6 +37,7 @@ export default function EditProfileComponent({
         />
         <input
           id="profilePicInput"
+          name="profilePicture"
           type="file"
           accept=".jpg,.jpeg,.png,.webp"
           className="hidden"
@@ -95,7 +92,7 @@ export default function EditProfileComponent({
           maxLength={350}
           placeholder="bio"
           value={user.userContent?.bio}
-          onChange={handleUserContentChange}
+          onChange={handleInputChange}
         />
       </div>
       <h1>
@@ -111,7 +108,7 @@ export default function EditProfileComponent({
             type="text"
             placeholder="optional"
             value={user.userContent?.instagram}
-            onChange={handleUserContentChange}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -123,7 +120,7 @@ export default function EditProfileComponent({
             type="text"
             placeholder="optional"
             value={user.userContent?.x}
-            onChange={handleUserContentChange}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -135,7 +132,7 @@ export default function EditProfileComponent({
             type="text"
             placeholder="optional"
             value={user.userContent?.tiktok}
-            onChange={handleUserContentChange}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -147,7 +144,7 @@ export default function EditProfileComponent({
             type="text"
             placeholder="optional"
             value={user.userContent?.youtube}
-            onChange={handleUserContentChange}
+            onChange={handleInputChange}
           />
         </div>
 
@@ -159,9 +156,10 @@ export default function EditProfileComponent({
             type="text"
             placeholder="optional"
             value={user.userContent?.facebook}
-            onChange={handleUserContentChange}
+            onChange={handleInputChange}
           />
         </div>
+
       </div>
       <h1>Change Password</h1>
       <div className="editPasswordContainer">

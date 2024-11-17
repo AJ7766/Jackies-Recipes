@@ -17,7 +17,7 @@ interface LoginFormProps {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export default function LoginFormComponent({
+export default function LoginComponent({
   user = {username: "", password: ""},
   handleInputChange,
   message,

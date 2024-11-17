@@ -29,19 +29,16 @@ export type IngredientListProps = {
 }
 
 export type IngredientProps = {
-   id: string;
    ingredient: string;
    amount?: number;
    unit: string;
 }
 
 export type InstructionProps = {
-   id: string;
    instruction: string;
 }
 
 export const IngredientSchema = new Schema<IngredientProps>({
-   id: { type: String, required: true },
    ingredient: { type: String, required: true },
    amount: { type: Number },
    unit: { type: String }
@@ -60,7 +57,6 @@ export const MacroNutrientsSchema = new Schema<MacroNutrientsProps>({
 });
 
 export const InstructionSchema = new Schema<InstructionProps>({
-   id: { type: String, required: true },
    instruction: { type: String }
 });
 

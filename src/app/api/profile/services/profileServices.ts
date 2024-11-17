@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import mongoose from "mongoose";
+import mongoose, { mongo } from "mongoose";
 import { addRecipeToUser, deleteUserRecipe, getUserNoContent, getUserPopulated } from "../repositories/profileRepository";
 import { RecipeProps } from "@/_models/RecipeModel";
 
@@ -46,8 +46,11 @@ export const deleteUserRecipeService = async (user_id: mongoose.Types.ObjectId, 
     return updated_user;
 }
 
-export const checkUserHasRecipeService = async (user_id: mongoose.Types.ObjectId, recipe_user_id: mongoose.Types.ObjectId | null) => {
-    const user_has_recipe = user_id === recipe_user_id && recipe_user_id.toString();
+export const checkUserHasRecipeService = async (user_id: string, recipe_user_id: mongoose.Types.ObjectId | null): Promise<boolean> => {
+    if (!recipe_user_id) 
+        throw new Error('Invalid user');
 
+    const user_has_recipe = recipe_user_id.equals(new mongoose.Types.ObjectId(user_id));
+    
     return user_has_recipe;
 }

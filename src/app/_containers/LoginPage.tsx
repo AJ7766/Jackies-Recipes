@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { fetchLoginAPI } from "../_services/fetchLoginAPI";
-import LoginFormComponent from "../_components/LoginFormComponent";
+import { fetchLoginAPI } from "../_services/api/fetchLoginAPI";
+import LoginFormComponent from "../_components/LoginComponent";
 
 export default function LoginPage() {
   const [user, setUser] = useState({

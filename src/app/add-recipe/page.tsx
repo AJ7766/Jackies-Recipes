@@ -1,15 +1,10 @@
 "use client";
-import ErrorPage from "../_errors/ErrorPage";
-import { useAuth } from "../_context/AuthContext";
-import AddRecipeForm from "./_components/AddRecipeForm";
 
-export default function AddRecipe() {
-  const { initializing, user, isAuthenticated } = useAuth();
+import AddRecipe from "./containers/AddRecipe";
+
+export default function AddRecipePage() {
 
   return (
-    <>
-      {!initializing &&
-        (isAuthenticated && user ? <AddRecipeForm /> : <ErrorPage />)}
-    </>
+    <AddRecipe />
   );
 }

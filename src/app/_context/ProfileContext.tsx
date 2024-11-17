@@ -1,8 +1,8 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { UserPopulatedProps, UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
-import { fetchGetProfileAPI } from "../_services/fetchGerProfileAPI";
+import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
+import { fetchGetProfileAPI } from "../_services/api/fetchGetProfileAPI";
 
 interface ProfileContextType {
   profile: UserPopulatedRecipePopulatedProps | null;

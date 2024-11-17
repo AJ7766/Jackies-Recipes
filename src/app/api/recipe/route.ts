@@ -17,8 +17,8 @@ export async function GET(req: NextRequest) { // Get recipe
 
         const recipe = await getRecipeService(recipe_id);
 
-        const userHasRecipe = checkUserHasRecipeService(decoded.id, recipe?.user._id || null);
-
+        const userHasRecipe = await checkUserHasRecipeService(decoded.id, recipe?.user._id || null);
+        
         return NextResponse.json({ userHasRecipe, recipe }, { status: 200 });
     } catch (error) {
         console.error('Can not find recipe', error)

@@ -1,6 +1,6 @@
 "use client";
 import Dashboard from "./_containers/Dashboard";
-import { AuthGuard } from "./_services/dashboard";
+import { AuthGuard } from "./_services/dashboardServices";
 
 export default function DashboardPage() {
   return (

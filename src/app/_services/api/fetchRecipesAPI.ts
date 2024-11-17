@@ -5,11 +5,11 @@ export const fetchRecipesAPI = async () => {
         });
         const data = await res.json();
 
-        if (!res.ok) {
+        if (!res.ok)
             return { message: data.message || "Failed to fetch recipes" };
-        }
+
         return { message: "Successfully fetching recipes", recipes: data.recipes };
     } catch (error: any) {
-        return { message: `Failed to fetch recipes: ${error}`, recipes: null};
+        return { message: `Failed to fetch recipes: ${error}`, recipes: null };
     }
 };
