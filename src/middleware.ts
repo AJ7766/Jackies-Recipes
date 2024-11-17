@@ -10,7 +10,7 @@ function setSecurityHeaders(response: NextResponse) {
         'Content-Security-Policy',
         [
             "default-src 'self';",
-            "script-src 'self' 'unsafe-inline' https://trusted-cdn.com;",
+            "script-src 'self' https://trusted-cdn.com;",
             "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
             "font-src 'self' https://fonts.gstatic.com;",
             "img-src 'self' https: data:;",
