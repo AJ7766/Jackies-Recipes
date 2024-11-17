@@ -11,7 +11,7 @@ function setSecurityHeaders(response: NextResponse) {
         [
             "default-src 'self';",
             "script-src 'self' https://trusted-cdn.com;",
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
+            "style-src 'self' https://fonts.googleapis.com;",
             "font-src 'self' https://fonts.gstatic.com;",
             "img-src 'self' https: data:;",
             "frame-ancestors 'self';",
