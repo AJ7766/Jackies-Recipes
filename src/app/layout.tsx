@@ -60,6 +60,7 @@ export default function RootLayout({
 
   const NavBarGate = ({ children }: { children: JSX.Element }) => {
     const { isAuthenticated } = useAuth();
+
     if (!isClient) return null;
 
     if ((pathname === "/" && !isAuthenticated) || pathname === "/register")
