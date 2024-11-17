@@ -10,15 +10,16 @@
 # Summary of Work in This Project
 - Developed the application using TypeScript with Next.js and Node.js.
 - Worked on both the back-end and front-end.
+- Implemented API calls to the server using a Container-Service-Repository (CSR) pattern for scalable and maintainable backend logic.
+- Designed the frontend using a Dumb-Smart Component pattern for a clear separation of presentation and logic layers, ensuring maintainability and scalability.
 - Used MongoDB for data storage, utilizing Mongoose for data modeling and interaction.
-- Created models for database interaction.
-- Implemented API calls to the server to ensure data security.
 - Used JSON Web Tokens (JWT) for user authorization.
 - Implemented cache in backend with Node-cache to make queries faster.
+- Implemented cache in frontend to make rendering faster.
 - Conducted integration and unit testing with Jest for code quality, reliability and maintainability.
-- Cookies for user consent.
+- Implemented Cookies for user consent.
 - Utilized Tailwind CSS for responsive design and styling.
-
+- Implemented functions Register Account, Log in, Authorization using JWT, Cookie Consent, Edit Profile, Add Recipe, Edit Recipe, - Delete Recipe, Search for Users & Recipes.
 
 # Full-Stack Features in the Project
 - Register Account
