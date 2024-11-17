@@ -18,7 +18,7 @@ export default function MasonaryProfile({
   profile: UserPopulatedRecipePopulatedProps | null;
 }) {
   const [totalColumns, setTotalColumns] = useState<number>(
-    window.innerWidth > 768 ? 5 : 3
+    window.innerWidth > 768 ? 4 : 3
   );
   const [columns, setColumns] = useState<RecipeCardProps[][] | null>(null);
   const [canEdit, setCanEdit] = useState(false);
