@@ -1,16 +1,9 @@
 import { LoadingSpinner } from "@/app/_components/LoadingSpinner";
-import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 import { useState, useEffect } from "react";
+import { useProfile } from "@/app/_context/ProfileContext";
 
-export const ClientGuard = ({
-  children,
-  profile,
-  fetchingProfile,
-}: {
-  children: JSX.Element;
-  profile: UserPopulatedRecipePopulatedProps | null;
-  fetchingProfile: boolean;
-}) => {
+export const ProfileGuard = ({ children }: { children: JSX.Element }) => {
+  const { profile, fetchingProfile } = useProfile();
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
@@ -21,7 +14,7 @@ export const ClientGuard = ({
     return null;
   }
 
-  if(fetchingProfile)
+  if (fetchingProfile)
     return <LoadingSpinner />
 
   if (!profile) return <div className="text-xl text-center">User not found</div>;

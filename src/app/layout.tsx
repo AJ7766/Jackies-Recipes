@@ -5,8 +5,8 @@ import { ProfileProvider } from "./_context/ProfileContext";
 import { useCookieConsent } from "@/_utils/cookies";
 import { useEffect, useState } from "react";
 import { CookieConsent } from "./_components/CookieConsent";
-import NavBar from "./_components/NavBar";
 import { usePathname  } from "next/navigation";
+import NavBar from "./_containers/NavBar";
 
 export default function RootLayout({
   children,

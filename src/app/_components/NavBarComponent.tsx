@@ -1,86 +1,41 @@
 "use client";
-import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useAuth } from "@/app/_context/AuthContext";
 import Image from "next/image";
-import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { UserProps } from "@/_models/UserModel";
-import { fetchGetSearchAPI } from "../_services/api/fetchGetSearchAPI";
-
+import { RecipePopulatedProps } from "@/_models/RecipeModel";
+import { LegacyRef } from "react";
 const logo = "/images/logo-text-free.png";
 const searchGlass = "/images/search-glass.svg";
 const profilePicture = "/images/profile-picture.png";
 const addRecipe = "/images/add.svg";
 const dropdownIcon = "/images/arrow-down.png";
 
-export default function NavBar() {
-  const [search, setSearch] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
-  const [debouncedSearch, setDebouncedSearch] = useState(search);
-  const [users, setUsers] = useState<UserProps[]>([]);
-  const [recipes, setRecipes] = useState<RecipePopulatedProps[]>([]);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
-  const searchResultsRef = useRef<HTMLDivElement | null>(null);
-
-  const { user, logout, isAuthenticated, fetchingUser } = useAuth();
-
-  const handleClickOutside = useCallback((event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setIsOpen(false);
-    }
-    if (
-      searchResultsRef.current &&
-      !searchResultsRef.current.contains(event.target as Node)
-    ) {
-      setUsers([]);
-      setRecipes([]);
-    }
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [handleClickOutside]);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebouncedSearch(search);
-    }, 500);
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [search]);
-
-  useEffect(() => {
-    if (debouncedSearch) {
-      const fetchData = async () => {
-        const { message, fetchedUsers, fetchedRecipes } = await fetchGetSearchAPI(debouncedSearch);
-
-        if (!fetchedUsers || !fetchedRecipes)
-          throw new Error(message);
-
-        setUsers(fetchedUsers);
-        setRecipes(fetchedRecipes);
-      };
-      fetchData();
-    } else {
-      setUsers([]);
-      setRecipes([]);
-    }
-  }, [debouncedSearch]);
-
-  function toggleDropdown() {
-    setIsOpen(!isOpen);
-  }
-
-  if (fetchingUser)
-    return null;
-
+interface NavBarProps {
+  user: UserProps | null;
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>>;
+  users: UserProps[];
+  recipes: RecipePopulatedProps[];
+  isOpen: boolean;
+  searchResultsRef: LegacyRef<HTMLDivElement> | null;
+  isAuthenticated: boolean;
+  dropdownRef: LegacyRef<HTMLDivElement> | null;
+  toggleDropdown: () => void;
+  logout: () => void;
+}
+export default function NavBarComponent({
+  user,
+  search,
+  setSearch,
+  users,
+  recipes,
+  isOpen,
+  searchResultsRef = null,
+  isAuthenticated,
+  dropdownRef = null,
+  toggleDropdown,
+  logout
+}: NavBarProps) {
   return (
     <>
       <div className="space"></div>

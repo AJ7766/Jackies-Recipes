@@ -1,19 +1,18 @@
 "use client";
-import ProfilePage from "./_components/ProfileComponent";
-import { useProfile } from "../_context/ProfileContext";
-import { ClientGuard } from "./_services/profile";
 import MasonaryProfile from "./_containers/MasonaryProfile";
 import { ReactNode } from "react";
+import Profile from "./_containers/Profile";
+import { ProfileGuard } from "./_services/profileServices";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
-  const { profile, fetchingProfile } = useProfile();
+
   return (
-    <ClientGuard profile={profile || null} fetchingProfile={fetchingProfile}>
+    <ProfileGuard >
       <>
         {children}
-        <ProfilePage profile={profile} />
-        <MasonaryProfile profile={profile} />
+        <Profile />
+        <MasonaryProfile />
       </>
-    </ClientGuard>
+    </ProfileGuard>
   );
 }

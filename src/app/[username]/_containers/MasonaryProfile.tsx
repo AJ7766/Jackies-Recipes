@@ -5,6 +5,7 @@ import { useAuth } from "@/app/_context/AuthContext";
 import { usePathname } from "next/navigation";
 import MasonaryProfileComponent from "../_components/MasonaryProfileComponent";
 import { createMasonary } from "@/app/_services/masonaryServices";
+import { useProfile } from "@/app/_context/ProfileContext";
 
 interface RecipeCardProps {
   id: Types.ObjectId | undefined;
@@ -13,11 +14,7 @@ interface RecipeCardProps {
   user: { username: string };
 }
 
-export default function MasonaryProfile({
-  profile,
-}: {
-  profile: UserPopulatedRecipePopulatedProps | null;
-}) {
+export default function MasonaryProfile() {
   const [totalColumns, setTotalColumns] = useState<number>(
     window.innerWidth > 768 ? 4 : 3
   );
@@ -25,6 +22,7 @@ export default function MasonaryProfile({
   const [canEdit, setCanEdit] = useState(false);
   const { user } = useAuth();
   const pathname = usePathname();
+  const { profile } = useProfile();
 
   useEffect(() => {
     if (!user) return;

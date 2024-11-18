@@ -9,7 +9,7 @@ import {
 import fetchMock from "jest-fetch-mock";
 import "@testing-library/jest-dom";
 import { useAuth } from "@/app/_context/AuthContext";
-import NavBar from "@/app/_components/NavBar";
+import NavBar from "@/app/_components/NavBarComponent";
 
 beforeEach(() => {
   fetchMock.resetMocks();
