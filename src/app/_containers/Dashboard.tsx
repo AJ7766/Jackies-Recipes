@@ -1,9 +1,9 @@
-import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { useEffect, useState } from "react";
 import MasonaryComponent from "../_components/MasonaryComponent";
 import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
 import { Types } from "mongoose";
 import { LoadingSpinner } from "../_components/LoadingSpinner";
+import { createMasonary } from "../_services/masonaryServices";
 
 interface RecipeCardProps {
   id: Types.ObjectId | undefined;
@@ -22,33 +22,12 @@ export default function Dashboard() {
     const fetchRecipes = async () => {
       const { recipes } = await fetchRecipesAPI();
       if (recipes) {
-        await createMasonary(recipes);
+        const masonaryColumns = await createMasonary(recipes, totalColumns);
+        setColumns(masonaryColumns);
       }
     };
     fetchRecipes();
   }, []);
-
-  const createMasonary = async (recipes: RecipePopulatedProps[]) => {
-    const newColumns: RecipeCardProps[][] = Array.from(
-      { length: totalColumns },
-      () => []
-    );
-
-    recipes.reduce((currentColumns, recipe, index) => {
-      const recipeCard: RecipeCardProps = {
-        id: recipe._id,
-        title: recipe.title,
-        image: recipe.image || "",
-        user: {
-          username: recipe.user.username || "",
-        },
-      };
-      currentColumns[index % totalColumns].push(recipeCard);
-      return currentColumns;
-    }, newColumns);
-
-    setColumns(newColumns);
-  };
 
   if (!columns) {
     return <LoadingSpinner />;

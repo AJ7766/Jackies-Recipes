@@ -5,6 +5,7 @@ import { useAuth } from "@/app/_context/AuthContext";
 import Image from "next/image";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { UserProps } from "@/_models/UserModel";
+import { fetchGetSearchAPI } from "../_services/api/fetchGetSearchAPI";
 
 const logo = "/images/logo-text-free.png";
 const searchGlass = "/images/search-glass.svg";
@@ -18,12 +19,11 @@ export default function NavBar() {
   const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [users, setUsers] = useState<UserProps[]>([]);
   const [recipes, setRecipes] = useState<RecipePopulatedProps[]>([]);
-  const [searchResults, setSearchResults] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const searchResultsRef = useRef<HTMLDivElement | null>(null);
 
   const { user, logout, isAuthenticated, fetchingUser } = useAuth();
-  
+
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (
       dropdownRef.current &&
@@ -35,7 +35,8 @@ export default function NavBar() {
       searchResultsRef.current &&
       !searchResultsRef.current.contains(event.target as Node)
     ) {
-      setSearchResults(false);
+      setUsers([]);
+      setRecipes([]);
     }
   }, []);
 
@@ -58,20 +59,13 @@ export default function NavBar() {
   useEffect(() => {
     if (debouncedSearch) {
       const fetchData = async () => {
-        try {
-          const res = await fetch(`/api/search?search=${debouncedSearch}`, {
-            method: "GET",
-          });
-          if (!res.ok) {
-            throw new Error(`Error: ${res.status} - ${res.statusText}`);
-          }
-          const data = await res.json();
-          setSearchResults(true);
-          setUsers(data.searchedUsers);
-          setRecipes(data.searchedRecipes);
-        } catch (error: any) {
-          console.error("Error:", error.message);
-        }
+        const { message, fetchedUsers, fetchedRecipes } = await fetchGetSearchAPI(debouncedSearch);
+
+        if (!fetchedUsers || !fetchedRecipes)
+          throw new Error(message);
+
+        setUsers(fetchedUsers);
+        setRecipes(fetchedRecipes);
       };
       fetchData();
     } else {
@@ -84,154 +78,154 @@ export default function NavBar() {
     setIsOpen(!isOpen);
   }
 
-  if(fetchingUser)
+  if (fetchingUser)
     return null;
-  
+
   return (
-      <>
-        <div className="space"></div>
-        <div className="navContainer">
-          <Link href={"/"}>
-            <Image
-              id="logo"
-              src={logo}
-              alt="logo"
-              width={24}
-              height={24}
-              priority
-            />
-          </Link>
-          <div className="searchContainer">
-            <Image
-              src={searchGlass}
-              id="searchGlass"
-              alt="search-glass"
-              width={24}
-              height={24}
-            />
-            <input
-              type="search"
-              name="query"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search..."
-            />
-            {searchResults && (users.length > 0 || recipes.length > 0) && (
-              <div
-                className="searchedUsersContainer"
-                data-testid="searchedUsersContainer"
-                ref={searchResultsRef}
-              >
-                {users.length > 0 && (
-                  <>
-                    <h1>Users</h1>
-                    {users.map((user, indexKey) => (
-                      <Link href={`/${user.username}`} key={indexKey}>
-                        <div
-                          className="searchedUser"
-                          data-testid="searchedUser"
-                        >
-                          <Image
-                            height={42}
-                            width={42}
-                            src={
-                              user.userContent?.profilePicture || profilePicture
-                            }
-                            alt="user-picture"
-                          />
-                          <div>
-                            <h2>{user.username}</h2>
-                            <p>{user.fullName}</p>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </>
-                )}
-
-                {recipes.length > 0 && (
-                  <>
-                    <h1>Recipes</h1>
-                    {recipes.map((recipe, indexKey) => (
-                      <Link
-                        href={`/${recipe.user?.username}/${recipe._id}`}
-                        key={indexKey}
+    <>
+      <div className="space"></div>
+      <div className="navContainer">
+        <Link href={"/"}>
+          <Image
+            id="logo"
+            src={logo}
+            alt="logo"
+            width={24}
+            height={24}
+            priority
+          />
+        </Link>
+        <div className="searchContainer">
+          <Image
+            src={searchGlass}
+            id="searchGlass"
+            alt="search-glass"
+            width={24}
+            height={24}
+          />
+          <input
+            type="search"
+            name="query"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search..."
+          />
+          {(users.length > 0 || recipes.length > 0) && (
+            <div
+              className="searchedUsersContainer"
+              data-testid="searchedUsersContainer"
+              ref={searchResultsRef}
+            >
+              {users.length > 0 && (
+                <>
+                  <h1>Users</h1>
+                  {users.map((user, indexKey) => (
+                    <Link href={`/${user.username}`} key={indexKey}>
+                      <div
+                        className="searchedUser"
+                        data-testid="searchedUser"
                       >
-                        <div
-                          className="searchedUser"
-                          data-testid="searchedUser"
-                        >
-                          <Image
-                            height={42}
-                            width={42}
-                            src={recipe.image}
-                            alt="recipe-image"
-                          />
-                          <div>
-                            <h2>{recipe.title}</h2>
-                            <p>{recipe.user.username}</p>
-                          </div>
+                        <Image
+                          height={42}
+                          width={42}
+                          src={
+                            user.userContent?.profilePicture || profilePicture
+                          }
+                          alt="user-picture"
+                        />
+                        <div>
+                          <h2>{user.username}</h2>
+                          <p>{user.fullName}</p>
                         </div>
-                      </Link>
-                    ))}
-                  </>
-                )}
-              </div>
-            )}
-          </div>
+                      </div>
+                    </Link>
+                  ))}
+                </>
+              )}
 
-          {isAuthenticated && user ? (
-            <>
-              <Link className="addRecipe shrink-0" href="/add-recipe">
-                <Image
-                  height={32}
-                  width={32}
-                  src={addRecipe}
-                  alt="add-recipe"
-                />
-              </Link>
-              <Link
-                className="profilePictureLink shrink-0"
-                href={`/${user.username}`}
-              >
-                <Image
-                  height={35}
-                  width={35}
-                  src={user.userContent?.profilePicture || profilePicture}
-                  alt="profile-picture"
-                />
-              </Link>
-              <div className="dropdownContainer" ref={dropdownRef}>
-                <Image
-                  className={`dropdownButton ${isOpen ? "open" : ""}`}
-                  src={dropdownIcon}
-                  width={24}
-                  height={24}
-                  alt="drop-down-menu"
-                  onClick={toggleDropdown}
-                />
-                {isOpen && (
-                  <div className="dropdownContentContainer">
-                    <div className="dropdownContent">
-                      <Link href="/settings">Settings</Link>
-                      <Link href="/privacy-policy">Privacy Policy</Link>
-                      <button onClick={logout}>Logout</button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            </>
-          ) : (
-            <div className="newUserButtons">
-              <Link href="/">
-                <button>Login</button>
-              </Link>
-              <Link href="/register">
-                <button>Register</button>
-              </Link>
+              {recipes.length > 0 && (
+                <>
+                  <h1>Recipes</h1>
+                  {recipes.map((recipe, indexKey) => (
+                    <Link
+                      href={`/${recipe.user?.username}/${recipe._id}`}
+                      key={indexKey}
+                    >
+                      <div
+                        className="searchedUser"
+                        data-testid="searchedUser"
+                      >
+                        <Image
+                          height={42}
+                          width={42}
+                          src={recipe.image}
+                          alt="recipe-image"
+                        />
+                        <div>
+                          <h2>{recipe.title}</h2>
+                          <p>{recipe.user.username}</p>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </>
+              )}
             </div>
           )}
         </div>
-      </>
-    );
+
+        {isAuthenticated && user ? (
+          <>
+            <Link className="addRecipe shrink-0" href="/add-recipe">
+              <Image
+                height={32}
+                width={32}
+                src={addRecipe}
+                alt="add-recipe"
+              />
+            </Link>
+            <Link
+              className="profilePictureLink shrink-0"
+              href={`/${user.username}`}
+            >
+              <Image
+                height={35}
+                width={35}
+                src={user.userContent?.profilePicture || profilePicture}
+                alt="profile-picture"
+              />
+            </Link>
+            <div className="dropdownContainer" ref={dropdownRef}>
+              <Image
+                className={`dropdownButton ${isOpen ? "open" : ""}`}
+                src={dropdownIcon}
+                width={24}
+                height={24}
+                alt="drop-down-menu"
+                onClick={toggleDropdown}
+              />
+              {isOpen && (
+                <div className="dropdownContentContainer">
+                  <div className="dropdownContent">
+                    <Link href="/settings">Settings</Link>
+                    <Link href="/privacy-policy">Privacy Policy</Link>
+                    <button onClick={logout}>Logout</button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          <div className="newUserButtons">
+            <Link href="/">
+              <button>Login</button>
+            </Link>
+            <Link href="/register">
+              <button>Register</button>
+            </Link>
+          </div>
+        )}
+      </div>
+    </>
+  );
 }

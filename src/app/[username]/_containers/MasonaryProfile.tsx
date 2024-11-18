@@ -4,6 +4,7 @@ import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 import { useAuth } from "@/app/_context/AuthContext";
 import { usePathname } from "next/navigation";
 import MasonaryProfileComponent from "../_components/MasonaryProfileComponent";
+import { createMasonary } from "@/app/_services/masonaryServices";
 
 interface RecipeCardProps {
   id: Types.ObjectId | undefined;
@@ -36,25 +37,11 @@ export default function MasonaryProfile({
 
   useEffect(() => {
     if (profile && profile.recipes) {
-      const newColumns: RecipeCardProps[][] = Array.from(
-        { length: totalColumns },
-        () => []
-      );
-
-      profile.recipes.reduce((currentColumns, recipe, index) => {
-        const recipeCard: RecipeCardProps = {
-          id: recipe._id,
-          title: recipe.title,
-          image: recipe.image || "",
-          user: {
-            username: recipe.user.username || "",
-          },
-        };
-        currentColumns[index % totalColumns].push(recipeCard);
-        return currentColumns;
-      }, newColumns);
-
-      setColumns(newColumns);
+      const fetchRecipes = async () => {
+        const masonaryColumns = await createMasonary(profile.recipes, totalColumns)
+        setColumns(masonaryColumns);
+      }
+      fetchRecipes();
     }
   }, []);
 
