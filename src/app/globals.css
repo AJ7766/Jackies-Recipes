@@ -1398,6 +1398,8 @@ input::-webkit-inner-spin-button {
 @media screen and (max-width: 1024px) {
   .cookie-consent-wrapper {
     flex-direction: column;
+    width: 100%;
+    bottom: 0%;
   }
 
   .loginFormContainer,
