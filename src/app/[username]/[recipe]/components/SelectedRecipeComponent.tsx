@@ -18,10 +18,9 @@ interface SelectedRecipeComponentProps {
 export default function SelectedRecipeComponent({
     selectedRecipe,
     isSmallScreen,
-    profile = null,
+    profile,
     closeRecipe
 }: SelectedRecipeComponentProps) {
-
     return (
         selectedRecipe && (
             <>

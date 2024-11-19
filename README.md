@@ -19,7 +19,7 @@
 - Conducted integration and unit testing with Jest for code quality, reliability and maintainability.
 - Implemented Cookies for user consent.
 - Utilized Tailwind CSS for responsive design and styling.
-- Implemented functions Register Account, Log in, Authorization using JWT, Cookie Consent, Edit Profile, Add Recipe, Edit Recipe, - Delete Recipe, Search for Users & Recipes.
+- Implemented functions Register Account, Log in, Authorization using JWT, Cookie Consent, Edit Profile, Add Recipe, Edit Recipe, - Delete Recipe, Search for Users & Recipes, All recipes shown for logged-in users at "/".
 
 # Full-Stack Features in the Project
 - Register Account
