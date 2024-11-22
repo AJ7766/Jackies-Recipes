@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 "use client";
 import NavBar from "../_components/NavBar";
 import ProfilePage from "../_components/Profile";
@@ -26,4 +27,30 @@ export default function RootLayout({
         ))}
     </>
   );
+=======
+import MasonaryProfile from "./_containers/MasonaryProfile";
+import { ReactNode } from "react";
+import Profile from "./_containers/Profile";
+import { getUserPopulatedService } from "../api/profile/services/profileServices";
+
+export default async function RootLayout({
+    children,
+    params,
+}: {
+    children: ReactNode;
+    params: Promise<{ username: string }>;
+}) {
+    const { username } = await params;
+    const lowercaseUsername = username.toLocaleLowerCase();
+    const serverProfile = await getUserPopulatedService(lowercaseUsername);
+    const populatedProfile = JSON.parse(JSON.stringify(serverProfile));
+
+    return (
+            <>
+                {children}
+                <Profile serverProfile={populatedProfile} />
+                <MasonaryProfile serverProfile={populatedProfile} />
+            </>
+    );
+>>>>>>> Stashed changes
 }
