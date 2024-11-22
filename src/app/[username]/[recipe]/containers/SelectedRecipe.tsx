@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useProfile } from "@/app/_context/ProfileContext";

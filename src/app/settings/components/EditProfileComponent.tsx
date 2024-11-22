@@ -1,4 +1,3 @@
-"use client";
 import { UserEditProps } from "@/_models/UserModel";
 import Image from "next/image";
 const profilePicture = "/images/profile-picture.png";

@@ -1,3 +1,5 @@
+"use client"
+
 import { LoadingSpinner } from "@/app/_components/LoadingSpinner";
 import { useState, useEffect } from "react";
 import { useProfile } from "@/app/_context/ProfileContext";

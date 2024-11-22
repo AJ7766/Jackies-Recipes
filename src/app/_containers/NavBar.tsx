@@ -1,4 +1,3 @@
-"use client";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";

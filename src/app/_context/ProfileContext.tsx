@@ -1,4 +1,3 @@
-"use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";

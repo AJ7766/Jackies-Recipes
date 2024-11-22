@@ -1,4 +1,3 @@
-"use client";
 import MasonaryProfile from "./_containers/MasonaryProfile";
 import { ReactNode } from "react";
 import Profile from "./_containers/Profile";

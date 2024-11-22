@@ -1,5 +1,3 @@
-"use client";
-
 import { AuthGuard } from "../_services/authGuard";
 import AddRecipe from "./containers/AddRecipe";
 

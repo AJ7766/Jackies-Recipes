@@ -1,6 +1,6 @@
+"use client"
 import { useEffect, useState } from "react";
 import { Types } from "mongoose";
-import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 import { useAuth } from "@/app/_context/AuthContext";
 import { usePathname } from "next/navigation";
 import MasonaryProfileComponent from "../_components/MasonaryProfileComponent";
@@ -13,7 +13,6 @@ interface RecipeCardProps {
   image: string | string;
   user: { username: string };
 }
-
 export default function MasonaryProfile() {
   const [totalColumns, setTotalColumns] = useState<number>(
     window.innerWidth > 768 ? 4 : 3

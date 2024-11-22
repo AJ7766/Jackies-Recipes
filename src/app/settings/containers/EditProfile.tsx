@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { useAuth } from "@/app/_context/AuthContext";

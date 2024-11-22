@@ -6,28 +6,47 @@ function setSecurityHeaders(response: NextResponse) {
     response.headers.set('X-XSS-Protection', '1; mode=block');
     response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
     response.headers.set('Cross-Origin-Resource-Policy', 'same-site');
-    response.headers.set(
-        'Content-Security-Policy',
-        [
-            "default-src 'self';",
-            "script-src 'self' 'unsafe-inline' https://trusted-cdn.com;",
-            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
-            "font-src 'self' https://fonts.gstatic.com;",
-            "img-src 'self' https: data:;",
-            "frame-ancestors 'self';",
-            "form-action 'self';",
-        ].join(' ')
-    );
+
+    if (process.env.NODE_ENV === 'development') {
+        response.headers.set(
+            'Content-Security-Policy',
+            [
+                "default-src 'self';",
+                "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://trusted-cdn.com https://www.googletagmanager.com;",
+                "connect-src 'self' https://region1.google-analytics.com;",
+                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
+                "font-src 'self' https://fonts.gstatic.com;",
+                "img-src 'self' https: data:;",
+                "frame-ancestors 'self';",
+                "form-action 'self';",
+            ].join(' ')
+        );
+    } else {
+        response.headers.set(
+            'Content-Security-Policy',
+            [
+                "default-src 'self';",
+                "script-src 'self' 'unsafe-inline' https://trusted-cdn.com https://www.googletagmanager.com;",
+                "connect-src 'self' https://region1.google-analytics.com;",
+                "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
+                "font-src 'self' https://fonts.gstatic.com;",
+                "img-src 'self' https: data:;",
+                "frame-ancestors 'self';",
+                "form-action 'self';",
+            ].join(' ')
+        );
+    }
     response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
 }
 
-export async function middleware(request: NextRequest) {
-    const response = NextResponse.next();
+    export async function middleware(request: NextRequest) {
+        const response = NextResponse.next();
 
-    setSecurityHeaders(response);
-    return response;
-}
+        setSecurityHeaders(response);
+        return response;
+    }
 
-export const config = {
-    matcher: ['/', '/api/:path*'],
-};
+    export const config = {
+        matcher: ['/', '/api/:path*'],
+    };
+    

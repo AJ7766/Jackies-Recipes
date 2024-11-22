@@ -1,4 +1,3 @@
-"use client";
 import { UserRegisterProps } from "@/_models/UserModel";
 import Image from "next/image";
 import Link from "next/link";

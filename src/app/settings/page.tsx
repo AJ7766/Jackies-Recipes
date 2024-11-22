@@ -1,4 +1,3 @@
-"use client";
 import { AuthGuard } from "../_services/authGuard";
 import EditProfile from "./containers/EditProfile";
 

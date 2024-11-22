@@ -1,4 +1,3 @@
-"use client";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 import Image from "next/image";

@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useEffect } from "react";
 import { useAuth } from "../_context/AuthContext";
 import ErrorPage from "../_errors/ErrorPage";
