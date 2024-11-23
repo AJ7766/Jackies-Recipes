@@ -1,11 +1,13 @@
+"use client"
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { UserProps } from "@/_models/UserModel";
 import { fetchGetSearchAPI } from "../_services/api/fetchGetSearchAPI";
 import NavBarComponent from "../_components/NavBarComponent";
+import { usePathname } from "next/navigation";
 
-export default function NavBar() {
+export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const [search, setSearch] = useState("");
   const [isOpen, setIsOpen] = useState(false);
   const [debouncedSearch, setDebouncedSearch] = useState(search);
@@ -15,7 +17,11 @@ export default function NavBar() {
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const searchResultsRef = useRef<HTMLDivElement | null>(null);
 
-  const { user, logout, isAuthenticated, fetchingUser } = useAuth();
+  const pathname = usePathname();
+  const { user, logout } = useAuth();
+
+  if ((pathname === "/" && !isAuth) || pathname === "/register")
+    return null;
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (
@@ -71,8 +77,5 @@ export default function NavBar() {
     setIsOpen(!isOpen);
   }
 
-  if (fetchingUser)
-    return null;
-
-  return <NavBarComponent user={user} search={search} setSearch={setSearch} users={users} recipes={recipes} isOpen={isOpen}searchResultsRef={searchResultsRef} dropdownRef={dropdownRef} isAuthenticated={isAuthenticated} toggleDropdown={toggleDropdown} logout={logout}/>
+  return <NavBarComponent user={user} isAuth={isAuth} search={search} setSearch={setSearch} users={users} recipes={recipes} isOpen={isOpen} searchResultsRef={searchResultsRef} dropdownRef={dropdownRef} toggleDropdown={toggleDropdown} logout={logout} />
 }

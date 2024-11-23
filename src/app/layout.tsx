@@ -1,26 +1,18 @@
-"use client"
 import "./globals.css";
-import { AuthProvider, useAuth } from "./_context/AuthContext";
-import { usePathname } from "next/navigation";
+import { AuthProvider } from "./_context/AuthContext";
 import NavBar from "./_containers/NavBar";
 import { CookieConsent } from "./_containers/CookieConsent";
+import { getSession } from "@/_utils/session";
+import { getUserController } from "./_ssr/user/userController";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
 
-  const pathname = usePathname();
-
-  const NavBarGate = ({ children }: { children: JSX.Element }) => {
-    const { isAuthenticated } = useAuth();
-
-    if ((pathname === "/" && !isAuthenticated) || pathname === "/register")
-      return null;
-
-    return <>{children}</>;
-  };
+  const session = await getSession();
+  const serverUser = await getUserController();
 
   return (
     <html lang="en">
@@ -32,10 +24,8 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <AuthProvider>
-          <NavBarGate>
-            <NavBar />
-          </NavBarGate>
+        <AuthProvider serverUser={serverUser}>
+          <NavBar isAuth={session.isAuth} />
           {children}
           <CookieConsent />
         </AuthProvider>

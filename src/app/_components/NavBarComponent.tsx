@@ -17,7 +17,7 @@ interface NavBarProps {
   recipes: RecipePopulatedProps[];
   isOpen: boolean;
   searchResultsRef: LegacyRef<HTMLDivElement> | null;
-  isAuthenticated: boolean;
+  isAuth: boolean;
   dropdownRef: LegacyRef<HTMLDivElement> | null;
   toggleDropdown: () => void;
   logout: () => void;
@@ -30,7 +30,7 @@ export default function NavBarComponent({
   recipes,
   isOpen,
   searchResultsRef = null,
-  isAuthenticated,
+  isAuth,
   dropdownRef = null,
   toggleDropdown,
   logout
@@ -128,7 +128,7 @@ export default function NavBarComponent({
           )}
         </div>
 
-        {isAuthenticated && user ? (
+        {isAuth && user ? (
           <>
             <Link className="addRecipe shrink-0" href="/add-recipe">
               <Image

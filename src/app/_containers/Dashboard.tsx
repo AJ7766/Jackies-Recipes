@@ -1,7 +1,6 @@
 "use client"
 import { useEffect, useLayoutEffect, useState } from "react";
 import MasonaryComponent from "../_components/MasonaryComponent";
-import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
 import { Types } from "mongoose";
 import { LoadingSpinner } from "../_components/LoadingSpinner";
 import { createMasonary } from "../_services/masonaryServices";

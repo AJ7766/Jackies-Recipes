@@ -1,3 +1,4 @@
+"use client"
 import { UserProps } from "@/_models/UserModel";
 import React, {
   createContext,
@@ -14,23 +15,19 @@ interface AuthContextType {
   deleteCachedUser: () => void;
   verifyTokenAndFetchUser: (token: string) => Promise<void>;
   logout: () => void;
-  fetchingUser: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export function AuthProvider({ children, serverUser }: { children: React.ReactNode, serverUser: UserProps }) {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [user, setUser] = useState<UserProps | null>(null);
-  const [fetchingUser, setFetchinguser] = useState(true);
+  const [user, setUser] = useState<UserProps | null>(serverUser || null);
 
   const verifyTokenAndFetchUser = useCallback(async (token: string) => {
     const cachedProfile = sessionStorage.getItem("user");
-    setFetchinguser(true);
     if (cachedProfile) {
       setIsAuthenticated(true);
       setUser(JSON.parse(cachedProfile));
-      setFetchinguser(false);
       return;
     }
     const { fetchedUser, message } = await fetchGetUserAPI(token);
@@ -38,13 +35,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       localStorage.removeItem("token");
       sessionStorage.removeItem("user");
       setIsAuthenticated(false);
-      setFetchinguser(false);
       throw new Error(message);
     }
     setIsAuthenticated(true);
     setUser(fetchedUser);
     sessionStorage.setItem("user", JSON.stringify(fetchedUser));
-    setFetchinguser(false);
   }, []);
 
   useEffect(() => {
@@ -54,7 +49,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         localStorage.removeItem("token");
         sessionStorage.removeItem("user");
         setIsAuthenticated(false);
-        setFetchinguser(false);
         return;
       }
       await verifyTokenAndFetchUser(token);
@@ -81,8 +75,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         user,
         deleteCachedUser,
         verifyTokenAndFetchUser,
-        logout,
-        fetchingUser
+        logout
       }}
     >
       {children}

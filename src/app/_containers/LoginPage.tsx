@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 import { fetchLoginAPI } from "../_services/api/fetchLoginAPI";
 import LoginFormComponent from "../_components/LoginComponent";

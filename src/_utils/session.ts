@@ -5,12 +5,10 @@ import { cookies } from "next/headers";
 
 export const getSession = async () => {
     const session = await getIronSession<SessionData>(cookies(), sessionOptions);
-    console.log(session)
 
     if (!session.isAuth)
         session.isAuth = defaultSession.isAuth;
 
-    console.log(session)
     return session
 }
 
