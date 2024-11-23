@@ -1,8 +1,8 @@
-
 interface CookieConsentProps {
   acceptCookies: () => void;
   declineCookies: () => void;
 }
+
 export const CookieConsentComponent = ({ acceptCookies, declineCookies }: CookieConsentProps) => {
   return (
     <div className="cookie-consent-wrapper">

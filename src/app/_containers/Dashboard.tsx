@@ -5,6 +5,7 @@ import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
 import { Types } from "mongoose";
 import { LoadingSpinner } from "../_components/LoadingSpinner";
 import { createMasonary } from "../_services/masonaryServices";
+import { RecipePopulatedProps } from "@/_models/RecipeModel";
 
 interface RecipeCardProps {
   id: Types.ObjectId | undefined;
@@ -13,7 +14,8 @@ interface RecipeCardProps {
   user: { username: string };
 }
 
-export default function Dashboard() {
+export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopulatedProps[] }) {
+  const [recipes, setRecipes] = useState<RecipePopulatedProps[]>(serverRecipes);
   const [totalColumns, setTotalColumns] = useState<number>(5);
   const [columns, setColumns] = useState<RecipeCardProps[][] | null>(null);
 
@@ -23,7 +25,6 @@ export default function Dashboard() {
 
   useEffect(() => {
     const fetchRecipes = async () => {
-      const { recipes } = await fetchRecipesAPI();
       if (recipes) {
         const masonaryColumns = await createMasonary(recipes, totalColumns);
         setColumns(masonaryColumns);

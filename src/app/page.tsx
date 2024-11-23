@@ -1,13 +1,12 @@
-import { getSession } from "@/_utils/session";
 import Dashboard from "./_containers/Dashboard";
 import { AuthGuardLogin } from "./_services/authGuard";
+import { getRecipesController } from "./_ssr/recipes/recipesController";
 
 export default async function DashboardPage() {
-  const session = await getSession();
-  console.log(session);
+  const serverRecipes = await getRecipesController();
   return (
     <AuthGuardLogin>
-      <Dashboard />
+      <Dashboard serverRecipes={serverRecipes}/>
     </AuthGuardLogin>
   );
 }
