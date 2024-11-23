@@ -1,10 +1,9 @@
-"use client";
+"use client"
 import "./globals.css";
 import { AuthProvider, useAuth } from "./_context/AuthContext";
-import { useCookieConsent } from "@/_utils/cookies";
-import { CookieConsent } from "./_components/CookieConsent";
 import { usePathname } from "next/navigation";
 import NavBar from "./_containers/NavBar";
+import { CookieConsent } from "./_containers/CookieConsent";
 
 export default function RootLayout({
   children,
@@ -13,12 +12,6 @@ export default function RootLayout({
 }>) {
 
   const pathname = usePathname();
-
-  /* For testing
-  useEffect(() => {
-    resetCookieConsent();
-  }, []); 
-  */
 
   const NavBarGate = ({ children }: { children: JSX.Element }) => {
     const { isAuthenticated } = useAuth();
