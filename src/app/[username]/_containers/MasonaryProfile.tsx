@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { Types } from "mongoose";
 import { useAuth } from "@/app/_context/AuthContext";
 import { usePathname } from "next/navigation";
@@ -14,14 +14,16 @@ interface RecipeCardProps {
   user: { username: string };
 }
 export default function MasonaryProfile() {
-  const [totalColumns, setTotalColumns] = useState<number>(
-    window.innerWidth > 768 ? 4 : 3
-  );
+  const [totalColumns, setTotalColumns] = useState<number>(4);
   const [columns, setColumns] = useState<RecipeCardProps[][] | null>(null);
   const [canEdit, setCanEdit] = useState(false);
   const { user } = useAuth();
   const pathname = usePathname();
   const { profile } = useProfile();
+
+  useLayoutEffect(() => {
+    setTotalColumns(window.innerWidth > 768 ? 4 : 3)
+  }, [])
 
   useEffect(() => {
     if (!user) return;

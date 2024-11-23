@@ -3,6 +3,7 @@ import { connectDB } from "../../_config/database"
 import { loginServices } from "./services/loginServices";
 import { comparePasswords } from "@/_utils/bcrypt";
 import { assignToken } from "@/_utils/jwt";
+import { setSession } from "@/_utils/session";
 
 export async function POST(request: NextRequest) { //Login user
   try {
@@ -16,7 +17,8 @@ export async function POST(request: NextRequest) { //Login user
     await comparePasswords(password, user.password);
 
     const token = await assignToken(user._id, username);
-
+    await setSession(user._id);
+    
     return NextResponse.json({ message: "Successfully logged in", token }, { status: 200 });
   } catch (error) {
     console.error('Login error:', error);

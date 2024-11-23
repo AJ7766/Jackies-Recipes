@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+"use client"
+import { useEffect, useLayoutEffect, useState } from "react";
 import MasonaryComponent from "../_components/MasonaryComponent";
 import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
 import { Types } from "mongoose";
@@ -13,10 +14,12 @@ interface RecipeCardProps {
 }
 
 export default function Dashboard() {
-  const [totalColumns, setTotalColumns] = useState<number>(
-    window.innerWidth > 768 ? 5 : 3
-  );
+  const [totalColumns, setTotalColumns] = useState<number>(5);
   const [columns, setColumns] = useState<RecipeCardProps[][] | null>(null);
+
+  useLayoutEffect(() => {
+    setTotalColumns(window.innerWidth > 768 ? 5 : 3)
+  }, [])
 
   useEffect(() => {
     const fetchRecipes = async () => {

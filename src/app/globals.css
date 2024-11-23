@@ -91,7 +91,6 @@ body {
 .cookie-consent-wrapper {
   position: fixed;
   display: flex;
-  bottom: 1%;
   right: 0;
   background: white;
   padding: 20px;
@@ -1399,7 +1398,6 @@ input::-webkit-inner-spin-button {
   .cookie-consent-wrapper {
     flex-direction: column;
     width: 100%;
-    bottom: 0%;
   }
 
   .loginFormContainer,

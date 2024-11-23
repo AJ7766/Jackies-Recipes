@@ -1,17 +1,18 @@
 import MasonaryProfile from "./_containers/MasonaryProfile";
 import { ReactNode } from "react";
 import Profile from "./_containers/Profile";
-import { ProfileGuard } from "./_services/profileServices";
+import { getProfileController } from "./_ssr/profile/profileController";
+import { ProfileProvider } from "../_context/ProfileContext";
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children, params }: { children: ReactNode, params: { username: string } }) {
+  const { username } = params;
+  const serverProfile = await getProfileController(username.toLocaleLowerCase());
 
   return (
-    <ProfileGuard >
-      <>
-        {children}
-        <Profile />
-        <MasonaryProfile />
-      </>
-    </ProfileGuard>
+    <ProfileProvider serverProfile={serverProfile}>
+      {children}
+      <Profile />
+      <MasonaryProfile />
+    </ProfileProvider>
   );
 }

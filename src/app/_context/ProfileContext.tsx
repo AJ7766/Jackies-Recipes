@@ -1,45 +1,18 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+"use client"
+import React, { createContext, useContext, useState } from "react";
 import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
-import { fetchGetProfileAPI } from "../_services/api/fetchGetProfileAPI";
 
 interface ProfileContextType {
-  profile: UserPopulatedRecipePopulatedProps | null;
-  fetchingProfile: boolean;
+  profile: UserPopulatedRecipePopulatedProps;
 }
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
-export function ProfileProvider({ children }: { children: React.ReactNode }) {
-  const [profile, setProfile] = useState<UserPopulatedRecipePopulatedProps | null>(null);
-  const [fetchingProfile, setFetchingProfile] = useState<boolean>(true);
-  const { username } = useParams();
-
-  const lowercaseUsername = Array.isArray(username)
-    ? username[0].toLowerCase()
-    : username?.toLowerCase() ?? username;
-
-  useEffect(() => {
-    if (!lowercaseUsername) return;
-    const fetchProfileData = async () => {
-      setFetchingProfile(true);
-      const { fetchedProfile, message } = await fetchGetProfileAPI(
-        lowercaseUsername
-      );
-      if (!fetchedProfile) {
-        console.error(message);
-        setProfile(null);
-        setFetchingProfile(false);
-        return;
-      }
-      setProfile(fetchedProfile);
-      setFetchingProfile(false);
-    };
-    fetchProfileData();
-  }, [lowercaseUsername]);
+export function ProfileProvider({ children, serverProfile }: { children: React.ReactNode, serverProfile: UserPopulatedRecipePopulatedProps }) {
+  const [profile, setProfile] = useState<UserPopulatedRecipePopulatedProps>(serverProfile);
 
   return (
-    <ProfileContext.Provider value={{ profile, fetchingProfile }}>
+    <ProfileContext.Provider value={{ profile }}>
       {children}
     </ProfileContext.Provider>
   );
