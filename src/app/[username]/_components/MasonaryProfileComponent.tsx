@@ -30,6 +30,7 @@ function MasonaryProfileComponent({
                   <Link
                     href={`/${profile?.username}/${recipe.id}`}
                     scroll={false}
+                    prefetch
                   >
                     <div className="masonryImg">
                       <Image
@@ -45,11 +46,12 @@ function MasonaryProfileComponent({
                     <Link
                       href={`/${profile?.username}/${recipe.id}`}
                       scroll={false}
+                      prefetch
                     >
                       <h1>{recipe.title}</h1>
                     </Link>
                     {canEdit && (
-                      <Link href={`/edit-recipe/${recipe.id}`}>
+                      <Link href={`/edit-recipe/${recipe.id}`} prefetch>
                         <Image
                           src="/images/cogwheel.svg"
                           width={24}

@@ -39,7 +39,7 @@ export default function NavBarComponent({
     <>
       <div className="space"></div>
       <div className="navContainer">
-        <Link href={"/"}>
+        <Link href={"/"} prefetch>
           <Image
             id="logo"
             src={logo}
@@ -74,7 +74,7 @@ export default function NavBarComponent({
                 <>
                   <h1>Users</h1>
                   {users.map((user, indexKey) => (
-                    <Link href={`/${user.username}`} key={indexKey}>
+                    <Link href={`/${user.username}`} key={indexKey} prefetch>
                       <div
                         className="searchedUser"
                         data-testid="searchedUser"
@@ -104,6 +104,7 @@ export default function NavBarComponent({
                     <Link
                       href={`/${recipe.user?.username}/${recipe._id}`}
                       key={indexKey}
+                      prefetch
                     >
                       <div
                         className="searchedUser"
@@ -130,7 +131,7 @@ export default function NavBarComponent({
 
         {isAuth && user ? (
           <>
-            <Link className="addRecipe shrink-0" href="/add-recipe">
+            <Link className="addRecipe shrink-0" href="/add-recipe" prefetch>
               <Image
                 height={32}
                 width={32}
@@ -141,6 +142,7 @@ export default function NavBarComponent({
             <Link
               className="profilePictureLink shrink-0"
               href={`/${user.username}`}
+              prefetch
             >
               <Image
                 height={35}
@@ -161,8 +163,8 @@ export default function NavBarComponent({
               {isOpen && (
                 <div className="dropdownContentContainer">
                   <div className="dropdownContent">
-                    <Link href="/settings">Settings</Link>
-                    <Link href="/privacy-policy">Privacy Policy</Link>
+                    <Link href="/settings" prefetch>Settings</Link>
+                    <Link href="/privacy-policy" prefetch>Privacy Policy</Link>
                     <button onClick={logout}>Logout</button>
                   </div>
                 </div>
@@ -171,10 +173,10 @@ export default function NavBarComponent({
           </>
         ) : (
           <div className="newUserButtons">
-            <Link href="/">
+            <Link href="/" prefetch>
               <button>Login</button>
             </Link>
-            <Link href="/register">
+            <Link href="/register" prefetch>
               <button>Register</button>
             </Link>
           </div>

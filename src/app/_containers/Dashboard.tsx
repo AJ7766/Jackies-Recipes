@@ -32,9 +32,8 @@ export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopu
     fetchRecipes();
   }, []);
 
-  if (!columns) {
-    return <LoadingSpinner />;
-  }
+  if (!columns)
+    return null
 
   if (columns.length === 0) {
     return (

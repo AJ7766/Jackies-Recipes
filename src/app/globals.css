@@ -613,7 +613,7 @@ h2 {
   margin: 0 20px 20px 20px;
   gap: clamp(10px, 2vw, 15px);
   margin-top: 10px;
-  animation: fadeInFromBottom 0.5s linear;
+  /*animation: fadeInFromBottom 0.5s linear;*/
 }
 
 .masonryContainerMainPage {
@@ -622,7 +622,7 @@ h2 {
   margin: 0 20px 20px 20px;
   gap: clamp(10px, 2vw, 15px);
   margin-top: 10px;
-  animation: fadeInFromBottom 0.5s linear;
+  /*animation: fadeInFromBottom 0.5s linear;*/
 }
 
 .masonryColumn {
