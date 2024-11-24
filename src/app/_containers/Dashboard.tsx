@@ -2,7 +2,6 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import MasonaryComponent from "../_components/MasonaryComponent";
 import { Types } from "mongoose";
-import { LoadingSpinner } from "../_components/LoadingSpinner";
 import { createMasonary } from "../_services/masonaryServices";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 
@@ -17,7 +16,7 @@ export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopu
   const [recipes, setRecipes] = useState<RecipePopulatedProps[]>(serverRecipes);
   const [totalColumns, setTotalColumns] = useState<number>(5);
   const [columns, setColumns] = useState<RecipeCardProps[][] | null>(null);
-
+  
   useLayoutEffect(() => {
     setTotalColumns(window.innerWidth > 768 ? 5 : 3)
   }, [])

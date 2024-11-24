@@ -27,7 +27,6 @@ export default function LoginPage() {
     }
 
     setMessage(message);
-
     setLoadingBtn(false);
   };
 
