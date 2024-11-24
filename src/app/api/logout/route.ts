@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() { // Log out user
     const session = await deleteSession();
-    console.log("session:", session)
+    
     if(session.isAuth)
         return NextResponse.json({ message: "Error logging out user" }, { status: 500 });    
 
