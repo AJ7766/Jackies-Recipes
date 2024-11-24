@@ -1,3 +1,4 @@
+"use server"
 import { defaultSession, SessionData, sessionOptions } from "@/_lib/iron-session";
 import { getIronSession } from "iron-session"
 import mongoose from "mongoose";
@@ -22,4 +23,6 @@ export const setSession = async (user_id: mongoose.Types.ObjectId) => {
 export const deleteSession = async () => {
     const session = await getSession();
     session.destroy();
+    
+    return session;
 }
