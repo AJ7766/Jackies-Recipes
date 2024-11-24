@@ -19,10 +19,6 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
-  if ((pathname === "/" && !isAuth) || pathname === "/register") {
-    return;
-  }
-
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (
       dropdownRef.current &&
@@ -77,5 +73,9 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
     setIsOpen(!isOpen);
   }
 
+  if ((pathname === "/" && !isAuth) || pathname === "/register") {
+    return null;
+  }
+  
   return <NavBarComponent user={user} isAuth={isAuth} search={search} setSearch={setSearch} users={users} recipes={recipes} isOpen={isOpen} searchResultsRef={searchResultsRef} dropdownRef={dropdownRef} toggleDropdown={toggleDropdown} logout={logout} />
 }

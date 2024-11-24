@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getSession } from './_utils/session';
 
 function setSecurityHeaders(response: NextResponse) {
     response.headers.set('X-Content-Type-Options', 'nosniff');
@@ -39,14 +40,14 @@ function setSecurityHeaders(response: NextResponse) {
     response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
 }
 
-    export async function middleware(request: NextRequest) {
-        const response = NextResponse.next();
+export async function middleware() {
+    const response = NextResponse.next();
+    setSecurityHeaders(response);
 
-        setSecurityHeaders(response);
-        return response;
-    }
+    return response;
+}
 
-    export const config = {
-        matcher: ['/', '/api/:path*'],
-    };
-    
+export const config = {
+    matcher: ['/', '/api/:path*', '/:path*'],
+};
+
