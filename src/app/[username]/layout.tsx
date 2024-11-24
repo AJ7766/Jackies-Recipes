@@ -8,15 +8,17 @@ import ErrorPage from "../_errors/ErrorPage";
 export default async function RootLayout({ children, params }: { children: ReactNode, params: { username: string } }) {
   const { username } = params;
   const { serverProfile } = await getProfileController(username.toLocaleLowerCase());
-  
+
   if (!serverProfile)
     return <ErrorPage />
 
   return (
-    <ProfileProvider serverProfile={serverProfile}>
-      {children}
-      <Profile />
-      <MasonaryProfile />
-    </ProfileProvider>
+    <>
+      <ProfileProvider serverProfile={serverProfile}>
+        {children}
+        <Profile />
+        <MasonaryProfile />
+      </ProfileProvider>
+    </>
   );
 }

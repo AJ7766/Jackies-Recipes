@@ -1,5 +1,5 @@
 "use client"
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { UserProps } from "@/_models/UserModel";
@@ -13,15 +13,15 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [users, setUsers] = useState<UserProps[]>([]);
   const [recipes, setRecipes] = useState<RecipePopulatedProps[]>([]);
-
   const dropdownRef = useRef<HTMLDivElement | null>(null);
   const searchResultsRef = useRef<HTMLDivElement | null>(null);
 
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
-  if ((pathname === "/" && !isAuth) || pathname === "/register")
-    return null;
+  if ((pathname === "/" && !isAuth) || pathname === "/register") {
+    return;
+  }
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
     if (
