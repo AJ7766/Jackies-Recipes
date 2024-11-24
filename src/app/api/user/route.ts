@@ -22,7 +22,6 @@ export async function GET(req: NextRequest) { // Get user
 export async function PUT(req: NextRequest) { // Update user
     const { user } = await req.json()
     try {
-        console.log("User:", user)
         await connectDB();
     
         const token = await getToken(req);
