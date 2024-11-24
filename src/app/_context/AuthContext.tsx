@@ -8,6 +8,7 @@ import React, {
   useCallback,
 } from "react";
 import { fetchGetUserAPI } from "../_services/api/fetchGetUserAPI";
+import { fetchGetLogoutAPI } from "../_services/api/fetchLogoutAPI";
 
 interface AuthContextType {
   isAuthenticated: boolean;
@@ -56,12 +57,13 @@ export function AuthProvider({ children, serverUser }: { children: React.ReactNo
     fetchTokenAndUser();
   }, [verifyTokenAndFetchUser]);
 
-  const logout = () => {
-    window.location.href = "/";
+  const logout = async () => {
+    await fetchGetLogoutAPI();
     localStorage.removeItem("token");
     sessionStorage.removeItem("user");
     setIsAuthenticated(false);
     setUser(null);
+    window.location.href = "/";
   };
 
   const deleteCachedUser = () => {

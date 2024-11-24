@@ -3,7 +3,6 @@ import Image from "next/image";
 import { UserProps } from "@/_models/UserModel";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { LegacyRef } from "react";
-import { fetchGetLogoutAPI } from "../_services/api/fetchLogoutAPI";
 const logo = "/images/logo-text-free.png";
 const searchGlass = "/images/search-glass.svg";
 const profilePicture = "/images/profile-picture.png";
@@ -166,7 +165,7 @@ export default function NavBarComponent({
                   <div className="dropdownContent">
                     <Link href="/settings" prefetch>Settings</Link>
                     <Link href="/privacy-policy" prefetch>Privacy Policy</Link>
-                    <button onClick={fetchGetLogoutAPI}>Logout</button>
+                    <button onClick={logout}>Logout</button>
                   </div>
                 </div>
               )}
