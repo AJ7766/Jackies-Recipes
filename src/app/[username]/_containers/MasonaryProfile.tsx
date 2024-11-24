@@ -3,7 +3,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { Types } from "mongoose";
 import { useAuth } from "@/app/_context/AuthContext";
 import { usePathname } from "next/navigation";
-import MasonaryProfileComponent from "../_components/MasonaryProfileComponent";
+import { MasonaryProfileComponent } from "../_components/MasonaryProfileComponent";
 import { createMasonary } from "@/app/_services/masonaryServices";
 import { useProfile } from "@/app/_context/ProfileContext";
 

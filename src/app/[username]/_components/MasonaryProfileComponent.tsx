@@ -10,7 +10,7 @@ interface RecipeCardProps {
   image: string | string;
 }
 
-function MasonaryProfileComponent({
+export const MasonaryProfileComponent = React.memo(({
   profile,
   columns = null,
   canEdit
@@ -18,7 +18,7 @@ function MasonaryProfileComponent({
   profile: UserPopulatedRecipePopulatedProps | null;
   columns: RecipeCardProps[][] | null;
   canEdit: boolean;
-}) {
+}) => {
   return (
     <>
     {columns && columns.length > 0 && (
@@ -68,7 +68,5 @@ function MasonaryProfileComponent({
         </div>
       )}
     </>
-  );
-}
-
-export default React.memo(MasonaryProfileComponent);
+  )
+});

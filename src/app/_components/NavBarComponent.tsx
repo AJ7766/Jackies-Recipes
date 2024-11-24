@@ -182,5 +182,5 @@ export const NavBarComponent = React.memo(({
         )}
       </div>
     </>
-  );
+  )
 });

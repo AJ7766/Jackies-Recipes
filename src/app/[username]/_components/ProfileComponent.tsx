@@ -9,11 +9,11 @@ const tiktok = "/images/social-media/tiktok.svg";
 const youtube = "/images/social-media/youtube.svg";
 const facebook = "/images/social-media/facebook.svg";
 
-function ProfileComponent({
+export const ProfileComponent = React.memo(({
   profile = null,
 }: {
   profile: UserPopulatedRecipePopulatedProps | null;
-}) {
+}) => {
   const bioText = profile?.userContent?.bio || "";
   const formattedBio = bioText.replace(/\n/g, "<br>");
   return (
@@ -97,7 +97,5 @@ function ProfileComponent({
       </div>
       <div className="divider"></div>
     </>
-  );
-}
-
-export default React.memo(ProfileComponent);
+  )
+});

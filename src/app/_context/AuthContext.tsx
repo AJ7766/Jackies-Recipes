@@ -11,7 +11,6 @@ import { fetchGetUserAPI } from "../_services/api/fetchGetUserAPI";
 import { fetchGetLogoutAPI } from "../_services/api/fetchLogoutAPI";
 
 interface AuthContextType {
-  isAuthenticated: boolean;
   user: UserProps | null;
   deleteCachedUser: () => void;
   verifyTokenAndFetchUser: (token: string) => Promise<void>;
@@ -21,13 +20,11 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children, serverUser }: { children: React.ReactNode, serverUser: UserProps }) {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [user, setUser] = useState<UserProps | null>(serverUser || null);
 
   const verifyTokenAndFetchUser = useCallback(async (token: string) => {
     const cachedProfile = sessionStorage.getItem("user");
     if (cachedProfile) {
-      setIsAuthenticated(true);
       setUser(JSON.parse(cachedProfile));
       return;
     }
@@ -35,10 +32,8 @@ export function AuthProvider({ children, serverUser }: { children: React.ReactNo
     if (!fetchedUser) {
       localStorage.removeItem("token");
       sessionStorage.removeItem("user");
-      setIsAuthenticated(false);
       throw new Error(message);
     }
-    setIsAuthenticated(true);
     setUser(fetchedUser);
     sessionStorage.setItem("user", JSON.stringify(fetchedUser));
   }, []);
@@ -49,7 +44,7 @@ export function AuthProvider({ children, serverUser }: { children: React.ReactNo
       if (!token) {
         localStorage.removeItem("token");
         sessionStorage.removeItem("user");
-        setIsAuthenticated(false);
+        setUser(null);
         return;
       }
       await verifyTokenAndFetchUser(token);
@@ -57,11 +52,10 @@ export function AuthProvider({ children, serverUser }: { children: React.ReactNo
     fetchTokenAndUser();
   }, [verifyTokenAndFetchUser]);
 
-  const logout = async () => {
-    await fetchGetLogoutAPI();
+  const logout = () => {
+    fetchGetLogoutAPI();
     localStorage.removeItem("token");
     sessionStorage.removeItem("user");
-    setIsAuthenticated(false);
     setUser(null);
     window.location.href = "/";
   };
@@ -73,7 +67,6 @@ export function AuthProvider({ children, serverUser }: { children: React.ReactNo
   return (
     <AuthContext.Provider
       value={{
-        isAuthenticated,
         user,
         deleteCachedUser,
         verifyTokenAndFetchUser,

@@ -1,5 +1,6 @@
 import { UserEditProps } from "@/_models/UserModel";
 import Image from "next/image";
+import React from "react";
 const profilePicture = "/images/profile-picture.png";
 const camera = "/images/camera.svg";
 
@@ -15,7 +16,7 @@ interface EditProfileProps {
   message: string;
 }
 
-export default function EditProfileComponent({
+export const EditProfileComponent = React.memo(({
   user,
   handleSubmit,
   handleInputChange,
@@ -23,7 +24,7 @@ export default function EditProfileComponent({
   ProfilePicChange,
   message,
   loadingBtn,
-}: EditProfileProps) {
+}: EditProfileProps) => {
   return (
     <form className="editForm" onSubmit={handleSubmit}>
       <div className="editProfilePicutre" onClick={handleProfilePicChange}>
@@ -200,5 +201,5 @@ export default function EditProfileComponent({
       </button>
       <div></div>
     </form>
-  );
-}
+  )
+});

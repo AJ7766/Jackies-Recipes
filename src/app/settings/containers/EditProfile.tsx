@@ -2,9 +2,9 @@
 import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { useAuth } from "@/app/_context/AuthContext";
-import { UserEditProps, UserProps } from "@/_models/UserModel";
+import { UserEditProps } from "@/_models/UserModel";
 import { fetchUpdateUserAPI } from "../services/fetchUpdateUserAPI";
-import EditProfileComponent from "../components/EditProfileComponent";
+import { EditProfileComponent } from "../components/EditProfileComponent";
 const profilePicture = "/images/profile-picture.png";
 
 export default function EditProfile() {

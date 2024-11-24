@@ -1,17 +1,18 @@
 "use client"
 import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useProfile } from "@/app/_context/ProfileContext";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import SelectedRecipeComponent from "../components/SelectedRecipeComponent";
-import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 
-export default function SelectedRecipe({ profile }: { profile: UserPopulatedRecipePopulatedProps }) {
+export default function SelectedRecipe() {
+  const { profile } = useProfile();
   const [selectedRecipe, setSelectedRecipe] = useState<RecipePopulatedProps | null>(null);
   const closeRecipe = useRef<HTMLDivElement | null>(null);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-
+  
   useEffect(() => {
     const pathParts = pathname.split("/");
     const recipeId = pathParts[pathParts.length - 1];

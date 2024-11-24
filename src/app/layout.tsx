@@ -13,7 +13,7 @@ export default async function RootLayout({
 
   const session = await getSession();
   const serverUser = await getUserController();
-
+  
   return (
     <html lang="en">
       <head>
