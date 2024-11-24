@@ -1,11 +1,12 @@
 "use client"
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { UserProps } from "@/_models/UserModel";
 import { fetchGetSearchAPI } from "../_services/api/fetchGetSearchAPI";
-import NavBarComponent from "../_components/NavBarComponent";
+import { NavBarComponent } from "../_components/NavBarComponent";
 import { usePathname } from "next/navigation";
+import { checkNavBar } from "../_services/navBarServices";
 
 export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const [search, setSearch] = useState("");
@@ -73,9 +74,9 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
     setIsOpen(!isOpen);
   }
 
-  if ((pathname === "/" && !isAuth) || pathname === "/register") {
+  if (!checkNavBar(pathname, isAuth))
     return null;
-  }
-  
+
+
   return <NavBarComponent user={user} isAuth={isAuth} search={search} setSearch={setSearch} users={users} recipes={recipes} isOpen={isOpen} searchResultsRef={searchResultsRef} dropdownRef={dropdownRef} toggleDropdown={toggleDropdown} logout={logout} />
 }

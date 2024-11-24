@@ -25,11 +25,9 @@ export default async function RootLayout({
       </head>
       <body>
         <AuthProvider serverUser={serverUser}>
-          <>
-          {<NavBar isAuth={session.isAuth} />}
+          <NavBar isAuth={session.isAuth} />
           {children}
           <CookieConsent />
-          </>
         </AuthProvider>
       </body>
     </html>

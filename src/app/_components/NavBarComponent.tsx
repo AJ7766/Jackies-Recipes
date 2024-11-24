@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { UserProps } from "@/_models/UserModel";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
-import { LegacyRef } from "react";
+import React, { LegacyRef } from "react";
 const logo = "/images/logo-text-free.png";
 const searchGlass = "/images/search-glass.svg";
 const profilePicture = "/images/profile-picture.png";
@@ -22,7 +22,8 @@ interface NavBarProps {
   toggleDropdown: () => void;
   logout: () => void;
 }
-export default function NavBarComponent({
+
+export const NavBarComponent = React.memo(({
   user,
   search,
   setSearch,
@@ -34,7 +35,7 @@ export default function NavBarComponent({
   dropdownRef = null,
   toggleDropdown,
   logout
-}: NavBarProps) {
+}: NavBarProps) => {
   return (
     <>
       <div className="space"></div>
@@ -82,9 +83,7 @@ export default function NavBarComponent({
                         <Image
                           height={42}
                           width={42}
-                          src={
-                            user.userContent?.profilePicture || profilePicture
-                          }
+                          src={user.userContent?.profilePicture || profilePicture}
                           alt="user-picture"
                         />
                         <div>
@@ -184,4 +183,4 @@ export default function NavBarComponent({
       </div>
     </>
   );
-}
+});
