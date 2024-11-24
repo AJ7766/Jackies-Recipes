@@ -4,7 +4,6 @@ import NavBar from "./_containers/NavBar";
 import { CookieConsent } from "./_containers/CookieConsent";
 import { getSession } from "@/_utils/session";
 import { getUserController } from "./_ssr/user/userController";
-import { cookies } from 'next/headers';
 
 export default async function RootLayout({
   children,
@@ -15,10 +14,6 @@ export default async function RootLayout({
   const session = await getSession();
   const serverUser = await getUserController();
 
-  const navCookie = cookies().get('nav')?.value;
-  const showNav = navCookie === 'true';
-  
-  console.log('Nav cookie:', cookies().get('nav')?.value);
   return (
     <html lang="en">
       <head>
@@ -31,7 +26,7 @@ export default async function RootLayout({
       <body>
         <AuthProvider serverUser={serverUser}>
           <>
-          {showNav && <NavBar isAuth={session.isAuth} />}
+          {<NavBar isAuth={session.isAuth} />}
           {children}
           <CookieConsent />
           </>
