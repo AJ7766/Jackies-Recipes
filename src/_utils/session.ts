@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import { cookies } from "next/headers";
 
 export const getSession = async () => {
-    const session = await getIronSession<SessionData>(cookies(), sessionOptions);
+    const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
 
     if (!session.isAuth)
         session.isAuth = defaultSession.isAuth;
