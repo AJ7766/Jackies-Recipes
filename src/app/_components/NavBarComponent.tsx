@@ -17,8 +17,9 @@ interface NavBarProps {
   recipes: RecipePopulatedProps[];
   isOpen: boolean;
   searchResultsRef: LegacyRef<HTMLDivElement> | null;
-  isAuth: boolean;
   dropdownRef: LegacyRef<HTMLDivElement> | null;
+  clickHandler: () => void;
+  isAuth: boolean;
   toggleDropdown: () => void;
   logout: () => void;
 }
@@ -31,8 +32,9 @@ export const NavBarComponent = React.memo(({
   recipes,
   isOpen,
   searchResultsRef = null,
-  isAuth,
   dropdownRef = null,
+  clickHandler,
+  isAuth,
   toggleDropdown,
   logout
 }: NavBarProps) => {
@@ -74,11 +76,15 @@ export const NavBarComponent = React.memo(({
               {users.length > 0 && (
                 <>
                   <h1>Users</h1>
-                  {users.map((user, indexKey) => (
-                    <Link href={`/${user.username}`} key={indexKey} prefetch>
+                  {users.map((user, index) => (
+                    <Link
+                      href={`/${user.username}`}
+                      key={index}
+                      prefetch>
                       <div
                         className="searchedUser"
                         data-testid="searchedUser"
+                        onClick={clickHandler}
                       >
                         <Image
                           height={42}
@@ -99,15 +105,18 @@ export const NavBarComponent = React.memo(({
               {recipes.length > 0 && (
                 <>
                   <h1>Recipes</h1>
-                  {recipes.map((recipe, indexKey) => (
+                  {recipes.map((recipe, index) => (
                     <Link
                       href={`/${recipe.user?.username}/${recipe._id}`}
-                      key={indexKey}
+                      key={index}
                       prefetch
                     >
                       <div
-                        className="searchedUser"
-                        data-testid="searchedUser"
+                        className="searchedRecipe"
+                        data-testid="searchedRecipe"
+                        data-id={index}
+                        data-type="recipe"
+                        onClick={clickHandler}
                       >
                         <Image
                           height={42}
