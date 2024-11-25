@@ -3,8 +3,9 @@ import { useEffect, useState } from "react";
 import Resizer from "react-image-file-resizer";
 import { useAuth } from "@/app/_context/AuthContext";
 import { UserEditProps } from "@/_models/UserModel";
-import { fetchUpdateUserAPI } from "../services/fetchUpdateUserAPI";
 import { EditProfileComponent } from "../components/EditProfileComponent";
+import { useRouter } from "next/navigation";
+import { fetchUpdateUserAPI } from "../services/fetchUpdateUserAPI";
 const profilePicture = "/images/profile-picture.png";
 
 export default function EditProfile() {
@@ -28,8 +29,7 @@ export default function EditProfile() {
   });
   const [message, setMessage] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
-  const { deleteCachedUser } = useAuth();
-
+  const router = useRouter()
   useEffect(() => {
     if (user) {
       setUserData({
@@ -54,7 +54,6 @@ export default function EditProfile() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     const token = localStorage.getItem("token");
 
     if (!user || !token) {
@@ -69,8 +68,7 @@ export default function EditProfile() {
         return setMessage(message);
       }
 
-      deleteCachedUser();
-      window.location.href = `/${userData.username}`;
+      router.push(`/${userData.username}`);
     } catch (error: any) {
       setMessage(error.message || "Failed to update.");
     } finally {

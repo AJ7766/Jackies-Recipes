@@ -10,10 +10,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+
   const session = await getSession();
-  const serverUser = await getUserController();
-  
+  const serverUser = (session.isAuth && session.user_id) ? await getUserController(session.user_id) : null;
+
   return (
     <html lang="en">
       <head>

@@ -3,7 +3,6 @@ import { RecipeFormProps } from "@/_models/RecipeModel";
 export const fetchUpdateRecipeAPI = async (
     token: string,
     recipe: RecipeFormProps,
-    deleteCachedUser: () => void
 ) => {
     try {
         let res = await fetch("/api/recipe", {
@@ -19,8 +18,6 @@ export const fetchUpdateRecipeAPI = async (
         if (!res.ok) {
             return { message: data.message || "Failed to update recipe", success: false }
         }
-
-        deleteCachedUser();
 
         return { message: "Successfully updating recipe", success: true };
     } catch (error) {

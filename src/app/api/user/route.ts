@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/app/_config/database";
 import { getToken, verifyToken } from "@/_utils/jwt";
 import { getUserService, updateUserService, validateUserService } from "./services/userService";
+import cache from "@/app/_config/cache";
 
 export async function GET(req: NextRequest) { // Get user
     try {
@@ -30,6 +31,7 @@ export async function PUT(req: NextRequest) { // Update user
 
         await updateUserService(decoded.id, validated_user);
 
+        cache.set(user.username, validated_user);
         return NextResponse.json({ message: `Success!` }, { status: 201 })
     } catch (error: any) {
         if (error.code === 11000) {

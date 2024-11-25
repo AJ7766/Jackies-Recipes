@@ -39,7 +39,6 @@ interface AddRecipeProps {
   username: string;
   recipe_id: string;
   token: string;
-  deleteCachedUser: () => void;
   router: AppRouterInstance
 }
 
@@ -59,7 +58,6 @@ export default function EditRecipeComponent({
   username,
   recipe_id,
   token,
-  deleteCachedUser,
   router
 }: AddRecipeProps) {
   return (
@@ -337,7 +335,7 @@ export default function EditRecipeComponent({
         <button
           type="button"
           className="delete"
-          onClick={() => handleDeleteRecipe(token, new mongoose.Types.ObjectId(recipe_id), username, deleteCachedUser, router)}
+          onClick={() => handleDeleteRecipe(token, new mongoose.Types.ObjectId(recipe_id), username, router)}
         >
           Delete
         </button>

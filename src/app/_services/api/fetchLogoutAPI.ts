@@ -9,7 +9,6 @@ export const fetchGetLogoutAPI = async () => {
         if (!res.ok)
             return { message: data.message || "Failed to logout", success: false};
         
-        window.location.reload();
         return { message: data.message, success: true };
     } catch (error) {
         return { message: error, success: false };

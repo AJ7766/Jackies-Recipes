@@ -104,8 +104,6 @@ const isValidPassword = async (
     confirmPassword: string | undefined,
     existing_password: string
 ) => {
-    let errorMessage: string[] = [];
-
     if ((password && (!newPassword || !confirmPassword)) || (newPassword && (!password || !confirmPassword)) || (confirmPassword && (!password || !newPassword))) {
         throw new Error(`Please fill in all password fields`);
     }

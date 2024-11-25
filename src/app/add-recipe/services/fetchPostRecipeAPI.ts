@@ -16,7 +16,6 @@ export const fetchPostRecipeAPI = async (recipe: RecipeFormProps, token: string)
         if (!res.ok)
             return { message: data.message || "Failed to create recipe", success: false };
 
-
         return { message: "Create recipe successfully", success: true };
     } catch (error) {
         return { message: `Failed to create recipe: ${error}`, success: false };

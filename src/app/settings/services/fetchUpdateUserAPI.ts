@@ -16,7 +16,7 @@ export const fetchUpdateUserAPI = async (user: UserEditProps, token: string) => 
         if (!res.ok) {
             return { message: data.message || "Failed to request edit user.", success: false };
         }
-
+        
         return { message: "Update successfully.", success: true };
     } catch (error) {
         return { message: `Failed to update: ${error}`, success: false };

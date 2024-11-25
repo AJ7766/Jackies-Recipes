@@ -41,7 +41,7 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
         ],
     }); const [loadingBtn, setLoadingBtn] = useState(false);
     const [message, setMessage] = useState("");
-    const { user, deleteCachedUser } = useAuth();
+    const { user } = useAuth();
     const [token, setToken] = useState<string>("");
     const [userHasRecipe, setUserHasRecipe] = useState<boolean>(false);
     const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
@@ -123,7 +123,7 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
 
         setLoadingBtn(true);
         
-        const { message, success } = await fetchUpdateRecipeAPI(token, recipe, deleteCachedUser);
+        const { message, success } = await fetchUpdateRecipeAPI(token, recipe);
         if (!success) {
             setLoadingBtn(false)
             throw new Error(message)
@@ -259,7 +259,6 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
         username={user?.username || ''}
         recipe_id={recipe_id}
         token={token}
-        deleteCachedUser={deleteCachedUser}
         router={router}
     />
 }

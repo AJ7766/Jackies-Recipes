@@ -39,7 +39,7 @@ export default function AddRecipe() {
   });
   const [message, setMessage] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
-  const { user, deleteCachedUser } = useAuth();
+  const { user } = useAuth();
   const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
   const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
@@ -101,7 +101,6 @@ export default function AddRecipe() {
       return;
     }
 
-    deleteCachedUser();
     router.push(`/${user?.username}`);
     setLoadingBtn(false);
   }

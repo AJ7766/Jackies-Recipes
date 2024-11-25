@@ -5,10 +5,11 @@ import LoginPage from "./_containers/LoginPage";
 
 export default async function DashboardPage() {
   const session = await getSession();
-  const serverRecipes = await getRecipesController();
 
   if (!session.isAuth)
     return <LoginPage />
+    
+  const serverRecipes = await getRecipesController();
 
   return (
     <>
