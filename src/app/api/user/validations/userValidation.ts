@@ -106,25 +106,10 @@ const isValidPassword = async (
 ) => {
     let errorMessage: string[] = [];
 
-    if (password && (!newPassword || !confirmPassword)) {
-        if (!newPassword) errorMessage.push('New password');
-        if (!confirmPassword) errorMessage.push('Confirm password');
+    if ((password && (!newPassword || !confirmPassword)) || (newPassword && (!password || !confirmPassword)) || (confirmPassword && (!password || !newPassword))) {
+        throw new Error(`Please fill in all password fields`);
     }
 
-    if (newPassword && (!password || !confirmPassword)) {
-        if (!password) errorMessage.push('Old password');
-        if (!confirmPassword) errorMessage.push('Confirm password');
-    }
-
-    if (confirmPassword && (!password || !newPassword)) {
-        if (!password) errorMessage.push('Old password');
-        if (!newPassword) errorMessage.push('New password');
-    }
-
-    if (errorMessage.length > 0) {
-        throw new Error(`The following fields are required: ${errorMessage.join(', ')}`);
-    }
-    
     if (newPassword && newPassword.length < 6)
         throw new Error('Password must be at least 6 characters');
 

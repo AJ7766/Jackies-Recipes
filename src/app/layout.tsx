@@ -4,13 +4,13 @@ import NavBar from "./_containers/NavBar";
 import { CookieConsent } from "./_containers/CookieConsent";
 import { getSession } from "@/_utils/session";
 import { getUserController } from "./_ssr/user/userController";
-import { hashPassword } from "@/_utils/bcrypt";
 
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   const session = await getSession();
   const serverUser = await getUserController();
   

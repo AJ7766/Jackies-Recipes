@@ -55,9 +55,9 @@ export const checkUserAttrService = async (user: UserEditProps) => {
             facebook: user.userContent?.facebook ? user.userContent.facebook.toLowerCase() : ""
         }
     };
-    if (user.password) updated_user.password = user.password;
-    if (user.newPassword) updated_user.newPassword = user.newPassword;
-    if (user.confirmPassword) updated_user.confirmPassword = user.confirmPassword;
+    if (user.password.length > 1) updated_user.password = user.password;
+    if (user.newPassword.length > 1) updated_user.newPassword = user.newPassword;
+    if (user.confirmPassword.length > 1) updated_user.confirmPassword = user.confirmPassword;
 
     return updated_user;
 }
