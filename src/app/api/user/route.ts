@@ -37,7 +37,7 @@ export async function PUT(req: NextRequest) { // Update user
 
         await updateUserService(decoded.id, validated_user);
 
-        await deleteRedisCache(decoded.id)
+        await deleteRedisCache(decoded.id);
 
         return NextResponse.json({ message: `Success!`, updated_user: validated_user }, { status: 201 })
     } catch (error: any) {

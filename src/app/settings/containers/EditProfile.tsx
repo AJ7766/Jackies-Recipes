@@ -67,7 +67,7 @@ export default function EditProfile() {
       if (!updated_user) {
         return setMessage(message);
       }
-
+      
       setUser(updated_user);
       router.push(`/${userData.username}`);
     } catch (error: any) {
