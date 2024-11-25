@@ -14,12 +14,12 @@ interface RecipeCardProps {
   user: { username: string };
 }
 export default function MasonaryProfile() {
+  const { user } = useAuth();
+  const { profile } = useProfile();
   const [totalColumns, setTotalColumns] = useState<number>(4);
   const [columns, setColumns] = useState<RecipeCardProps[][] | null>(null);
   const [canEdit, setCanEdit] = useState(false);
-  const { user } = useAuth();
   const pathname = usePathname();
-  const { profile } = useProfile();
 
   useLayoutEffect(() => {
     setTotalColumns(window.innerWidth > 768 ? 4 : 3)
@@ -42,7 +42,7 @@ export default function MasonaryProfile() {
       }
       fetchRecipes();
     }
-  }, []);
+  }, [profile.recipes]);
 
   if (!columns) return null;
 
@@ -56,7 +56,7 @@ export default function MasonaryProfile() {
 
   return (
     <MasonaryProfileComponent
-      profile={profile || null}
+      username={profile.username}
       columns={columns || null}
       canEdit={canEdit}
     />

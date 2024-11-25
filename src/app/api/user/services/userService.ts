@@ -16,7 +16,7 @@ export const getUserService = async (user_id: mongoose.Types.ObjectId) => {
 export const updateUserService = async (user_id: mongoose.Types.ObjectId, user: UserEditProps) => {
     const updated_user = await updateUser(user_id, user);
 
-    if(!updated_user)
+    if (!updated_user)
         throw new Error("Failed to update user");
 
     return updated_user;
@@ -30,23 +30,21 @@ export const validateUserService = async (user_id: mongoose.Types.ObjectId, user
 
     await userValidation({ user: attri_checked_user, existing_password: existing_user.password });
 
-    const hashedPassword = await hashPassword(attri_checked_user.newPassword);
-
-    const updated_user = {
-        ...attri_checked_user,
-        newPassword: hashedPassword
+    if (!attri_checked_user.newPassword && !attri_checked_user.confirmPassword && !attri_checked_user.password) {
+        return attri_checked_user;
     }
-    return updated_user;
+
+    return {
+        ...attri_checked_user,
+        newPassword: await hashPassword(attri_checked_user.newPassword)
+    };
 }
 
 export const checkUserAttrService = async (user: UserEditProps) => {
-    const updated_user = {
+    const updated_user: any = {
         email: user.email.toLowerCase(),
         username: user.username.toLowerCase(),
         fullName: user.fullName,
-        password: user.password || "",
-        newPassword: user.newPassword || "",
-        confirmPassword: user.confirmPassword || "",
         userContent: {
             profilePicture: user.userContent?.profilePicture || "",
             bio: user.userContent?.bio || "",
@@ -57,5 +55,9 @@ export const checkUserAttrService = async (user: UserEditProps) => {
             facebook: user.userContent?.facebook ? user.userContent.facebook.toLowerCase() : ""
         }
     };
+    if (user.password) updated_user.password = user.password;
+    if (user.newPassword) updated_user.newPassword = user.newPassword;
+    if (user.confirmPassword) updated_user.confirmPassword = user.confirmPassword;
+
     return updated_user;
 }

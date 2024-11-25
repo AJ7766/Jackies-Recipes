@@ -11,11 +11,11 @@ interface RecipeCardProps {
 }
 
 export const MasonaryProfileComponent = React.memo(({
-  profile,
+  username,
   columns = null,
   canEdit
 }: {
-  profile: UserPopulatedRecipePopulatedProps | null;
+  username: string;
   columns: RecipeCardProps[][] | null;
   canEdit: boolean;
 }) => {
@@ -28,7 +28,7 @@ export const MasonaryProfileComponent = React.memo(({
               {column.map((recipe, recipeIndex) => (
                 <React.Fragment key={recipeIndex}>
                   <Link
-                    href={`/${profile?.username}/${recipe.id}`}
+                    href={`/${username}/${recipe.id}`}
                     scroll={false}
                     prefetch
                   >
@@ -44,7 +44,7 @@ export const MasonaryProfileComponent = React.memo(({
                   </Link>
                   <div className="recipeSettingsContainer">
                     <Link
-                      href={`/${profile?.username}/${recipe.id}`}
+                      href={`/${username}/${recipe.id}`}
                       scroll={false}
                       prefetch
                     >

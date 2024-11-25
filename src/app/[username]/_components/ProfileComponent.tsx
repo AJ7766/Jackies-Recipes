@@ -9,10 +9,10 @@ const tiktok = "/images/social-media/tiktok.svg";
 const youtube = "/images/social-media/youtube.svg";
 const facebook = "/images/social-media/facebook.svg";
 
-export const ProfileComponent  = ({
-  profile = null,
+export const ProfileComponent = ({
+  profile,
 }: {
-  profile: UserPopulatedRecipePopulatedProps | null;
+  profile: UserPopulatedRecipePopulatedProps;
 }) => {
   const bioText = profile?.userContent?.bio || "";
   const formattedBio = bioText.replace(/\n/g, "<br>");

@@ -8,7 +8,7 @@ import ErrorPage from "../_errors/ErrorPage";
 export default async function RootLayout({ children, params }: { children: ReactNode, params: Promise<{ username: string }> }) {
   const { username } = await params;
   const { serverProfile } = await getProfileController(username.toLocaleLowerCase());
-
+  
   if (!serverProfile)
     return <ErrorPage />
 
