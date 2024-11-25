@@ -9,7 +9,7 @@ import { fetchUpdateUserAPI } from "../services/fetchUpdateUserAPI";
 const profilePicture = "/images/profile-picture.png";
 
 export default function EditProfile() {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const [userData, setUserData] = useState<UserEditProps>({
     email: user?.email || "",
     username: user?.username || "",
@@ -62,12 +62,13 @@ export default function EditProfile() {
 
     try {
       setLoadingBtn(true);
-      const { message, success } = await fetchUpdateUserAPI(userData, token);
+      const { message, updated_user } = await fetchUpdateUserAPI(userData, token);
 
-      if (!success) {
+      if (!updated_user) {
         return setMessage(message);
       }
 
+      setUser(updated_user);
       router.push(`/${userData.username}`);
     } catch (error: any) {
       setMessage(error.message || "Failed to update.");

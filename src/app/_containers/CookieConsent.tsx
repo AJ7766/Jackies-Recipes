@@ -1,5 +1,5 @@
 "use client"
-import { useCookieConsent } from "@/_utils/cookies";
+import { useCookieConsent } from "@/_utils/client/cookies";
 import { useEffect, useState } from "react";
 import { CookieConsentComponent } from "../_components/CookieConsentComponent";
 

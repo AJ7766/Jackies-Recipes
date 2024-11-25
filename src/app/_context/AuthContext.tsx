@@ -10,6 +10,7 @@ import { fetchGetLogoutAPI } from "../_services/api/fetchLogoutAPI";
 
 interface AuthContextType {
   user: UserProps | null;
+  setUser: React.Dispatch<React.SetStateAction<UserProps | null>>;
   logout: () => void;
 }
 
@@ -41,6 +42,7 @@ export function AuthProvider({ children, serverUser }: { children: React.ReactNo
     <AuthContext.Provider
       value={{
         user,
+        setUser,
         logout
       }}
     >
