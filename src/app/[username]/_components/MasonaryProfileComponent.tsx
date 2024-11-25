@@ -2,7 +2,6 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { Types } from "mongoose";
-import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 
 interface RecipeCardProps {
   id: Types.ObjectId | undefined;

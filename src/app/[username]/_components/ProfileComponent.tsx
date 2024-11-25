@@ -1,7 +1,7 @@
 import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 const profilePicture = "/images/profile-picture.png";
 const instagram = "/images/social-media/instagram.svg";
 const x = "/images/social-media/x.svg";
@@ -9,26 +9,8 @@ const tiktok = "/images/social-media/tiktok.svg";
 const youtube = "/images/social-media/youtube.svg";
 const facebook = "/images/social-media/facebook.svg";
 
-export const ProfileComponent = ({ serverProfile }: { serverProfile: UserPopulatedRecipePopulatedProps }
+export const ProfileComponent = ({ profile }: { profile: UserPopulatedRecipePopulatedProps }
 ) => {
-  const [profile, setProfile] = useState<any>(serverProfile);
-  useEffect(() => {
-    if (profile) {
-      setProfile({
-        username: serverProfile.username || "",
-        fullName: serverProfile.fullName || "",
-        userContent: {
-          profilePicture: serverProfile.userContent?.profilePicture || profilePicture,
-          bio: serverProfile.userContent?.bio || "",
-          instagram: serverProfile.userContent?.instagram || "",
-          x: serverProfile.userContent?.x || "",
-          tiktok: serverProfile.userContent?.tiktok || "",
-          youtube: serverProfile.userContent?.youtube || "",
-          facebook: serverProfile.userContent?.facebook || "",
-        },
-      });
-    }
-  },[serverProfile])
   const bioText = profile?.userContent?.bio || "";
   const formattedBio = bioText.replace(/\n/g, "<br>");
   return (
