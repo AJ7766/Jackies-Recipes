@@ -16,7 +16,7 @@ export default async function RootLayout({ children, params }: { children: React
     <>
       <ProfileProvider serverProfile={serverProfile}>
         {children}
-        <Profile />
+        <Profile serverProfile={serverProfile} />
         <MasonaryProfile />
       </ProfileProvider>
     </>

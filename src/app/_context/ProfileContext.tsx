@@ -4,6 +4,7 @@ import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 
 interface ProfileContextType {
   profile: UserPopulatedRecipePopulatedProps;
+  setProfile: React.Dispatch<React.SetStateAction<UserPopulatedRecipePopulatedProps>>;
 }
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
@@ -12,7 +13,7 @@ export function ProfileProvider({ children, serverProfile }: { children: React.R
   const [profile, setProfile] = useState<UserPopulatedRecipePopulatedProps>(serverProfile);
 
   return (
-    <ProfileContext.Provider value={{ profile }}>
+    <ProfileContext.Provider value={{ profile, setProfile }}>
       {children}
     </ProfileContext.Provider>
   );
