@@ -12,8 +12,7 @@ export default async function RootLayout({
 }>) {
 
   const session = await getSession();
-  const serverUser = (session.isAuth && session.user_id)
-    ? await getUserController(session.user_id) : null;
+  const serverUser = (session.isAuth && session.user_id) && await getUserController(session.user_id);
 
   return (
     <html lang="en">

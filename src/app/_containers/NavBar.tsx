@@ -90,6 +90,5 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
   if (!checkNavBar(pathname, isAuth))
     return null;
 
-
   return <NavBarComponent user={user} isAuth={isAuth} search={search} setSearch={setSearch} users={users} recipes={recipes} isOpen={isOpen} searchResultsRef={searchResultsRef} dropdownRef={dropdownRef} clickHandler={clickHandler} toggleDropdown={toggleDropdown} closeDropdown={closeDropdown} logout={logout} />
 }

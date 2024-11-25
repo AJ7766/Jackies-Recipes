@@ -11,7 +11,6 @@ redisClient.connect()
 export async function deleteRedisCache(user_id: string) {
   try {
     await redisClient.del(user_id);
-    console.log(`Cache for user ${user_id} deleted successfully.`);
   } catch (error) {
     console.error('Error deleting Redis cache:', error);
   }
