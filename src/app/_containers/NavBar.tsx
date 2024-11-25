@@ -21,18 +21,15 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const { user, logout } = useAuth();
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
-    const target = event.target as HTMLElement;
-
     if (
       dropdownRef.current &&
-      !dropdownRef.current.contains(target)
+      !dropdownRef.current.contains(event.target as Node)
     ) {
       setIsOpen(false);
     }
     if (
-      (searchResultsRef.current && !searchResultsRef.current.contains(target)) ||
-      target.dataset.type === "user" ||
-      target.dataset.type === "recipe"
+      (searchResultsRef.current &&
+        !searchResultsRef.current.contains(event.target as Node))
     ) {
       setUsers([]);
       setRecipes([]);
@@ -86,9 +83,13 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
     setIsOpen(!isOpen);
   }
 
+  function closeDropdown() {
+    setIsOpen(false);
+  }
+
   if (!checkNavBar(pathname, isAuth))
     return null;
 
 
-  return <NavBarComponent user={user} isAuth={isAuth} search={search} setSearch={setSearch} users={users} recipes={recipes} isOpen={isOpen} searchResultsRef={searchResultsRef} dropdownRef={dropdownRef} clickHandler={clickHandler} toggleDropdown={toggleDropdown} logout={logout} />
+  return <NavBarComponent user={user} isAuth={isAuth} search={search} setSearch={setSearch} users={users} recipes={recipes} isOpen={isOpen} searchResultsRef={searchResultsRef} dropdownRef={dropdownRef} clickHandler={clickHandler} toggleDropdown={toggleDropdown} closeDropdown={closeDropdown} logout={logout} />
 }

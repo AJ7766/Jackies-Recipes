@@ -21,6 +21,7 @@ interface NavBarProps {
   clickHandler: () => void;
   isAuth: boolean;
   toggleDropdown: () => void;
+  closeDropdown: () => void;
   logout: () => void;
 }
 
@@ -36,6 +37,7 @@ export const NavBarComponent = React.memo(({
   clickHandler,
   isAuth,
   toggleDropdown,
+  closeDropdown,
   logout
 }: NavBarProps) => {
   return (
@@ -80,11 +82,11 @@ export const NavBarComponent = React.memo(({
                     <Link
                       href={`/${user.username}`}
                       key={index}
+                      onClick={clickHandler}
                       prefetch>
                       <div
                         className="searchedUser"
                         data-testid="searchedUser"
-                        onClick={clickHandler}
                       >
                         <Image
                           height={42}
@@ -109,6 +111,7 @@ export const NavBarComponent = React.memo(({
                     <Link
                       href={`/${recipe.user?.username}/${recipe._id}`}
                       key={index}
+                      onClick={clickHandler}
                       prefetch
                     >
                       <div
@@ -116,7 +119,6 @@ export const NavBarComponent = React.memo(({
                         data-testid="searchedRecipe"
                         data-id={index}
                         data-type="recipe"
-                        onClick={clickHandler}
                       >
                         <Image
                           height={42}
@@ -171,8 +173,8 @@ export const NavBarComponent = React.memo(({
               {isOpen && (
                 <div className="dropdownContentContainer">
                   <div className="dropdownContent">
-                    <Link href="/settings" prefetch>Settings</Link>
-                    <Link href="/privacy-policy" prefetch>Privacy Policy</Link>
+                    <Link href="/settings " onClick={closeDropdown} prefetch>Settings</Link>
+                    <Link href="/privacy-policy" onClick={closeDropdown} prefetch>Privacy Policy</Link>
                     <button onClick={logout}>Logout</button>
                   </div>
                 </div>
