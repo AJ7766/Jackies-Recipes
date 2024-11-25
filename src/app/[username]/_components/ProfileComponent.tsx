@@ -1,7 +1,7 @@
 import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 const profilePicture = "/images/profile-picture.png";
 const instagram = "/images/social-media/instagram.svg";
 const x = "/images/social-media/x.svg";
@@ -11,8 +11,6 @@ const facebook = "/images/social-media/facebook.svg";
 
 export const ProfileComponent = ({ profile }: { profile: UserPopulatedRecipePopulatedProps }
 ) => {
-  const bioText = profile?.userContent?.bio || "";
-  const formattedBio = bioText.replace(/\n/g, "<br>");
   return (
     <>
       <div className="profileContainer">
@@ -26,7 +24,15 @@ export const ProfileComponent = ({ profile }: { profile: UserPopulatedRecipePopu
             alt="profile-picture"
           />
           <h1>{profile?.fullName}</h1>
-          <h2 dangerouslySetInnerHTML={{ __html: formattedBio }}></h2>
+          {profile.userContent?.bio &&
+            <h2>
+              {profile.userContent?.bio.split('\n').map((line, index) => (
+                <span key={index}>
+                  {line}
+                  {profile.userContent?.bio && index < profile.userContent?.bio.split('\n').length - 1 && <br />}
+                </span>
+              ))}
+            </h2>}
           <p>@{profile?.username}</p>
           <div className="profileSocialMediaContainer">
             {profile?.userContent?.instagram && (

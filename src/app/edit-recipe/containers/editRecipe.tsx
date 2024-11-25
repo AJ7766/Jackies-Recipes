@@ -116,6 +116,7 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
 
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        const token = localStorage.getItem("token");
 
         if (!user || !token) {
             throw new Error("User or Token is not available");
