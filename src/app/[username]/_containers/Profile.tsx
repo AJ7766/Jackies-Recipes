@@ -5,5 +5,5 @@ import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 
 export default function Profile({ serverProfile }: { serverProfile: UserPopulatedRecipePopulatedProps }) {
 
-    return <ProfileComponent profile={serverProfile} />
+    return <ProfileComponent serverProfile={serverProfile} />
 }
