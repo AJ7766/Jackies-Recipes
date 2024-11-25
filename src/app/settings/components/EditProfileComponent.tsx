@@ -143,6 +143,7 @@ export const EditProfileComponent = React.memo(({
             name="youtube"
             type="text"
             placeholder="optional"
+            autoComplete="facebook"
             value={user.userContent?.youtube}
             onChange={handleInputChange}
           />
@@ -155,6 +156,7 @@ export const EditProfileComponent = React.memo(({
             name="facebook"
             type="text"
             placeholder="optional"
+            autoComplete="facebook"
             value={user.userContent?.facebook}
             onChange={handleInputChange}
           />
@@ -189,6 +191,7 @@ export const EditProfileComponent = React.memo(({
         <input
           type="password"
           name="confirmPassword"
+          autoComplete=""
           value={user.confirmPassword}
           onChange={handleInputChange}
         />

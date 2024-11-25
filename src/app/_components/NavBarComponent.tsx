@@ -46,7 +46,7 @@ export const NavBarComponent = React.memo(({
             src={logo}
             alt="logo"
             width={24}
-            height={24}
+            height={24.5}
             priority
           />
         </Link>

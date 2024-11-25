@@ -9,9 +9,7 @@ const tiktok = "/images/social-media/tiktok.svg";
 const youtube = "/images/social-media/youtube.svg";
 const facebook = "/images/social-media/facebook.svg";
 
-export const ProfileComponent = ({
-  profile,
-}: {
+export const ProfileComponent = ({ profile }: {
   profile: UserPopulatedRecipePopulatedProps;
 }) => {
   const bioText = profile?.userContent?.bio || "";
@@ -77,7 +75,7 @@ export const ProfileComponent = ({
                     : `https://${profile.userContent.youtube}`
                 }
               >
-                <Image src={youtube} alt="youtube" width={24} height={24} />
+                <Image src={youtube} alt="youtube" width={30} height={24} />
               </Link>
             )}
             {profile?.userContent?.facebook && (
