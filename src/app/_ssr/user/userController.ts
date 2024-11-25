@@ -7,7 +7,7 @@ export const getUserController = async (user_id: mongoose.Types.ObjectId) => {
     await connectDB();
     const cached_user = await redisClient.get(user_id.toString());
     if (cached_user)
-        return JSON.parse(JSON.stringify(cached_user));
+        return JSON.parse(cached_user);
 
     const user = await getUserService(user_id);
 

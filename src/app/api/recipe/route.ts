@@ -4,8 +4,8 @@ import { getToken, verifyToken } from "@/_utils/jwt";
 import { createRecipeService, deleteRecipeService, getRecipeIdFromUrlService, getRecipeService, updateRecipeService, validateRecipeService } from "./services/recipeServices";
 import { addRecipeToUserService, checkUserHasRecipeService, deleteUserRecipeService } from "../profile/services/profileServices";
 import { RecipeProps } from "@/_models/RecipeModel";
-import { deleteCache } from "@/app/_config/cache";
 import { getUserService } from "../user/services/userService";
+import { deleteRedisCache } from "@/_utils/redis";
 
 export async function GET(req: NextRequest) { // Get recipe
     try {
@@ -40,7 +40,7 @@ export async function POST(req: NextRequest) { // Create recipe
         const new_recipe = await createRecipeService(recipe, decoded.id);
         await addRecipeToUserService(new_recipe, decoded.id);
 
-        await deleteCache(decoded.username);
+        await deleteRedisCache(decoded.id);
 
         return NextResponse.json({ message: "Success creating recipe" }, { status: 200 });
     } catch (error) {
@@ -63,7 +63,7 @@ export async function PUT(req: NextRequest) { // Update recipe
 
         await updateRecipeService(recipe);
 
-        await deleteCache(decoded.username);
+        await deleteRedisCache(decoded.id);
 
         return NextResponse.json({ message: "Success updating recipe" }, { status: 200 });
     } catch (error) {
@@ -84,7 +84,7 @@ export async function DELETE(req: NextRequest) { // Delete recipe
 
         await Promise.all([deleteRecipeService(recipe_id), deleteUserRecipeService(decoded.id, recipe_id)]);
 
-        await deleteCache(decoded.username);
+        await deleteRedisCache(decoded.id);
 
         return NextResponse.json({ message: 'Recipe successfully deleted' }, { status: 200 });
     } catch (error) {
