@@ -10,6 +10,7 @@ export function LoadingSpinner() {
       height={100}
       width={100}
       alt="logo"
+      unoptimized
       priority
     />
   );

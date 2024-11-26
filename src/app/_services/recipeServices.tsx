@@ -130,7 +130,7 @@ export const imageChange = (e: React.ChangeEvent<HTMLInputElement>): Promise<{ m
             if (!allowedMimeTypes.includes(file.type)) {
                 alert("Please upload an image file (JPEG, PNG, WEBP).");
                 reject({ message: "Please upload an image file (JPEG, PNG, WEBP)." });
-                return; // exit the function early after rejection
+                return;
             }
 
             if (file.size > maxSize) {

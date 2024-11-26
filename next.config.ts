@@ -1,12 +1,16 @@
 module.exports = {
     async headers() {
-        return [
+      return [
+        {
+          source: '/images/(.*)',
+          headers: [
             {
-                source: '/images/(.*)',
-                headers: [
-                    { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
-                ],
+              key: 'Cache-Control',
+              value: 'public, max-age=31536000, immutable',
             },
-        ];
+          ],
+        },
+      ];
     },
-};
+  };
+  
