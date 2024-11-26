@@ -10,7 +10,20 @@ interface ProfileContextType {
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
 export function ProfileProvider({ children, serverProfile }: { children: React.ReactNode, serverProfile: UserPopulatedRecipePopulatedProps }) {
-  const [profile, setProfile] = useState<UserPopulatedRecipePopulatedProps>(serverProfile);
+  const [profile, setProfile] = useState<UserPopulatedRecipePopulatedProps>(() => {
+    if (typeof window !== "undefined") {
+      const cached_profile = sessionStorage.getItem("profile");
+      if (cached_profile) {
+        return JSON.parse(cached_profile);
+      }
+    }
+    return serverProfile;
+  });
+
+  if (typeof window !== "undefined") {
+    console.log("server-bio:",serverProfile.userContent?.bio)
+    sessionStorage.setItem("profile", JSON.stringify(serverProfile));
+  }
 
   return (
     <ProfileContext.Provider value={{ profile, setProfile }}>

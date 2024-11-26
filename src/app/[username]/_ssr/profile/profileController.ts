@@ -4,7 +4,7 @@ import { getUserPopulatedService } from "./profileService";
 export const getProfileController = async (username: string) => {
     try {
         await connectDB();
-
+        console.log("Fetching profile from server");
         const profile = await getUserPopulatedService(username);
 
         return { serverProfile: JSON.parse(JSON.stringify(profile)) };

@@ -8,6 +8,8 @@ const redisClient = createClient({
 redisClient.connect()
 .catch(console.error);
 
+export default redisClient;
+
 export async function deleteRedisCache(user_id: string) {
   try {
     await redisClient.del(user_id);
@@ -16,4 +18,3 @@ export async function deleteRedisCache(user_id: string) {
   }
 }
 
-export default redisClient;

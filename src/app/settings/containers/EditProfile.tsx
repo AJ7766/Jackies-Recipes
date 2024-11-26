@@ -70,7 +70,10 @@ export default function EditProfile() {
       }
 
       setUser(updated_user);
+      sessionStorage.removeItem("profile");
+      
       router.push(`/${userData.username}`);
+      router.refresh();
       //window.location.href = (`/${userData.username}`);
     } catch (error: any) {
       setMessage(error.message || "Failed to update.");
