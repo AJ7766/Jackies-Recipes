@@ -1,4 +1,5 @@
 import { UserEditProps } from "@/_models/UserModel";
+import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import React from "react";
 const profilePicture = "/images/profile-picture.png";
@@ -7,8 +8,8 @@ const camera = "/images/camera.svg";
 interface EditProfileProps {
   user: UserEditProps;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  CloudinaryPicChange: (url: string) => void;
   handleProfilePicChange: () => void;
-  ProfilePicChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   handleInputChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
@@ -21,7 +22,7 @@ export const EditProfileComponent = React.memo(({
   handleSubmit,
   handleInputChange,
   handleProfilePicChange,
-  ProfilePicChange,
+  CloudinaryPicChange,
   message,
   loadingBtn,
 }: EditProfileProps) => {
@@ -35,14 +36,6 @@ export const EditProfileComponent = React.memo(({
           src={user.userContent?.profilePicture || profilePicture}
           alt="profile-picture"
         />
-        <input
-          id="profilePicInput"
-          name="profilePicture"
-          type="file"
-          accept=".jpg,.jpeg,.png,.webp"
-          className="hidden"
-          onChange={ProfilePicChange}
-        />
         <Image
           className="editCamera"
           width={50}
@@ -51,7 +44,26 @@ export const EditProfileComponent = React.memo(({
           alt="camera"
         />
       </div>
-
+      <CldUploadWidget
+        options={{
+          sources: ['local', 'camera', 'url', 'google_drive', 'dropbox'],
+          multiple: false,
+          maxFileSize: 10 * 1024 * 1024,
+          theme: 'minimal',
+        }}
+        signatureEndpoint="/api/sign-image"
+        uploadPreset="next_cloudinary_app"
+        onSuccess={(result) => {
+          if (result.info && typeof result.info !== 'string') {
+            console.log(result.info?.url)
+            if (result.info.url)
+              CloudinaryPicChange(result.info.url)
+          } return;
+        }}>
+        {({ open }) => {
+          return <button name="profilePic" className="hidden" id="profilePicInput" onClick={(e) => {e.preventDefault(); open()}}>Upload</button>
+        }}
+      </CldUploadWidget>
       <div className="editInputContainer">
         <label htmlFor="email">Email:</label>
         <input
