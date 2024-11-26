@@ -1,1 +1,0 @@
-import { CldUploadWidget } from 'next-cloudinary';

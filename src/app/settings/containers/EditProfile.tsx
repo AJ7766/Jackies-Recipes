@@ -1,11 +1,11 @@
 "use client"
 import { useEffect, useState } from "react";
+import Resizer from "react-image-file-resizer";
 import { useAuth } from "@/app/_context/AuthContext";
 import { UserEditProps } from "@/_models/UserModel";
+import { EditProfileComponent } from "../components/EditProfileComponent";
 import { fetchUpdateUserAPI } from "../services/fetchUpdateUserAPI";
 import { useRouter } from "next/navigation";
-import { CloudinaryUploadWidgetInfo } from "next-cloudinary";
-import { EditProfileComponent } from "../components/EditProfileComponent";
 const profilePicture = "/images/profile-picture.png";
 
 export default function EditProfile() {
@@ -29,12 +29,8 @@ export default function EditProfile() {
   });
   const [message, setMessage] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
-  const [resource, setResource] = useState<string | CloudinaryUploadWidgetInfo | undefined>(undefined);
   const router = useRouter()
 
-  useEffect(() => {
-    console.log("Cloudinary:", resource)
-  }, [resource])
   useEffect(() => {
     if (user) {
       setUserData({
@@ -59,7 +55,6 @@ export default function EditProfile() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("submitting")
     const token = localStorage.getItem("token");
 
     if (!user || !token) {
@@ -76,7 +71,7 @@ export default function EditProfile() {
 
       setUser(updated_user);
       sessionStorage.removeItem("profile");
-
+      
       router.push(`/${userData.username}`);
       router.refresh();
       //window.location.href = (`/${userData.username}`);
@@ -91,48 +86,82 @@ export default function EditProfile() {
     document.getElementById("profilePicInput")?.click();
   };
 
-  const CloudinaryPicChange = (url: string) => {
-    setUserData((prev) => ({
-      ...prev,
-      userContent: {
-        ...prev.userContent,
-        profilePicture: url,
-      },
-    }));
-  }
+  const ProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
+      const maxSize = 20 * 1024 * 1024;
 
-const handleInputChange = (
-  e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-) => {
-  const { name, value } = e.target;
+      if (!allowedMimeTypes.includes(file.type)) {
+        alert("Please upload an image file (JPEG, PNG, WEBP).");
+        return;
+      }
 
-  setUserData((prev) => {
-    if (name in (prev.userContent || {})) {
-      return {
-        ...prev,
-        userContent: {
-          ...prev.userContent,
-          [name]: value,
-        },
-      };
-    } else {
-      return {
-        ...prev,
-        [name]: value,
-      };
+      if (file.size > maxSize) {
+        alert("File size exceeds 20 MB.");
+        return;
+      }
+      try {
+        Resizer.imageFileResizer(
+          file,
+          600, // max width
+          600, // max height
+          "JPEG", // format
+          90, // quality
+          0, // rotation
+          (uri) => {
+            if (typeof uri === "string") {
+              setUserData((prev) => ({
+                ...prev,
+                userContent: {
+                  ...prev.userContent,
+                  profilePicture: uri,
+                },
+              }));
+            } else {
+              console.error("Unexpected type:", uri);
+            }
+          },
+          "base64"
+        );
+      } catch (error) {
+        console.error("Error resizing image:", error);
+      }
     }
-  });
-};
+  };
 
-return (
-  <EditProfileComponent
-    user={userData}
-    handleSubmit={handleSubmit}
-    handleInputChange={handleInputChange}
-    handleProfilePicChange={handleProfilePicChange}
-    message={message}
-    loadingBtn={loadingBtn}
-    CloudinaryPicChange={CloudinaryPicChange}
-  />
-);
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+
+    setUserData((prev) => {
+      if (name in (prev.userContent || {})) {
+        return {
+          ...prev,
+          userContent: {
+            ...prev.userContent,
+            [name]: value,
+          },
+        };
+      } else {
+        return {
+          ...prev,
+          [name]: value,
+        };
+      }
+    });
+  };
+
+  return (
+    <EditProfileComponent
+      user={userData}
+      handleSubmit={handleSubmit}
+      handleInputChange={handleInputChange}
+      handleProfilePicChange={handleProfilePicChange}
+      ProfilePicChange={ProfilePicChange}
+      message={message}
+      loadingBtn={loadingBtn}
+    />
+  );
 }
