@@ -71,7 +71,7 @@ export default function EditProfile() {
 
       setUser(updated_user);
       sessionStorage.removeItem("profile");
-      
+
       router.push(`/${userData.username}`);
       router.refresh();
       //window.location.href = (`/${userData.username}`);
@@ -86,7 +86,7 @@ export default function EditProfile() {
     document.getElementById("profilePicInput")?.click();
   };
 
-  const ProfilePicChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const ProfilePicChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
@@ -101,31 +101,30 @@ export default function EditProfile() {
         alert("File size exceeds 20 MB.");
         return;
       }
+      const formData = new FormData();
+      formData.append("file", file);
+
       try {
-        Resizer.imageFileResizer(
-          file,
-          600, // max width
-          600, // max height
-          "JPEG", // format
-          90, // quality
-          0, // rotation
-          (uri) => {
-            if (typeof uri === "string") {
-              setUserData((prev) => ({
-                ...prev,
-                userContent: {
-                  ...prev.userContent,
-                  profilePicture: uri,
-                },
-              }));
-            } else {
-              console.error("Unexpected type:", uri);
-            }
-          },
-          "base64"
-        );
+        const res = await fetch('/api/cloudinary', {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          setUserData((prev) => ({
+            ...prev,
+            userContent: {
+              ...prev.userContent,
+              profilePicture: data.url,
+            },
+          }));
+          console.log("Image uploaded successfully:", data.url);
+        } else {
+          console.error("Error uploading image to Cloudinary");
+        }
       } catch (error) {
-        console.error("Error resizing image:", error);
+        console.error("Error uploading image:", error);
       }
     }
   };
