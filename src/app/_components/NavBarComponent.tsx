@@ -51,7 +51,6 @@ export const NavBarComponent = React.memo(({
             alt="logo"
             width={24}
             height={28}
-            unoptimized
             priority
           />
         </Link>
