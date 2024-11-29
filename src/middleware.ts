@@ -1,5 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from './_utils/session';
+import { NextResponse } from 'next/server';
 
 function setSecurityHeaders(response: NextResponse) {
     response.headers.set('X-Content-Type-Options', 'nosniff');
@@ -27,7 +26,7 @@ function setSecurityHeaders(response: NextResponse) {
             'Content-Security-Policy',
             [
                 "default-src 'self';",
-                "script-src 'self' 'unsafe-inline' https://trusted-cdn.com https://www.googletagmanager.com https://vercel.live;",
+                "script-src 'self' 'unsafe-inline' https://trusted-cdn.com https://www.googletagmanager.com;",
                 "connect-src 'self' https://region1.google-analytics.com;",
                 "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
                 "font-src 'self' https://fonts.gstatic.com;",
