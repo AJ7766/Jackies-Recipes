@@ -2,6 +2,7 @@ import { getSession } from "@/_utils/session";
 import Dashboard from "./_containers/Dashboard";
 import { getRecipesController } from "./_ssr/recipes/recipesController";
 import LoginPage from "./_containers/LoginPage";
+export const fetchCache = 'force-cache'
 
 export default async function DashboardPage() {
   const session = await getSession();
