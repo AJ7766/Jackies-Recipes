@@ -1,9 +1,9 @@
 "use client"
 import { useEffect, useLayoutEffect, useState } from "react";
-import MasonaryComponent from "../_components/MasonaryComponent";
 import { Types } from "mongoose";
 import { createMasonary } from "../_services/masonaryServices";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
+import { MasonaryComponent } from "../_components/MasonaryComponent";
 
 interface RecipeCardProps {
   id: Types.ObjectId | undefined;
@@ -14,10 +14,10 @@ interface RecipeCardProps {
 
 export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopulatedProps[] }) {
   const [totalColumns, setTotalColumns] = useState<number>(5);
-  const [columns, setColumns] = useState<RecipeCardProps[][] | null>(null);
+  const [columns, setColumns] = useState<RecipeCardProps[][]>();
 
   useLayoutEffect(() => {
-    setTotalColumns(window.innerWidth > 768 ? 5 : 3)
+    setTotalColumns(window.innerWidth > 768 ? 5 : 3);
   }, [])
 
   useEffect(() => {
@@ -41,5 +41,5 @@ export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopu
     );
   }
 
-  return <MasonaryComponent columns={columns || null} />;
+  return <MasonaryComponent columns={columns} />;
 }

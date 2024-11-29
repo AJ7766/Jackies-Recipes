@@ -11,9 +11,5 @@ export default async function DashboardPage() {
 
   const serverRecipes = await getRecipesController();
 
-  return (
-    <>
-      <Dashboard serverRecipes={serverRecipes} />
-    </>
-  );
+  return <Dashboard serverRecipes={serverRecipes} />
 }

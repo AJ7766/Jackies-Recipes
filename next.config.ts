@@ -10,7 +10,6 @@ module.exports = {
     ];
   },
   images: {
-    minimumCacheTTL: 60,
     remotePatterns: [
       {
         hostname: "res.cloudinary.com",
