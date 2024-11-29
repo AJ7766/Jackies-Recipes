@@ -1,4 +1,3 @@
-
 import { createClient } from 'redis';
 
 const redisClient = createClient({
@@ -15,6 +14,10 @@ redisClient.on('end', () => {
 redisClient.on('error', (err) => {
   console.error('Redis client error:', err);
 });
+//await redisClient.flushDb();
+
+const keys = await redisClient.keys('*');
+console.log('Redis Keys:', keys);
 
 export default redisClient;
 

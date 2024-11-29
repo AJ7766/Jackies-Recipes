@@ -13,7 +13,7 @@ export const getRecipesController = async () => {
         await connectDB();
         const recipes = await getRecipesService();
 
-        await redisClient.set('recipes', JSON.stringify(recipes), { EX: 3000 });
+        await redisClient.set('recipes', JSON.stringify(recipes), { EX: 600 });
 
         return JSON.parse(JSON.stringify(recipes));
     } catch (error) {
