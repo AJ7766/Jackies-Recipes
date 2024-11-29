@@ -5,19 +5,10 @@ import mongoose from "mongoose";
 import { cookies } from "next/headers";
 
 export const getSession = async () => {
-    let cached_session: SessionData | null = null;
-
-    if (cached_session) {
-        console.log("Cached session")
-        return cached_session;
-    }
-
     const session = await getIronSession<SessionData>(await cookies(), sessionOptions);
 
     if (!session.isAuth)
         session.isAuth = defaultSession.isAuth;
-
-    cached_session = session;
 
     return session
 }

@@ -18,7 +18,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body>
-        <AuthProvider serverUser={serverUser}>
+        <AuthProvider serverUser={serverUser || null}>
           <NavBar isAuth={session.isAuth} />
           {children}
           <CookieConsent />

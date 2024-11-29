@@ -18,6 +18,7 @@ export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopu
 
   useLayoutEffect(() => {
     setTotalColumns(window.innerWidth > 768 ? 5 : 3);
+    console.log("setting columns")
   }, [])
 
   useEffect(() => {
