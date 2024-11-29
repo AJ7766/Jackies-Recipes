@@ -8,6 +8,14 @@ const redisClient = createClient({
 redisClient.connect()
 .catch(console.error);
 
+redisClient.on('end', () => {
+  console.log('Redis connection closed.');
+});
+
+redisClient.on('error', (err) => {
+  console.error('Redis client error:', err);
+});
+
 export default redisClient;
 
 export async function deleteRedisCache(user_id: string) {
