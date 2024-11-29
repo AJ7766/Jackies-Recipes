@@ -13,18 +13,17 @@ interface RecipeCardProps {
 }
 
 export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopulatedProps[] }) {
-  const [recipes, setRecipes] = useState<RecipePopulatedProps[]>(serverRecipes);
   const [totalColumns, setTotalColumns] = useState<number>(5);
   const [columns, setColumns] = useState<RecipeCardProps[][] | null>(null);
-  
+
   useLayoutEffect(() => {
     setTotalColumns(window.innerWidth > 768 ? 5 : 3)
   }, [])
 
   useEffect(() => {
     const fetchRecipes = async () => {
-      if (recipes) {
-        const masonaryColumns = await createMasonary(recipes, totalColumns);
+      if (serverRecipes) {
+        const masonaryColumns = await createMasonary(serverRecipes, totalColumns);
         setColumns(masonaryColumns);
       }
     };
