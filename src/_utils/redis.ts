@@ -16,9 +16,6 @@ redisClient.on('error', (err) => {
 });
 //await redisClient.flushDb();
 
-const keys = await redisClient.keys('*');
-console.log('Redis Keys:', keys);
-
 export default redisClient;
 
 export async function deleteRedisCache(user_id: string) {
