@@ -8,7 +8,7 @@ export default async function DashboardPage() {
 
   if (!session.isAuth)
     return <LoginPage />
-    
+
   const serverRecipes = await getRecipesController();
 
   return (

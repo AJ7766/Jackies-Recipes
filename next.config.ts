@@ -2,7 +2,7 @@ module.exports = {
   async headers() {
     return [
       {
-        source: '/(.*)\\.(jpg|jpeg|png|gif|webp|svg|bmp|tiff|ico|avif|heif)',
+        source: '/(.*)\\.(jpg|jpeg|png|webp|svg)',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
         ],
@@ -10,6 +10,7 @@ module.exports = {
     ];
   },
   images: {
+    minimumCacheTTL: 60,
     remotePatterns: [
       {
         hostname: "res.cloudinary.com",

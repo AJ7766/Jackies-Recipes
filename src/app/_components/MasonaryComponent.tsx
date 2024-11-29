@@ -1,6 +1,5 @@
 import Image from "next/image";
-
-import React, { useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 import { Types } from "mongoose";
 
@@ -12,7 +11,7 @@ interface RecipeCardProps {
 }
 
 export default function MasonaryComponent({
-  columns = null,
+  columns,
 }: {
   columns: RecipeCardProps[][] | null;
 }) {
