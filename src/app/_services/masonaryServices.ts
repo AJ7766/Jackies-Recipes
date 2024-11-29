@@ -13,7 +13,6 @@ export const createMasonary = async (recipes: RecipePopulatedProps[], totalColum
       { length: totalColumns },
       () => []
     );
-
     recipes.reduce((currentColumns, recipe, index) => {
       const recipeCard: RecipeCardProps = {
         id: recipe._id,

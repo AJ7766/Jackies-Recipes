@@ -10,47 +10,46 @@ interface RecipeCardProps {
   user: { username: string };
 }
 
-export const MasonaryComponent = React.memo(
-  ({ columns }: { columns: RecipeCardProps[][] }) => {
-    return (
-      <>
-        <h1 className="text-xl text-center mb-5">Latest Recipes</h1>
-        <div className="gap-10 flex flex-wrap justify-center">
-          {columns && columns.length > 0 && (
-            <div className="masonryContainerMainPage">
-              {columns.map((column, columnIndex) => (
-                <div className="masonryColumn" key={columnIndex}>
-                  {column.map((recipe, recipeIndex) => (
-                    <React.Fragment key={recipeIndex}>
+export const MasonaryComponent = React.memo(({ columns }: { columns: RecipeCardProps[][] }) => {
+  return (
+    <>
+      <h1 className="text-xl text-center mb-5">Latest Recipes</h1>
+      <div className="gap-10 flex flex-wrap justify-center">
+        {columns && columns.length > 0 && (
+          <div className="masonryContainerMainPage">
+            {columns.map((column, columnIndex) => (
+              <div className="masonryColumn" key={columnIndex}>
+                {column.map((recipe, recipeIndex) => (
+                  <React.Fragment key={recipeIndex}>
+                    <Link
+                      href={`/${recipe.user.username}/${recipe.id}`}
+                      scroll={false}
+                    >
+                      <div className="masonryImg">
+                        <Image
+                          width={500}
+                          height={500}
+                          src={recipe.image || ""}
+                          alt={recipe.title}
+                          loading="lazy"
+                        />
+                      </div>
+                    </Link>
+                    <div className="recipeSettingsContainer">
                       <Link
                         href={`/${recipe.user.username}/${recipe.id}`}
                         scroll={false}
                       >
-                        <div className="masonryImg">
-                          <Image
-                            width={500}
-                            height={500}
-                            src={recipe.image || ""}
-                            alt={recipe.title}
-                            loading="lazy"
-                          />
-                        </div>
+                        <h1>{recipe.title}</h1>
                       </Link>
-                      <div className="recipeSettingsContainer">
-                        <Link
-                          href={`/${recipe.user.username}/${recipe.id}`}
-                          scroll={false}
-                        >
-                          <h1>{recipe.title}</h1>
-                        </Link>
-                      </div>
-                    </React.Fragment>
-                  ))}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </>
-    );
-  });
+                    </div>
+                  </React.Fragment>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
+  );
+});
