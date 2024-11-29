@@ -16,19 +16,28 @@ export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopu
   const [totalColumns, setTotalColumns] = useState<number>(5);
   const [columns, setColumns] = useState<RecipeCardProps[][]>();
 
-  useLayoutEffect(() => {
-    setTotalColumns(window.innerWidth > 768 ? 5 : 3);
-  }, [])
+  useEffect(() => {
+    const updateColumns = () => {
+      setTotalColumns(window.innerWidth > 768 ? 5 : 3);
+    };
+
+    updateColumns();
+    window.addEventListener("resize", updateColumns);
+
+    return () => {
+      window.removeEventListener("resize", updateColumns);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchRecipes = async () => {
-      if (serverRecipes) {
+      if (serverRecipes && totalColumns) {
         const masonaryColumns = await createMasonary(serverRecipes, totalColumns);
         setColumns(masonaryColumns);
       }
     };
     fetchRecipes();
-  }, []);
+  }, [serverRecipes, totalColumns]);
 
   if (!columns)
     return null
