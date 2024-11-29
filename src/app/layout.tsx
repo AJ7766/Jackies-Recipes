@@ -5,15 +5,9 @@ import { CookieConsent } from "./_containers/CookieConsent";
 import { getSession } from "@/_utils/session";
 import { getUserController } from "./_ssr/user/userController";
 
-export default async function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
   const serverUser = (session.isAuth && session.user_id) && await getUserController(session.user_id);
-
   return (
     <html lang="en">
       <head>
