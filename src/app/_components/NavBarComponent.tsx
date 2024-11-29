@@ -44,7 +44,9 @@ export const NavBarComponent = React.memo(({
     <>
       <div className="space"></div>
       <div className="navContainer">
-        <Link href={"/"}>
+        <Link 
+        href={"/"}
+        prefetch> 
           <Image
             id="logo"
             src={logo}
@@ -152,6 +154,7 @@ export const NavBarComponent = React.memo(({
             <Link
               className="profilePictureLink shrink-0"
               href={`/${user.username}`}
+              prefetch
             >
               <Image
                 height={35}
