@@ -83,7 +83,7 @@ export const NavBarComponent = React.memo(({
                       href={`/${user.username}`}
                       key={index}
                       onClick={clickHandler}
-                      prefetch>
+                      >
                       <div
                         className="searchedUser"
                         data-testid="searchedUser"
