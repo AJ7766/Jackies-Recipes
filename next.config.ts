@@ -9,8 +9,8 @@ module.exports = {
     async headers() {
         return [
             {
-                source: '/images/(.*)',
-                headers: [
+              source: '/(.*)\\.(jpg|jpeg|png|gif|webp|svg)',
+              headers: [
                     { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },
                 ],
             },
