@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
+import { getImageFile } from "./cloudinaryService";
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -9,28 +10,9 @@ cloudinary.config({
 
 export async function POST(req: NextRequest) {
     try {
-        const formData = await req.formData();
-        const file = formData.get("file");
+        const image_url = await getImageFile(req)
 
-        if (!file || !(file instanceof Blob)) {
-            return NextResponse.json({ error: 'No valid file uploaded' }, { status: 400 });
-        }
-
-        const fileBuffer = await file.arrayBuffer();
-
-        const result = await new Promise<UploadApiResponse>((resolve, reject) => {
-            const stream = cloudinary.uploader.upload_stream(
-                {
-                    upload_preset: "next_cloudinary_app",
-                    display_name: file.name || 'image'
-                },
-                (error, uploadResult) => error ? reject(error) : resolve(uploadResult as UploadApiResponse)
-            );
-            stream.write(Buffer.from(fileBuffer));
-            stream.end();
-        });
-        
-        return NextResponse.json({ url: result.url }, { status: 200 });
+        return NextResponse.json({ url: image_url }, { status: 200 });
     } catch (error) {
         console.error("Error uploading image:", error);
         return NextResponse.json({ error: 'Image upload failed' }, { status: 500 });

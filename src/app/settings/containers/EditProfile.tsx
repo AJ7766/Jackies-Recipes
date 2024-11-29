@@ -6,6 +6,8 @@ import { UserEditProps } from "@/_models/UserModel";
 import { EditProfileComponent } from "../components/EditProfileComponent";
 import { fetchUpdateUserAPI } from "../services/fetchUpdateUserAPI";
 import { useRouter } from "next/navigation";
+import { setFlagsFromString } from "v8";
+import { fetchUpdateProfileImageAPI } from "../services/editProfileService";
 const profilePicture = "/images/profile-picture.png";
 
 export default function EditProfile() {
@@ -29,6 +31,7 @@ export default function EditProfile() {
   });
   const [message, setMessage] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
+  const [image, setImage] = useState<FormData>();
   const router = useRouter()
 
   useEffect(() => {
@@ -63,6 +66,16 @@ export default function EditProfile() {
 
     try {
       setLoadingBtn(true);
+      if (image) {
+        const image_url = await fetchUpdateProfileImageAPI(image);
+        setUserData((prev) => ({
+          ...prev,
+          userContent: {
+            ...prev.userContent,
+            profilePicture: image_url,
+          },
+        }));
+      }
       const { message, updated_user } = await fetchUpdateUserAPI(userData, token);
 
       if (!updated_user) {
@@ -101,30 +114,36 @@ export default function EditProfile() {
         alert("File size exceeds 20 MB.");
         return;
       }
+
       const formData = new FormData();
       formData.append("file", file);
+      setImage(formData);
 
       try {
-        const res = await fetch('/api/cloudinary', {
-          method: 'POST',
-          body: formData,
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          setUserData((prev) => ({
-            ...prev,
-            userContent: {
-              ...prev.userContent,
-              profilePicture: data.url,
-            },
-          }));
-          console.log("Image uploaded successfully:", data.url);
-        } else {
-          console.error("Error uploading image to Cloudinary");
-        }
+        Resizer.imageFileResizer(
+          file,
+          600, // max width
+          600, // max height
+          "JPEG", // format
+          90, // quality
+          0, // rotation
+          (uri) => {
+            if (typeof uri === "string") {
+              setUserData((prev) => ({
+                ...prev,
+                userContent: {
+                  ...prev.userContent,
+                  profilePicture: uri,
+                },
+              }));
+            } else {
+              console.error("Unexpected type:", uri);
+            }
+          },
+          "base64"
+        );
       } catch (error) {
-        console.error("Error uploading image:", error);
+        console.error("Error resizing image:", error);
       }
     }
   };
