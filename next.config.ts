@@ -1,10 +1,4 @@
 module.exports = {
-  experimental: {
-    staleTimes: {
-      dynamic: 30,
-      static: 30,
-    },
-  },
   async headers() {
     return [
       {
@@ -13,15 +7,6 @@ module.exports = {
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable'
-          },
-        ],
-      },
-      {
-        source: '/', // Only for /dashboard page
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=30, stale-while-revalidate=60',
           },
         ],
       },
