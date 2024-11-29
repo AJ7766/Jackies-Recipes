@@ -16,6 +16,15 @@ module.exports = {
           },
         ],
       },
+      {
+        source: '/', // Only for /dashboard page
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=30, stale-while-revalidate=60',
+          },
+        ],
+      },
     ];
   },
   images: {
