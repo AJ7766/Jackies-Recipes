@@ -116,7 +116,7 @@ export const NavBarComponent = React.memo(({
                       prefetch
                     >
                       <div
-                        className="searchedRecipe"
+                        className="searchedUser"
                         data-testid="searchedRecipe"
                         data-id={index}
                         data-type="recipe"
