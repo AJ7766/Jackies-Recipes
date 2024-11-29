@@ -1,13 +1,14 @@
-import { NextRequest } from "next/server";
-import { uploadCloudinary } from "./cloudinaryRepository";
+import { deleteCloudinary, uploadCloudinary } from "./cloudinaryRepository";
 
-export const getImageFile = async (req: NextRequest) => {
-    const formData = await req.formData();
-    const file = formData.get("file");
-
-    if (!file || !(file instanceof Blob)) {
-        throw new Error('No valid file uploaded');
-    }
-
+export const getImageFileService = async (file: File) => {
     return await uploadCloudinary(file, await file.arrayBuffer())
+}
+
+export const deleteOldImageFileService = async (public_id: string) => {
+    const result = await deleteCloudinary(public_id);
+
+    if(!result)
+        console.error(result)
+
+    return result
 }

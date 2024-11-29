@@ -13,3 +13,7 @@ export const uploadCloudinary = async (file: File, fileBuffer: ArrayBuffer) => {
         stream.end();
     });
 }
+
+export const deleteCloudinary = async (public_id:string) => {
+    return await cloudinary.uploader.destroy(public_id);
+}

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { v2 as cloudinary } from 'cloudinary';
-import { getImageFile } from "./cloudinaryService";
+import { deleteOldImageFileService, getImageFileService } from "./cloudinaryService";
 
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -10,9 +10,24 @@ cloudinary.config({
 
 export async function POST(req: NextRequest) {
     try {
-        const image_url = await getImageFile(req)
+        const formData = await req.formData();
+        const file = formData.get("file");
+        const public_id = formData.get("public_id");
 
-        return NextResponse.json({ url: image_url }, { status: 200 });
+        if (!public_id || typeof public_id !== 'string') {
+            throw new Error('No valid old_url provided');
+        }
+
+        if (!file || !(file instanceof Blob)) {
+            throw new Error('No valid file uploaded');
+        }
+
+        const [deleteResult, data] = await Promise.all([
+            deleteOldImageFileService(public_id),
+            getImageFileService(file)
+          ]);
+        
+        return NextResponse.json({ url: data.url }, { status: 200 });
     } catch (error) {
         console.error("Error uploading image:", error);
         return NextResponse.json({ error: 'Image upload failed' }, { status: 500 });

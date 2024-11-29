@@ -31,8 +31,9 @@ export default function EditProfile() {
   });
   const [message, setMessage] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
-  const [image, setImage] = useState<FormData>();
-  const router = useRouter()
+  const [cloudinaryData, setCloudinaryData] = useState<FormData>();
+  const [publicId, setPublicId] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     if (user) {
@@ -56,6 +57,17 @@ export default function EditProfile() {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (userData.userContent?.profilePicture) {
+      const extractedUrl = userData.userContent?.profilePicture.split('/').pop()
+      if (extractedUrl) {
+        const public_id = extractedUrl.split('.')[0];
+
+        setPublicId(public_id);
+      }
+    }
+  }, [])
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const token = localStorage.getItem("token");
@@ -66,24 +78,26 @@ export default function EditProfile() {
 
     try {
       setLoadingBtn(true);
-      if (image) {
-        const image_url = await fetchUpdateProfileImageAPI(image);
-        setUserData((prev) => ({
-          ...prev,
+      let updatedUserData: UserEditProps = { ...userData };
+      if (cloudinaryData) {
+        const { data_url } = await fetchUpdateProfileImageAPI(cloudinaryData);
+        updatedUserData = {
+          ...userData,
           userContent: {
-            ...prev.userContent,
-            profilePicture: image_url,
+            ...userData.userContent,
+            profilePicture: data_url,
           },
-        }));
+        };
       }
-      const { message, updated_user } = await fetchUpdateUserAPI(userData, token);
+
+      const { message, updated_user } = await fetchUpdateUserAPI(updatedUserData, token);
 
       if (!updated_user) {
         return setMessage(message);
       }
 
       setUser(updated_user);
-      sessionStorage.removeItem("profile");
+      sessionStorage.removeItem("user");
 
       router.push(`/${userData.username}`);
       router.refresh();
@@ -100,6 +114,7 @@ export default function EditProfile() {
   };
 
   const ProfilePicChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+
     const file = event.target.files?.[0];
     if (file) {
       const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
@@ -117,7 +132,8 @@ export default function EditProfile() {
 
       const formData = new FormData();
       formData.append("file", file);
-      setImage(formData);
+      formData.append("public_id", publicId)
+      setCloudinaryData(formData);
 
       try {
         Resizer.imageFileResizer(
