@@ -2,8 +2,6 @@ import { RecipeFormProps, RecipeProps } from "@/_models/RecipeModel";
 
 export default async function ValidateRecipeForm(recipe: RecipeProps) {
 
-    await isValidImage(recipe.image || '');
-
     await isValidRecipeName(recipe.title || '');
 
     await isValidIngredients(recipe);
@@ -34,23 +32,6 @@ export const ingredientListValidation = async (recipe: RecipeProps) => {
         instructions: filteredInstructions
     }
 }
-
-const isValidImage = async (image: string) => {
-    const MAX_SIZE = 20 * 1024 * 1024;
-
-    if (!image)
-        throw new Error('Please upload a image');
-
-    const base64Data = image.split(';base64,').pop();
-    if (!base64Data)
-        throw new Error('Invalid Base64 data');
-
-    const buffer = Buffer.from(base64Data, 'base64');
-    if (buffer.length > MAX_SIZE)
-        throw new Error('Image size exceeds 20MB')
-
-    return null;
-};
 
 const isValidRecipeName = async (name: string) => {
     const nameRegex = /^[a-zA-Zà-ÿÀ-ÿ\s-]+$/;

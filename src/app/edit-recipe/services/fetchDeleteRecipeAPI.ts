@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 
-export async function fetchDeleteRecipeAPI(token: string, id: mongoose.Types.ObjectId) {
+export async function fetchDeleteRecipeAPI(token: string, id: mongoose.Types.ObjectId, public_id: string) {
         try {
-            const res = await fetch(`/api/recipe?recipeId=${id.toString()}`, {
+            console.log("public:", public_id)
+            const res = await fetch(`/api/recipe?recipeId=${id.toString()}&public_id=${public_id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

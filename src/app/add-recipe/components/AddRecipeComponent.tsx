@@ -2,7 +2,6 @@ import React from "react";
 import Image from "next/image";
 import { handleImageClick } from "@/app/_services/recipeServices";
 import { RecipeFormProps } from "@/_models/RecipeModel";
-const imagePlaceholder = "/images/recipe-image-placeholder.svg";
 const camera = "/images/camera.svg";
 
 interface AddRecipeProps {
@@ -59,7 +58,7 @@ export default function AddRecipeComponent({
             height={250}
             width={400}
             className="editRecipeImagePreview"
-            src={imagePreview || imagePlaceholder}
+            src={recipe.image}
             alt="recipe-image"
             priority
           />

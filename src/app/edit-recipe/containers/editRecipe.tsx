@@ -4,17 +4,19 @@ import { useAuth } from "@/app/_context/AuthContext";
 import { fetchGetRecipeAPI } from "../services/fetchGetRecipeAPI";
 import mongoose from "mongoose";
 import EditRecipeComponent from "../_components/EditRecipeComponent";
-import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, imageChange, updateIngredientComponent, updateInstruction } from "@/app/_services/recipeServices";
+import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, updateIngredientComponent, updateInstruction } from "@/app/_services/recipeServices";
 import ErrorPage from "@/app/_errors/ErrorPage";
 import { fetchUpdateRecipeAPI } from "../services/fetchUpdateRecipeAPI";
 import { useRouter } from "next/navigation";
 import { RecipeFormProps } from "@/_models/RecipeModel";
+import { convertFileToBase64, convertFileToFormData, validateImage } from "@/_utils/imageUtils";
+import { fetchUpdateImageAPI } from "@/app/settings/services/fetchUpdateImageAPI";
+import { getPublicId } from "../services/editRecipeServices";
 
 export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
-    const [imagePreview, setImagePreview] = useState<string>();
     const [recipe, setRecipe] = useState<RecipeFormProps>({
         title: "",
-        image: imagePreview || "",
+        image: "",
         ingredients: [
             {
                 component: "",
@@ -39,7 +41,8 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
                 instruction: "",
             },
         ],
-    }); const [loadingBtn, setLoadingBtn] = useState(false);
+    });
+    const [loadingBtn, setLoadingBtn] = useState(false);
     const [message, setMessage] = useState("");
     const { user } = useAuth();
     const [token, setToken] = useState<string>("");
@@ -47,6 +50,8 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
     const [isFetching, setIsFetcing] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
+    const [cloudinaryData, setCloudinaryData] = useState<FormData>();
+    const [publicId, setPublicId] = useState('');
     const router = useRouter();
 
     useEffect(() => {
@@ -69,12 +74,12 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
             }
             setUserHasRecipe(userHasRecipe);
             setRecipe(fetchedRecipe);
-            setImagePreview(fetchedRecipe.image);
             setIsFetcing(false);
+            setPublicId(getPublicId(fetchedRecipe.image) || '');
         }
         fetchRecipeAPI()
     }, [token])
-
+    
     useEffect(() => {
         if (
             recipe.macros?.carbs === 0 &&
@@ -88,17 +93,18 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     }, [recipe.macros]);
 
     const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const res = await imageChange(e);
-        if (res) {
-            const { message, uri } = res;
-            if (message)
-                throw new Error(message);
-
-            if (typeof uri === 'string') {
-                setRecipe((prevRecipe) => ({ ...prevRecipe, image: uri }));
-                setImagePreview(uri);
+        const file = e.target.files?.[0];
+        if (file) {
+            const validatedFile = validateImage(file);
+            if (validatedFile) {
+                const formData = convertFileToFormData(validatedFile, publicId);
+                setCloudinaryData(formData);
+                const uri = await convertFileToBase64(validatedFile);
+                if (uri) {
+                    setRecipe((prevRecipe) => ({ ...prevRecipe, image: uri }));
+                }
             }
-        }
+        };
     }
 
     const toggleSlider = () => {
@@ -121,17 +127,29 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
         if (!user || !token) {
             throw new Error("User or Token is not available");
         }
-
-        setLoadingBtn(true);
-        
-        const { message, success } = await fetchUpdateRecipeAPI(token, recipe);
-        if (!success) {
-            setLoadingBtn(false)
-            throw new Error(message)
+        try {
+            setLoadingBtn(true);
+            let updatedRecipeData: RecipeFormProps = { ...recipe };
+            if (cloudinaryData) {
+                const { data_url } = await fetchUpdateImageAPI(cloudinaryData);
+                updatedRecipeData = {
+                    ...recipe,
+                    image: data_url
+                };
+            }
+            const { message, success } = await fetchUpdateRecipeAPI(token, updatedRecipeData);
+            if (!success) {
+                setLoadingBtn(false)
+                throw new Error(message)
+            }
+            router.push(`/${user.username}`);
+            router.refresh();
+        } catch (error: any) {
+            setMessage(error.message || "Failed to update.");
+        } finally {
+            setLoadingBtn(false);
         }
-        router.push(`/${user.username}`);
-        setLoadingBtn(false)
-    };
+    }
 
     const handleInputCreate = (
         e: React.MouseEvent<HTMLButtonElement>,
@@ -238,7 +256,7 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
         });
     }
 
-    if(isFetching)
+    if (isFetching)
         return null;
 
     if (!userHasRecipe)
@@ -251,7 +269,6 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
         loadingBtn={loadingBtn}
         message={message}
         handleImageChange={handleImageChange}
-        imagePreview={imagePreview}
         handleInputDelete={handleInputDelete}
         handleInputCreate={handleInputCreate}
         caloriesPlaceholder={caloriesPlaceholder}
@@ -260,6 +277,7 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
         username={user?.username || ''}
         recipe_id={recipe_id}
         token={token}
+        public_id={publicId}
         router={router}
     />
 }

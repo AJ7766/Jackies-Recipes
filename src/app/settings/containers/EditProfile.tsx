@@ -1,13 +1,12 @@
 "use client"
 import { useEffect, useState } from "react";
-import Resizer from "react-image-file-resizer";
 import { useAuth } from "@/app/_context/AuthContext";
 import { UserEditProps } from "@/_models/UserModel";
 import { EditProfileComponent } from "../components/EditProfileComponent";
 import { fetchUpdateUserAPI } from "../services/fetchUpdateUserAPI";
 import { useRouter } from "next/navigation";
-import { setFlagsFromString } from "v8";
-import { fetchUpdateProfileImageAPI } from "../services/editProfileService";
+import { convertFileToBase64, convertFileToFormData, validateImage } from "@/_utils/imageUtils";
+import { fetchUpdateImageAPI } from "../services/fetchUpdateImageAPI";
 const profilePicture = "/images/profile-picture.png";
 
 export default function EditProfile() {
@@ -80,7 +79,7 @@ export default function EditProfile() {
       setLoadingBtn(true);
       let updatedUserData: UserEditProps = { ...userData };
       if (cloudinaryData) {
-        const { data_url } = await fetchUpdateProfileImageAPI(cloudinaryData);
+        const { data_url } = await fetchUpdateImageAPI(cloudinaryData);
         updatedUserData = {
           ...userData,
           userContent: {
@@ -101,7 +100,6 @@ export default function EditProfile() {
 
       router.push(`/${userData.username}`);
       router.refresh();
-      //window.location.href = (`/${userData.username}`);
     } catch (error: any) {
       setMessage(error.message || "Failed to update.");
     } finally {
@@ -113,55 +111,25 @@ export default function EditProfile() {
     document.getElementById("profilePicInput")?.click();
   };
 
-  const ProfilePicChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-
-    const file = event.target.files?.[0];
+  const ProfilePicChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
     if (file) {
-      const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
-      const maxSize = 20 * 1024 * 1024;
-
-      if (!allowedMimeTypes.includes(file.type)) {
-        alert("Please upload an image file (JPEG, PNG, WEBP).");
-        return;
+      const validatedFile = validateImage(file);
+      if (validatedFile) {
+        const formData = convertFileToFormData(validatedFile, publicId);
+        setCloudinaryData(formData);
+        const uri = await convertFileToBase64(validatedFile);
+        if (uri) {
+          setUserData((prev) => ({
+            ...prev,
+            userContent: {
+              ...prev.userContent,
+              profilePicture: uri,
+            },
+          }));
+        }
       }
-
-      if (file.size > maxSize) {
-        alert("File size exceeds 20 MB.");
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("public_id", publicId)
-      setCloudinaryData(formData);
-
-      try {
-        Resizer.imageFileResizer(
-          file,
-          600, // max width
-          600, // max height
-          "JPEG", // format
-          90, // quality
-          0, // rotation
-          (uri) => {
-            if (typeof uri === "string") {
-              setUserData((prev) => ({
-                ...prev,
-                userContent: {
-                  ...prev.userContent,
-                  profilePicture: uri,
-                },
-              }));
-            } else {
-              console.error("Unexpected type:", uri);
-            }
-          },
-          "base64"
-        );
-      } catch (error) {
-        console.error("Error resizing image:", error);
-      }
-    }
+    };
   };
 
   const handleInputChange = (

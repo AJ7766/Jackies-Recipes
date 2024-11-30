@@ -4,14 +4,16 @@ import { useAuth } from "@/app/_context/AuthContext";
 import { useRouter } from "next/navigation";
 import { fetchPostRecipeAPI } from "@/app/add-recipe/services/fetchPostRecipeAPI";
 import AddRecipeComponent from "../components/AddRecipeComponent";
-import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, imageChange, updateIngredientComponent, updateInstruction } from "@/app/_services/recipeServices";
+import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, updateIngredientComponent, updateInstruction } from "@/app/_services/recipeServices";
 import { RecipeFormProps } from "@/_models/RecipeModel";
+import { convertFileToBase64, convertFileToFormData, validateImage } from "@/_utils/imageUtils";
+import { fetchUpdateImageAPI } from "@/app/settings/services/fetchUpdateImageAPI";
+const imagePlaceholder = "/images/recipe-image-placeholder.svg";
 
 export default function AddRecipe() {
-  const [imagePreview, setImagePreview] = useState<string>();
   const [recipe, setRecipe] = useState<RecipeFormProps>({
     title: "",
-    image: imagePreview || "",
+    image: imagePlaceholder,
     ingredients: [
       {
         component: "",
@@ -42,6 +44,8 @@ export default function AddRecipe() {
   const { user } = useAuth();
   const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
   const [isChecked, setIsChecked] = useState(false);
+  const [cloudinaryData, setCloudinaryData] = useState<FormData>();
+  const [publicId, setPublicId] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -57,18 +61,20 @@ export default function AddRecipe() {
   }, [recipe.macros]);
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const res = await imageChange(e);
-    if (res) {
-      const { message, uri } = res;
-      if (message)
-        throw new Error(message);
-
-      if (typeof uri === 'string') {
-        setRecipe((prevRecipe) => ({ ...prevRecipe, image: uri }));
-        setImagePreview(uri);
+    const file = e.target.files?.[0];
+    if (file) {
+      const validatedFile = validateImage(file);
+      if (validatedFile) {
+        const formData = convertFileToFormData(validatedFile, publicId);
+        setCloudinaryData(formData);
+        const uri = await convertFileToBase64(validatedFile);
+        if (uri) {
+          setRecipe((prevRecipe) => ({ ...prevRecipe, image: uri }));
+        }
       }
-    }
+    };
   }
+
 
   const toggleSlider = () => {
     setRecipe((prevList) => ({
@@ -93,16 +99,31 @@ export default function AddRecipe() {
       throw new Error("User or Token is not available");
     }
 
-    const { message, success } = await fetchPostRecipeAPI(recipe, token);
+    try {
+      setLoadingBtn(true);
+      let updatedRecipeData: RecipeFormProps = { ...recipe };
+      if (cloudinaryData) {
+        const { data_url } = await fetchUpdateImageAPI(cloudinaryData);
+        updatedRecipeData = {
+          ...recipe,
+          image: data_url
+        };
+      }
+      const { message, success } = await fetchPostRecipeAPI(updatedRecipeData, token);
 
-    if (!success) {
-      setMessage(message);
+      if (!success) {
+        setMessage(message);
+        setLoadingBtn(false);
+        return;
+      }
+
+      router.push(`/${user?.username}`);
+      router.refresh();
+    } catch (error: any) {
+      setMessage(error.message || "Failed to update.");
+    } finally {
       setLoadingBtn(false);
-      return;
     }
-
-    router.push(`/${user?.username}`);
-    setLoadingBtn(false);
   }
 
   const handleInputCreate = (
@@ -218,7 +239,6 @@ export default function AddRecipe() {
       loadingBtn={loadingBtn}
       message={message}
       handleImageChange={handleImageChange}
-      imagePreview={imagePreview}
       handleInputDelete={handleInputDelete}
       handleInputCreate={handleInputCreate}
       caloriesPlaceholder={caloriesPlaceholder}

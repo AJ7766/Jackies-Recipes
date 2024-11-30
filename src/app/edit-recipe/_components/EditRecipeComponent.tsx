@@ -39,6 +39,7 @@ interface AddRecipeProps {
   username: string;
   recipe_id: string;
   token: string;
+  public_id: string;
   router: AppRouterInstance
 }
 
@@ -58,6 +59,7 @@ export default function EditRecipeComponent({
   username,
   recipe_id,
   token,
+  public_id,
   router
 }: AddRecipeProps) {
   return (
@@ -70,7 +72,7 @@ export default function EditRecipeComponent({
             height={250}
             width={400}
             className="editRecipeImagePreview"
-            src={imagePreview || imagePlaceholder}
+            src={recipe.image}
             alt="recipe-image"
             priority
           />
@@ -335,7 +337,7 @@ export default function EditRecipeComponent({
         <button
           type="button"
           className="delete"
-          onClick={() => handleDeleteRecipe(token, new mongoose.Types.ObjectId(recipe_id), username, router)}
+          onClick={() => handleDeleteRecipe(token, new mongoose.Types.ObjectId(recipe_id), username, public_id, router)}
         >
           Delete
         </button>

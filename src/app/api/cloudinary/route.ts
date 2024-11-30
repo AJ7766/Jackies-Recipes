@@ -14,19 +14,16 @@ export async function POST(req: NextRequest) {
         const file = formData.get("file");
         const public_id = formData.get("public_id");
 
-        if (!public_id || typeof public_id !== 'string') {
-            throw new Error('No valid old_url provided');
-        }
-
         if (!file || !(file instanceof Blob)) {
             throw new Error('No valid file uploaded');
         }
 
         const [deleteResult, data] = await Promise.all([
-            deleteOldImageFileService(public_id),
+            (public_id && typeof public_id === 'string') && deleteOldImageFileService(public_id),
             getImageFileService(file)
-          ]);
+        ]);
         
+        console.log("Delet result:", deleteResult);
         return NextResponse.json({ url: data.url }, { status: 200 });
     } catch (error) {
         console.error("Error uploading image:", error);

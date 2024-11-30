@@ -1,4 +1,4 @@
-export const fetchUpdateProfileImageAPI = async (formData: FormData) => {
+export const fetchUpdateImageAPI = async (formData: FormData) => {
     try {
         const res = await fetch('/api/cloudinary', {
             method: 'POST',

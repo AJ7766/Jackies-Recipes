@@ -1,11 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/app/_config/database";
 import { getToken, verifyToken } from "@/_utils/jwt";
-import { createRecipeService, deleteRecipeService, getRecipeIdFromUrlService, getRecipeService, updateRecipeService, validateRecipeService } from "./services/recipeServices";
+import { createRecipeService, deleteRecipeService, getPublicIdFromUrlService, getRecipeIdFromUrlService, getRecipeService, updateRecipeService, validateRecipeService } from "./services/recipeServices";
 import { addRecipeToUserService, checkUserHasRecipeService, deleteUserRecipeService } from "../profile/services/profileServices";
 import { RecipeProps } from "@/_models/RecipeModel";
 import { getUserService } from "../user/services/userService";
 import { deleteRedisCache } from "@/_utils/redis";
+import { deleteOldImageFileService } from "../cloudinary/cloudinaryService";
 
 export async function GET(req: NextRequest) { // Get recipe
     try {
@@ -18,7 +19,7 @@ export async function GET(req: NextRequest) { // Get recipe
         const recipe = await getRecipeService(recipe_id);
 
         const userHasRecipe = await checkUserHasRecipeService(decoded.id, recipe?.user._id || null);
-        
+
         return NextResponse.json({ userHasRecipe, recipe }, { status: 200 });
     } catch (error) {
         console.error('Can not find recipe', error)
@@ -77,12 +78,16 @@ export async function DELETE(req: NextRequest) { // Delete recipe
         await connectDB();
 
         const recipe_id = await getRecipeIdFromUrlService(req);
+        const public_id = await getPublicIdFromUrlService(req);
         const token = await getToken(req)
         const decoded = await verifyToken(token);
 
         await getUserService(decoded.id);
 
-        await Promise.all([deleteRecipeService(recipe_id), deleteUserRecipeService(decoded.id, recipe_id)]);
+        await Promise.all([
+            (public_id && typeof public_id === 'string') && deleteOldImageFileService(public_id),
+            deleteRecipeService(recipe_id),
+            deleteUserRecipeService(decoded.id, recipe_id)]);
 
         await deleteRedisCache(decoded.id);
 

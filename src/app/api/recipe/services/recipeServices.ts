@@ -14,6 +14,16 @@ export const getRecipeIdFromUrlService = async (req: NextRequest): Promise<mongo
     return new mongoose.Types.ObjectId(recipe_id);
 }
 
+export const getPublicIdFromUrlService = async (req: NextRequest): Promise<string> => {
+    const { searchParams } = new URL(req.url);
+    const public_id = searchParams.get('public_id');
+
+    if (!public_id)
+        throw new Error("Couldn't get public ID from URL");
+
+    return public_id;
+}
+
 export const validateRecipeService = async (recipe: RecipeProps) => {
     const validation_response = await ValidateRecipeForm(recipe);
     if (typeof validation_response === 'string')

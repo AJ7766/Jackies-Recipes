@@ -120,49 +120,6 @@ export const handleImageClick = () => {
     document.getElementById("imageInput")?.click();
 };
 
-export const imageChange = (e: React.ChangeEvent<HTMLInputElement>): Promise<{ message?: string, uri?: string } | undefined> => {
-    return new Promise((resolve, reject) => {
-        const file = e.target.files?.[0];
-        if (file) {
-            const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
-            const maxSize = 20 * 1024 * 1024;
-
-            if (!allowedMimeTypes.includes(file.type)) {
-                alert("Please upload an image file (JPEG, PNG, WEBP).");
-                reject({ message: "Please upload an image file (JPEG, PNG, WEBP)." });
-                return;
-            }
-
-            if (file.size > maxSize) {
-                alert("File size exceeds 20 MB.");
-                reject({ message: "File size exceeds 20 MB." });
-                return;
-            }
-
-            try {
-                Resizer.imageFileResizer(
-                    file,
-                    1280, // max width
-                    850, // max height
-                    "JPEG", // format
-                    90, // quality
-                    0, // rotation
-                    (uri) => {
-                        if (typeof uri === "string") {
-                            resolve({ uri });
-                        } else {
-                            reject({ message: `Unexpected type: ${uri}` });
-                        }
-                    },
-                    "base64"
-                );
-            } catch (error) {
-                reject({ message: `Unexpected image error: ${error}` });
-            }
-        }
-    });
-};
-
 export const calculateCalories = (
     recipe: RecipeFormProps,
 ) => {
