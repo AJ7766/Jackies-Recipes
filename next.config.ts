@@ -6,18 +6,19 @@ module.exports = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
+            value: 'public, max-age=31536000, immutable',
           },
         ],
       },
     ];
   },
   images: {
+    domains: ['res.cloudinary.com'],
     remotePatterns: [
       {
+        protocol: "https",
         hostname: "res.cloudinary.com",
       },
     ],
   },
-  
-}
+};
