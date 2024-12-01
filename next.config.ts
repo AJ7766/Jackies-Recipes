@@ -2,7 +2,7 @@ module.exports = {
   async headers() {
     return [
       {
-        source: '/:path*\\.(jpg|jpeg|png|webp|svg|gif|bmp|tiff|ico)$',
+        source: '/:path*\\.(jpg|jpeg|png|webp|svg|gif|bmp|tiff|ico)',
         headers: [
           {
             key: 'Cache-Control',
