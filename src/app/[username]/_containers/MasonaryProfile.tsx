@@ -42,7 +42,7 @@ export default function MasonaryProfile() {
       }
       fetchRecipes();
     }
-  }, [profile.recipes]);
+  }, [profile.recipes, totalColumns]);
 
   if (!columns) return null;
 
