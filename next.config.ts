@@ -1,4 +1,10 @@
 module.exports = {
+  experimental: {
+    staleTimes: {
+      dynamic: 1,
+      static: 1,
+    },
+  },
   async headers() {
     return [
       {
