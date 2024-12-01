@@ -22,9 +22,9 @@ export async function POST(req: NextRequest) {
             (public_id && typeof public_id === 'string') && deleteOldImageFileService(public_id),
             getImageFileService(file)
         ]);
-        
-        console.log("Delet result:", deleteResult);
-        return NextResponse.json({ url: data.url }, { status: 200 });
+
+        console.log("Delete result:", deleteResult);
+        return NextResponse.json({ url: data.secure_url }, { status: 200 });
     } catch (error) {
         console.error("Error uploading image:", error);
         return NextResponse.json({ error: 'Image upload failed' }, { status: 500 });
