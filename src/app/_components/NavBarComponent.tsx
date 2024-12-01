@@ -53,6 +53,7 @@ export const NavBarComponent = React.memo(({
             alt="logo"
             width={24}
             height={28}
+            unoptimized
             priority
           />
         </Link>
@@ -63,6 +64,7 @@ export const NavBarComponent = React.memo(({
             alt="search-glass"
             width={24}
             height={24}
+            unoptimized
           />
           <input
             type="search"
@@ -149,6 +151,7 @@ export const NavBarComponent = React.memo(({
                 width={32}
                 src={addRecipe}
                 alt="add-recipe"
+                unoptimized
               />
             </Link>
             <Link
