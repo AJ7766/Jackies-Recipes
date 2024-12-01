@@ -7,7 +7,7 @@ export const getRecipesController = async () => {
         const cached_recipes = await redisClient.get('recipes');
         if (cached_recipes) {
             console.log('Cached Recipes')
-            return JSON.parse(cached_recipes);
+            return cached_recipes;
         }
 
         await connectDB();
@@ -15,7 +15,7 @@ export const getRecipesController = async () => {
 
         await redisClient.set('recipes', JSON.stringify(recipes), { EX: 600 });
 
-        return JSON.parse(JSON.stringify(recipes));
+        return JSON.stringify(recipes);
     } catch (error) {
         console.error(error);
         return null;

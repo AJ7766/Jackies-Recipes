@@ -14,7 +14,7 @@ redisClient.on('end', () => {
 redisClient.on('error', (err) => {
   console.error('Redis client error:', err);
 });
-//await redisClient.flushDb();
+await redisClient.flushDb();
 
 export default redisClient;
 

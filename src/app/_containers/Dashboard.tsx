@@ -15,6 +15,7 @@ interface RecipeCardProps {
 export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopulatedProps[] }) {
   const [totalColumns, setTotalColumns] = useState<number>(5);
   const [columns, setColumns] = useState<RecipeCardProps[][]>();
+  
   useLayoutEffect(() => {
     setTotalColumns(window.innerWidth > 768 ? 5 : 3);
   }, [])
@@ -30,7 +31,7 @@ export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopu
       fetchRecipes();
     }
   }, [])
-  
+
   const fetchRecipes = async () => {
     if (serverRecipes) {
       const masonaryColumns = await createMasonary(serverRecipes, totalColumns);
