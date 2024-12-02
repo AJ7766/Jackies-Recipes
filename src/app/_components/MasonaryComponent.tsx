@@ -31,6 +31,7 @@ export const MasonaryComponent = React.memo(({ columns }: { columns: RecipeCardP
                           height={500}
                           src={recipe.image || ""}
                           alt={recipe.title}
+                          priority
                           loading="lazy"
                         />
                       </div>
