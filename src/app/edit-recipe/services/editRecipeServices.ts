@@ -13,7 +13,6 @@ export const handleDeleteRecipe = async (
 
     if (!success)
         throw new Error(message);
-
     router.push(`/${username}`);
 }
 

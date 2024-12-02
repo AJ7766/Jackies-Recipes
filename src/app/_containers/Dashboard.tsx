@@ -2,9 +2,7 @@
 import { useEffect, useLayoutEffect, useState } from "react";
 import { Types } from "mongoose";
 import { createMasonary } from "../_services/masonaryServices";
-import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { MasonaryComponent } from "../_components/MasonaryComponent";
-import { getRecipesController } from "../_ssr/recipes/recipesController";
 import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
 
 interface RecipeCardProps {
@@ -26,7 +24,6 @@ export default function Dashboard() {
     if (typeof window !== "undefined") {
       const storedColumns = sessionStorage.getItem("columns");
       if (storedColumns) {
-        console.log("cached columns")
         setColumns(JSON.parse(storedColumns))
         return;
       }
@@ -35,11 +32,10 @@ export default function Dashboard() {
   }, [])
 
   const fetchRecipes = async () => {
-    const {recipes} = await fetchRecipesAPI();
+    const { recipes } = await fetchRecipesAPI();
     if (recipes) {
       const masonaryColumns = await createMasonary(recipes, totalColumns);
       sessionStorage.setItem('columns', JSON.stringify(masonaryColumns));
-      console.log("setting new columns", masonaryColumns)
       setColumns(masonaryColumns);
     }
   };
