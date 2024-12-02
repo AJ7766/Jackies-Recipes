@@ -16,14 +16,12 @@ interface RecipeCardProps {
 export default function MasonaryProfile() {
   const { user } = useAuth();
   const { profile } = useProfile();
-  const [totalColumns, setTotalColumns] = useState<number>(4);
+  const [totalColumns, setTotalColumns] = useState<number>(
+    typeof window !== "undefined" && window.innerWidth > 768 ? 4 : 3
+  );  
   const [columns, setColumns] = useState<RecipeCardProps[][] | null>(null);
   const [canEdit, setCanEdit] = useState(false);
   const pathname = usePathname();
-
-  useLayoutEffect(() => {
-    setTotalColumns(window.innerWidth > 768 ? 4 : 3)
-  }, [])
 
   useEffect(() => {
     if (!user) return;

@@ -13,30 +13,32 @@ interface RecipeCardProps {
 }
 
 export default function Dashboard() {
-  const [totalColumns, setTotalColumns] = useState<number>(5);
-  const [columns, setColumns] = useState<RecipeCardProps[][]>();
-  
-  useLayoutEffect(() => {
-    setTotalColumns(window.innerWidth > 768 ? 5 : 3);
-  }, [])
+  const [totalColumns, setTotalColumns] = useState<number>(
+    typeof window !== "undefined" && window.innerWidth > 768 ? 5 : 3
+  );
+  const [columns, setColumns] = useState<RecipeCardProps[][]>(() => {
+    if(typeof window !== "undefined"){
+      const storedColumns = sessionStorage.getItem("columns");
+      if (storedColumns) {
+        return JSON.parse(storedColumns)
+      }
+    }
+    return null;
+  });
 
   useEffect(() => {
-    const storedColumns = sessionStorage.getItem("columns");
-    if (storedColumns) {
-      setColumns(JSON.parse(storedColumns))
-      return;
+    if (!columns) {
+      const fetchRecipes = async () => {
+        const { recipes } = await fetchRecipesAPI();
+        if (recipes) {
+          const masonaryColumns = await createMasonary(recipes, totalColumns);
+          sessionStorage.setItem('columns', JSON.stringify(masonaryColumns));
+          setColumns(masonaryColumns);
+        }
+      };
+      fetchRecipes();
     }
-    fetchRecipes();
   }, [totalColumns])
-
-  const fetchRecipes = async () => {
-    const { recipes } = await fetchRecipesAPI();
-    if (recipes) {
-      const masonaryColumns = await createMasonary(recipes, totalColumns);
-      sessionStorage.setItem('columns', JSON.stringify(masonaryColumns));
-      setColumns(masonaryColumns);
-    }
-  };
 
   if (!columns)
     return null
