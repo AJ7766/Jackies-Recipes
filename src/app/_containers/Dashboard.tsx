@@ -15,19 +15,19 @@ interface RecipeCardProps {
 export default function Dashboard() {
   const [totalColumns, setTotalColumns] = useState<number>(5);
   const [columns, setColumns] = useState<RecipeCardProps[][]>();
-
+  
   useLayoutEffect(() => {
     setTotalColumns(window.innerWidth > 768 ? 5 : 3);
   }, [])
 
   useEffect(() => {
-      const storedColumns = sessionStorage.getItem("columns");
-      if (storedColumns) {
-        setColumns(JSON.parse(storedColumns))
-        return;
-      }
-      fetchRecipes();
-  }, [])
+    const storedColumns = sessionStorage.getItem("columns");
+    if (storedColumns) {
+      setColumns(JSON.parse(storedColumns))
+      return;
+    }
+    fetchRecipes();
+  }, [totalColumns])
 
   const fetchRecipes = async () => {
     const { recipes } = await fetchRecipesAPI();

@@ -21,7 +21,7 @@ export const MasonaryProfileComponent = React.memo(({
 }) => {
   return (
     <>
-    {columns && columns.length > 0 && (
+      {columns && columns.length > 0 && (
         <div className="masonryContainer">
           {columns.map((column, columnIndex) => (
             <div className="masonryColumn" key={columnIndex}>
@@ -34,10 +34,11 @@ export const MasonaryProfileComponent = React.memo(({
                   >
                     <div className="masonryImg">
                       <CldImage
-                        width={200}
-                        height={200}
                         src={recipe.image || ""}
                         alt={recipe.title}
+                        width={200}
+                        height={200}
+                        className="w-full h-auto"
                         loading="lazy"
                       />
                     </div>
