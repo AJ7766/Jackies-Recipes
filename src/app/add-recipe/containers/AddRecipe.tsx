@@ -8,6 +8,7 @@ import { calculateCalories, createField, createIngredientComponent, createInstru
 import { RecipeFormProps } from "@/_models/RecipeModel";
 import { convertFileToBase64, convertFileToFormData, validateImage } from "@/_utils/imageUtils";
 import { fetchUpdateImageAPI } from "@/app/settings/services/fetchUpdateImageAPI";
+import { useCache } from "@/app/_context/CacheContext";
 const imagePlaceholder = "/images/recipe-image-placeholder.svg";
 
 export default function AddRecipe() {
@@ -45,7 +46,7 @@ export default function AddRecipe() {
   const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
   const [isChecked, setIsChecked] = useState(false);
   const [cloudinaryData, setCloudinaryData] = useState<FormData>();
-  const [publicId, setPublicId] = useState('');
+  const { clearCache } = useCache();
   const router = useRouter();
 
   useEffect(() => {
@@ -65,7 +66,7 @@ export default function AddRecipe() {
     if (file) {
       const validatedFile = validateImage(file);
       if (validatedFile) {
-        const formData = convertFileToFormData(validatedFile, publicId);
+        const formData = convertFileToFormData(validatedFile, '');
         setCloudinaryData(formData);
         const uri = await convertFileToBase64(validatedFile);
         if (uri) {
@@ -116,7 +117,7 @@ export default function AddRecipe() {
         setLoadingBtn(false);
         return;
       }
-
+      clearCache();
       router.push(`/${user?.username}`);
       router.refresh();
     } catch (error: any) {
