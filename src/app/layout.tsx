@@ -8,7 +8,7 @@ import { getUserController } from "./_ssr/user/userController";
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
   const serverUser = (session.isAuth && session.user_id) && await getUserController(session.user_id);
-  
+
   return (
     <html lang="en">
       <head>
@@ -19,7 +19,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body>
-        <AuthProvider serverUser={typeof serverUser === 'string' ? JSON.parse(serverUser) : serverUser}>
+        <AuthProvider serverUser={typeof serverUser === 'string' && JSON.parse(serverUser)}>
           <NavBar isAuth={session.isAuth} />
           {children}
           <CookieConsent />

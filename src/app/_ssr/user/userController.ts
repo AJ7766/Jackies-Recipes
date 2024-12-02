@@ -3,7 +3,7 @@ import { getUserService } from "./userServices";
 import mongoose from "mongoose";
 import redisClient from "@/_utils/redis";
 
-export const getUserController = async (user_id: mongoose.Types.ObjectId) => {
+export const getUserController = async (user_id: mongoose.Types.ObjectId):Promise<string> => {
     try {
         const cached_user = await redisClient.get(typeof user_id === 'string' ? user_id : JSON.stringify(user_id));
         if (cached_user) {
@@ -20,6 +20,6 @@ export const getUserController = async (user_id: mongoose.Types.ObjectId) => {
         return JSON.stringify(user);
     } catch (error) {
         console.error(error);
-        return null;
+        throw error;
     }
 }

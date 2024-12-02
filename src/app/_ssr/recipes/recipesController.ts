@@ -2,7 +2,7 @@ import { connectDB } from "@/app/_config/database";
 import { getRecipesService } from "./recipesService";
 import redisClient from "@/_utils/redis";
 
-export const getRecipesController = async () => {
+export const getRecipesController = async (): Promise<string> => {
     try {
         const cached_recipes = await redisClient.get('recipes');
         if (cached_recipes) {
@@ -18,6 +18,6 @@ export const getRecipesController = async () => {
         return JSON.stringify(recipes);
     } catch (error) {
         console.error(error);
-        return null;
+        throw error;
     }
 }

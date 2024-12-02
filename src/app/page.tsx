@@ -11,5 +11,5 @@ export default async function DashboardPage() {
 
   const serverRecipes = await getRecipesController();
 
-  return <Dashboard serverRecipes={typeof serverRecipes === 'string' ? JSON.parse(serverRecipes) : serverRecipes} />
+  return <Dashboard serverRecipes={JSON.parse(serverRecipes)} />
 }
