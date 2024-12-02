@@ -36,6 +36,5 @@ export const useCache = () => {
     if (!context) {
       throw new Error("useCache must be used within a CacheProvider");
     }
-    
     return context;
   };

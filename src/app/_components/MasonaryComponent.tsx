@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { CldImage } from 'next-cloudinary';
 import React from "react";
 import Link from "next/link";
 import { Types } from "mongoose";
@@ -26,9 +26,9 @@ export const MasonaryComponent = React.memo(({ columns }: { columns: RecipeCardP
                       scroll={false}
                     >
                       <div className="masonryImg">
-                        <Image
-                          width={500}
-                          height={500}
+                        <CldImage
+                          width={200}
+                          height={200}
                           src={recipe.image || ""}
                           alt={recipe.title}
                           loading="lazy"

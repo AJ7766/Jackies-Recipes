@@ -1,4 +1,5 @@
 import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
+import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -15,7 +16,7 @@ export const ProfileComponent = ({ profile }: { profile: UserPopulatedRecipePopu
     <>
       <div className="profileContainer">
         <div className="profileInfo">
-          <Image
+          <CldImage
             className="profilePicture"
             height={160}
             width={160}

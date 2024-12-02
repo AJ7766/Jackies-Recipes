@@ -21,14 +21,12 @@ export default function Dashboard() {
   }, [])
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
       const storedColumns = sessionStorage.getItem("columns");
       if (storedColumns) {
         setColumns(JSON.parse(storedColumns))
         return;
       }
       fetchRecipes();
-    }
   }, [])
 
   const fetchRecipes = async () => {
