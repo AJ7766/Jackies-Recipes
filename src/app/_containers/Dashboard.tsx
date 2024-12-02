@@ -44,19 +44,6 @@ export default function Dashboard() {
     }
   };
 
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      console.log("removing columns");
-      sessionStorage.removeItem('columns');
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, []);
-
   if (!columns)
     return null
 

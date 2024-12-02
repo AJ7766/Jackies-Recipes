@@ -4,6 +4,7 @@ import NavBar from "./_containers/NavBar";
 import { CookieConsent } from "./_containers/CookieConsent";
 import { getSession } from "@/_utils/session";
 import { getUserController } from "./_ssr/user/userController";
+import { CacheProvider } from "./_context/CacheContext";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
@@ -20,9 +21,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <body>
         <AuthProvider serverUser={typeof serverUser === 'string' ? JSON.parse(serverUser) : serverUser}>
-          <NavBar isAuth={session.isAuth} />
-          {children}
-          <CookieConsent />
+          <CacheProvider>
+            <NavBar isAuth={session.isAuth} />
+            {children}
+            <CookieConsent />
+          </CacheProvider>
         </AuthProvider>
       </body>
     </html >
