@@ -44,15 +44,16 @@ export const NavBarComponent = React.memo(({
     <>
       <div className="space"></div>
       <div className="navContainer">
-        <Link 
-        href={"/"}
-        prefetch> 
+        <Link
+          href={"/"}
+          prefetch>
           <Image
             id="logo"
             src={logo}
             alt="logo"
             width={24}
             height={28}
+            className="w-full h-auto"
             priority
           />
         </Link>
@@ -63,6 +64,7 @@ export const NavBarComponent = React.memo(({
             alt="search-glass"
             width={24}
             height={24}
+            className="w-full h-auto"
           />
           <input
             type="search"
@@ -94,6 +96,7 @@ export const NavBarComponent = React.memo(({
                           height={42}
                           width={42}
                           src={user.userContent?.profilePicture || profilePicture}
+                          className="w-full h-auto"
                           alt="user-picture"
                         />
                         <div>
@@ -126,6 +129,7 @@ export const NavBarComponent = React.memo(({
                           height={42}
                           width={42}
                           src={recipe.image}
+                          className="w-full h-auto"
                           alt="recipe-image"
                         />
                         <div>
@@ -148,6 +152,7 @@ export const NavBarComponent = React.memo(({
                 height={32}
                 width={32}
                 src={addRecipe}
+                className="w-full h-auto"
                 alt="add-recipe"
               />
             </Link>
@@ -160,12 +165,13 @@ export const NavBarComponent = React.memo(({
                 height={35}
                 width={35}
                 src={user.userContent?.profilePicture || profilePicture}
+                className="w-full h-auto"
                 alt="profile-picture"
               />
             </Link>
             <div className="dropdownContainer" ref={dropdownRef}>
               <Image
-                className={`dropdownButton ${isOpen ? "open" : ""}`}
+                className={`w-full h-auto dropdownButton ${isOpen ? "open" : ""}`}
                 src={dropdownIcon}
                 width={24}
                 height={24}
