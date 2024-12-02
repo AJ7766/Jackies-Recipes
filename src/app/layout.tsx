@@ -19,12 +19,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body>
-        <AuthProvider serverUser={typeof serverUser === 'string' && JSON.parse(serverUser)}>
+        <AuthProvider serverUser={typeof serverUser === 'string' ? JSON.parse(serverUser) : serverUser}>
           <NavBar isAuth={session.isAuth} />
           {children}
           <CookieConsent />
         </AuthProvider>
       </body>
-    </html>
+    </html >
   );
 }
