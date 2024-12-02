@@ -17,6 +17,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           name="description"
           content="Social platform for sharing recipes"
         />
+        <script src="https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ" async></script>
       </head>
       <body>
         <AuthProvider serverUser={typeof serverUser === 'string' ? JSON.parse(serverUser) : serverUser}>

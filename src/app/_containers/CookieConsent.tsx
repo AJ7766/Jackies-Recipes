@@ -9,39 +9,23 @@ export function CookieConsent() {
 
   useEffect(() => {
     setIsClient(true);
-    if (
-      !document.querySelector(
-        `script[src="https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ"]`
-      )
-    ) {
-      const script = document.createElement("script");
-      script.src = "https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ";
-      script.async = true;
-
-      script.onload = () => {
-        window.dataLayer = window.dataLayer || [];
-        window.gtag = function () {
-          window.dataLayer.push(arguments);
-        };
-
-        window.gtag("js", new Date());
-
-        if (cookies.cookieConsent) {
-          window.gtag("config", "G-W37LZK4XFJ", {
-            page_path: window.location.pathname,
-          });
-        }
+    if (cookies.cookieConsent) {
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () {
+        window.dataLayer.push(arguments);
       };
-      document.head.appendChild(script);
-    } else if (window.gtag && cookies.cookieConsent) {
+      window.gtag('js', new Date());
       window.gtag("config", "G-W37LZK4XFJ", {
         page_path: window.location.pathname,
       });
+    } else if (cookies.cookieConsent === false) {
+      window.dataLayer = [];
+      window.gtag = function () {};
     }
   }, [cookies.cookieConsent]);
 
   if (!isClient || cookies.cookieConsent !== undefined)
     return null;
 
-  return <CookieConsentComponent acceptCookies={acceptCookies} declineCookies={declineCookies}/>
+  return <CookieConsentComponent acceptCookies={acceptCookies} declineCookies={declineCookies} />
 }
