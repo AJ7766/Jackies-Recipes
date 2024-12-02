@@ -4,6 +4,8 @@ import { Types } from "mongoose";
 import { createMasonary } from "../_services/masonaryServices";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { MasonaryComponent } from "../_components/MasonaryComponent";
+import { getRecipesController } from "../_ssr/recipes/recipesController";
+import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
 
 interface RecipeCardProps {
   id: Types.ObjectId | undefined;
@@ -12,43 +14,33 @@ interface RecipeCardProps {
   user: { username: string };
 }
 
-export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopulatedProps[] }) {
+export default function Dashboard() {
   const [totalColumns, setTotalColumns] = useState<number>(5);
   const [columns, setColumns] = useState<RecipeCardProps[][]>();
-  
+
   useLayoutEffect(() => {
     setTotalColumns(window.innerWidth > 768 ? 5 : 3);
   }, [])
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedColumns = sessionStorage.getItem("columns");
-      if (storedColumns) {
-        console.log("cached columns")
-        setColumns(JSON.parse(storedColumns))
-        return;
+  useEffect(()=>{
+    const fetchRecipes = async () => {
+      const {recipes} = await fetchRecipesAPI();
+      if (recipes) {
+        const masonaryColumns = await createMasonary(recipes, totalColumns);
+        console.log("setting new columns", masonaryColumns)
+        setColumns(masonaryColumns);
       }
-      fetchRecipes();
-    }
-  }, [])
-
-  const fetchRecipes = async () => {
-    if (serverRecipes) {
-      const masonaryColumns = await createMasonary(serverRecipes, totalColumns);
-      sessionStorage.setItem('columns', JSON.stringify(masonaryColumns));
-      console.log("setting new columns", masonaryColumns)
-      setColumns(masonaryColumns);
-    }
-  };
+    };
+    fetchRecipes();
+  },[totalColumns])
 
   useEffect(() => {
     const handleBeforeUnload = () => {
       console.log("removing columns");
       sessionStorage.removeItem('columns');
     };
-  
+
     window.addEventListener("beforeunload", handleBeforeUnload);
-  
+
     return () => {
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };

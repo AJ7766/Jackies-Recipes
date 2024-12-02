@@ -9,7 +9,7 @@ export default async function DashboardPage() {
   if (!session.isAuth)
     return <LoginPage />
 
-  const serverRecipes = await getRecipesController();
+  //const serverRecipes = await getRecipesController();
 
-  return <Dashboard serverRecipes={typeof serverRecipes === 'string' ? JSON.parse(serverRecipes): serverRecipes} />
+  return <Dashboard />
 }
