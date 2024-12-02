@@ -9,7 +9,6 @@ import { CacheProvider } from "./_context/CacheContext";
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
   const serverUser = (session.isAuth && session.user_id) && await getUserController(session.user_id);
-
   return (
     <html lang="en">
       <head>
