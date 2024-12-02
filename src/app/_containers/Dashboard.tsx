@@ -21,17 +21,28 @@ export default function Dashboard() {
   useLayoutEffect(() => {
     setTotalColumns(window.innerWidth > 768 ? 5 : 3);
   }, [])
-  useEffect(()=>{
-    const fetchRecipes = async () => {
-      const {recipes} = await fetchRecipesAPI();
-      if (recipes) {
-        const masonaryColumns = await createMasonary(recipes, totalColumns);
-        console.log("setting new columns", masonaryColumns)
-        setColumns(masonaryColumns);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedColumns = sessionStorage.getItem("columns");
+      if (storedColumns) {
+        console.log("cached columns")
+        setColumns(JSON.parse(storedColumns))
+        return;
       }
-    };
-    fetchRecipes();
-  },[totalColumns])
+      fetchRecipes();
+    }
+  }, [])
+
+  const fetchRecipes = async () => {
+    const {recipes} = await fetchRecipesAPI();
+    if (recipes) {
+      const masonaryColumns = await createMasonary(recipes, totalColumns);
+      sessionStorage.setItem('columns', JSON.stringify(masonaryColumns));
+      console.log("setting new columns", masonaryColumns)
+      setColumns(masonaryColumns);
+    }
+  };
 
   useEffect(() => {
     const handleBeforeUnload = () => {
