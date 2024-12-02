@@ -5,7 +5,7 @@ import { UserEditProps } from "@/_models/UserModel";
 import { EditProfileComponent } from "../components/EditProfileComponent";
 import { fetchUpdateUserAPI } from "../services/fetchUpdateUserAPI";
 import { useRouter } from "next/navigation";
-import { convertFileToBase64, convertFileToFormData, validateImage } from "@/_utils/imageUtils";
+import { convertFileToBase64, convertFileToFormData, getPublicId, validateImage } from "@/_utils/imageUtils";
 import { fetchUpdateImageAPI } from "../services/fetchUpdateImageAPI";
 const profilePicture = "/images/profile-picture.png";
 
@@ -57,14 +57,7 @@ export default function EditProfile() {
   }, [user]);
 
   useEffect(() => {
-    if (userData.userContent?.profilePicture) {
-      const extractedUrl = userData.userContent?.profilePicture.split('/').pop()
-      if (extractedUrl) {
-        const public_id = extractedUrl.split('.')[0];
-
-        setPublicId(public_id);
-      }
-    }
+    setPublicId(getPublicId(userData.userContent?.profilePicture ?? ''));
   }, [])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

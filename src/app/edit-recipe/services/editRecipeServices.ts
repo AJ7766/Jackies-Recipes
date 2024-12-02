@@ -15,12 +15,3 @@ export const handleDeleteRecipe = async (
         throw new Error(message);
     router.push(`/${username}`);
 }
-
-export const getPublicId = (image: string) => {
-        const extractedUrl = image.split('/').pop()
-        if (extractedUrl) {
-            const public_id = extractedUrl.split('.')[0];
-            console.log("extracted", public_id)
-            return public_id;
-        }
-}

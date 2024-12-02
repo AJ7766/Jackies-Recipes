@@ -9,9 +9,8 @@ import ErrorPage from "@/app/_errors/ErrorPage";
 import { fetchUpdateRecipeAPI } from "../services/fetchUpdateRecipeAPI";
 import { useRouter } from "next/navigation";
 import { RecipeFormProps } from "@/_models/RecipeModel";
-import { convertFileToBase64, convertFileToFormData, validateImage } from "@/_utils/imageUtils";
+import { convertFileToBase64, convertFileToFormData, getPublicId, validateImage } from "@/_utils/imageUtils";
 import { fetchUpdateImageAPI } from "@/app/settings/services/fetchUpdateImageAPI";
-import { getPublicId } from "../services/editRecipeServices";
 
 export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     const [recipe, setRecipe] = useState<RecipeFormProps>({
@@ -75,7 +74,7 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
             setUserHasRecipe(userHasRecipe);
             setRecipe(fetchedRecipe);
             setIsFetcing(false);
-            setPublicId(getPublicId(fetchedRecipe.image) || '');
+            setPublicId(getPublicId(fetchedRecipe.image));
         }
         fetchRecipeAPI()
     }, [token])

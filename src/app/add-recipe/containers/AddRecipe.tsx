@@ -76,7 +76,6 @@ export default function AddRecipe() {
     };
   }
 
-
   const toggleSlider = () => {
     setRecipe((prevList) => ({
       ...prevList,

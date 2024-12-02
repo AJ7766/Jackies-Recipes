@@ -1,5 +1,14 @@
 import Resizer from "react-image-file-resizer";
 
+export const getPublicId = (image: string): string => {
+    const extractedUrl = image.split('/').pop();
+    if (extractedUrl) {
+        const public_id = extractedUrl.split('.')[0];
+        return public_id;
+    }
+    return '';
+}
+
 export const validateImage = (file: File) => {
     const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
     const maxSize = 10 * 1024 * 1024;
