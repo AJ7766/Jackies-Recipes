@@ -25,38 +25,43 @@ export default function SelectedRecipeComponent({
             <>
                 <div className="recipeContainer">
                     <div className="recipeLeftSideWrapper">
-                        {isSmallScreen && selectedRecipe.image && (
-                            <Image
-                                width={1280}
-                                height={850}
-                                src={selectedRecipe.image}
-                                priority
-                                alt="recipe-image"
-                            />
-                        )}
-                        <div className="recipeUserContainer">
-                            <Link
-                                className="flex gap-2"
-                                href={`/${profile?.username}`}
-                                onClick={() => {
-                                    document.body.style.overflow = "auto";
-                                }}
-                            >
-                                <Image
-                                    width={25}
-                                    height={25}
-                                    src={
-                                        profile?.userContent?.profilePicture ||
-                                        profilePicturePlaceholder
-                                    }
-                                    alt="profile-picture"
-                                />
-                                <div>
-                                    <h2>{profile?.username}</h2>
+                        <div className="flex flex-row m-[4%]" >
+                            <div className="flex flex-col">
+                                <div className="recipeUserContainer">
+                                    <Link
+                                        className="flex gap-2"
+                                        href={`/${profile?.username}`}
+                                        onClick={() => {
+                                            document.body.style.overflow = "auto";
+                                        }}
+                                    >
+                                        <Image
+                                            width={25}
+                                            height={25}
+                                            src={
+                                                profile?.userContent?.profilePicture ||
+                                                profilePicturePlaceholder
+                                            }
+                                            alt="profile-picture"
+                                        />
+                                        <div>
+                                            <h2>{profile?.username}</h2>
+                                        </div>
+                                    </Link>
                                 </div>
-                            </Link>
+                                <h1>{selectedRecipe?.title}</h1>
+                            </div>
+                            {isSmallScreen && selectedRecipe.image && (
+                                <Image
+                                    className="recipe-image"
+                                    width={1280}
+                                    height={850}
+                                    src={selectedRecipe.image}
+                                    priority
+                                    alt="recipe-image"
+                                />
+                            )}
                         </div>
-                        <h1>{selectedRecipe?.title}</h1>
                         <div className="recipeIngredientsContainer">
                             {selectedRecipe?.macros && (
                                 <div className="recipeMacroContainer">
@@ -136,9 +141,6 @@ export default function SelectedRecipeComponent({
                             />
                         )}
                         <div className="recipeInstructionsContainer">
-                            {isSmallScreen && <div className="dividerInstructions"></div>}
-                            <div className="dividerInstructions"></div>
-
                             <table>
                                 <tbody>
                                     {selectedRecipe?.instructions?.map((ins, insIndex) => (
