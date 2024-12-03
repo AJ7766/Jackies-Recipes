@@ -1540,13 +1540,16 @@ input::-webkit-inner-spin-button {
     mask: var(--mask);
   }
   .recipeLeftSideWrapper .recipe-image {
-    width: 200px;
+    width: 150px;
     border-radius: 15px;
     margin-left: auto;
     height: 200px;
     object-fit: cover;
   }
 
+  .recipeLeftSideWrapper h1{
+    font-size: 18px;
+  }
   .macroInfo {
     align-items: center;
   }
