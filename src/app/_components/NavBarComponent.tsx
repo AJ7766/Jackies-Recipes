@@ -3,9 +3,10 @@ import Image from "next/image";
 import { UserProps } from "@/_models/UserModel";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import React, { LegacyRef } from "react";
+import { CldImage } from "next-cloudinary";
 const logo = "/images/logo-text-free.png";
 const searchGlass = "/images/search-glass.svg";
-const profilePicture = "/images/profile-picture.png";
+const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1733219780/profile-picture_vicljy.png";
 const addRecipe = "/images/add.svg";
 const dropdownIcon = "/images/arrow-down.png";
 
@@ -152,7 +153,6 @@ export const NavBarComponent = React.memo(({
                 height={32}
                 width={32}
                 src={addRecipe}
-                className="w-full h-auto"
                 alt="add-recipe"
               />
             </Link>
@@ -161,11 +161,10 @@ export const NavBarComponent = React.memo(({
               href={`/${user.username}`}
               prefetch
             >
-              <Image
+              <CldImage
                 height={35}
                 width={35}
                 src={user.userContent?.profilePicture || profilePicture}
-                className="w-full h-auto"
                 alt="profile-picture"
               />
             </Link>

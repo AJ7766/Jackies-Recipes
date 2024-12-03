@@ -401,7 +401,6 @@ h2 {
 .navContainer .addRecipe img {
   height: clamp(20px, 3vw, 28px);
   width: auto;
-  object-fit: cover;
   object-position: center;
 }
 
@@ -409,7 +408,6 @@ h2 {
   border-radius: 25%;
   height: clamp(20px, 3vw, 28px);
   width: auto;
-  object-fit: cover;
   object-position: center;
 }
 
