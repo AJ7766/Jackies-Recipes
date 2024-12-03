@@ -674,11 +674,13 @@ h2 {
   z-index: 10;
   display: flex;
   height: 85%;
-  width: 80%;
+  width: 60%;
+  min-width: 830px;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: white;
+  background: #fafafa;
+  border-radius: 15px;
 }
 
 .recipeBackground {
@@ -700,12 +702,24 @@ h2 {
 }
 
 .recipeLeftSideWrapper {
-  min-width: 25vw;
-  padding: 20px;
-  background-color: white;
+  width:80%;
+  padding: 30px;
+  --mask: radial-gradient(
+        67.08px at calc(100% - 90px) 50%,
+        #000 99%,
+        #0000 101%
+      )
+      0 calc(50% - 60px) / 100% 120px,
+    radial-gradient(67.08px at calc(100% + 60px) 50%, #0000 99%, #000 101%)
+      calc(100% - 30px) 50%/100% 120px repeat-y;
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+  background: white;
+  mask: var(--mask);
   font-size: 14px;
   overflow-y: scroll;
   scrollbar-width: none;
+  border-radius: 15px 0 0 15px;
 }
 
 .recipeUserContainer {
@@ -737,9 +751,13 @@ h2 {
 
 .recipeRightSideWrapper {
   width: 100%;
-  background-color: white;
+  background: #fafafa;
   overflow-y: scroll;
   scrollbar-width: none;
+  border-radius: 0 15px 15px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .recipeImageContainer {
@@ -749,8 +767,10 @@ h2 {
 }
 
 .recipeRightSideWrapper img {
-  width: 100%;
-  max-height: 80%;
+  margin: 20px 0;
+  width: 60%;
+  height: 40%;
+  border-radius: 15px;
   object-fit: cover;
   object-position: center;
 }
@@ -772,7 +792,7 @@ h2 {
   height: 100%;
   display: flex;
   flex-basis: 20%;
-  align-items: center;
+  align-items: left;
   gap: 2px;
   flex-direction: column;
   margin: 20px 0;
@@ -820,8 +840,8 @@ h2 {
 
 .macroContainer {
   display: flex;
-  gap: 30px;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
 
 .recipeInformationContainer tbody {
@@ -1500,17 +1520,39 @@ input::-webkit-inner-spin-button {
 
   .recipeContainer {
     flex-direction: column;
+    width: 80%;
+    min-width:0;
   }
 
   .recipeLeftSideWrapper {
-    padding: 0;
+    width: 100%;
+    padding: 0 0 50px 0;
     overflow-y: initial;
+    --mask: radial-gradient(
+          67.08px at 50% calc(100% - 90px),
+          #000 99%,
+          #0000 101%
+        )
+        calc(50% - 60px) 0 / 120px 100%,
+      radial-gradient(67.08px at 50% calc(100% + 60px), #0000 99%, #000 101%)
+        50% calc(100% - 30px) / 120px 100% repeat-x;
+    -webkit-mask: var(--mask);
+    mask: var(--mask);
+  }
+  .recipeLeftSideWrapper .recipe-image {
+    width: 200px;
+    border-radius: 15px;
+    margin-left: auto;
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .macroInfo {
+    align-items: center;
   }
 
   .recipeLeftSideWrapper h1,
   .recipeUserContainer {
-    margin-left: 4%;
-    margin-right: 4%;
     margin-bottom: 10px;
   }
 
@@ -1545,5 +1587,17 @@ input::-webkit-inner-spin-button {
   .masonryContainerMainPage {
     grid-template-columns: repeat(3, 1fr);
     animation: none;
+  }
+
+  .recipeContainer {
+    width: 100%;
+    height: 95%;
+    top: initial;
+    bottom: 0;
+    transform: translate(-50%, 0%);
+    border-radius: 15px 15px 0 0;
+  }
+  .recipeBackground img {
+    margin: 5px 5px 10px auto;
   }
 }
