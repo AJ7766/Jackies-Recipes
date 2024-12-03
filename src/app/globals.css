@@ -768,8 +768,8 @@ h2 {
 
 .recipeRightSideWrapper img {
   margin: 20px 0;
-  width: 60%;
-  height: 40%;
+  width: 85%;
+  height: 60%;
   border-radius: 15px;
   object-fit: cover;
   object-position: center;
@@ -1550,7 +1550,7 @@ input::-webkit-inner-spin-button {
   .recipeLeftSideWrapper h1{
     font-size: 18px;
   }
-  
+
   .macroInfo {
     align-items: center;
   }
