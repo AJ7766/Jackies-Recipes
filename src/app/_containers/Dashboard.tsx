@@ -6,7 +6,7 @@ import { MasonryComponent } from "../_components/MasonryComponent";
 import { LoadingSpinner } from "../_components/LoadingSpinner";
 
 
-export default function Dashboard() {
+export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopulatedProps[] }) {
   const [recipes, setRecipes] = useState<RecipePopulatedProps[]>(() => {
     if (typeof window !== "undefined") {
       const sessionStorageRecipes = sessionStorage.getItem("recipes");
@@ -15,9 +15,9 @@ export default function Dashboard() {
         return JSON.parse(sessionStorageRecipes)
       }
     }
-    return null;
+    return serverRecipes;
   });
-
+  
   useEffect(() => {
     if (!recipes) {
       const fetchRecipes = async () => {

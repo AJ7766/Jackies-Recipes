@@ -1,6 +1,7 @@
 import { getSession } from "@/_utils/session";
 import Dashboard from "./_containers/Dashboard";
 import LoginPage from "./_containers/LoginPage";
+import { getRecipesController } from "./_ssr/recipes/recipesController";
 
 export default async function DashboardPage() {
   const session = await getSession();
@@ -8,5 +9,6 @@ export default async function DashboardPage() {
   if (!session.isAuth)
     return <LoginPage />
 
-  return <Dashboard />
+  const serverRecipes = await getRecipesController();
+  return <Dashboard serverRecipes={JSON.parse(serverRecipes)} />
 }
