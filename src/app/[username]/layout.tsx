@@ -1,4 +1,4 @@
-import MasonaryProfile from "./_containers/MasonaryProfile";
+import MasonryProfile from "./_containers/MasonryProfile";
 import { ReactNode } from "react";
 import Profile from "./_containers/Profile";
 import { getProfileController } from "./_ssr/profileController";
@@ -17,7 +17,7 @@ export default async function RootLayout({ children, params }: { children: React
       <ProfileProvider serverProfile={serverProfile}>
         {children}
         <Profile />
-        <MasonaryProfile />
+        <MasonryProfile />
       </ProfileProvider>
     </>
   );

@@ -1,49 +1,40 @@
 "use client"
-import { useEffect, useLayoutEffect, useState } from "react";
-import { Types } from "mongoose";
-import { createMasonary } from "../_services/masonaryServices";
-import { MasonaryComponent } from "../_components/MasonaryComponent";
+import { useEffect, useState } from "react";
 import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
+import { RecipePopulatedProps } from "@/_models/RecipeModel";
+import { MasonryComponent } from "../_components/MasonryComponent";
 
-interface RecipeCardProps {
-  id: Types.ObjectId | undefined;
-  title: string;
-  image: string | string;
-  user: { username: string };
-}
 
 export default function Dashboard() {
-  const [totalColumns, setTotalColumns] = useState<number>(
-    typeof window !== "undefined" && window.innerWidth > 768 ? 5 : 3
-  );
-  const [columns, setColumns] = useState<RecipeCardProps[][]>(() => {
-    if(typeof window !== "undefined"){
-      const storedColumns = sessionStorage.getItem("columns");
-      if (storedColumns) {
-        return JSON.parse(storedColumns)
+  const [recipes, setRecipes] = useState<RecipePopulatedProps[]>(() => {
+    if (typeof window !== "undefined") {
+      const sessionStorageRecipes = sessionStorage.getItem("recipes");
+      if (sessionStorageRecipes) {
+        console.log("cache")
+        return JSON.parse(sessionStorageRecipes)
       }
     }
     return null;
   });
 
-  useEffect(() => {
-    if (!columns) {
+  useEffect(()=>{
+    if (!recipes) {
       const fetchRecipes = async () => {
-        const { recipes } = await fetchRecipesAPI();
-        if (recipes) {
-          const masonaryColumns = await createMasonary(recipes, totalColumns);
-          sessionStorage.setItem('columns', JSON.stringify(masonaryColumns));
-          setColumns(masonaryColumns);
+        const { fetchedRecipes } = await fetchRecipesAPI();
+        setRecipes(fetchedRecipes);
+        if (fetchedRecipes) {
+          sessionStorage.setItem('recipes', JSON.stringify(fetchedRecipes));
         }
       };
       fetchRecipes();
     }
-  }, [totalColumns])
+  
+  },[])
 
-  if (!columns)
+  if (!recipes)
     return null
 
-  if (columns.length === 0) {
+  if (recipes.length === 0) {
     return (
       <div className="noRecipesContainer">
         <h1>No recipes were found</h1>
@@ -51,5 +42,5 @@ export default function Dashboard() {
     );
   }
 
-  return <MasonaryComponent columns={columns} />;
+  return <MasonryComponent recipes={recipes} />;
 }

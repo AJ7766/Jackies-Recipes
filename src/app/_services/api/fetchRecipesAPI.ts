@@ -8,7 +8,7 @@ export const fetchRecipesAPI = async () => {
         if (!res.ok)
             return { message: data.message || "Failed to fetch recipes" };
 
-        return { message: "Successfully fetching recipes", recipes: data.recipes };
+        return { message: "Successfully fetching recipes", fetchedRecipes: data.recipes };
     } catch (error: any) {
         return { message: `Failed to fetch recipes: ${error}`, recipes: null };
     }

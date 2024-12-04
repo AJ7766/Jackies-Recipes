@@ -606,8 +606,8 @@ h2 {
 }
 
 .masonryContainer {
+  grid-template-columns: repeat(3, 1fr);
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
   margin: 0 20px 20px 20px;
   gap: clamp(10px, 2vw, 15px);
   margin-top: 10px;
@@ -616,7 +616,7 @@ h2 {
 
 .masonryContainerMainPage {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   margin: 0 20px 20px 20px;
   gap: clamp(10px, 2vw, 15px);
   margin-top: 10px;
@@ -1590,7 +1590,6 @@ input::-webkit-inner-spin-button {
 @media (max-width: 768px) {
   .masonryContainer,
   .masonryContainerMainPage {
-    grid-template-columns: repeat(3, 1fr);
     animation: none;
   }
 
