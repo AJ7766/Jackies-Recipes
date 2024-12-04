@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { MasonryComponent } from "../_components/MasonryComponent";
+import { LoadingSpinner } from "../_components/LoadingSpinner";
 
 
 export default function Dashboard() {
@@ -17,7 +18,7 @@ export default function Dashboard() {
     return null;
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!recipes) {
       const fetchRecipes = async () => {
         const { fetchedRecipes } = await fetchRecipesAPI();
@@ -28,11 +29,11 @@ export default function Dashboard() {
       };
       fetchRecipes();
     }
-  
-  },[])
+
+  }, [])
 
   if (!recipes)
-    return null
+    return <LoadingSpinner />
 
   if (recipes.length === 0) {
     return (
