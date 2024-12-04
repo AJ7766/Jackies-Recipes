@@ -679,7 +679,7 @@ h2 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: #fafafa;
+  background: #f7f7f7;
   border-radius: 15px;
 }
 
@@ -751,7 +751,7 @@ h2 {
 
 .recipeRightSideWrapper {
   width: 100%;
-  background: #fafafa;
+  background: #f7f7f7;
   overflow-y: scroll;
   scrollbar-width: none;
   border-radius: 0 15px 15px 0;
