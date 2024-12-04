@@ -695,14 +695,15 @@ h2 {
 }
 
 .recipeBackground img {
-  float: right;
-  margin: 20px 20px 10px auto;
+  position: absolute;
+  right: 20px;
+  top: 20px;
   width: clamp(20px, 4cqw, 30px);
   cursor: pointer;
 }
 
 .recipeLeftSideWrapper {
-  width:80%;
+  width: 80%;
   padding: 30px;
   --mask: radial-gradient(
         67.08px at calc(100% - 90px) 50%,
@@ -1521,7 +1522,7 @@ input::-webkit-inner-spin-button {
   .recipeContainer {
     flex-direction: column;
     width: 80%;
-    min-width:0;
+    min-width: 0;
   }
 
   .recipeLeftSideWrapper {
@@ -1547,7 +1548,7 @@ input::-webkit-inner-spin-button {
     object-fit: cover;
   }
 
-  .recipeLeftSideWrapper h1{
+  .recipeLeftSideWrapper h1 {
     font-size: 18px;
   }
 
@@ -1602,6 +1603,7 @@ input::-webkit-inner-spin-button {
     border-radius: 15px 15px 0 0;
   }
   .recipeBackground img {
-    margin: 5px 5px 10px auto;
+    right: 5px;
+    top: 5px;
   }
 }
