@@ -7,19 +7,9 @@ import { LoadingSpinner } from "../_components/LoadingSpinner";
 
 
 export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopulatedProps[] }) {
-  const [recipes, setRecipes] = useState<RecipePopulatedProps[]>(() => {
-    if (typeof window !== "undefined") {
-      const sessionStorageRecipes = sessionStorage.getItem("recipes");
-      if (sessionStorageRecipes) {
-        console.log("cache")
-        return JSON.parse(sessionStorageRecipes)
-      }
-    }
-    return serverRecipes;
-  });
+  const [recipes, setRecipes] = useState<RecipePopulatedProps[]>((serverRecipes))
   
   useEffect(() => {
-    if (!recipes) {
       const fetchRecipes = async () => {
         const { fetchedRecipes } = await fetchRecipesAPI();
         setRecipes(fetchedRecipes);
@@ -28,8 +18,6 @@ export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopu
         }
       };
       fetchRecipes();
-    }
-
   }, [])
 
   if (!recipes)
