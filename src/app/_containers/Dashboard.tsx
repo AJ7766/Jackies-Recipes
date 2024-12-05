@@ -12,13 +12,12 @@ export default function Dashboard() {
       const sessionStorageRecipes = sessionStorage.getItem("recipes");
       if (sessionStorageRecipes) {
         console.log("cache")
-        setRehydrated(true);
         return JSON.parse(sessionStorageRecipes)
       }
     }
     return null;
   });
-
+  console.log(rehydrated)
   useEffect(() => {
     if (!recipes) {
       const fetchRecipes = async () => {
@@ -32,7 +31,7 @@ export default function Dashboard() {
     }
   }, [])
 
-  if (!recipes && !rehydrated)
+  if (!recipes)
     return <LoadingSpinner />
 
   if (recipes.length === 0) {
