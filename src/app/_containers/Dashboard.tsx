@@ -5,13 +5,14 @@ import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { MasonryComponent } from "../_components/MasonryComponent";
 import { LoadingSpinner } from "../_components/LoadingSpinner";
 
-
 export default function Dashboard() {
+  const [rehydrated, setRehydrated] = useState(false);
   const [recipes, setRecipes] = useState<RecipePopulatedProps[]>(() => {
     if (typeof window !== "undefined") {
       const sessionStorageRecipes = sessionStorage.getItem("recipes");
       if (sessionStorageRecipes) {
         console.log("cache")
+        setRehydrated(true);
         return JSON.parse(sessionStorageRecipes)
       }
     }
@@ -29,10 +30,9 @@ export default function Dashboard() {
       };
       fetchRecipes();
     }
-
   }, [])
 
-  if (!recipes)
+  if (!recipes && !rehydrated)
     return <LoadingSpinner />
 
   if (recipes.length === 0) {
