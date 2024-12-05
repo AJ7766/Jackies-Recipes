@@ -4,6 +4,7 @@ import Link from "next/link";
 import { RecipePopulatedProps } from '@/_models/RecipeModel';
 
 export const MasonryComponent = React.memo(({ recipes }: { recipes: RecipePopulatedProps[] }) => {
+  if(!recipes) return null;
   return (
     <>
       <h1 className="text-xl text-center mb-5">Latest Recipes</h1>

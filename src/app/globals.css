@@ -88,6 +88,14 @@ body {
   animation: pulse 1.3s ease-in-out infinite;
 }
 
+.loader {
+  height: 4px;
+  position: absolute;
+  top: 0;
+  background: linear-gradient(4deg, #1e89ff, #1e89ff, #a6d1ff);
+  z-index: 2;
+}
+
 .cookie-consent-wrapper {
   position: fixed;
   display: flex;
@@ -1602,8 +1610,8 @@ input::-webkit-inner-spin-button {
     border-radius: 15px 15px 0 0;
   }
 
-  .recipeBackground{
-    top:0;
+  .recipeBackground {
+    top: 0;
     height: 10%;
     transform: translate(-50%, 0%);
   }
