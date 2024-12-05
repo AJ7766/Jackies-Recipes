@@ -17,6 +17,11 @@ export default function Dashboard() {
     }
     return null;
   });
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  },[])
 
   useEffect(() => {
     if (!recipes) {
@@ -41,7 +46,7 @@ export default function Dashboard() {
   }
 
   return <>
-    {(typeof window !== 'undefined' && window.innerWidth >= 1024) && <Loader loading={loading} />}
+    {(isClient && window.innerWidth >= 1024) && <Loader loading={loading} />}
     <MasonryComponent recipes={recipes || null} />;
   </>
 }
