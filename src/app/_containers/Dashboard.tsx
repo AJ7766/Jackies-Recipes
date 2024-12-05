@@ -5,26 +5,10 @@ import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { MasonryComponent } from "../_components/MasonryComponent";
 
 
-export default function Dashboard({ serverRecipes }: { serverRecipes?: RecipePopulatedProps[] }) {
-  const [recipes, setRecipes] = useState<RecipePopulatedProps[]>( serverRecipes)
-
-<<<<<<< HEAD
-<<<<<<< HEAD
+export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopulatedProps[] }) {
+  const [recipes, setRecipes] = useState<RecipePopulatedProps[]>((serverRecipes))
+  
   useEffect(() => {
-    const fetchRecipes = async () => {
-      const { fetchedRecipes } = await fetchRecipesAPI();
-      clientRecipes = fetchedRecipes;
-      if (fetchedRecipes) {
-        sessionStorage.setItem('recipes', JSON.stringify(fetchedRecipes));
-      }
-    };
-    fetchRecipes();
-  }, [])
-=======
-=======
->>>>>>> parent of 2c421a4 (Update Dashboard.tsx)
-  useEffect(()=>{
-    if (!recipes) {
       const fetchRecipes = async () => {
         const { fetchedRecipes } = await fetchRecipesAPI();
         setRecipes(fetchedRecipes);
@@ -33,13 +17,7 @@ export default function Dashboard({ serverRecipes }: { serverRecipes?: RecipePop
         }
       };
       fetchRecipes();
-    }
-  
-  },[])
-<<<<<<< HEAD
->>>>>>> parent of 2c421a4 (Update Dashboard.tsx)
-=======
->>>>>>> parent of 2c421a4 (Update Dashboard.tsx)
+  }, [])
 
   if (!recipes)
     return null

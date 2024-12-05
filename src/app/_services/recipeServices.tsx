@@ -1,4 +1,5 @@
 import { RecipeFormProps } from "@/_models/RecipeModel";
+import Resizer from "react-image-file-resizer";
 
 export const deleteIngredientComponent = (
     prevRecipe: RecipeFormProps,
