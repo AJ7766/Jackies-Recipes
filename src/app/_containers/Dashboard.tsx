@@ -17,7 +17,7 @@ export default function Dashboard() {
     return null;
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!recipes) {
       const fetchRecipes = async () => {
         const { fetchedRecipes } = await fetchRecipesAPI();
@@ -27,13 +27,9 @@ export default function Dashboard() {
         }
       };
       fetchRecipes();
-<<<<<<< HEAD
-  }, [])
-=======
     }
-  
-  },[])
->>>>>>> parent of 2c421a4 (Update Dashboard.tsx)
+
+  }, [])
 
   if (!recipes)
     return null
