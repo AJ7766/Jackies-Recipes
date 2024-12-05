@@ -17,6 +17,7 @@ export default function Dashboard() {
     }
     return null;
   });
+
   useEffect(() => {
     if (!recipes) {
       const fetchRecipes = async () => {
@@ -40,7 +41,7 @@ export default function Dashboard() {
   }
 
   return <>
-    <Loader loading={loading} />
+    {(typeof window !== 'undefined' && window.innerWidth >= 1024) ? <Loader loading={loading} />: null}
     <MasonryComponent recipes={recipes || null} />;
   </>
 }
