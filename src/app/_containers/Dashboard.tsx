@@ -44,7 +44,7 @@ export default function Dashboard() {
   }
 
   return <>
-    {(isClient && window.innerWidth >= 1024) && <Loader loading={loading} setLoading={setLoading} />}
+    {(isClient && window.innerWidth >= 1024) && <Loader loading={loading} />}
     <MasonryComponent recipes={recipes || null} />;
   </>
 }
