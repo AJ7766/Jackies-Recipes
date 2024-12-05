@@ -21,9 +21,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     setIsClient(true);
-  },[])
 
-  useEffect(() => {
     if (!recipes) {
       const fetchRecipes = async () => {
         const { fetchedRecipes } = await fetchRecipesAPI();
@@ -46,7 +44,7 @@ export default function Dashboard() {
   }
 
   return <>
-    {(isClient && window.innerWidth >= 1024) && <Loader loading={loading} />}
+    {(isClient && window.innerWidth >= 1024) && <Loader loading={loading} setLoading={setLoading} />}
     <MasonryComponent recipes={recipes || null} />;
   </>
 }
