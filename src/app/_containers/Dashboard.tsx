@@ -8,7 +8,7 @@ import { Loader } from "../_components/Loader";
 export default function Dashboard() {
   const [loading, setLoading] = useState(0);
   const [recipes, setRecipes] = useState<RecipePopulatedProps[]>(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       const sessionStorageRecipes = sessionStorage.getItem("recipes");
       if (sessionStorageRecipes) {
         setLoading(prev => prev + 1);
@@ -41,7 +41,7 @@ export default function Dashboard() {
   }
 
   return <>
-    {(typeof window !== 'undefined' && window.innerWidth >= 1024) ? <Loader loading={loading} />: null}
+    {(typeof window !== 'undefined' && window.innerWidth >= 1024) && <Loader loading={loading} />}
     <MasonryComponent recipes={recipes || null} />;
   </>
 }
