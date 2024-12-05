@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-export const Loader = ({ loading, setLoading }: { loading: number, setLoading: React.Dispatch<React.SetStateAction<number>> }) => {
+export const Loader = ({ loading }: { loading: number }) => {
     const [width, setWidth] = useState(0);
-    console.log("loading", loading)
+
     useEffect(() => {
         let id: NodeJS.Timeout;
 
