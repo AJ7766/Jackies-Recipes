@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 
 export const Loader = ({ loading }: { loading: number }) => {
     const [width, setWidth] = useState(0);
-    const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
 
     useEffect(() => {
+        let id: NodeJS.Timeout;
+
         if (loading === 1) {
-            const id = setInterval(() => {
+            id = setInterval(() => {
                 setWidth((prevWidth) => {
                     if (prevWidth >= 100) {
                         clearInterval(id)
@@ -15,25 +16,16 @@ export const Loader = ({ loading }: { loading: number }) => {
                     return prevWidth + 1;
                 });
             }, 1);
-            setIntervalId(id);
-            return () => {
-                clearInterval(id);
-            };
-
         } else if (loading === 0) {
-            const id = setInterval(() => {
+            id = setInterval(() => {
                 setWidth((prevWidth) => {
                     if (prevWidth >= 33) {
+                        clearInterval(id)
                         return 33;
                     }
                     return prevWidth + 1;
                 });
             }, 20);
-            setIntervalId(id);
-
-            return () => {
-                clearInterval(id);
-            };
         }
     }, [loading]);
 
