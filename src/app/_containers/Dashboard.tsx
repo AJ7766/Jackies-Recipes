@@ -6,18 +6,18 @@ import { MasonryComponent } from "../_components/MasonryComponent";
 import { LoadingSpinner } from "../_components/LoadingSpinner";
 
 
-export default function Dashboard({ serverRecipes }: { serverRecipes: RecipePopulatedProps[] }) {
-  const [recipes, setRecipes] = useState<RecipePopulatedProps[]>((serverRecipes))
-  
+export default function Dashboard({ serverRecipes }: { serverRecipes?: RecipePopulatedProps[] }) {
+  const [recipes, setRecipes] = useState<RecipePopulatedProps[]>( serverRecipes)
+
   useEffect(() => {
-      const fetchRecipes = async () => {
-        const { fetchedRecipes } = await fetchRecipesAPI();
-        setRecipes(fetchedRecipes);
-        if (fetchedRecipes) {
-          sessionStorage.setItem('recipes', JSON.stringify(fetchedRecipes));
-        }
-      };
-      fetchRecipes();
+    const fetchRecipes = async () => {
+      const { fetchedRecipes } = await fetchRecipesAPI();
+      clientRecipes = fetchedRecipes;
+      if (fetchedRecipes) {
+        sessionStorage.setItem('recipes', JSON.stringify(fetchedRecipes));
+      }
+    };
+    fetchRecipes();
   }, [])
 
   if (!recipes)
