@@ -9,6 +9,7 @@ export default function Dashboard({ serverRecipes }: { serverRecipes?: RecipePop
   const [recipes, setRecipes] = useState<RecipePopulatedProps[]>( serverRecipes)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   useEffect(() => {
     const fetchRecipes = async () => {
       const { fetchedRecipes } = await fetchRecipesAPI();
@@ -20,6 +21,8 @@ export default function Dashboard({ serverRecipes }: { serverRecipes?: RecipePop
     fetchRecipes();
   }, [])
 =======
+=======
+>>>>>>> parent of 2c421a4 (Update Dashboard.tsx)
   useEffect(()=>{
     if (!recipes) {
       const fetchRecipes = async () => {
@@ -33,6 +36,9 @@ export default function Dashboard({ serverRecipes }: { serverRecipes?: RecipePop
     }
   
   },[])
+<<<<<<< HEAD
+>>>>>>> parent of 2c421a4 (Update Dashboard.tsx)
+=======
 >>>>>>> parent of 2c421a4 (Update Dashboard.tsx)
 
   if (!recipes)
