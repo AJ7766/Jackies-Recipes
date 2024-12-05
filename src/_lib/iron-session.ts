@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 
 export interface SessionData {
     user_id?: mongoose.Types.ObjectId;
-    img?: string;
     isAuth: boolean;
 }
 

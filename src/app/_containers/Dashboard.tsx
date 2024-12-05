@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { MasonryComponent } from "../_components/MasonryComponent";
+import { LoadingSpinner } from "../_components/LoadingSpinner";
 
 
 export default function Dashboard() {
@@ -32,7 +33,7 @@ export default function Dashboard() {
   }, [])
 
   if (!recipes)
-    return null
+    return <LoadingSpinner />
 
   if (recipes.length === 0) {
     return (
