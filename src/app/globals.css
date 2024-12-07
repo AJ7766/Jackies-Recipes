@@ -1542,8 +1542,7 @@ input::-webkit-inner-spin-button {
   }
 
   .recipe-img {
-    height: 33vw;
-    max-width: 33vw;
+    width: 33vw;
   }
 
   .recipeLeftSideWrapper {
