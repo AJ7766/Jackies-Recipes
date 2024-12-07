@@ -298,7 +298,7 @@ h2 {
 }
 
 .space {
-  height: 80px;
+  height: clamp(10px, 7vw, 60px);
 }
 
 .navContainer {
