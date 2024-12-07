@@ -57,8 +57,8 @@ export default function SelectedRecipeComponent({
                                     width={1280}
                                     height={850}
                                     src={selectedRecipe.image}
-                                    priority
                                     alt="recipe-image"
+                                    fetchPriority="high"
                                 />
                             )}
                         </div>

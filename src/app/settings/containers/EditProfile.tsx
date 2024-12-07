@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
 import { UserEditProps } from "@/_models/UserModel";
 import { EditProfileComponent } from "../components/EditProfileComponent";
@@ -7,7 +7,7 @@ import { fetchUpdateUserAPI } from "../services/fetchUpdateUserAPI";
 import { useRouter } from "next/navigation";
 import { convertFileToBase64, convertFileToFormData, getPublicId, validateImage } from "@/_utils/imageUtils";
 import { fetchUpdateImageAPI } from "../services/fetchUpdateImageAPI";
-const profilePicture = "/images/profile-picture.png";
+const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1733219780/profile-picture_vicljy.png";
 
 export default function EditProfile() {
   const { user, setUser } = useAuth();

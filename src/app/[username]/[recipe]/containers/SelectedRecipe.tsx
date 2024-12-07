@@ -39,7 +39,7 @@ export default function SelectedRecipe() {
   };
 
   const handleCloseRecipe = useCallback(() => {
-    router.replace(`/${profile?.username}`, { scroll: false });
+    router.push(`/${profile?.username}`, { scroll: false });
     setSelectedRecipe(null);
   }, [profile?.username, router]);
 
