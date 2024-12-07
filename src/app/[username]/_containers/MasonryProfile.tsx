@@ -8,9 +8,9 @@ export default function MasonryProfile() {
   const { user } = useAuth();
   const { profile } = useProfile();
   const pathname = usePathname();
-  
+
   const pathParts = pathname.split("/");
-  const usernameLink = pathParts[pathParts.length - 1];
+  const usernameLink = pathParts[1];
   const canEdit = user?.username === usernameLink;
 
   if (profile?.recipes.length === 0 || !profile?.recipes) {
@@ -24,6 +24,7 @@ export default function MasonryProfile() {
   return (
     <MasonaryProfileComponent
       username={profile.username}
+      profilePicture={profile.userContent?.profilePicture}
       recipes={profile.recipes}
       canEdit={canEdit}
     />

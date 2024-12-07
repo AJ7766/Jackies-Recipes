@@ -2,7 +2,6 @@ import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 import Image from "next/image";
 import Link from "next/link";
-
 const meals = "/images/meal.svg";
 const profilePicturePlaceholder = "/images/profile-picture.png";
 const closeIcon = "/images/close.svg";

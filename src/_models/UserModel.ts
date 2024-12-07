@@ -9,6 +9,8 @@ export interface UserProps {
    password: string;
    userContent?: UserContentProps;
    recipes?: mongoose.Types.ObjectId[];
+   followers?: mongoose.Types.ObjectId[];
+   following?: mongoose.Types.ObjectId[];
 }
 
 export interface UserPopulatedProps extends Omit<UserProps, 'recipes'> {
@@ -65,7 +67,9 @@ const userSchema = new Schema<UserDocument>({
    recipes: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: 'recipes'
-   }]
+   }],
+   following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
+   followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
 }, { timestamps: true });
 
 export const UserModel: Model<UserProps> = mongoose.models.users || mongoose.model<UserProps>('users', userSchema);

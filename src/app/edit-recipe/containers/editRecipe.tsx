@@ -44,21 +44,18 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     const [loadingBtn, setLoadingBtn] = useState(false);
     const [message, setMessage] = useState("");
     const { user } = useAuth();
-    const [token, setToken] = useState<string>("");
-    const [userHasRecipe, setUserHasRecipe] = useState<boolean>(false);
+    const [token, setToken] = useState(() => {
+        if (typeof window !== 'undefined')
+            return localStorage.getItem("token");
+        return null;
+    });
+    const [userHasRecipe, setUserHasRecipe] = useState(false);
     const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
     const [isFetching, setIsFetcing] = useState(true);
     const [isChecked, setIsChecked] = useState(false);
     const [cloudinaryData, setCloudinaryData] = useState<FormData>();
     const [publicId, setPublicId] = useState('');
     const router = useRouter();
-
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-
-        setToken(token);
-    }, [token])
 
     useEffect(() => {
         if (!token) return;
@@ -78,7 +75,7 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
         }
         fetchRecipeAPI()
     }, [token])
-    
+
     useEffect(() => {
         if (
             recipe.macros?.carbs === 0 &&
@@ -258,7 +255,7 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     if (isFetching)
         return null;
 
-    if (!userHasRecipe)
+    if (!userHasRecipe || !token)
         return <ErrorPage />;
 
     return <EditRecipeComponent

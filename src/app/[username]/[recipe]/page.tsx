@@ -1,5 +1,5 @@
 import SelectedRecipe from "./containers/SelectedRecipe";
 
-export default function Recipe() {
+export default async function Recipe() {
   return <SelectedRecipe />
 }

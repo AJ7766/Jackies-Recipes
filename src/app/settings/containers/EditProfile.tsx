@@ -31,34 +31,10 @@ export default function EditProfile() {
   const [message, setMessage] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
   const [cloudinaryData, setCloudinaryData] = useState<FormData>();
-  const [publicId, setPublicId] = useState('');
+  const [publicId, setPublicId] = useState(()=>{
+    return getPublicId(userData.userContent?.profilePicture ?? '')
+  });
   const router = useRouter();
-
-  useEffect(() => {
-    if (user) {
-      setUserData({
-        email: user.email || "",
-        username: user.username || "",
-        fullName: user.fullName || "",
-        password: "",
-        newPassword: "",
-        confirmPassword: "",
-        userContent: {
-          profilePicture: user.userContent?.profilePicture || profilePicture,
-          bio: user.userContent?.bio || "",
-          instagram: user.userContent?.instagram || "",
-          x: user.userContent?.x || "",
-          tiktok: user.userContent?.tiktok || "",
-          youtube: user.userContent?.youtube || "",
-          facebook: user.userContent?.facebook || "",
-        },
-      });
-    }
-  }, [user]);
-
-  useEffect(() => {
-    setPublicId(getPublicId(userData.userContent?.profilePicture ?? ''));
-  }, [])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

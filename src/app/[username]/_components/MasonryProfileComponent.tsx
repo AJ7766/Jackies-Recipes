@@ -6,53 +6,59 @@ import { RecipePopulatedProps } from "@/_models/RecipeModel";
 
 export const MasonaryProfileComponent = React.memo(({
   username,
+  profilePicture,
   recipes,
   canEdit
 }: {
   username: string;
+  profilePicture: string | undefined;
   recipes: RecipePopulatedProps[];
   canEdit: boolean;
 }) => {
   return (
-    <>
-        <div className="masonryContainer">
-          {Array.from({ length: 3 }).map((_, columnIndex) => (
-            <div className="masonryColumn" key={columnIndex}>
-              {recipes.filter((_, recipeIndex) => recipeIndex % 3 === columnIndex)
-                .map((recipe, recipeIndex) => (
-                  <React.Fragment key={recipeIndex}>
-                    <Link href={`/${username}/${recipe._id}`} scroll={false} prefetch>
-                      <div className="masonryImg">
-                        <CldImage
-                          src={recipe.image || ""}
-                          alt={recipe.title}
-                          width={200}
-                          height={200}
-                          className="w-full h-auto"
-                          loading="lazy"
-                        />
-                      </div>
-                    </Link>
-                    <div className="recipeSettingsContainer">
-                      <Link href={`/${username}/${recipe._id}`} scroll={false} prefetch>
-                        <h1>{recipe.title}</h1>
-                      </Link>
-                      {canEdit && (
-                        <Link href={`/edit-recipe/${recipe._id}`} prefetch>
-                          <Image
-                            src="/images/cogwheel.svg"
-                            width={24}
-                            height={24}
-                            alt="edit"
-                          />
-                        </Link>
-                      )}
-                    </div>
-                  </React.Fragment>
-                ))}
+      <div className="recipe-wrapper">
+        {recipes.map((recipe, recipeIndex) => (
+          <div className="recipe-container" key={recipeIndex}>
+            <Link href={`/${username}/${recipe._id}`} scroll={false} prefetch>
+              <CldImage
+                src={recipe.image || ""}
+                alt={recipe.title}
+                width={300}
+                height={300}
+                className="recipe-img"
+                loading="lazy"
+              />
+            </Link>
+            <div className='recipe-info-container'>
+              <Link href={`/${username}/${recipe._id}`} scroll={false}  prefetch>
+                <h1 className='recipe-title'>{recipe.title}</h1>
+                <p className="text-center text-gray-500">@{username}</p>
+              </Link>
+              <div className='recipe-profile-picture-container'>
+                <CldImage
+                  width={50}
+                  height={50}
+                  src={profilePicture || ""}
+                  alt={recipe.title}
+                  className="recipe-profile-picture"
+                  loading="lazy"
+                />
+                <div className='recipe-profile-image-pseudo'></div>
+              </div>
+              {canEdit && (
+                <Link href={`/edit-recipe/${recipe._id}`} prefetch>
+                  <Image
+                    src="/images/cogwheel.svg"
+                    width={16}
+                    height={16}
+                    className="edit-img"
+                    alt="edit"
+                  />
+                </Link>
+              )}
             </div>
-          ))}
-        </div>
-    </>
+          </div>
+        ))}
+      </div>
   );
 });

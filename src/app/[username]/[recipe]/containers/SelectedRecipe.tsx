@@ -6,39 +6,29 @@ import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import SelectedRecipeComponent from "../components/SelectedRecipeComponent";
 
 export default function SelectedRecipe() {
-  const { profile } = useProfile();
-  const [selectedRecipe, setSelectedRecipe] = useState<RecipePopulatedProps | null>(null);
-  const closeRecipe = useRef<HTMLDivElement | null>(null);
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  
-  useEffect(() => {
-    const pathParts = pathname.split("/");
-    const recipeId = pathParts[pathParts.length - 1];
 
-    if (profile?.recipes) {
-      const foundRecipe = profile.recipes.find(
-        (recipe) => recipe._id?.toString() === recipeId
-      ) as RecipePopulatedProps | undefined;
-      setSelectedRecipe(foundRecipe ?? null);
+  const pathParts = pathname.split("/");
+  const recipeId = pathParts[pathParts.length - 1];
+
+  const { profile } = useProfile();
+  const [selectedRecipe, setSelectedRecipe] = useState<RecipePopulatedProps | null>(() => {
+    return profile.recipes.find((recipe) => recipe._id?.toString() === recipeId) as RecipePopulatedProps | undefined || null
+  });
+  const closeRecipe = useRef<HTMLDivElement | null>(null);
+  const [isSmallScreen, setIsSmallScreen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      if (window.innerWidth < 1024)
+        return true;
     }
-  }, [pathname, profile]);
+    return false;
+  });
 
   useEffect(() => {
     toggleScrollbars(!!selectedRecipe);
-  }, [selectedRecipe]);
-
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsSmallScreen(window.innerWidth < 1024);
-    };
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    return () => {
-      window.removeEventListener("resize", checkScreenSize);
-    };
-  }, []);
+    console.log(pathname)
+  }, [selectedRecipe, pathname]);
 
   const toggleScrollbars = (disable: boolean) => {
     document.body.style.overflow = disable ? "hidden" : "auto";
@@ -71,7 +61,7 @@ export default function SelectedRecipe() {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [handleClickOutside]);
+  }, []);
 
   if (!selectedRecipe)
     return null;

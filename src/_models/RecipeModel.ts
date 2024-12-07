@@ -10,6 +10,7 @@ export interface RecipeProps {
    servings?: number;
    macros?: MacroNutrientsProps;
    instructions?: InstructionProps[];
+   savedBy?: mongoose.Types.ObjectId[];
 }
 
 export interface RecipePopulatedProps extends Omit<RecipeProps, 'user'>{
@@ -77,7 +78,8 @@ export const recipeSchema = new Schema<RecipeDocument>({
    ingredients: [IngredientListSchema],
    servings: { type: Number },
    macros: MacroNutrientsSchema,
-   instructions: [InstructionSchema]
+   instructions: [InstructionSchema],
+   savedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
 }, { timestamps: true });
 
 recipeSchema.index({ createdAt: 1 });

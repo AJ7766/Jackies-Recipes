@@ -69,16 +69,6 @@ body {
   }
 }
 
-@keyframes fadeInFromBottom {
-  0% {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 .loading-spinner {
   position: absolute;
   width: clamp(80px, 2vw, 100px);
@@ -481,7 +471,6 @@ h2 {
   display: flex;
   font-family: "Gotham-Book";
   margin: 20px 20px 10px 20px;
-  min-height: 50vh;
   flex-direction: column;
   justify-content: center;
 }
@@ -587,84 +576,95 @@ h2 {
   background-color: #26323a;
 }
 
-.categories {
-  display: flex;
-  flex-direction: row;
-  padding: 0 25px;
-  margin-bottom: 20px;
-  margin-top: 2px;
-  column-gap: 10px;
-  flex-wrap: wrap;
+.recipe-wrapper {
+  display: grid;
+  margin: auto;
+  width: 80%;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: 375px;
+  gap: 10px;
+  padding: 10px;
+  justify-items: center;
 }
 
-.categories span {
+.recipe-container {
   position: relative;
-  padding: 5px 0px 0px 0px;
-  font-family: "Gotham-Medium";
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px 0.5px #c6c6c6e0;
 }
 
-.categories span::after {
-  position: absolute;
-  width: 40%;
-  height: 1.5px;
-  left: 50%;
-  bottom: 0;
-  transform: translateX(-50%);
-  background-color: #0c1216;
-}
-
-.masonryContainer {
-  grid-template-columns: repeat(3, 1fr);
-  display: grid;
-  margin: 0 20px 20px 20px;
-  gap: clamp(10px, 2vw, 15px);
-  margin-top: 10px;
-  /*animation: fadeInFromBottom 0.5s linear;*/
-}
-
-.masonryContainerMainPage {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin: 0 20px 20px 20px;
-  gap: clamp(10px, 2vw, 15px);
-  margin-top: 10px;
-  /*animation: fadeInFromBottom 0.5s linear;*/
-}
-
-.masonryColumn {
+.recipe-info-container {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  width: 100%;
-  gap: 15px;
-}
-
-.masonryImg {
-  max-width: 100%;
-}
-
-.masonryImg img {
-  border-radius: clamp(15px, 2vw, 20px);
-  width: 100%;
-  height: auto;
-}
-
-.masonryImg h1 {
-  font-family: "Gotham-Medium";
-  margin: 5px 0 12px 6px;
-}
-
-.recipeSettingsContainer {
-  display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-top: -10px;
+  height: 75px;
+  background: white;
 }
 
-.recipeSettingsContainer img {
-  height: clamp(12px, 3cqw, 16px);
-  width: auto;
-  margin-right: 5px;
+.recipe-title {
+  font-size: clamp(14px, 3vw, 16px);
+  text-align: center;
 }
+
+.recipe-title:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+}
+
+.recipe-info-container p{
+  font-family: Gotham-book;
+}
+
+.edit-img {
+  position: absolute;
+  right: 7px;
+  bottom: 7px;
+}
+
+.recipe-profile-picture {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  transform: translateY(-50%);
+  right: 5%;
+  top: 0;
+}
+
+.recipe-profile-image-pseudo {
+  position: absolute;
+  width: 51px;
+  height: 51px;
+  border-radius: 50%;
+  right: 5%;
+  top: 0;
+  background: linear-gradient(269deg, #eed3b1, white, #eed3b1);
+  transform: skew(0deg, 358deg) translateY(-50%);
+  z-index: -1;
+  transition: transform 0.3s ease-in;
+}
+
+.recipe-profile-picture-container:hover .recipe-profile-image-pseudo {
+  transform: perspective(1000px) skew(0, 1deg) translateY(-50%);
+}
+
+.recipe-img {
+  position: relative;
+  height: 300px;
+  object-fit: cover;
+  overflow: hidden;
+  transition: transform 0.15s ease-out;
+}
+
+.recipe-container:hover .recipe-img {
+  transform: scale(1.05);
+}
+
 .noRecipesContainer {
   display: flex;
   justify-content: center;
@@ -1527,6 +1527,16 @@ input::-webkit-inner-spin-button {
     overflow-y: initial;
   }
 
+  .recipe-wrapper {
+    display: grid;
+    margin: auto;
+    width: 100%;
+    justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(33%, 1fr));
+    gap: 10px;
+    justify-items: center;
+  }
+
   .recipeContainer {
     flex-direction: column;
     width: 80%;
@@ -1596,11 +1606,6 @@ input::-webkit-inner-spin-button {
 /* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */
 
 @media (max-width: 768px) {
-  .masonryContainer,
-  .masonryContainerMainPage {
-    animation: none;
-  }
-
   .recipeContainer {
     width: 100%;
     height: 95%;
