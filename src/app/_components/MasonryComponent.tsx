@@ -8,7 +8,7 @@ export const MasonryComponent = React.memo(({ recipes }: { recipes: RecipePopula
   if (!recipes) return null;
   return (
     <>
-      <h1 className="text-xl text-center mb-5">Latest Recipes</h1>
+      <h1 className="text-xl text-center mb-5 mt-5">Latest Recipes</h1>
       <div className="recipe-wrapper">
         {recipes.map((recipe, recipeIndex) => (
           <div className="recipe-container" key={recipeIndex}>
