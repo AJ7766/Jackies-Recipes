@@ -51,7 +51,7 @@ export default function AddRecipeComponent({
   return (
     <>
       <form className="addRecipeForm" onSubmit={onSubmit}>
-        <h1 className="addRecipeTitle">Add Recipe</h1>
+        <h1 className="addRecipeTitle">Add a Recipe</h1>
 
         <div className="editRecipeImage" onClick={handleImageClick}>
           <Image

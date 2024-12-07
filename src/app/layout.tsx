@@ -12,7 +12,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang="en">
       <head>
-        <title>Jackies Recipes</title>
         <meta
           name="description"
           content="Social platform for sharing recipes"

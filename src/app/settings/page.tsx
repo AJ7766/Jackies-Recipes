@@ -8,3 +8,10 @@ export default async function SettingsPage() {
     </AuthGuard>
   );
 }
+
+export async function generateMetadata() {
+  return {
+    title: `Edit Profile - Jackies Recipes`,
+    description: `Update your personal details and preferences on Jackies Recipes to keep your profile up-to-date and fully personalized.`,
+  };
+}

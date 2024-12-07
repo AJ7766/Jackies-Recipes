@@ -609,7 +609,7 @@ h2 {
 
 .recipe-title:hover {
   text-decoration: underline;
-  text-decoration-thickness: 2px;
+  text-decoration-thickness: 1px;
   text-underline-offset: 4px;
 }
 
@@ -637,6 +637,7 @@ h2 {
 }
 
 .recipe-profile-image-pseudo {
+  content: "";
   position: absolute;
   width: 51px;
   height: 51px;

@@ -5,7 +5,6 @@ import { handleDeleteRecipe } from "../services/editRecipeServices";
 import mongoose from "mongoose";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { RecipeFormProps } from "@/_models/RecipeModel";
-const imagePlaceholder = "/images/recipe-image-placeholder.svg";
 const camera = "/images/camera.svg";
 
 interface AddRecipeProps {
@@ -65,7 +64,7 @@ export default function EditRecipeComponent({
   return (
     <>
       <form className="addRecipeForm" onSubmit={onSubmit}>
-        <h1 className="addRecipeTitle">Edit Recipe</h1>
+        <h1 className="addRecipeTitle">Edit your Recipe</h1>
 
         <div className="editRecipeImage" onClick={handleImageClick}>
           <Image

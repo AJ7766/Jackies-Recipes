@@ -41,6 +41,7 @@ export const MasonaryProfileComponent = React.memo(({
                   src={profilePicture || ''}
                   alt={`${username} profile picture`}
                   className="recipe-profile-picture"
+                  fetchPriority="high"
                   loading="lazy"
                 />
                 <div className='recipe-profile-image-pseudo'></div>

@@ -1,5 +1,4 @@
 export default function UserAccountPolicyPage() {
-
   return (
     <div className="p-6 max-w-2xl mx-auto">
       <h1 className="text-center text-2xl font-bold mb-4">
@@ -68,4 +67,11 @@ export default function UserAccountPolicyPage() {
       </p>
     </div>
   );
+}
+
+export async function generateMetadata() {
+  return {
+    title: `User Account Policy - Jackies Recipes`,
+    description: `Review the User Account Policy for Jackies Recipes, including how we collect, use, and protect your personal data.`,
+  };
 }
