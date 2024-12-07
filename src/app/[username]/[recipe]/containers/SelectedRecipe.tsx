@@ -1,5 +1,5 @@
 "use client"
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useProfile } from "@/app/_context/ProfileContext";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
@@ -17,13 +17,13 @@ export default function SelectedRecipe() {
     return profile.recipes.find((recipe) => recipe._id?.toString() === recipeId) as RecipePopulatedProps | undefined || null
   });
   const closeRecipe = useRef<HTMLDivElement | null>(null);
-  const [isSmallScreen, setIsSmallScreen] = useState(() => {
-    if (typeof window !== 'undefined') {
-      if (window.innerWidth < 1024)
-        return true;
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  useLayoutEffect(() => {
+    if (window.innerWidth < 1024) {
+      setIsSmallScreen(true);
     }
-    return false;
-  });
+  }, []);
 
   useEffect(() => {
     toggleScrollbars(!!selectedRecipe);

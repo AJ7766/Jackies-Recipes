@@ -1,5 +1,6 @@
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
+import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
 const meals = "/images/meal.svg";
@@ -34,7 +35,7 @@ export default function SelectedRecipeComponent({
                                             document.body.style.overflow = "auto";
                                         }}
                                     >
-                                        <Image
+                                        <CldImage
                                             width={25}
                                             height={25}
                                             src={
@@ -51,7 +52,7 @@ export default function SelectedRecipeComponent({
                                 <h1>{selectedRecipe?.title}</h1>
                             </div>
                             {isSmallScreen && selectedRecipe.image && (
-                                <Image
+                                <CldImage
                                     className="recipe-image"
                                     width={1280}
                                     height={850}
@@ -131,7 +132,7 @@ export default function SelectedRecipeComponent({
 
                     <div className="recipeRightSideWrapper">
                         {!isSmallScreen && selectedRecipe.image && (
-                            <Image
+                            <CldImage
                                 width={1280}
                                 height={850}
                                 src={selectedRecipe.image}

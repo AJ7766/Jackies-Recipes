@@ -604,7 +604,7 @@ h2 {
 }
 
 .recipe-title {
-  font-size: clamp(14px, 3vw, 16px);
+  font-size: clamp(12px, 3vw, 16px);
   text-align: center;
 }
 
@@ -614,7 +614,7 @@ h2 {
   text-underline-offset: 4px;
 }
 
-.recipe-info-container p{
+.recipe-info-container p {
   font-family: Gotham-book;
 }
 
@@ -1614,12 +1614,17 @@ input::-webkit-inner-spin-button {
     border-radius: 15px 15px 0 0;
   }
 
-  .recipe-wrapper{
+  .recipe-wrapper {
     grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
   }
 
   .recipe-img {
     height: 150px;
+  }
+
+  .recipe-profile-picture {
+    width: 30px;
+    height: 30px;
   }
 
   .recipeBackground {
