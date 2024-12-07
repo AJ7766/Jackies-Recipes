@@ -2,6 +2,7 @@ import { CldImage } from 'next-cloudinary';
 import React from "react";
 import Link from "next/link";
 import { RecipePopulatedProps } from '@/_models/RecipeModel';
+const profilePicture = '/images/profilePicture.png';
 
 export const MasonryComponent = React.memo(({ recipes }: { recipes: RecipePopulatedProps[] }) => {
   if (!recipes) return null;
@@ -36,8 +37,8 @@ export const MasonryComponent = React.memo(({ recipes }: { recipes: RecipePopula
                 <CldImage
                   width={50}
                   height={50}
-                  src={recipe.user.userContent?.profilePicture || ""}
-                  alt={recipe.title}
+                  src={recipe.user.userContent?.profilePicture || profilePicture}
+                  alt={`${recipe.user.username} profile picture`}
                   className="recipe-profile-picture"
                   loading="lazy"
                 />

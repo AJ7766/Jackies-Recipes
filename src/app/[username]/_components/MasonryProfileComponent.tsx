@@ -5,14 +5,14 @@ import { CldImage } from "next-cloudinary";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 
 export const MasonaryProfileComponent = React.memo(({
-  username,
-  profilePicture,
   recipes,
+  profilePicture,
+  username,
   canEdit
 }: {
-  username: string;
-  profilePicture: string | undefined;
   recipes: RecipePopulatedProps[];
+  profilePicture: string | undefined;
+  username: string;
   canEdit: boolean;
 }) => {
   return (
@@ -38,8 +38,8 @@ export const MasonaryProfileComponent = React.memo(({
                 <CldImage
                   width={50}
                   height={50}
-                  src={profilePicture || ""}
-                  alt={recipe.title}
+                  src={profilePicture || ''}
+                  alt={`${username} profile picture`}
                   className="recipe-profile-picture"
                   loading="lazy"
                 />

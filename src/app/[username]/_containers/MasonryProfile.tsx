@@ -23,9 +23,9 @@ export default function MasonryProfile() {
 
   return (
     <MasonaryProfileComponent
-      username={profile.username}
-      profilePicture={profile.userContent?.profilePicture}
       recipes={profile.recipes}
+      profilePicture={profile.userContent?.profilePicture}
+      username={profile.username}
       canEdit={canEdit}
     />
   );
