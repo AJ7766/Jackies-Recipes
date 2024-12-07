@@ -27,7 +27,6 @@ export default function SelectedRecipe() {
 
   useEffect(() => {
     toggleScrollbars(!!selectedRecipe);
-    console.log(pathname)
   }, [selectedRecipe, pathname]);
 
   const toggleScrollbars = (disable: boolean) => {
