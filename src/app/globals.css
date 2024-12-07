@@ -633,6 +633,7 @@ h2 {
   transform: translateY(-50%);
   right: 5%;
   top: 0;
+  z-index: 1;
 }
 
 .recipe-profile-image-pseudo {
@@ -644,7 +645,7 @@ h2 {
   top: 0;
   background: linear-gradient(269deg, #eed3b1, white, #eed3b1);
   transform: skew(0deg, 358deg) translateY(-50%);
-  z-index: -1;
+  z-index: 0;
   transition: transform 0.3s ease-in;
 }
 
@@ -1617,6 +1618,11 @@ input::-webkit-inner-spin-button {
   .recipe-profile-picture {
     width: 30px;
     height: 30px;
+  }
+
+  .recipe-profile-image-pseudo {
+    width: 31px;
+    height: 31px;
   }
 
   .recipeBackground {
