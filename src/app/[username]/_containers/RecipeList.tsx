@@ -1,10 +1,10 @@
 "use client"
 import { useAuth } from "@/app/_context/AuthContext";
 import { usePathname } from "next/navigation";
-import { MasonaryProfileComponent } from "../_components/MasonryProfileComponent";
+import { RecipesListComponent } from "../_components/RecipesListComponent";
 import { useProfile } from "@/app/_context/ProfileContext";
 
-export default function MasonryProfile() {
+export default function RecipeList() {
   const { user } = useAuth();
   const { profile } = useProfile();
   const pathname = usePathname();
@@ -22,7 +22,7 @@ export default function MasonryProfile() {
   }
 
   return (
-    <MasonaryProfileComponent
+    <RecipesListComponent
       recipes={profile.recipes}
       profilePicture={profile.userContent?.profilePicture}
       username={profile.username}

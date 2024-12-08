@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
-import { MasonryComponent } from "../_components/MasonryComponent";
+import { RecipeListComponent } from "../_components/RecipeListComponent";
 import { Loader } from "../_components/Loader";
 
 export default function Dashboard() {
@@ -45,6 +45,6 @@ export default function Dashboard() {
 
   return <>
     {(isClient && window.innerWidth >= 1024) && <Loader loading={loading} />}
-    <MasonryComponent recipes={recipes || null} />;
+    <RecipeListComponent recipes={recipes || null} />;
   </>
 }

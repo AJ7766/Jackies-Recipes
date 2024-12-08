@@ -4,7 +4,7 @@ import Link from "next/link";
 import { RecipePopulatedProps } from '@/_models/RecipeModel';
 const profilePicture = '/images/profilePicture.png';
 
-export const MasonryComponent = React.memo(({ recipes }: { recipes: RecipePopulatedProps[] }) => {
+export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePopulatedProps[] }) => {
   if (!recipes) return null;
   return (
     <>
@@ -49,5 +49,5 @@ export const MasonryComponent = React.memo(({ recipes }: { recipes: RecipePopula
         ))}
       </div>
     </>
-  );
-});
+  )
+})

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CldImage } from "next-cloudinary";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 
-export const MasonaryProfileComponent = React.memo(({
+export const RecipesListComponent = React.memo(({
   recipes,
   profilePicture,
   username,
