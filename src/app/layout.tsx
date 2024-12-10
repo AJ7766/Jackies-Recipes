@@ -1,6 +1,8 @@
 import "./globals.css";
+import dynamic from 'next/dynamic';
 import { AuthProvider } from "./_context/AuthContext";
-import NavBar from "./_containers/NavBar";
+const NavBar = dynamic(() => import("./_containers/NavBar"));
+
 import { CookieConsent } from "./_containers/CookieConsent";
 import { getSession } from "@/_utils/session";
 import { getUserController } from "./_ssr/user/userController";
@@ -22,9 +24,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <AuthProvider serverUser={typeof serverUser === 'string' ? JSON.parse(serverUser) : serverUser}>
           <CacheProvider>
             <NavBar isAuth={session.isAuth} />
-              <NavBarWidth isAuth={session.isAuth}>
-                {children}
-              </NavBarWidth>
+            <NavBarWidth isAuth={session.isAuth}>
+              {children}
+            </NavBarWidth>
             <CookieConsent />
           </CacheProvider>
         </AuthProvider>

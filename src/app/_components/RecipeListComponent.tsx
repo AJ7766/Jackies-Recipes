@@ -23,6 +23,7 @@ export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePop
                 alt={recipe.title}
                 className="recipe-img"
                 loading="lazy"
+                sizes="300px"
               />
             </Link>
             <div className='recipe-info-container'>
