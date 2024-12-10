@@ -61,5 +61,5 @@ export const RecipesListComponent = React.memo(({
           </div>
         ))}
       </div>
-  );
-});
+  )
+})

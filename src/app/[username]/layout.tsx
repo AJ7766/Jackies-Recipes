@@ -22,10 +22,12 @@ export default async function RootLayout({ children, params }: { children: React
   return (
     <>
       <ProfileProvider serverProfile={serverProfile}>
-        {children}
-        <Profile />
-        <RecipeList />
+        <>
+          {children}
+          <Profile />
+          <RecipeList />
+        </>
       </ProfileProvider>
     </>
-  );
+  )
 }

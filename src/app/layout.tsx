@@ -5,6 +5,7 @@ import { CookieConsent } from "./_containers/CookieConsent";
 import { getSession } from "@/_utils/session";
 import { getUserController } from "./_ssr/user/userController";
 import { CacheProvider } from "./_context/CacheContext";
+import { NavBarWidth } from "./_services/navBarServices";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
@@ -21,7 +22,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <AuthProvider serverUser={typeof serverUser === 'string' ? JSON.parse(serverUser) : serverUser}>
           <CacheProvider>
             <NavBar isAuth={session.isAuth} />
-            {children}
+              <NavBarWidth isAuth={session.isAuth}>
+                {children}
+              </NavBarWidth>
             <CookieConsent />
           </CacheProvider>
         </AuthProvider>
