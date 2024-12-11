@@ -486,10 +486,7 @@ h2 {
 .dropdownButton {
   cursor: pointer;
   border-radius: 50%;
-}
-
-.dropdownButton:hover {
-  box-shadow: 0px 0px 0px 2px #26323a;
+  box-shadow:initial;
 }
 
 .dropdownButton.open {
@@ -1708,6 +1705,10 @@ input::-webkit-inner-spin-button {
     width: 120px;
     right: 0;
     box-shadow: 0 0 5px 2px #00000026;
+  }
+
+  .newUserButtons {
+    flex-direction: row;
   }
 
   .wrapper {

@@ -240,6 +240,7 @@ export const NavBarComponent = React.memo(({
               <Link href="/register" prefetch>
                 <button className="bg-[#ef4444]">Register</button>
               </Link>
+              <p className="hidden md:block">Make sure to login to get access to all features!<br/><br/>This app is in development mode right now, feel free to login with recruiter:recruiter if you don't want to create an account</p>
             </div>
         }
       </div >
