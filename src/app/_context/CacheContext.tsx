@@ -16,7 +16,6 @@ const clearCache = () => {
 export function CacheProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         const handleBeforeUnload = () => {
-            console.log("clearing cache");
             sessionStorage.clear()
         };
 

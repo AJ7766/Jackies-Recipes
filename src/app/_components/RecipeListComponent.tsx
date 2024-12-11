@@ -5,7 +5,6 @@ import { RecipePopulatedProps } from '@/_models/RecipeModel';
 const profilePicture = '/images/profilePicture.png';
 
 export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePopulatedProps[] }) => {
-  if (!recipes) return null;
   return (
     <>
       <h1 className="text-xl text-center mb-5 mt-5">Latest Recipes</h1>
@@ -21,9 +20,10 @@ export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePop
                 height={300}
                 src={recipe.image || ""}
                 alt={recipe.title}
+                fetchPriority='high'
                 className="recipe-img"
                 loading="lazy"
-                sizes="300px"
+                sizes="(max-width: 768px) 33vw, 300px"
               />
             </Link>
             <div className='recipe-info-container'>

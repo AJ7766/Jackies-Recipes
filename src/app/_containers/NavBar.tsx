@@ -1,5 +1,5 @@
 "use client"
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { UserProps } from "@/_models/UserModel";
@@ -18,7 +18,7 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const searchResultsRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const navBarRef = useRef<HTMLDivElement>(null);
-
+  
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
@@ -89,9 +89,6 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
     setIsOpen(false);
   }
 
-  if (!checkNavBar(pathname, isAuth))
-    return null;
-
   const handleFocusInput = () => {
     searchRef.current?.focus();
     if (navBarRef.current) {
@@ -105,5 +102,8 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
     }
   };
 
-  return <NavBarComponent user={user} isAuth={isAuth} search={search} setSearch={setSearch} users={users} recipes={recipes} isOpen={isOpen} searchResultsRef={searchResultsRef} dropdownRef={dropdownRef} clickHandler={clickHandler} toggleDropdown={toggleDropdown} closeDropdown={closeDropdown} logout={logout} handleFocusInput={handleFocusInput} handleBlurInput={handleBlurInput} navBarRef={navBarRef}searchRef={searchRef} />
+  if (!checkNavBar(pathname, isAuth))
+    return null;
+
+  return <NavBarComponent user={user} isAuth={isAuth} search={search} setSearch={setSearch} users={users} recipes={recipes} isOpen={isOpen} searchResultsRef={searchResultsRef} dropdownRef={dropdownRef} clickHandler={clickHandler} toggleDropdown={toggleDropdown} closeDropdown={closeDropdown} logout={logout} handleFocusInput={handleFocusInput} handleBlurInput={handleBlurInput} navBarRef={navBarRef} searchRef={searchRef} />
 }

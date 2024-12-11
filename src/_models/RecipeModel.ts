@@ -1,5 +1,5 @@
 import mongoose, { Model, Schema, Document } from "mongoose";
-import { UserProps } from "./UserModel";
+import { UserModel, UserProps } from "./UserModel";
 
 export interface RecipeProps {
    _id: mongoose.Types.ObjectId;
@@ -13,7 +13,7 @@ export interface RecipeProps {
    savedBy?: mongoose.Types.ObjectId[];
 }
 
-export interface RecipePopulatedProps extends Omit<RecipeProps, 'user'>{
+export interface RecipePopulatedProps extends Omit<RecipeProps, 'user'> {
    user: UserProps;
 }
 
@@ -63,7 +63,7 @@ export const InstructionSchema = new Schema<InstructionProps>({
    instruction: { type: String }
 });
 
-interface RecipeDocument extends RecipeProps, Document{
+interface RecipeDocument extends RecipeProps, Document {
    _id: mongoose.Types.ObjectId;
 }
 
@@ -81,6 +81,23 @@ export const recipeSchema = new Schema<RecipeDocument>({
    instructions: [InstructionSchema],
    savedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
 }, { timestamps: true });
+
+recipeSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
+   try {
+      // Find all users that have this recipe in their 'recipes' array
+      const users = await UserModel.updateMany(
+         { recipes: this._id },  // Match users where 'recipes' array contains this recipe's _id
+         { $pull: { recipes: this._id } }  // Pull the recipe from the 'recipes' array
+      );
+
+      console.log(`${users.modifiedCount} users had the recipe removed from their collection.`);
+
+      // Proceed with deleting the recipe
+      next();
+   } catch (error: any) {
+      next(error);
+   }
+});
 
 recipeSchema.index({ createdAt: 1 });
 

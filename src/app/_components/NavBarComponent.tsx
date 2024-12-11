@@ -54,6 +54,7 @@ export const NavBarComponent = React.memo(({
     <>
       <div className="navContainer" ref={navBarRef}>
         <Link
+          className="hidden md:block"
           href={"/"}
           prefetch>
           <div className="navBarLogoComponent">
@@ -68,7 +69,7 @@ export const NavBarComponent = React.memo(({
           </div>
         </Link>
         <Link
-          className="navBarComponent shrink-0"
+          className="navBarComponent "
           href={`/`}
           prefetch
         >
@@ -79,10 +80,20 @@ export const NavBarComponent = React.memo(({
             src={home}
             alt="home"
           />
-          <h2>Home</h2>
+          <h2 className="hidden md:block">Home</h2>
         </Link>
 
-        <div className="searchContainer" onClick={handleFocusInput}>
+        <div className="navBarComponent grid md:hidden">
+          <Image
+            src={searchGlass}
+            id="searchGlass"
+            alt="search-glass"
+            width={26}
+            height={26}
+          />
+        </div>
+
+        <div className="searchContainer hidden md:grid" onClick={handleFocusInput}>
           <Image
             src={searchGlass}
             id="searchGlass"
@@ -175,7 +186,7 @@ export const NavBarComponent = React.memo(({
           isAuth && user ? (
             <>
               <Link
-                className="navBarComponent shrink-0"
+                className="navBarComponent"
                 href={`/${user.username}`}
                 prefetch
               >
@@ -186,7 +197,7 @@ export const NavBarComponent = React.memo(({
                   src={user.userContent?.profilePicture || profilePicture}
                   alt="profile-picture"
                 />
-                <h2>Profile</h2>
+                <h2 className="hidden md:block">Profile</h2>
               </Link>
               <Link className="navBarComponent" href="/add-recipe" prefetch>
                 <Image
@@ -195,7 +206,7 @@ export const NavBarComponent = React.memo(({
                   src={addRecipe}
                   alt="add-recipe"
                 />
-                <h2>Add Recipe</h2>
+                <h2 className="hidden md:block">Add Recipe</h2>
               </Link>
 
               <div className="dropdownContainer" ref={dropdownRef}>
@@ -208,7 +219,7 @@ export const NavBarComponent = React.memo(({
                     alt="drop-down-menu"
                     unoptimized
                   />
-                  <h2>More</h2>
+                  <h2 className="hidden md:block">More</h2>
                 </div>
                 {isOpen && (
                   <div className="dropdownContentContainer">

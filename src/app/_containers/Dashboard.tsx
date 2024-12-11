@@ -45,6 +45,6 @@ export default function Dashboard() {
 
   return <>
     {(isClient && window.innerWidth >= 1024) && <Loader loading={loading} />}
-    <RecipeListComponent recipes={recipes || null} />
+    {recipes && <RecipeListComponent recipes={recipes} />}
   </>
 }

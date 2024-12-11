@@ -20,8 +20,10 @@ export const ProfileComponent = ({ profile }: { profile: UserPopulatedRecipePopu
             className="profilePicture"
             height={160}
             width={160}
-            priority
             src={profile?.userContent?.profilePicture || profilePicture}
+            fetchPriority="high"
+            priority
+            sizes="(max-width: 768px) 130px, 160px"
             alt="profile-picture"
           />
           <h1>{profile?.fullName}</h1>
