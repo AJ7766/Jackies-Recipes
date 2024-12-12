@@ -23,12 +23,12 @@ export const RecipesListComponent = React.memo(({
               <CldImage
                 src={recipe.image || ""}
                 alt={recipe.title}
-                width={300}
-                height={300}
+                width={1280}
+                height={1280}
                 className="recipe-img"
                 fetchPriority="high"
                 loading="lazy"
-                sizes="(max-width: 768px) 33vw, calc(20vw - 250px)"
+                sizes="(max-width: 768px) 33vw, 500px"
               />
             </Link>
             <div className='recipe-info-container'>

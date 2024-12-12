@@ -5,7 +5,10 @@ export const uploadCloudinary = async (file: File, fileBuffer: ArrayBuffer) => {
         const stream = cloudinary.uploader.upload_stream(
             {
                 upload_preset: "next_cloudinary_app",
-                display_name: file.name || 'image'
+                display_name: file.name || 'image',
+                transformation: [
+                    { crop: 'fill', aspect_ratio: "1.0", width: 1280, gravity: 'center' },
+                ]
             },
             (error, uploadResult) => error ? reject(error) : resolve(uploadResult as UploadApiResponse)
         );
@@ -14,6 +17,6 @@ export const uploadCloudinary = async (file: File, fileBuffer: ArrayBuffer) => {
     });
 }
 
-export const deleteCloudinary = async (public_id:string) => {
+export const deleteCloudinary = async (public_id: string) => {
     return await cloudinary.uploader.destroy(public_id);
 }

@@ -16,14 +16,14 @@ export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePop
               scroll={false}
             >
               <CldImage
-                width={300}
-                height={300}
+                width={1280}
+                height={1280}
                 src={recipe.image || ""}
                 alt={recipe.title}
                 fetchPriority='high'
                 className="recipe-img"
                 loading="lazy"
-                sizes="(max-width: 768px) 33vw, calc(20vw - 250px)"
+                sizes="(max-width: 768px) 33vw, 500px"
               />
             </Link>
             <div className='recipe-info-container'>
