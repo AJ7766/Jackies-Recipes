@@ -7,7 +7,7 @@ import { CldImage } from "next-cloudinary";
 import { activeLink, handleBlurInput, handleFocusInput } from "../_services/navBarServices";
 const logo = "/images/logo-text-free.webp";
 const searchGlass = "/images/icons/search.svg";
-const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1733219780/profile-picture_vicljy.png";
+const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 const home = "/images/icons/home.svg";
 const addRecipe = "/images/icons/add-recipe.svg";
 const settings = "/images/icons/settings.svg";

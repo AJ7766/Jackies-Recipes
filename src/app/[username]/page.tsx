@@ -1,4 +1,5 @@
 "use server"
+import { UserModel } from "@/_models/UserModel";
 import { getProfileController } from "./_ssr/profileController";
 
 export default async function PlaceholderPage() {
@@ -14,7 +15,7 @@ export async function generateMetadata({ params }: { params: Promise<{ username:
       title: `User not found • Profile and Recipes on Jackies Recipes`,
       description: `User not found • Browse users recipes and explore their shared culinary creations.`,
     }
-    
+
   return {
     title: `${serverProfile.fullName} (@${username}) • Profile and Recipes on Jackies Recipes`,
     description: `${username}'s profile on Jackies Recipes. Browse their recipes and explore their shared culinary creations.`,
