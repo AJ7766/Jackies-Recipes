@@ -26,7 +26,7 @@ function setSecurityHeaders(response: NextResponse) {
             'Content-Security-Policy',
             [
                 "default-src 'self';",
-                "script-src 'self' 'unsafe-inline' https://trusted-cdn.com https://www.googletagmanager.com;",
+                "script-src 'self' 'unsafe-inline' https://trusted-cdn.com https://www.googletagmanager.com https://vercel.live;",
                 "connect-src 'self' https://region1.google-analytics.com;",
                 "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
                 "font-src 'self' https://fonts.gstatic.com;",
