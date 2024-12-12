@@ -29,6 +29,7 @@ interface NavBarProps {
   searchRef: RefObject<HTMLInputElement>;
   searchMobileIconRef: RefObject<HTMLDivElement>;
   pathname: string;
+  isMobile: boolean;
 }
 
 export const NavBarComponent = React.memo(({
@@ -47,26 +48,30 @@ export const NavBarComponent = React.memo(({
   navBarRef,
   searchRef,
   searchMobileIconRef,
-  pathname
+  pathname,
+  isMobile
 }: NavBarProps) => {
   return (
     <>
       <div className="navContainer" ref={navBarRef}>
-        <Link
-          className="hidden md:block"
-          href={"/"}
-          prefetch>
-          <div className="navBarLogoComponent">
-            <Image
-              src={logo}
-              alt="logo"
-              width={40}
-              height={40}
-              priority
-            />
-            <h2>Jackies Recipes</h2>
-          </div>
-        </Link>
+
+        {!isMobile &&
+          <Link
+            className="hidden md:block"
+            href={"/"}
+            prefetch>
+            <div className="navBarLogoComponent">
+              <Image
+                src={logo}
+                alt="logo"
+                width={40}
+                height={40}
+                priority
+              />
+              <h2>Jackies Recipes</h2>
+            </div>
+          </Link>
+        }
         <Link
           className="navBarComponent"
           href={`/`}
@@ -79,109 +84,110 @@ export const NavBarComponent = React.memo(({
             src={home}
             alt="home-page"
           />
-          <h2 className={`${activeLink(pathname, "/")} hidden md:block`}>Home</h2>
+          {!isMobile && <h2 className={`${activeLink(pathname, "/")} hidden md:block`}>Home</h2>}
         </Link>
-
-        <div className="navBarComponent grid md:hidden" ref={searchMobileIconRef}>
-          <Image
-            src={searchGlass}
-            id="searchGlass"
-            alt="search-glass"
-            width={30}
-            height={30}
-          />
-        </div>
-
-        <div className="searchContainer hidden md:grid">
-          <Image
-            src={searchGlass}
-            id="searchGlass"
-            alt="search-glass"
-            width={30}
-            height={30}
-          />
-          <input
-            ref={searchRef}
-            type="search"
-            name="query"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search..."
-            onClick={() => handleFocusInput(navBarRef)}
-            onBlur={() => handleBlurInput(navBarRef)}
-          />
-          {(users.length > 0 || recipes.length > 0) && (
-            <div
-              className="searchedUsersContainer"
-              data-testid="searchedUsersContainer"
-              ref={searchResultsRef}
-            >
-              {users.length > 0 && (
-                <>
-                  <h1>Users</h1>
-                  {users.map((user, index) => (
-                    <Link
-                      href={`/${user.username}`}
-                      key={index}
-                      onClick={() => clickHandler(navBarRef)}
-                      prefetch>
-                      <div
-                        className="searchedUser"
-                        data-testid="searchedUser"
-                      >
-                        <Image
-                          height={42}
-                          width={42}
-                          src={user.userContent?.profilePicture || profilePicture}
-                          className="w-full h-auto"
-                          alt="user-picture"
-                        />
-                        <div>
-                          <h2>{user.username}</h2>
-                          <p>{user.fullName}</p>
+        {isMobile &&
+          <div className="navBarComponent grid md:hidden" ref={searchMobileIconRef}>
+            <Image
+              src={searchGlass}
+              id="searchGlass"
+              alt="search-glass"
+              width={30}
+              height={30}
+            />
+          </div>
+        }
+        {!isMobile &&
+          <div className="searchContainer hidden md:grid">
+            <Image
+              src={searchGlass}
+              id="searchGlass"
+              alt="search-glass"
+              width={30}
+              height={30}
+            />
+            <input
+              ref={searchRef}
+              type="search"
+              name="query"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search..."
+              onClick={() => handleFocusInput(navBarRef)}
+              onBlur={() => handleBlurInput(navBarRef)}
+            />
+            {(users.length > 0 || recipes.length > 0) && (
+              <div
+                className="searchedUsersContainer"
+                data-testid="searchedUsersContainer"
+                ref={searchResultsRef}
+              >
+                {users.length > 0 && (
+                  <>
+                    <h1>Users</h1>
+                    {users.map((user, index) => (
+                      <Link
+                        href={`/${user.username}`}
+                        key={index}
+                        onClick={() => clickHandler(navBarRef)}
+                        prefetch>
+                        <div
+                          className="searchedUser"
+                          data-testid="searchedUser"
+                        >
+                          <Image
+                            height={42}
+                            width={42}
+                            src={user.userContent?.profilePicture || profilePicture}
+                            className="w-full h-auto"
+                            alt="user-picture"
+                          />
+                          <div>
+                            <h2>{user.username}</h2>
+                            <p>{user.fullName}</p>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))}
-                </>
-              )}
+                      </Link>
+                    ))}
+                  </>
+                )}
 
-              {recipes.length > 0 && (
-                <>
-                  <h1>Recipes</h1>
-                  {recipes.map((recipe, index) => (
-                    <Link
-                      href={`/${recipe.user?.username}/${recipe._id}`}
-                      key={index}
-                      onClick={() => clickHandler(navBarRef)}
-                      prefetch
-                    >
-                      <div
-                        className="searchedUser"
-                        data-testid="searchedRecipe"
-                        data-id={index}
-                        data-type="recipe"
+                {recipes.length > 0 && (
+                  <>
+                    <h1>Recipes</h1>
+                    {recipes.map((recipe, index) => (
+                      <Link
+                        href={`/${recipe.user?.username}/${recipe._id}`}
+                        key={index}
+                        onClick={() => clickHandler(navBarRef)}
+                        prefetch
                       >
-                        <Image
-                          height={42}
-                          width={42}
-                          src={recipe.image}
-                          className="w-full h-auto"
-                          alt="recipe-image"
-                        />
-                        <div>
-                          <h2>{recipe.title}</h2>
-                          <p>{recipe.user.username}</p>
+                        <div
+                          className="searchedUser"
+                          data-testid="searchedRecipe"
+                          data-id={index}
+                          data-type="recipe"
+                        >
+                          <Image
+                            height={42}
+                            width={42}
+                            src={recipe.image}
+                            className="w-full h-auto"
+                            alt="recipe-image"
+                          />
+                          <div>
+                            <h2>{recipe.title}</h2>
+                            <p>{recipe.user.username}</p>
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  ))}
-                </>
-              )}
-            </div>
-          )}
-        </div>
-
+                      </Link>
+                    ))}
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        }
         {isAuth && user ? (
           <>
             <Link
@@ -197,7 +203,7 @@ export const NavBarComponent = React.memo(({
                 alt="profile-picture"
                 sizes='100px'
               />
-              <h2 className={`${activeLink(pathname, `/${user.username}`)} hidden md:block`}>Profile</h2>
+              {!isMobile && <h2 className={`${activeLink(pathname, `/${user.username}`)} hidden md:block`}>Profile</h2>}
             </Link>
             <Link className="navBarComponent" href="/add-recipe" prefetch>
               <Image
@@ -206,7 +212,7 @@ export const NavBarComponent = React.memo(({
                 src={addRecipe}
                 alt="add-recipe"
               />
-              <h2 className={`${activeLink(pathname, `/add-recipe`)} hidden md:block`}>Add Recipe</h2>
+              {!isMobile && <h2 className={`${activeLink(pathname, `/add-recipe`)} hidden md:block`}>Add Recipe</h2>}
             </Link>
 
             <div className="dropdownContainer">
@@ -238,7 +244,7 @@ export const NavBarComponent = React.memo(({
             <Link href="/register" prefetch>
               <button className="bg-[#ef4444]">Register</button>
             </Link>
-            <p className="hidden md:block">Make sure to login to get access to all features!<br /><br />This app is in development mode right now, feel free to login with recruiter:recruiter if you don't want to create an account</p>
+            {!isMobile && <p className="hidden md:block">Make sure to login to get access to all features!<br /><br />This app is in development mode right now, feel free to login with recruiter:recruiter if you don't want to create an account</p>}
           </div>
         }
       </div >

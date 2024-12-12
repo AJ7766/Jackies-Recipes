@@ -21,6 +21,20 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const searchMobileRef = useRef<HTMLDivElement>(null);
   const searchMobileIconRef = useRef<HTMLDivElement>(null);
   const navBarRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    checkIfMobile();
+    
+    window.addEventListener("resize", checkIfMobile);
+
+    return () => {
+      window.removeEventListener("resize", checkIfMobile);
+    };
+  }, []);
 
   const pathname = usePathname();
   const { user, logout } = useAuth();
@@ -111,6 +125,7 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
       searchRef={searchRef}
       searchMobileIconRef={searchMobileIconRef}
       pathname={pathname}
+      isMobile={isMobile}
     />
   </>
 }
