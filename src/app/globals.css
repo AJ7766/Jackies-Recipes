@@ -36,6 +36,16 @@
   src: url("fonts/Gotham-Black.otf");
 }
 
+@font-face {
+  font-family: "SourceSans3-Regular";
+  src: url("fonts/SourceSans3-Regular.ttf");
+}
+
+@font-face {
+  font-family: "SourceSans3-SemiBold";
+  src: url("fonts/SourceSans3-SemiBold.ttf");
+}
+
 ::-webkit-scrollbar {
   width: 7px;
 }
@@ -55,7 +65,7 @@
 body {
   font-family: "Gotham-Medium";
   background: white;
-  color: #26323a;
+  color: black;
   font-size: clamp(10px, 2cqw, 14px);
 }
 
@@ -122,7 +132,7 @@ body {
 }
 
 h2 {
-  font-size: clamp(12px, 2cqw, 14px);
+  font-size: clamp(12px, 2cqw, 16px);
 }
 
 .startingPageBg {
@@ -323,7 +333,7 @@ h2 {
 }
 
 .active {
-  font-weight: 600;
+  font-family: 'SourceSans3-SemiBold' !important;
 }
 
 .searchContainer {
@@ -354,7 +364,7 @@ h2 {
   position: absolute;
   cursor: pointer;
   border-radius: 5px;
-  left: 52px;
+  left: 45px;
   padding: 5px 0 5px 5px;
   width: calc(100% - 52px);
   background-color: transparent;
@@ -442,11 +452,11 @@ h2 {
 }
 
 .navBarLogoComponent h2 {
-  font-size: clamp(12px, 2cqw, 15px);
+  font-size: clamp(12px, 2cqw, 16px);
   font-family: Gotham-Medium;
   letter-spacing: 1px;
   position: absolute;
-  left: 57px;
+  left: 52px;
 }
 
 .navBarComponent {
@@ -469,12 +479,10 @@ h2 {
 }
 
 .navBarComponent h2 {
-  font-size: clamp(12px, 2cqw, 15px);
-  font-family: "Noto Sans", sans-serif;
+  font-family: 'SourceSans3-Regular';
   letter-spacing: 0.5px;
   position: absolute;
-  left: 57px;
-  color: black;
+  left: 50px;
 }
 
 .navContainer .profilePicture {
@@ -521,6 +529,7 @@ h2 {
 
 .dropdownContent a,
 .dropdownContent button {
+  font-family: 'SourceSans3-Regular';
   padding: 3px 0px 3px 10px;
   text-align: left;
   border-radius: 5px;
@@ -651,7 +660,7 @@ h2 {
   margin: auto;
   width: 85%;
   justify-content: center;
-  grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 4px;
   padding: 4px;
   justify-items: center;
@@ -1606,7 +1615,7 @@ input::-webkit-inner-spin-button {
 
   .recipe-wrapper {
     width: 100%;
-    grid-template-columns: repeat(auto-fit, minmax(30%, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 3px;
     padding: 3px;
   }

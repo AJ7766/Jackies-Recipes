@@ -23,7 +23,7 @@ export const ProfileComponent = React.memo(({ profile }: { profile: UserPopulate
             src={profile?.userContent?.profilePicture || profilePicture}
             fetchPriority="high"
             priority
-            sizes="(max-width: 768px) 130px, 160px"
+            sizes="(max-width: 768px) 130px, 500px"
             alt="profile-picture"
           />
           <h1>{profile?.fullName}</h1>
