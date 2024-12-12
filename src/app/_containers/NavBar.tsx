@@ -1,38 +1,39 @@
 "use client"
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { UserProps } from "@/_models/UserModel";
 import { fetchGetSearchAPI } from "../_services/api/fetchGetSearchAPI";
 import { NavBarComponent } from "../_components/NavBarComponent";
 import { usePathname } from "next/navigation";
-import { checkNavBar } from "../_services/navBarServices";
+import { checkNavBar, handleDropdown, handleMobileSearch } from "../_services/navBarServices";
+import Search from "./Search";
 
 export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const [search, setSearch] = useState("");
-  const [isOpen, setIsOpen] = useState(false);
   const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [users, setUsers] = useState<UserProps[]>([]);
   const [recipes, setRecipes] = useState<RecipePopulatedProps[]>([]);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
   const searchResultsRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const dropdownIconRef = useRef<HTMLDivElement>(null);
+  const dropdownItemsRef = useRef<HTMLDivElement>(null);
+  const searchMobileRef = useRef<HTMLDivElement>(null);
+  const searchMobileIconRef = useRef<HTMLDivElement>(null);
   const navBarRef = useRef<HTMLDivElement>(null);
-  
+
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
-  const handleClickOutside = useCallback((event: MouseEvent) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target as Node)
-    ) {
-      setIsOpen(false);
-    }
-    if (
-      (searchResultsRef.current &&
-        !searchResultsRef.current.contains(event.target as Node))
-    ) {
+  if (!checkNavBar(pathname, isAuth))
+    return null;
+
+  const handleClickOutside = useCallback((e: MouseEvent) => {
+    handleMobileSearch(e, searchMobileIconRef, searchMobileRef);
+    handleDropdown(e, dropdownIconRef, dropdownRef, dropdownItemsRef);
+
+    if (searchResultsRef.current && !searchResultsRef.current.contains(e.target as Node)) {
       setUsers([]);
       setRecipes([]);
       setSearch('');
@@ -40,19 +41,19 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
     }
   }, []);
 
-  const clickHandler = () => {
-    setUsers([]);
-    setRecipes([]);
-    setSearch('');
-    setDebouncedSearch('');
-  }
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleClickOutside]);
+
+  const clickHandler = () => {
+    setUsers([]);
+    setRecipes([]);
+    setSearch('');
+    setDebouncedSearch('');
+  }
 
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -81,29 +82,8 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
     }
   }, [debouncedSearch]);
 
-  function toggleDropdown() {
-    setIsOpen(!isOpen);
-  }
-
-  function closeDropdown() {
-    setIsOpen(false);
-  }
-
-  const handleFocusInput = () => {
-    searchRef.current?.focus();
-    if (navBarRef.current) {
-      navBarRef.current.style.width = "300px";
-    }
-  };
-
-  const handleBlurInput = () => {
-    if (navBarRef.current) {
-      navBarRef.current.style.width = "250px";
-    }
-  };
-
-  if (!checkNavBar(pathname, isAuth))
-    return null;
-
-  return <NavBarComponent user={user} isAuth={isAuth} search={search} setSearch={setSearch} users={users} recipes={recipes} isOpen={isOpen} searchResultsRef={searchResultsRef} dropdownRef={dropdownRef} clickHandler={clickHandler} toggleDropdown={toggleDropdown} closeDropdown={closeDropdown} logout={logout} handleFocusInput={handleFocusInput} handleBlurInput={handleBlurInput} navBarRef={navBarRef} searchRef={searchRef} />
+  return <>
+    <Search searchMobileRef={searchMobileRef} />
+    <NavBarComponent user={user} isAuth={isAuth} search={search} setSearch={setSearch} users={users} recipes={recipes} searchResultsRef={searchResultsRef} dropdownRef={dropdownRef} dropdownIconRef={dropdownIconRef} dropdownItemsRef={dropdownItemsRef} clickHandler={clickHandler} logout={logout} navBarRef={navBarRef} searchRef={searchRef} searchMobileIconRef={searchMobileIconRef} pathname={pathname} />
+  </>
 }

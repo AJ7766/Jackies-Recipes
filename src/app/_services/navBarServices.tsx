@@ -1,5 +1,6 @@
 "use client"
 import { usePathname } from "next/navigation";
+import { RefObject } from "react";
 
 export const checkNavBar = (pathname: string, isAuth: boolean) => {
     return !((pathname === "/" && !isAuth) || pathname === "/register");
@@ -12,3 +13,54 @@ export const NavBarWidth = ({ children, isAuth }: { children: React.ReactNode, i
 
     return <div className="wrapper">{children}</div>
 }
+
+export const handleMobileSearch = (
+    e: MouseEvent, 
+    searchMobileIconRef: RefObject<HTMLDivElement>,
+    searchMobileRef: RefObject<HTMLDivElement>
+) => {
+    if (searchMobileIconRef.current && searchMobileIconRef.current.contains(e.target as Node)) {
+        if (searchMobileRef.current) {
+            searchMobileRef.current.classList.toggle("hidden");
+        }
+    }
+    else if (searchMobileRef.current && !searchMobileRef.current.contains(e.target as Node))
+        searchMobileRef.current.classList.add("hidden");
+}
+
+export const handleDropdown = (
+    e: MouseEvent, dropdownIconRef: RefObject<HTMLDivElement>,
+    dropdownRef: RefObject<HTMLDivElement>, dropdownItemsRef: RefObject<HTMLDivElement>
+) => {
+    if (dropdownIconRef.current && dropdownIconRef.current.contains(e.target as Node)) {
+        if (dropdownRef.current) {
+            dropdownRef.current.classList.toggle("hidden");
+        }
+    }
+    else if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        dropdownRef.current.classList.add("hidden");
+    }
+    else if (dropdownItemsRef.current && dropdownItemsRef.current.contains(e.target as Node)) {
+        setTimeout(() => {
+            if (dropdownRef.current)
+                dropdownRef.current.classList.add("hidden");
+        }, 100);
+    }
+}
+
+export const handleFocusInput = (searchRef: RefObject<HTMLInputElement>, navBarRef: RefObject<HTMLDivElement>) => {
+    searchRef.current?.focus();
+    if (navBarRef.current) {
+        navBarRef.current.style.width = "300px";
+    }
+};
+
+export const handleBlurInput = (navBarRef: RefObject<HTMLDivElement>) => {
+    if (navBarRef.current) {
+        navBarRef.current.style.width = "250px";
+    }
+};
+
+export const activeLink = (pathname: string, path: string) => {
+    return pathname === path ? "active" : "";
+};

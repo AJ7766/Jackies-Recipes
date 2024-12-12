@@ -10,7 +10,7 @@ const tiktok = "/images/social-media/tiktok.svg";
 const youtube = "/images/social-media/youtube.svg";
 const facebook = "/images/social-media/facebook.svg";
 
-export const ProfileComponent = ({ profile }: { profile: UserPopulatedRecipePopulatedProps }
+export const ProfileComponent = React.memo(({ profile }: { profile: UserPopulatedRecipePopulatedProps }
 ) => {
   return (
     <>
@@ -104,4 +104,4 @@ export const ProfileComponent = ({ profile }: { profile: UserPopulatedRecipePopu
       <div className="divider"></div>
     </>
   )
-};
+});

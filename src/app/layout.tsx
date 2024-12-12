@@ -19,6 +19,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           name="description"
           content="Social platform for sharing recipes"
         />
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" as="style" />
       </head>
       <body>
         <AuthProvider serverUser={typeof serverUser === 'string' ? JSON.parse(serverUser) : serverUser}>

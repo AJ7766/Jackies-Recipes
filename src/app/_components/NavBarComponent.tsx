@@ -2,8 +2,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { UserProps } from "@/_models/UserModel";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
-import React, { LegacyRef, RefObject } from "react";
+import React, { RefObject } from "react";
 import { CldImage } from "next-cloudinary";
+import { activeLink, handleBlurInput, handleFocusInput } from "../_services/navBarServices";
 const logo = "/images/logo-text-free.png";
 const searchGlass = "/images/search-glass.svg";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1733219780/profile-picture_vicljy.png";
@@ -17,18 +18,17 @@ interface NavBarProps {
   setSearch: React.Dispatch<React.SetStateAction<string>>;
   users: UserProps[];
   recipes: RecipePopulatedProps[];
-  isOpen: boolean;
-  searchResultsRef: LegacyRef<HTMLDivElement> | null;
-  dropdownRef: LegacyRef<HTMLDivElement> | null;
+  searchResultsRef: RefObject<HTMLDivElement>;
+  dropdownRef: RefObject<HTMLDivElement>;
+  dropdownIconRef: RefObject<HTMLDivElement>;
+  dropdownItemsRef: RefObject<HTMLDivElement>;
   clickHandler: () => void;
   isAuth: boolean;
-  toggleDropdown: () => void;
-  closeDropdown: () => void;
   logout: () => void;
-  handleFocusInput: () => void;
-  handleBlurInput: () => void;
   navBarRef: RefObject<HTMLDivElement>;
   searchRef: RefObject<HTMLInputElement>;
+  searchMobileIconRef: RefObject<HTMLDivElement>;
+  pathname: string;
 }
 
 export const NavBarComponent = React.memo(({
@@ -37,18 +37,17 @@ export const NavBarComponent = React.memo(({
   setSearch,
   users,
   recipes,
-  isOpen,
-  searchResultsRef = null,
-  dropdownRef = null,
+  searchResultsRef,
   clickHandler,
   isAuth,
-  toggleDropdown,
-  closeDropdown,
+  dropdownRef,
+  dropdownIconRef,
+  dropdownItemsRef,
   logout,
-  handleFocusInput,
-  handleBlurInput,
   navBarRef,
-  searchRef
+  searchRef,
+  searchMobileIconRef,
+  pathname
 }: NavBarProps) => {
   return (
     <>
@@ -69,7 +68,7 @@ export const NavBarComponent = React.memo(({
           </div>
         </Link>
         <Link
-          className="navBarComponent "
+          className="navBarComponent"
           href={`/`}
           prefetch
         >
@@ -80,10 +79,10 @@ export const NavBarComponent = React.memo(({
             src={home}
             alt="home"
           />
-          <h2 className="hidden md:block">Home</h2>
+          <h2 className={`${activeLink(pathname, "/")} hidden md:block`}>Home</h2>
         </Link>
 
-        <div className="navBarComponent grid md:hidden">
+        <div className="navBarComponent grid md:hidden" ref={searchMobileIconRef}>
           <Image
             src={searchGlass}
             id="searchGlass"
@@ -93,7 +92,7 @@ export const NavBarComponent = React.memo(({
           />
         </div>
 
-        <div className="searchContainer hidden md:grid" onClick={handleFocusInput}>
+        <div className="searchContainer hidden md:grid" onClick={() => handleFocusInput(searchRef, navBarRef)}>
           <Image
             src={searchGlass}
             id="searchGlass"
@@ -108,7 +107,7 @@ export const NavBarComponent = React.memo(({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search..."
-            onBlur={handleBlurInput}
+            onBlur={() => handleBlurInput(navBarRef)}
           />
           {(users.length > 0 || recipes.length > 0) && (
             <div
@@ -182,66 +181,63 @@ export const NavBarComponent = React.memo(({
           )}
         </div>
 
-        {
-          isAuth && user ? (
-            <>
-              <Link
-                className="navBarComponent"
-                href={`/${user.username}`}
-                prefetch
-              >
-                <CldImage
-                  className="profilePicture"
-                  height={30}
-                  width={30}
-                  src={user.userContent?.profilePicture || profilePicture}
-                  alt="profile-picture"
-                />
-                <h2 className="hidden md:block">Profile</h2>
-              </Link>
-              <Link className="navBarComponent" href="/add-recipe" prefetch>
-                <Image
-                  height={28}
-                  width={28}
-                  src={addRecipe}
-                  alt="add-recipe"
-                />
-                <h2 className="hidden md:block">Add Recipe</h2>
-              </Link>
+        {isAuth && user ? (
+          <>
+            <Link
+              className="navBarComponent"
+              href={`/${user.username}`}
+              prefetch
+            >
+              <CldImage
+                className="profilePicture"
+                height={30}
+                width={30}
+                src={user.userContent?.profilePicture || profilePicture}
+                alt="profile-picture"
+              />
+              <h2 className={`${activeLink(pathname, `/${user.username}`)} hidden md:block`}>Profile</h2>
+            </Link>
+            <Link className="navBarComponent" href="/add-recipe" prefetch>
+              <Image
+                height={28}
+                width={28}
+                src={addRecipe}
+                alt="add-recipe"
+              />
+              <h2 className={`${activeLink(pathname, `/add-recipe`)} hidden md:block`}>Add Recipe</h2>
+            </Link>
 
-              <div className="dropdownContainer" ref={dropdownRef}>
-                <div className="navBarComponent more" onClick={toggleDropdown}>
-                  <Image
-                    className={`w-full h-auto dropdownButton ${isOpen ? "open" : ""}`}
-                    src={dropdownIcon}
-                    width={24}
-                    height={24}
-                    alt="drop-down-menu"
-                    unoptimized
-                  />
-                  <h2 className="hidden md:block">More</h2>
-                </div>
-                {isOpen && (
-                  <div className="dropdownContentContainer">
-                    <div className="dropdownContent">
-                      <Link href="/settings " onClick={closeDropdown} prefetch>Settings</Link>
-                      <Link href="/privacy-policy" onClick={closeDropdown} prefetch>Privacy Policy</Link>
-                      <button onClick={logout}>Logout</button>
-                    </div>
-                  </div>
-                )}
+            <div className="dropdownContainer">
+              <div className="navBarComponent cursor-pointer" ref={dropdownIconRef}>
+                <Image
+                  className={`w-full h-auto dropdownButton`}
+                  src={dropdownIcon}
+                  width={24}
+                  height={24}
+                  alt="drop-down-menu"
+                  unoptimized
+                />
+                <h2 className="hidden md:block">More</h2>
               </div>
-            </>
-          ) :
-            <div className="newUserButtons">
-              <Link href="/" prefetch>
-                <button className="bg-[#26323a]">Login</button>
-              </Link>
-              <Link href="/register" prefetch>
-                <button className="bg-[#ef4444]">Register</button>
-              </Link>
-              <p className="hidden md:block">Make sure to login to get access to all features!<br/><br/>This app is in development mode right now, feel free to login with recruiter:recruiter if you don't want to create an account</p>
+              <div className="dropdownContentContainer hidden" ref={dropdownRef}>
+                <div className="dropdownContent" ref={dropdownItemsRef}>
+                  <Link href="/settings" prefetch>Settings</Link>
+                  <Link href="/privacy-policy" prefetch>Privacy Policy</Link>
+                  <button onClick={logout}>Logout</button>
+                </div>
+              </div>
             </div>
+          </>
+        ) :
+          <div className="newUserButtons">
+            <Link href="/" prefetch>
+              <button className="bg-[#26323a]">Login</button>
+            </Link>
+            <Link href="/register" prefetch>
+              <button className="bg-[#ef4444]">Register</button>
+            </Link>
+            <p className="hidden md:block">Make sure to login to get access to all features!<br /><br />This app is in development mode right now, feel free to login with recruiter:recruiter if you don't want to create an account</p>
+          </div>
         }
       </div >
     </>
