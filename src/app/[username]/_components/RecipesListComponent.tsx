@@ -26,8 +26,9 @@ export const RecipesListComponent = React.memo(({
                 width={300}
                 height={300}
                 className="recipe-img"
-                sizes="(max-width: 768px) 33vw, 300px"
+                fetchPriority="high"
                 loading="lazy"
+                sizes="(max-width: 768px) 33vw, calc(20vw - 250px)"
               />
             </Link>
             <div className='recipe-info-container'>

@@ -23,7 +23,7 @@ export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePop
                 fetchPriority='high'
                 className="recipe-img"
                 loading="lazy"
-                sizes="(max-width: 768px) 33vw, 300px"
+                sizes="(max-width: 768px) 33vw, calc(20vw - 250px)"
               />
             </Link>
             <div className='recipe-info-container'>

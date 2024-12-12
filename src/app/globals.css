@@ -651,7 +651,7 @@ h2 {
   margin: auto;
   width: 85%;
   justify-content: center;
-  grid-template-columns: repeat(auto-fit, minmax(23%, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(20%, 1fr));
   gap: 4px;
   padding: 4px;
   justify-items: center;

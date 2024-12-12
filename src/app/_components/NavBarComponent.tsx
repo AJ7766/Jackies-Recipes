@@ -77,7 +77,7 @@ export const NavBarComponent = React.memo(({
             height={27}
             width={27}
             src={home}
-            alt="home"
+            alt="home-page"
           />
           <h2 className={`${activeLink(pathname, "/")} hidden md:block`}>Home</h2>
         </Link>
