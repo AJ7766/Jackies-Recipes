@@ -1,17 +1,16 @@
 "use client"
-import { useCallback, useEffect, useRef, useState } from "react";
+import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { UserProps } from "@/_models/UserModel";
 import { fetchGetSearchAPI } from "../_services/api/fetchGetSearchAPI";
 import { NavBarComponent } from "../_components/NavBarComponent";
 import { usePathname } from "next/navigation";
-import { checkNavBar, handleDropdown, handleMobileSearch } from "../_services/navBarServices";
+import { checkNavBar, handleBlurInput, handleDropdown, handleMobileSearch } from "../_services/navBarServices";
 import Search from "./Search";
 
 export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState(search);
   const [users, setUsers] = useState<UserProps[]>([]);
   const [recipes, setRecipes] = useState<RecipePopulatedProps[]>([]);
   const searchResultsRef = useRef<HTMLDivElement | null>(null);
@@ -33,11 +32,13 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
     handleMobileSearch(e, searchMobileIconRef, searchMobileRef);
     handleDropdown(e, dropdownIconRef, dropdownRef, dropdownItemsRef);
 
-    if (searchResultsRef.current && !searchResultsRef.current.contains(e.target as Node)) {
+    if (
+      !searchMobileRef.current?.contains(e.target as Node) &&
+      searchResultsRef.current &&
+      !searchResultsRef.current.contains(e.target as Node)) {
       setUsers([]);
       setRecipes([]);
       setSearch('');
-      setDebouncedSearch('');
     }
   }, []);
 
@@ -48,42 +49,68 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
     };
   }, [handleClickOutside]);
 
-  const clickHandler = () => {
-    setUsers([]);
-    setRecipes([]);
-    setSearch('');
-    setDebouncedSearch('');
+  const clickHandler = async (navBarRef: RefObject<HTMLDivElement>, searchMobileRef?: RefObject<HTMLDivElement>) => {
+    if (!searchMobileRef) {
+      handleBlurInput(navBarRef);
+      setUsers([]);
+      setRecipes([]);
+      setSearch('');
+      return;
+    } else if (searchMobileRef.current)
+      searchMobileRef.current.classList.add("hidden");
   }
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      setDebouncedSearch(search);
+      if (search) {
+        const fetchData = async () => {
+          const { message, fetchedUsers, fetchedRecipes } = await fetchGetSearchAPI(search);
+
+          if (!fetchedUsers || !fetchedRecipes)
+            throw new Error(message);
+
+          setUsers(fetchedUsers);
+          setRecipes(fetchedRecipes);
+        };
+        fetchData();
+      } else {
+        setUsers([]);
+        setRecipes([]);
+      }
     }, 500);
     return () => {
       clearTimeout(handler);
     };
   }, [search]);
 
-  useEffect(() => {
-    if (debouncedSearch) {
-      const fetchData = async () => {
-        const { message, fetchedUsers, fetchedRecipes } = await fetchGetSearchAPI(debouncedSearch);
-
-        if (!fetchedUsers || !fetchedRecipes)
-          throw new Error(message);
-
-        setUsers(fetchedUsers);
-        setRecipes(fetchedRecipes);
-      };
-      fetchData();
-    } else {
-      setUsers([]);
-      setRecipes([]);
-    }
-  }, [debouncedSearch]);
-
   return <>
-    <Search searchMobileRef={searchMobileRef} />
-    <NavBarComponent user={user} isAuth={isAuth} search={search} setSearch={setSearch} users={users} recipes={recipes} searchResultsRef={searchResultsRef} dropdownRef={dropdownRef} dropdownIconRef={dropdownIconRef} dropdownItemsRef={dropdownItemsRef} clickHandler={clickHandler} logout={logout} navBarRef={navBarRef} searchRef={searchRef} searchMobileIconRef={searchMobileIconRef} pathname={pathname} />
+    <Search
+      searchMobileRef={searchMobileRef}
+      search={search}
+      setSearch={setSearch}
+      users={users}
+      recipes={recipes}
+      searchRef={searchRef}
+      navBarRef={navBarRef}
+      clickHandler={clickHandler}
+    />
+    <NavBarComponent
+      user={user}
+      isAuth={isAuth}
+      search={search}
+      setSearch={setSearch}
+      users={users}
+      recipes={recipes}
+      searchResultsRef={searchResultsRef}
+      dropdownRef={dropdownRef}
+      dropdownIconRef={dropdownIconRef}
+      dropdownItemsRef={dropdownItemsRef}
+      clickHandler={clickHandler}
+      logout={logout}
+      navBarRef={navBarRef}
+      searchRef={searchRef}
+      searchMobileIconRef={searchMobileIconRef}
+      pathname={pathname}
+    />
   </>
 }

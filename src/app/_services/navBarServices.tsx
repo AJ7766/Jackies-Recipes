@@ -15,7 +15,7 @@ export const NavBarWidth = ({ children, isAuth }: { children: React.ReactNode, i
 }
 
 export const handleMobileSearch = (
-    e: MouseEvent, 
+    e: MouseEvent,
     searchMobileIconRef: RefObject<HTMLDivElement>,
     searchMobileRef: RefObject<HTMLDivElement>
 ) => {
@@ -48,8 +48,7 @@ export const handleDropdown = (
     }
 }
 
-export const handleFocusInput = (searchRef: RefObject<HTMLInputElement>, navBarRef: RefObject<HTMLDivElement>) => {
-    searchRef.current?.focus();
+export const handleFocusInput = (navBarRef: RefObject<HTMLDivElement>) => {
     if (navBarRef.current) {
         navBarRef.current.style.width = "300px";
     }

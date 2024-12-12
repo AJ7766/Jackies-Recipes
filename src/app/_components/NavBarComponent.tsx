@@ -22,7 +22,7 @@ interface NavBarProps {
   dropdownRef: RefObject<HTMLDivElement>;
   dropdownIconRef: RefObject<HTMLDivElement>;
   dropdownItemsRef: RefObject<HTMLDivElement>;
-  clickHandler: () => void;
+  clickHandler: (navBarRef: RefObject<HTMLDivElement>) => void;
   isAuth: boolean;
   logout: () => void;
   navBarRef: RefObject<HTMLDivElement>;
@@ -92,7 +92,7 @@ export const NavBarComponent = React.memo(({
           />
         </div>
 
-        <div className="searchContainer hidden md:grid" onClick={() => handleFocusInput(searchRef, navBarRef)}>
+        <div className="searchContainer hidden md:grid">
           <Image
             src={searchGlass}
             id="searchGlass"
@@ -107,6 +107,7 @@ export const NavBarComponent = React.memo(({
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search..."
+            onClick={() => handleFocusInput(navBarRef)}
             onBlur={() => handleBlurInput(navBarRef)}
           />
           {(users.length > 0 || recipes.length > 0) && (
@@ -122,7 +123,7 @@ export const NavBarComponent = React.memo(({
                     <Link
                       href={`/${user.username}`}
                       key={index}
-                      onClick={clickHandler}
+                      onClick={() => clickHandler(navBarRef)}
                       prefetch>
                       <div
                         className="searchedUser"
@@ -152,7 +153,7 @@ export const NavBarComponent = React.memo(({
                     <Link
                       href={`/${recipe.user?.username}/${recipe._id}`}
                       key={index}
-                      onClick={clickHandler}
+                      onClick={() => clickHandler(navBarRef)}
                       prefetch
                     >
                       <div

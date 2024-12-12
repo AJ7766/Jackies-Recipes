@@ -42,6 +42,11 @@
 }
 
 @font-face {
+  font-family: "SourceSans3-Medium";
+  src: url("fonts/SourceSans3-Medium.ttf");
+}
+
+@font-face {
   font-family: "SourceSans3-SemiBold";
   src: url("fonts/SourceSans3-SemiBold.ttf");
 }
@@ -63,14 +68,14 @@
 }
 
 body {
-  font-family: "Gotham-Medium";
+  font-family: SourceSans3-Regular;
   background: white;
   color: black;
   font-size: clamp(10px, 2cqw, 14px);
 }
 
 .wrapper {
-  padding-left: 250px;
+  padding-left: 245px;
 }
 
 @keyframes pulse {
@@ -325,7 +330,7 @@ h2 {
   position: fixed;
   top: 0;
   height: 100vh;
-  width: 250px;
+  width: 245px;
   background-color: white;
   border-right: solid 1px #dbdbdb;
   z-index: 1;
@@ -361,6 +366,7 @@ h2 {
 
 .searchContainer input[type="search"] {
   position: absolute;
+  font-family: SourceSans3-Regular;
   cursor: pointer;
   border-radius: 5px;
   left: 45px;
@@ -376,10 +382,10 @@ h2 {
 }
 
 .searchContainer input[type="search"]::placeholder {
-  font-family: "Noto Sans", sans-serif;
+  font-family: SourceSans3-Regular;
   letter-spacing: 0.5px;
   font-size: clamp(10px, 2cqw, 15px);
-  color: #26323a;
+  color: black;
 }
 
 .searchedUsersContainer {
@@ -410,6 +416,7 @@ h2 {
 }
 
 .searchedUser h2 {
+  font-family: "SourceSans3-SemiBold";
   font-size: 14px;
   margin-bottom: -3px;
 }
@@ -453,7 +460,7 @@ h2 {
 
 .navBarLogoComponent h2 {
   font-size: clamp(12px, 2cqw, 16px);
-  font-family: Gotham-Medium;
+  font-family: "SourceSans3-SemiBold";
   letter-spacing: 1px;
   position: absolute;
   left: 52px;
@@ -567,12 +574,12 @@ h2 {
 }
 
 .profileInfo h1 {
-  font-family: "Gotham-Medium";
+  font-family: "SourceSans3-Medium";
   font-size: clamp(18px, 3cqw, 30px);
 }
 
 .profileInfo h2 {
-  font-family: "Gotham-Medium";
+  font-family: "SourceSans3-Medium";
   font-size: clamp(12px, 2cqw, 15px);
   text-align: center;
   line-height: 1.6;
@@ -683,6 +690,7 @@ h2 {
 }
 
 .recipe-title {
+  font-family: "SourceSans3-Medium";
   font-size: clamp(12px, 1.5vw, 16px);
   text-align: center;
 }
@@ -828,7 +836,7 @@ h2 {
 }
 
 .recipeUserContainer h2 {
-  font-family: "Gotham-Book";
+  font-family: "SourceSans3-SemiBold";
   font-weight: bold;
 }
 
@@ -942,7 +950,7 @@ h2 {
 }
 
 tbody {
-  font-size: clamp(12px, 2cqw, 14px);
+  font-size: clamp(12px, 2cqw, 16px);
 }
 
 .recipeInstructionsContainer table {
@@ -970,7 +978,8 @@ tbody {
 }
 
 .mealsContainer p {
-  font-size: larger;
+  font-size: 18px;
+  font-family: "SourceSans3-SemiBold";
 }
 
 .recipeIngredientsContainer table {
@@ -980,7 +989,6 @@ tbody {
 
 .recipeTitle {
   font-family: "Gotham-Bold";
-  font-size: larger;
 }
 
 .recipeIngredientsContainer td {
@@ -1690,6 +1698,7 @@ input::-webkit-inner-spin-button {
     height: 10vh;
     width: 100vw;
     justify-content: space-between;
+    box-shadow: 0 0 0.5px 0px #777777;
     z-index: 2;
   }
 
@@ -1704,10 +1713,46 @@ input::-webkit-inner-spin-button {
   .mobile-search {
     position: fixed;
     top: 0;
-    background-color: #0ff;
+    background-color: white;
     height: 90vh;
     width: 100vh;
     z-index: 2;
+  }
+
+  .mobile-search input[type="search"] {
+    font-family: SourceSans3-Regular;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px 0 5px 5px;
+    width: calc(100% - 52px);
+    background-color: #f3f3f3;
+  }
+
+  .mobile-search input[type="search"]:active,
+  .mobile-search input[type="search"]:focus {
+    border: none;
+    outline: none;
+  }
+
+  .mobile-search input[type="search"]::placeholder {
+    font-family: SourceSans3-Regular;
+    letter-spacing: 0.5px;
+    font-size: clamp(10px, 2cqw, 15px);
+    color: black;
+  }
+
+  .mobile-search .searchedUsersContainer {
+    gap: 10px;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    bottom: initial;
+    transform: initial;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: none;
+    z-index: 1;
   }
 
   .dropdownContentContainer {
