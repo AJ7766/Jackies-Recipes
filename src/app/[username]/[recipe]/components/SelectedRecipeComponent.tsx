@@ -3,9 +3,9 @@ import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
-const meals = "/images/meal.svg";
+const meals = "/images/icons/meal.svg";
 const profilePicturePlaceholder = "/images/profile-picture.png";
-const closeIcon = "/images/close.svg";
+const closeIcon = "/images/icons/close-recipe.svg";
 
 interface SelectedRecipeComponentProps {
     selectedRecipe: RecipePopulatedProps | null;

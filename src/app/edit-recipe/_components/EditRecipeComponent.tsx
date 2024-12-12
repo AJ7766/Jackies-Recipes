@@ -5,7 +5,7 @@ import { handleDeleteRecipe } from "../services/editRecipeServices";
 import mongoose from "mongoose";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { RecipeFormProps } from "@/_models/RecipeModel";
-const camera = "/images/camera.svg";
+const camera = "/images/icons/camera.svg";
 
 interface AddRecipeProps {
   recipe: RecipeFormProps;
@@ -68,8 +68,8 @@ export default function EditRecipeComponent({
 
         <div className="editRecipeImage" onClick={handleImageClick}>
           <Image
-            height={250}
-            width={400}
+            height={300}
+            width={300}
             className="editRecipeImagePreview"
             src={recipe.image}
             alt="recipe-image"
@@ -84,8 +84,8 @@ export default function EditRecipeComponent({
           />
           <Image
             className="editCamera"
-            width={50}
-            height={50}
+            width={100}
+            height={100}
             src={camera}
             alt="camera"
           />

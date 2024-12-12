@@ -45,8 +45,8 @@ export const EditProfileComponent = React.memo(({
         />
         <Image
           className="editCamera"
-          width={50}
-          height={50}
+          width={100}
+          height={100}
           src={camera}
           alt="camera"
         />

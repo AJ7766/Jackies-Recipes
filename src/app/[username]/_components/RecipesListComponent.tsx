@@ -3,6 +3,7 @@ import React from "react";
 import Link from "next/link";
 import { CldImage } from "next-cloudinary";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
+const cogwheel = "/images/icons/cogwheel.svg";
 
 export const RecipesListComponent = React.memo(({
   recipes,
@@ -51,7 +52,7 @@ export const RecipesListComponent = React.memo(({
               {canEdit && (
                 <Link href={`/edit-recipe/${recipe._id}`} prefetch>
                   <Image
-                    src="/images/cogwheel.svg"
+                    src={cogwheel}
                     width={16}
                     height={16}
                     className="edit-img"

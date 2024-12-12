@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { handleImageClick } from "@/app/_services/recipeServices";
 import { RecipeFormProps } from "@/_models/RecipeModel";
-const camera = "/images/camera.svg";
+const camera = "/images/icons/camera.svg";
 
 interface AddRecipeProps {
   recipe: RecipeFormProps;
@@ -55,8 +55,8 @@ export default function AddRecipeComponent({
 
         <div className="editRecipeImage" onClick={handleImageClick}>
           <Image
-            height={250}
-            width={400}
+            height={300}
+            width={300}
             className="editRecipeImagePreview"
             src={recipe.image}
             alt="recipe-image"
@@ -71,8 +71,8 @@ export default function AddRecipeComponent({
           />
           <Image
             className="editCamera"
-            width={50}
-            height={50}
+            width={100}
+            height={100}
             src={camera}
             alt="camera"
           />

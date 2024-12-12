@@ -3,7 +3,7 @@ import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1733219780/profile-picture_vicljy.png";
+const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 const instagram = "/images/social-media/instagram.svg";
 const x = "/images/social-media/x.svg";
 const tiktok = "/images/social-media/tiktok.svg";

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 const usernameImg = "/images/register/username.svg";
 const passwordImg = "/images/register/password.svg";
-const logo = "/images/logo.png";
+const logo = "/images/logo.webp";
 
 interface LoginFormProps {
   user: {

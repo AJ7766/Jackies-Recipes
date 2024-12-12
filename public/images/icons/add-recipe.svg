@@ -1,0 +1,16 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="body_1" width="64" height="64">
+
+<g transform="matrix(2.6666667 0 0 2.6666667 0 0)">
+	<g>
+	</g>
+	<g>
+	</g>
+	<g>
+		<path  d="M8 12L16 12" stroke="#000000" stroke-width="1.5"  stroke-linecap="square" fill="none" />
+		<path  d="M12 16L12 8" stroke="#000000" stroke-width="1.5"  stroke-linecap="square" fill="none" />
+		<path  d="M9 22L15 22C 20 22 22 20 22 15L22 15L22 9C 22 4 20 2 15 2L15 2L9 2C 4 2 2 4 2 9L2 9L2 15C 2 20 4 22 9 22z" stroke="#000000" stroke-width="1.5"  stroke-linecap="square" fill="none" />
+	</g>
+</g>
+</svg>

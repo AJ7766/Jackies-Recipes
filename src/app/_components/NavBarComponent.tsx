@@ -5,12 +5,12 @@ import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import React, { RefObject } from "react";
 import { CldImage } from "next-cloudinary";
 import { activeLink, handleBlurInput, handleFocusInput } from "../_services/navBarServices";
-const logo = "/images/logo-text-free.png";
-const searchGlass = "/images/search-glass.svg";
+const logo = "/images/logo-text-free.webp";
+const searchGlass = "/images/icons/search.svg";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1733219780/profile-picture_vicljy.png";
-const home = "/images/home.png";
-const addRecipe = "/images/add.svg";
-const dropdownIcon = "/images/arrow-down.png";
+const home = "/images/icons/home.svg";
+const addRecipe = "/images/icons/add-recipe.svg";
+const settings = "/images/icons/settings.svg";
 
 interface NavBarProps {
   user: UserProps | null;
@@ -74,8 +74,8 @@ export const NavBarComponent = React.memo(({
         >
           <Image
             className="home"
-            height={27}
-            width={27}
+            height={30}
+            width={30}
             src={home}
             alt="home-page"
           />
@@ -87,8 +87,8 @@ export const NavBarComponent = React.memo(({
             src={searchGlass}
             id="searchGlass"
             alt="search-glass"
-            width={26}
-            height={26}
+            width={30}
+            height={30}
           />
         </div>
 
@@ -97,8 +97,8 @@ export const NavBarComponent = React.memo(({
             src={searchGlass}
             id="searchGlass"
             alt="search-glass"
-            width={26}
-            height={26}
+            width={30}
+            height={30}
           />
           <input
             ref={searchRef}
@@ -194,13 +194,14 @@ export const NavBarComponent = React.memo(({
                 width={30}
                 src={user.userContent?.profilePicture || profilePicture}
                 alt="profile-picture"
+                sizes='100px'
               />
               <h2 className={`${activeLink(pathname, `/${user.username}`)} hidden md:block`}>Profile</h2>
             </Link>
             <Link className="navBarComponent" href="/add-recipe" prefetch>
               <Image
-                height={28}
-                width={28}
+                height={30}
+                width={30}
                 src={addRecipe}
                 alt="add-recipe"
               />
@@ -210,10 +211,10 @@ export const NavBarComponent = React.memo(({
             <div className="dropdownContainer">
               <div className="navBarComponent cursor-pointer" ref={dropdownIconRef}>
                 <Image
-                  className={`w-full h-auto dropdownButton`}
-                  src={dropdownIcon}
-                  width={24}
-                  height={24}
+                  className="dropdownButton"
+                  src={settings}
+                  width={30}
+                  height={30}
                   alt="drop-down-menu"
                   unoptimized
                 />
