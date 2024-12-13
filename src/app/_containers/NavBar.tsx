@@ -8,6 +8,7 @@ import { NavBarComponent } from "../_components/NavBarComponent";
 import { usePathname } from "next/navigation";
 import { checkNavBar, handleBlurInput, handleDropdown, handleMobileSearch } from "../_services/navBarServices";
 import Search from "./Search";
+import { useMobileCheck } from "../_hooks/isMobile";
 
 export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const [search, setSearch] = useState("");
@@ -21,27 +22,12 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const searchMobileRef = useRef<HTMLDivElement>(null);
   const searchMobileIconRef = useRef<HTMLDivElement>(null);
   const navBarRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
 
   const pathname = usePathname();
   const { user, logout } = useAuth();
 
-  if (!checkNavBar(pathname, isAuth))
-    return null;
+  const isMobile = useMobileCheck();
 
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-    checkIfMobile();
-    
-    window.addEventListener("resize", checkIfMobile);
-
-    return () => {
-      window.removeEventListener("resize", checkIfMobile);
-    };
-  }, []);
-  
   const handleClickOutside = useCallback((e: MouseEvent) => {
     handleMobileSearch(e, searchMobileIconRef, searchMobileRef);
     handleDropdown(e, dropdownIconRef, dropdownRef, dropdownItemsRef);
@@ -96,6 +82,9 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
       clearTimeout(handler);
     };
   }, [search]);
+
+  if (!checkNavBar(pathname, isAuth))
+    return null;
 
   return <>
     <Search
