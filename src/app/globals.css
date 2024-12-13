@@ -6,6 +6,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --font-source-sans: 'sans-serif';
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,31 +15,6 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
-
-@font-face {
-  font-family: "Gotham-Medium";
-  src: url("fonts/Gotham-Medium.otf");
-}
-
-@font-face {
-  font-family: "Gotham-Book";
-  src: url("fonts/Gotham-Book.otf");
-}
-
-@font-face {
-  font-family: "Gotham-Bold";
-  src: url("fonts/Gotham-Bold.otf");
-}
-
-@font-face {
-  font-family: "Gotham-Black";
-  src: url("fonts/Gotham-Black.otf");
-}
-
-@font-face {
-  font-family: "Metropolis-Medium";
-  src: url("fonts/Metropolis-Medium.otf");
 }
 
 ::-webkit-scrollbar {
@@ -58,7 +34,7 @@
 }
 
 body {
-  font-family: "Source Sans 3", serif;
+  font-family: var(--font-source-sans);
   font-weight: 400;
   background: white;
   color: black;
@@ -572,7 +548,7 @@ h2 {
 }
 
 .profileInfo h1 {
-  font-family: "Metropolis-Medium";
+  font-family: var(--dm-font);
   font-size: clamp(18px, 3cqw, 30px);
 }
 
