@@ -13,9 +13,7 @@ import localFont from "next/font/local";
 const metropolis = localFont({
   src: [
     {
-      path: "/fonts/Metropolis-Medium.otf",
-      weight: "500",
-      style: "normal",
+      path: "fonts/Metropolis-Medium.otf",
     },
   ],
   variable: "--font-metropolis",
