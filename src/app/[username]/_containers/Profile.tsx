@@ -1,7 +1,6 @@
 "use client"
 import { useProfile } from "@/app/_context/ProfileContext";
 import { ProfileComponent } from "../_components/ProfileComponent";
-import { useEffect } from "react";
 
 export default function Profile() {
     const { profile } = useProfile();

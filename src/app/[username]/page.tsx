@@ -1,5 +1,4 @@
 "use server"
-import { UserModel } from "@/_models/UserModel";
 import { getProfileController } from "./_ssr/profileController";
 
 export default async function PlaceholderPage() {

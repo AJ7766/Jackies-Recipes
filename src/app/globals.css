@@ -66,6 +66,7 @@ body {
   height: 4px;
   position: fixed;
   top: 0;
+  left:0;
   background: linear-gradient(4deg, #1e89ff, #1e89ff, #a6d1ff);
   z-index: 2;
 }
@@ -481,27 +482,18 @@ h2 {
   box-shadow: 0px 0px 0px 2px #26323a;
 }
 
-.dropdownContainer {
-  position: relative;
-  z-index: -1;
-  flex-shrink: 0;
-}
-
 .dropdownContentContainer {
-  position: absolute;
-  top: 50px;
   background-color: white;
   border-radius: 5px;
   width: 80%;
   box-shadow: 0px 0px 5px 2px rgb(0 0 0 / 15%);
+  padding: 10px;
 }
 
 .dropdownContent {
   display: flex;
-  flex-direction: column;
-  margin: 10px;
   gap: 10px;
-  height: 100%;
+  flex-direction: column;
   justify-content: space-evenly;
 }
 
@@ -754,7 +746,7 @@ h2 {
   border-radius: 15px;
 }
 
-.recipeContainer h1{
+.recipeContainer h1 {
   font-family: var(--font-metropolis);
 }
 
