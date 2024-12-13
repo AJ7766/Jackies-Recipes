@@ -15,6 +15,9 @@ const config: Config = {
       fontFamily: {
         'metropolis': ['Metropolis-Medium', 'sans-serif'],
       },
+      height: {
+        'revert-layer': 'revert-layer',
+      },
     },
   },
   plugins: [],

@@ -2,7 +2,9 @@ import React from "react";
 import Image from "next/image";
 import { handleImageClick } from "@/app/_services/recipeServices";
 import { RecipeFormProps } from "@/_models/RecipeModel";
+import { CldImage } from "next-cloudinary";
 const camera = "/images/icons/camera.svg";
+const recipePlaceholder = "https://res.cloudinary.com/denumkkcx/image/upload/v1734125165/cqap8yrwzntxuyn8rq9v.webp";
 
 interface AddRecipeProps {
   recipe: RecipeFormProps;
@@ -13,7 +15,6 @@ interface AddRecipeProps {
     ing_index?: number,
     ins_index?: number
   ) => void;
-  imagePreview?: string,
   handleImageChange: (
     e: React.ChangeEvent<HTMLInputElement>
   ) => void,
@@ -27,7 +28,7 @@ interface AddRecipeProps {
     e: React.MouseEvent<HTMLButtonElement>,
     ing_list_index?: number
   ) => void;
-  isChecked:boolean;
+  isChecked: boolean;
   caloriesPlaceholder?: string;
   loadingBtn: boolean;
   message: string;
@@ -41,7 +42,6 @@ export default function AddRecipeComponent({
   loadingBtn,
   message,
   handleImageChange,
-  imagePreview,
   handleInputDelete,
   handleInputCreate,
   isChecked,
@@ -54,14 +54,18 @@ export default function AddRecipeComponent({
         <h1 className="addRecipeTitle">Add a Recipe</h1>
 
         <div className="editRecipeImage" onClick={handleImageClick}>
-          <Image
-            height={300}
-            width={300}
-            className="editRecipeImagePreview"
-            src={recipe.image}
-            alt="recipe-image"
-            priority
-          />
+            <CldImage
+              height={300}
+              width={300}
+              className="editRecipeImagePreview h-revert-layer"
+              src={recipe.image || recipePlaceholder}
+              alt="recipe-image"
+              fetchPriority="high"
+              aspectRatio={1}
+              crop='fill'
+              gravity="center"
+              priority
+            />
           <input
             id="imageInput"
             type="file"

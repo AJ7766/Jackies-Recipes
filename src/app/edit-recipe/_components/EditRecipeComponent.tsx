@@ -5,6 +5,7 @@ import { handleDeleteRecipe } from "../services/editRecipeServices";
 import mongoose from "mongoose";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { RecipeFormProps } from "@/_models/RecipeModel";
+import { CldImage } from "next-cloudinary";
 const camera = "/images/icons/camera.svg";
 
 interface AddRecipeProps {
@@ -15,8 +16,7 @@ interface AddRecipeProps {
     ing_list_index?: number,
     ing_index?: number,
     ins_index?: number
-  ) => void;
-  imagePreview?: string,
+  ) => void,
   handleImageChange: (
     e: React.ChangeEvent<HTMLInputElement>
   ) => void,
@@ -49,7 +49,6 @@ export default function EditRecipeComponent({
   loadingBtn,
   message,
   handleImageChange,
-  imagePreview,
   handleInputDelete,
   handleInputCreate,
   isChecked,
@@ -67,12 +66,16 @@ export default function EditRecipeComponent({
         <h1 className="addRecipeTitle">Edit your Recipe</h1>
 
         <div className="editRecipeImage" onClick={handleImageClick}>
-          <Image
+          <CldImage
+            className="editRecipeImagePreview h-revert-layer"
             height={300}
             width={300}
-            className="editRecipeImagePreview"
             src={recipe.image}
             alt="recipe-image"
+            fetchPriority="high"
+            aspectRatio={1}
+            crop='fill'
+            gravity="center"
             priority
           />
           <input

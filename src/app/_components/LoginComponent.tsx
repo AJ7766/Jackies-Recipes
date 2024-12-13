@@ -1,9 +1,10 @@
 "use client";
+import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
 const usernameImg = "/images/register/username.svg";
 const passwordImg = "/images/register/password.svg";
-const logo = "/images/logo.webp";
+const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1734125792/flvl1hcwvsaqwsdcpwja.webp";
 
 interface LoginFormProps {
   user: {
@@ -27,11 +28,12 @@ export default function LoginComponent({
     <div className="startingPageBg" data-testid="starting-page-bg">
       <div className="loginFormContainer">
         <div className="loginHeaderContainer">
-          <Image
+          <CldImage
             className="loginLogo"
             src={logo}
             width={150}
             height={150}
+            fetchPriority="high"
             alt="logo"
             priority
           />

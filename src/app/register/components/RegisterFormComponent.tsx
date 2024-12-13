@@ -1,4 +1,5 @@
 import { UserRegisterProps } from "@/_models/UserModel";
+import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
 const emailImg = "/images/register/email.svg";
@@ -6,7 +7,7 @@ const usernameImg = "/images/register/username.svg";
 const fullNameImg = "/images/register/fullName.svg";
 const passwordImg = "/images/register/password.svg";
 const passwordConfirmImg = "/images/register/passwordConfirm.svg";
-const logo = "/images/logo.webp";
+const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1734125792/flvl1hcwvsaqwsdcpwja.webp";
 
 interface RegisterFormProps {
   user: UserRegisterProps;
@@ -27,11 +28,12 @@ export default function RegisterFormComponent({
     <div className="startingPageBg">
       <div className="registerFormContainer">
         <div className="loginHeaderContainer">
-          <Image
+          <CldImage
             className="loginLogo"
             src={logo}
             width={150}
             height={150}
+            fetchPriority="high"
             priority
             alt="logo"
           />

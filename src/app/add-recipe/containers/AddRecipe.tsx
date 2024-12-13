@@ -9,12 +9,11 @@ import { RecipeFormProps } from "@/_models/RecipeModel";
 import { convertFileToBase64, convertFileToFormData, validateImage } from "@/_utils/imageUtils";
 import { fetchUpdateImageAPI } from "@/app/settings/services/fetchUpdateImageAPI";
 import { useCache } from "@/app/_context/CacheContext";
-const addRecipePlaceholder = "/images/add-recipe-placeholder.webp";
 
 export default function AddRecipe() {
   const [recipe, setRecipe] = useState<RecipeFormProps>({
     title: "",
-    image: addRecipePlaceholder,
+    image: '',
     ingredients: [
       {
         component: "",

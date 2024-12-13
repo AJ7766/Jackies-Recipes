@@ -1,8 +1,9 @@
 import { UserEditProps } from "@/_models/UserModel";
+import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import React from "react";
-const profilePicture = "/images/profile-picture.png";
-const camera = "/images/camera.svg";
+const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
+const camera = "/images/icons/camera.svg";
 
 interface EditProfileProps {
   user: UserEditProps;
@@ -28,7 +29,7 @@ export const EditProfileComponent = React.memo(({
   return (
     <form className="editForm" onSubmit={handleSubmit}>
       <div className="editProfilePicutre" onClick={handleProfilePicChange}>
-        <Image
+        <CldImage
           height={200}
           width={200}
           className="editPreviewProfilePicture"
