@@ -19,6 +19,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           name="description"
           content="Social platform for sharing recipes"
         />
+        <meta
+          name="viewport"
+          content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1" />
       </head>
       <body>
         <AuthProvider serverUser={typeof serverUser === 'string' ? JSON.parse(serverUser) : serverUser}>
