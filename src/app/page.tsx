@@ -8,7 +8,9 @@ export default async function DashboardPage() {
   if (!session.isAuth)
     return <LoginPage />
 
-  return <Dashboard />
+  return <>
+  <Dashboard />
+  </>
 }
 
 export async function generateMetadata() {
