@@ -21,6 +21,7 @@ export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePop
                 src={recipe.image || ""}
                 alt={recipe.title}
                 fetchPriority='high'
+                crop='limit'
                 className="recipe-img"
                 loading="lazy"
                 sizes="(max-width: 768px) 33vw, 500px"

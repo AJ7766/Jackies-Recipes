@@ -24,6 +24,7 @@ export const RecipesListComponent = React.memo(({
               <CldImage
                 src={recipe.image || ""}
                 alt={recipe.title}
+                crop='limit'
                 width={1280}
                 height={1280}
                 className="recipe-img"
