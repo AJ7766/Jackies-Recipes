@@ -1728,6 +1728,7 @@ input::-webkit-inner-spin-button {
 
   .mobile-search input[type="search"] {
     font-family: SourceSans3-Regular;
+    font-size: 18px;
     cursor: pointer;
     border-radius: 5px;
     padding: 5px 0 5px 5px;
@@ -1742,10 +1743,7 @@ input::-webkit-inner-spin-button {
   }
 
   .mobile-search input[type="search"]::placeholder {
-    font-family: SourceSans3-Regular;
-    letter-spacing: 0.5px;
-    font-size: clamp(10px, 2cqw, 15px);
-    color: black;
+    font-size: 18px;
   }
 
   .mobile-search .searchedUsersContainer {
@@ -1755,6 +1753,7 @@ input::-webkit-inner-spin-button {
     width: 100%;
     bottom: initial;
     transform: initial;
+    font-size: medium;
     background-color: #fff;
     padding: 15px;
     border-radius: 10px;
@@ -1762,6 +1761,10 @@ input::-webkit-inner-spin-button {
     z-index: 1;
   }
 
+  .searchedUser h2 {
+    font-size: 18px;
+  }
+  
   .dropdownContentContainer {
     position: absolute;
     top: initial;
