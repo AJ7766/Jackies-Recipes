@@ -24,10 +24,3 @@ export const addRecipeToUser = async (user_id: mongoose.Types.ObjectId, new_reci
         { new: true }
     ).lean();
 }
-
-export const deleteUserRecipe = async (user_id: mongoose.Types.ObjectId, recipe_id: mongoose.Types.ObjectId) => {
-    return UserModel.findByIdAndUpdate(user_id,
-        { $pull: { recipes: recipe_id } },
-        { new: true }
-    ).lean();
-}

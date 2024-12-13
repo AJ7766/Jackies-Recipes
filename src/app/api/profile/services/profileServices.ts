@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
-import mongoose, { mongo } from "mongoose";
-import { addRecipeToUser, deleteUserRecipe, getUserNoContent, getUserPopulated } from "../repositories/profileRepository";
+import mongoose from "mongoose";
+import { addRecipeToUser, getUserNoContent, getUserPopulated } from "../repositories/profileRepository";
 import { RecipeProps } from "@/_models/RecipeModel";
 
 export const getUserPopulatedService = async (username: string) => {
@@ -34,14 +34,6 @@ export const addRecipeToUserService = async (new_recipe: RecipeProps, user_id: m
     const updated_user = await addRecipeToUser(user_id, new_recipe);
     if (!updated_user)
         throw new Error('Failed to add recipe to user');
-
-    return updated_user;
-}
-
-export const deleteUserRecipeService = async (user_id: mongoose.Types.ObjectId, recipe_id: mongoose.Types.ObjectId) => {
-    const updated_user = await deleteUserRecipe(user_id, recipe_id);
-    if (!updated_user)
-        throw new Error('Failed to update recipe');
 
     return updated_user;
 }

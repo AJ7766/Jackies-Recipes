@@ -82,21 +82,20 @@ export const recipeSchema = new Schema<RecipeDocument>({
    savedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
 }, { timestamps: true });
 
-/*
-recipeSchema.pre('deleteOne', { document: true, query: false }, async function (next) {
+recipeSchema.pre('findOneAndDelete', async function (next) {
    try {
-      const users = await UserModel.updateMany(
-         { recipes: this._id }, 
-         { $pull: { recipes: this._id } }
+      const recipeId = this.getFilter()._id;
+      const result = await UserModel.updateOne(
+         { recipes: recipeId },
+         { $pull: { recipes: recipeId } }
       );
-
-      console.log(`${users.modifiedCount} users had the recipe removed from their collection.`);
+      console.log(`Recipe removed from ${result.modifiedCount} user(s).`);
       next();
    } catch (error: any) {
       next(error);
    }
 });
-*/
+
 recipeSchema.index({ createdAt: 1 });
 
 export const RecipeModel: Model<RecipeProps> = mongoose.models.recipes || mongoose.model<RecipeProps>('recipes', recipeSchema);

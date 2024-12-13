@@ -72,4 +72,6 @@ const userSchema = new Schema<UserDocument>({
    followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
 }, { timestamps: true });
 
+userSchema.index({ recipes: 1 });
+
 export const UserModel: Model<UserProps> = mongoose.models.users || mongoose.model<UserProps>('users', userSchema);

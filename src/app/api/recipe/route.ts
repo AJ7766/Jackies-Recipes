@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/app/_config/database";
 import { getToken, verifyToken } from "@/_utils/jwt";
 import { createRecipeService, deleteRecipeService, getPublicIdFromUrlService, getRecipeIdFromUrlService, getRecipeService, updateRecipeService, validateRecipeService } from "./services/recipeServices";
-import { addRecipeToUserService, checkUserHasRecipeService, deleteUserRecipeService } from "../profile/services/profileServices";
+import { addRecipeToUserService, checkUserHasRecipeService } from "../profile/services/profileServices";
 import { RecipeProps } from "@/_models/RecipeModel";
 import { getUserService } from "../user/services/userService";
 import { deleteRedisCache } from "@/_utils/redis";
@@ -86,8 +86,7 @@ export async function DELETE(req: NextRequest) { // Delete recipe
 
         await Promise.all([
             (public_id && typeof public_id === 'string') && deleteOldImageFileService(public_id),
-            deleteRecipeService(recipe_id),
-            deleteUserRecipeService(decoded.id, recipe_id)]);
+            deleteRecipeService(recipe_id)]);
 
         await deleteRedisCache(decoded.id);
 
