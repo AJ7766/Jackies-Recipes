@@ -43,6 +43,7 @@ export default function SelectedRecipeComponent({
                                                 profilePicturePlaceholder
                                             }
                                             alt="profile-picture"
+                                            format="webp"
                                         />
                                         <div>
                                             <h2>{profile?.username}</h2>
@@ -59,6 +60,7 @@ export default function SelectedRecipeComponent({
                                     src={selectedRecipe.image}
                                     alt="recipe-image"
                                     fetchPriority="high"
+                                    format="webp"
                                 />
                             )}
                         </div>
@@ -138,6 +140,7 @@ export default function SelectedRecipeComponent({
                                 src={selectedRecipe.image}
                                 priority
                                 alt="recipe-image"
+                                format="webp"
                             />
                         )}
                         <div className="recipeInstructionsContainer">

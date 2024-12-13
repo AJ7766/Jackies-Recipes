@@ -30,6 +30,7 @@ export const RecipesListComponent = React.memo(({
                 fetchPriority="high"
                 loading="lazy"
                 sizes="(max-width: 768px) 33vw, 500px"
+                format="webp"
               />
             </Link>
             <div className='recipe-info-container'>

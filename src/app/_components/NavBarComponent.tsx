@@ -5,7 +5,7 @@ import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import React, { RefObject } from "react";
 import { CldImage } from "next-cloudinary";
 import { activeLink, handleBlurInput, handleFocusInput } from "../_services/navBarServices";
-const logo = "/images/logo-text-free.webp";
+const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1734112468/logo-text-free_c6hbgq.webp";
 const searchGlass = "/images/icons/search.svg";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 const home = "/images/icons/home.svg";
@@ -61,12 +61,13 @@ export const NavBarComponent = React.memo(({
             href={"/"}
             prefetch>
             <div className="navBarLogoComponent">
-              <Image
+              <CldImage
                 src={logo}
                 alt="logo"
                 width={40}
                 height={40}
-                priority
+                fetchPriority="high"
+                format="webp"
               />
               <h2>Jackies Recipes</h2>
             </div>

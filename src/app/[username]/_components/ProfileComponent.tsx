@@ -25,6 +25,7 @@ export const ProfileComponent = React.memo(({ profile }: { profile: UserPopulate
             priority
             sizes="(max-width: 768px) 130px, 500px"
             alt="profile-picture"
+            format="webp"
           />
           <h1>{profile?.fullName}</h1>
           {profile.userContent?.bio &&
