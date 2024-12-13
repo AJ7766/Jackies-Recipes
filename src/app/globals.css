@@ -1687,6 +1687,11 @@ input::-webkit-inner-spin-button {
 /* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */ /* Mobile Mode */
 
 @media (max-width: 768px) {
+  .wrapper {
+    padding-left: 0;
+    padding-bottom: 7vh;
+  }
+
   .navContainer {
     display: flex;
     flex-direction: row;
@@ -1695,8 +1700,9 @@ input::-webkit-inner-spin-button {
     align-items: center;
     top: initial;
     bottom: 0;
-    height: 10vh;
+    height: 7vh;
     width: 100vw;
+    padding: 0 clamp(5px, 2vw, 14px);
     justify-content: space-between;
     box-shadow: 0 0 0.5px 0px #777777;
     z-index: 2;
@@ -1714,8 +1720,9 @@ input::-webkit-inner-spin-button {
     position: fixed;
     top: 0;
     background-color: white;
-    height: 90vh;
-    width: 100vh;
+    height: 93vh;
+    width: 100vw;
+    padding: 15px;
     z-index: 2;
   }
 
@@ -1724,7 +1731,7 @@ input::-webkit-inner-spin-button {
     cursor: pointer;
     border-radius: 5px;
     padding: 5px 0 5px 5px;
-    width: calc(100% - 52px);
+    width: 100%;
     background-color: #f3f3f3;
   }
 
@@ -1768,11 +1775,6 @@ input::-webkit-inner-spin-button {
 
   .newUserButtons {
     flex-direction: row;
-  }
-
-  .wrapper {
-    padding-left: 0;
-    padding-bottom: 10vh;
   }
 
   .recipeContainer {

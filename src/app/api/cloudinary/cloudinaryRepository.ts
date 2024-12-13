@@ -7,7 +7,7 @@ export const uploadCloudinary = async (file: File, fileBuffer: ArrayBuffer) => {
                 upload_preset: "next_cloudinary_app",
                 display_name: file.name || 'image',
                 transformation: [
-                    { crop: 'fill', aspect_ratio: "1.0", width: 1280, height: 1280, gravity: 'center' },
+                    { crop: 'fill', aspect_ratio: "1.0", quality: 'auto', width: 1280, height: 1280, gravity: 'center' },
                 ]
             },
             (error, uploadResult) => error ? reject(error) : resolve(uploadResult as UploadApiResponse)

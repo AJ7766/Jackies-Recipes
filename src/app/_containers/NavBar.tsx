@@ -23,6 +23,12 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const navBarRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
 
+  const pathname = usePathname();
+  const { user, logout } = useAuth();
+
+  if (!checkNavBar(pathname, isAuth))
+    return null;
+
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -35,13 +41,7 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
       window.removeEventListener("resize", checkIfMobile);
     };
   }, []);
-
-  const pathname = usePathname();
-  const { user, logout } = useAuth();
-
-  if (!checkNavBar(pathname, isAuth))
-    return null;
-
+  
   const handleClickOutside = useCallback((e: MouseEvent) => {
     handleMobileSearch(e, searchMobileIconRef, searchMobileRef);
     handleDropdown(e, dropdownIconRef, dropdownRef, dropdownItemsRef);
