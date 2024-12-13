@@ -7,7 +7,7 @@ const profilePicture = '/images/profilePicture.png';
 export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePopulatedProps[] }) => {
   return (
     <>
-      <h1 className="text-xl text-center mb-5 mt-5">Latest Recipes</h1>
+      <h1 className="text-xl text-center mb-5 mt-5 font-metropolis">Latest Recipes</h1>
       <div className="recipe-wrapper">
         {recipes.map((recipe, recipeIndex) => (
           <div className="recipe-container" key={recipeIndex}>

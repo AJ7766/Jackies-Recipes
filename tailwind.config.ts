@@ -12,6 +12,9 @@ const config: Config = {
         'home-background': "url('images/background.svg')",
         'form-background': "url('images/formBackground.svg')",
       },
+      fontFamily: {
+        'metropolis': ['Metropolis-Medium', 'sans-serif'],
+      },
     },
   },
   plugins: [],

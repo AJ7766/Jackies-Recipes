@@ -37,18 +37,8 @@
 }
 
 @font-face {
-  font-family: "SourceSans3-Regular";
-  src: url("fonts/SourceSans3-Regular.ttf");
-}
-
-@font-face {
-  font-family: "SourceSans3-Medium";
-  src: url("fonts/SourceSans3-Medium.ttf");
-}
-
-@font-face {
-  font-family: "SourceSans3-SemiBold";
-  src: url("fonts/SourceSans3-SemiBold.ttf");
+  font-family: "Metropolis-Medium";
+  src: url("fonts/Metropolis-Medium.otf");
 }
 
 ::-webkit-scrollbar {
@@ -68,7 +58,8 @@
 }
 
 body {
-  font-family: SourceSans3-Regular;
+  font-family: "Source Sans 3", serif;
+  font-weight: 400;
   background: white;
   color: black;
   font-size: clamp(10px, 2cqw, 14px);
@@ -338,7 +329,8 @@ h2 {
 }
 
 .active {
-  font-family: "SourceSans3-SemiBold" !important;
+  font-family: "Source Sans 3", serif !important;
+  font-weight: 600;
 }
 
 .searchContainer {
@@ -366,7 +358,8 @@ h2 {
 
 .searchContainer input[type="search"] {
   position: absolute;
-  font-family: SourceSans3-Regular;
+  font-family: "Source Sans 3", serif;
+  font-weight: 400;
   cursor: pointer;
   border-radius: 5px;
   left: 45px;
@@ -382,7 +375,8 @@ h2 {
 }
 
 .searchContainer input[type="search"]::placeholder {
-  font-family: SourceSans3-Regular;
+  font-family: "Source Sans 3", serif;
+  font-weight: 400;
   letter-spacing: 0.5px;
   font-size: clamp(10px, 2cqw, 15px);
   color: black;
@@ -416,7 +410,8 @@ h2 {
 }
 
 .searchedUser h2 {
-  font-family: "SourceSans3-SemiBold";
+  font-family: "Source Sans 3", serif;
+  font-weight: 600;
   font-size: 14px;
   margin-bottom: -3px;
 }
@@ -460,7 +455,8 @@ h2 {
 
 .navBarLogoComponent h2 {
   font-size: clamp(12px, 2cqw, 16px);
-  font-family: "SourceSans3-SemiBold";
+  font-family: "Source Sans 3", serif;
+  font-weight: 600;
   letter-spacing: 1px;
   position: absolute;
   left: 52px;
@@ -486,7 +482,8 @@ h2 {
 }
 
 .navBarComponent h2 {
-  font-family: "SourceSans3-Regular";
+  font-family: "Source Sans 3", serif;
+  font-weight: 400;
   letter-spacing: 0.5px;
   position: absolute;
   left: 50px;
@@ -535,7 +532,8 @@ h2 {
 
 .dropdownContent a,
 .dropdownContent button {
-  font-family: "SourceSans3-Regular";
+  font-family: "Source Sans 3", serif;
+  font-weight: 400;
   font-size: clamp(10px, 2cqw, 15px);
   padding: 3px 0px 3px 10px;
   text-align: left;
@@ -574,12 +572,13 @@ h2 {
 }
 
 .profileInfo h1 {
-  font-family: "SourceSans3-Medium";
+  font-family: "Metropolis-Medium";
   font-size: clamp(18px, 3cqw, 30px);
 }
 
 .profileInfo h2 {
-  font-family: "SourceSans3-Medium";
+  font-family: "Source Sans 3", serif;
+  font-weight: 400;
   font-size: clamp(12px, 2cqw, 15px);
   text-align: center;
   line-height: 1.6;
@@ -690,7 +689,8 @@ h2 {
 }
 
 .recipe-title {
-  font-family: "SourceSans3-Medium";
+  font-family: "Source Sans 3", serif;
+  font-weight: 400;
   font-size: clamp(12px, 1.5vw, 16px);
   text-align: center;
 }
@@ -836,8 +836,8 @@ h2 {
 }
 
 .recipeUserContainer h2 {
-  font-family: "SourceSans3-SemiBold";
-  font-weight: bold;
+  font-family: "Source Sans 3", serif;
+  font-weight: 600;
 }
 
 .recipeLeftSideWrapper h1 {
@@ -979,7 +979,8 @@ tbody {
 
 .mealsContainer p {
   font-size: 18px;
-  font-family: "SourceSans3-SemiBold";
+  font-family: "Source Sans 3", serif;
+  font-weight: 600;
 }
 
 .recipeIngredientsContainer table {
@@ -1727,7 +1728,8 @@ input::-webkit-inner-spin-button {
   }
 
   .mobile-search input[type="search"] {
-    font-family: SourceSans3-Regular;
+    font-family: "Source Sans 3", serif;
+    font-weight: 400;
     font-size: 18px;
     cursor: pointer;
     border-radius: 5px;
@@ -1764,7 +1766,7 @@ input::-webkit-inner-spin-button {
   .searchedUser h2 {
     font-size: 18px;
   }
-  
+
   .dropdownContentContainer {
     position: absolute;
     top: initial;

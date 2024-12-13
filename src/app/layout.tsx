@@ -2,7 +2,6 @@ import "./globals.css";
 import dynamic from 'next/dynamic';
 import { AuthProvider } from "./_context/AuthContext";
 const NavBar = dynamic(() => import("./_containers/NavBar"));
-
 import { CookieConsent } from "./_containers/CookieConsent";
 import { getSession } from "@/_utils/session";
 import { getUserController } from "./_ssr/user/userController";
@@ -21,7 +20,11 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
         <meta
           name="viewport"
-          content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+          content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet" />
       </head>
       <body>
         <AuthProvider serverUser={typeof serverUser === 'string' ? JSON.parse(serverUser) : serverUser}>
