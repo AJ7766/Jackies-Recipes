@@ -37,7 +37,7 @@ export const ProfileComponent = React.memo(({ profile }: { profile: UserPopulate
                 </span>
               ))}
             </h2>}
-          <p>@{profile?.username}</p>
+          <p className="text-gray-500">@{profile?.username}</p>
           <div className="profileSocialMediaContainer">
             {profile?.userContent?.instagram && (
               <Link
