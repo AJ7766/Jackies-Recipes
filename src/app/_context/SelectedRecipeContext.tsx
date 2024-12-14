@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 interface SelectedRecipeContextType {
     recipe: RecipePopulatedProps | null;
-    setRecipe: (recipe: RecipePopulatedProps | null) => void;
+    selectedRecipeHandler: (recipe: RecipePopulatedProps) => void;
     changeURL: (username: string, recipe_id: mongoose.Types.ObjectId) => void;
     handleCloseRecipe: () => void;
     toggleScrollbars: (disable: boolean) => void;
@@ -23,6 +23,11 @@ const handleCloseRecipe = () => {
 
 export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) => {
     const [recipe, setRecipe] = useState<RecipePopulatedProps | null>(null);
+
+    const selectedRecipeHandler = (recipe: RecipePopulatedProps) => {
+        changeURL(recipe.user.username, recipe._id);
+        setRecipe(recipe);
+    }
 
     const toggleScrollbars = (disable: boolean) => {
         if (disable) {
@@ -43,7 +48,7 @@ export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) =>
 
     console.log(recipe)
     return (
-        <SelectedRecipeContext.Provider value={{ recipe, setRecipe, changeURL, handleCloseRecipe, toggleScrollbars }}>
+        <SelectedRecipeContext.Provider value={{ recipe, selectedRecipeHandler, changeURL, handleCloseRecipe, toggleScrollbars }}>
             {children}
         </SelectedRecipeContext.Provider>
     );

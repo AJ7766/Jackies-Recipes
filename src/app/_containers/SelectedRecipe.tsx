@@ -5,7 +5,7 @@ import { useSelectedRecipe } from "../_context/SelectedRecipeContext";
 import { useCheckScrollbars } from "../_hooks/checkScrollbars";
 
 export default function SelectedRecipe() {
-    const { recipe, setRecipe, handleCloseRecipe, toggleScrollbars } = useSelectedRecipe();
+    const { recipe, handleCloseRecipe, toggleScrollbars } = useSelectedRecipe();
     const isMobile = useMobileCheck();
 
     useCheckScrollbars(recipe, toggleScrollbars);

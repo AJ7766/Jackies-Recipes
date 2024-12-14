@@ -14,16 +14,45 @@ export const RecipesListComponent = React.memo(({
   profile: UserPopulatedRecipePopulatedProps;
   canEdit: boolean;
 }) => {
-  const { setRecipe, changeURL } = useSelectedRecipe();
+  const { selectedRecipeHandler } = useSelectedRecipe();
   return (
     <div className="recipe-wrapper">
       {profile.recipes.map((recipe, recipeIndex) => (
         <div className="recipe-container" key={recipeIndex}>
           <CldImage
             src={recipe.image || ""}
-            onClick={() => {
-              changeURL(profile.username, recipe._id);
-              setRecipe({
+            onClick={() => selectedRecipeHandler(({
+              _id: recipe._id,
+              user: {
+                _id: new mongoose.Types.ObjectId,
+                email: "",
+                fullName: "",
+                username: profile.username,
+                password: "",
+                userContent: {
+                  profilePicture: profile.userContent?.profilePicture
+                }
+              },
+              title: recipe.title,
+              image: recipe.image,
+              ingredients: recipe.ingredients,
+              servings: recipe.servings,
+              macros: recipe.macros,
+              instructions: recipe.instructions,
+            }))}
+            alt={recipe.title}
+            crop='limit'
+            width={1280}
+            height={1280}
+            className="recipe-img"
+            fetchPriority="high"
+            loading="lazy"
+            sizes="(max-width: 768px) 33vw, 500px"
+            format="webp"
+          />
+          <div className='recipe-info-container'>
+            <h1 className='recipe-title cursor-pointer'
+              onClick={() => selectedRecipeHandler(({
                 _id: recipe._id,
                 user: {
                   _id: new mongoose.Types.ObjectId,
@@ -41,23 +70,9 @@ export const RecipesListComponent = React.memo(({
                 servings: recipe.servings,
                 macros: recipe.macros,
                 instructions: recipe.instructions,
-              });
-            }}
-            alt={recipe.title}
-            crop='limit'
-            width={1280}
-            height={1280}
-            className="recipe-img"
-            fetchPriority="high"
-            loading="lazy"
-            sizes="(max-width: 768px) 33vw, 500px"
-            format="webp"
-          />
-          <div className='recipe-info-container'>
-            <h1 className='recipe-title cursor-pointer' onClick={() => {
-              changeURL(profile.username, recipe._id);
-              setRecipe(recipe);
-            }}>{recipe.title}</h1>
+              }))}>
+              {recipe.title}
+            </h1>
             <p className="text-center text-gray-500">@{profile.username}</p>
             <div className='recipe-profile-picture-container'>
               <CldImage

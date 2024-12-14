@@ -6,7 +6,7 @@ import Link from 'next/link';
 const profilePicture = '/images/profilePicture.png';
 
 export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePopulatedProps[] }) => {
-  const { setRecipe, changeURL } = useSelectedRecipe();
+  const { selectedRecipeHandler } = useSelectedRecipe();
   return (
     <>
       <h1 className="text-xl text-center mb-5 mt-5 font-metropolis">Latest Recipes</h1>
@@ -17,10 +17,7 @@ export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePop
               width={1280}
               height={1280}
               src={recipe.image || ""}
-              onClick={() => {
-                changeURL(recipe.user.username, recipe._id);
-                setRecipe(recipe);
-              }}
+              onClick={() => selectedRecipeHandler(recipe)}
               alt={recipe.title}
               fetchPriority='high'
               className="recipe-img"
@@ -31,10 +28,11 @@ export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePop
               sizes="(max-width: 768px) 33vw, 500px"
             />
             <div className='recipe-info-container'>
-              <h1 className='recipe-title cursor-pointer' onClick={() => {
-                changeURL(recipe.user.username, recipe._id);
-                setRecipe(recipe);
-              }}>{recipe.title}</h1>
+              <h1
+                className='recipe-title cursor-pointer'
+                onClick={() => selectedRecipeHandler(recipe)}>
+                {recipe.title}
+              </h1>
               <Link href={`${recipe.user.username}`}> <p className="text-center text-gray-500">@{recipe.user.username}</p></Link>
               <div className='recipe-profile-picture-container'>
                 <CldImage
@@ -50,7 +48,7 @@ export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePop
             </div>
           </div>
         ))}
-      </div>
+      </div >
     </>
   )
 })
