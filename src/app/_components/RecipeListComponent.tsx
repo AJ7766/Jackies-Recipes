@@ -6,7 +6,7 @@ import Link from 'next/link';
 const profilePicture = '/images/profilePicture.png';
 
 export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePopulatedProps[] }) => {
-  const { setRecipe, changeURL } = useSelectedRecipe();
+  const { setRecipe, changeURL, handleCloseRecipe } = useSelectedRecipe();
   return (
     <>
       <h1 className="text-xl text-center mb-5 mt-5 font-metropolis">Latest Recipes</h1>

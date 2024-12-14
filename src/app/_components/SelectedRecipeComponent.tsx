@@ -1,5 +1,4 @@
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
-import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,18 +6,18 @@ const meals = "/images/icons/meal.svg";
 const profilePicturePlaceholder = "/images/profile-picture.png";
 const closeIcon = "/images/icons/close-recipe.svg";
 
-interface recipeComponentProps {
+interface SelectedRecipeComponentProps {
     recipe: RecipePopulatedProps | null;
     isMobile: boolean;
-    closeRecipe: React.RefObject<HTMLDivElement>;
+    handleCloseRecipe: () => void;
 }
 
-export default function recipeComponent({
+export default function SelectedRecipeComponent({
     recipe,
     isMobile,
-    closeRecipe
-}: recipeComponentProps) {
-    if(!recipe) return;
+    handleCloseRecipe
+}: SelectedRecipeComponentProps) {
+    if (!recipe) return;
     return (
         recipe && (
             <>
@@ -156,7 +155,7 @@ export default function recipeComponent({
                         </div>
                     </div>
                 </div>
-                <div className="recipeBackground" ref={closeRecipe}>
+                <div className="recipeBackground"  onClick={handleCloseRecipe}>
                     <Image src={closeIcon} width={24} height={24} alt="close-recipe" />
                 </div>
             </>

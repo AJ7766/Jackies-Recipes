@@ -6,28 +6,8 @@ import { useSelectedRecipe } from "../_context/SelectedRecipeContext";
 import { useCheckScrollbars } from "../_hooks/checkScrollbars";
 
 export default function SelectedRecipe() {
-    const { recipe, setRecipe } = useSelectedRecipe();
-    const closeRecipe = useRef<HTMLDivElement | null>(null);
+    const { recipe, setRecipe, handleCloseRecipe } = useSelectedRecipe();
     const isMobile = useMobileCheck();
-
-    const handleCloseRecipe = () => {
-        window.history.pushState({}, '', '/');
-    }
-
-    const handleClickOutside = useCallback(
-        (event: MouseEvent) => {
-            if (closeRecipe.current && closeRecipe.current.contains(event.target as Node))
-                handleCloseRecipe();
-        },
-        [handleCloseRecipe]
-    );
-
-    useEffect(() => {
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => {
-            document.removeEventListener("mousedown", handleClickOutside);
-        };
-    }, []);
 
     useCheckScrollbars(recipe, setRecipe);
 
@@ -38,7 +18,7 @@ export default function SelectedRecipe() {
         <SelectedRecipeComponent
             recipe={recipe}
             isMobile={isMobile}
-            closeRecipe={closeRecipe}
+            handleCloseRecipe={handleCloseRecipe}
         />
     )
 }
