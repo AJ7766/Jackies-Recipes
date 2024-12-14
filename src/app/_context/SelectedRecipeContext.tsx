@@ -18,15 +18,18 @@ const changeURL = (username: string, recipe_id: mongoose.Types.ObjectId) => {
 };
 
 const handleCloseRecipe = () => {
-    window.history.pushState({}, '', '/');
+    window.history.back();
 }
 
 export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) => {
     const [recipe, setRecipe] = useState<RecipePopulatedProps | null>(null);
+    const [prevUrl, setPrevUrl] = useState('/');
 
-    const selectedRecipeHandler = (recipe: RecipePopulatedProps) => {
+    const selectedRecipeHandler = (recipe: RecipePopulatedProps, prevUrl?: string) => {
         changeURL(recipe.user.username, recipe._id);
         setRecipe(recipe);
+        if (prevUrl)
+            setPrevUrl(prevUrl)
     }
 
     const toggleScrollbars = (disable: boolean) => {
@@ -36,7 +39,6 @@ export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) =>
             document.body.classList.remove('overflow-hidden');
             setRecipe(null)
         }
-
         if (window.innerWidth > 1024) {
             if (disable) {
                 document.body.classList.add('pr-[7px]');
