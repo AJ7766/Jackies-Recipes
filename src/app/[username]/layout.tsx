@@ -1,8 +1,6 @@
 import { ReactNode } from "react";
-import Profile from "./_containers/Profile";
 import { getProfileController } from "./_ssr/profileController";
 import { ProfileProvider } from "../_context/ProfileContext";
-import RecipeList from "./_containers/RecipeList";
 
 export default async function RootLayout({ children, params }: { children: ReactNode, params: Promise<{ username: string }> }) {
   const { username } = await params;
@@ -22,11 +20,7 @@ export default async function RootLayout({ children, params }: { children: React
   return (
     <>
       <ProfileProvider serverProfile={serverProfile}>
-        <>
-          {children}
-          <Profile />
-          <RecipeList />
-        </>
+        {children}
       </ProfileProvider>
     </>
   )
