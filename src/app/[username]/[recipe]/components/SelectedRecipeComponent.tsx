@@ -5,25 +5,22 @@ import Image from "next/image";
 import Link from "next/link";
 const meals = "/images/icons/meal.svg";
 const profilePicturePlaceholder = "/images/profile-picture.png";
-const closeIcon = "/images/icons/close-recipe.svg";
 
 interface SelectedRecipeComponentProps {
     selectedRecipe: RecipePopulatedProps | null;
     isSmallScreen: boolean;
     profile: UserPopulatedRecipePopulatedProps | null;
-    closeRecipe: React.RefObject<HTMLDivElement>;
 }
 
 export default function SelectedRecipeComponent({
     selectedRecipe,
     isSmallScreen,
     profile,
-    closeRecipe
 }: SelectedRecipeComponentProps) {
     return (
         selectedRecipe && (
             <>
-                <div className="recipeContainer">
+                <div className="recipeContainer main">
                     <div className="recipeLeftSideWrapper">
                         <div className="flex flex-row m-[4%]" >
                             <div className="flex flex-col">
@@ -56,7 +53,7 @@ export default function SelectedRecipeComponent({
                                 <CldImage
                                     className="recipe-image"
                                     width={1280}
-                                    height={850}
+                                    height={1280}
                                     src={selectedRecipe.image}
                                     alt="recipe-image"
                                     fetchPriority="high"
@@ -156,9 +153,6 @@ export default function SelectedRecipeComponent({
                             </table>
                         </div>
                     </div>
-                </div>
-                <div className="recipeBackground" ref={closeRecipe}>
-                    <Image src={closeIcon} width={24} height={24} alt="close-recipe" />
                 </div>
             </>
         )

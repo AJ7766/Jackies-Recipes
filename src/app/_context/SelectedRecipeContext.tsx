@@ -44,8 +44,6 @@ export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) =>
             }
         }
     }
-
-    console.log(recipe)
     return (
         <SelectedRecipeContext.Provider value={{ recipe, selectedRecipeHandler, changeURL, handleCloseRecipe, toggleScrollbars }}>
             {children}
