@@ -7,7 +7,6 @@ import { useCheckScrollbars } from "../_hooks/checkScrollbars";
 
 export default function SelectedRecipe() {
     const { recipe, setRecipe } = useSelectedRecipe();
-    console.log("running")
     const closeRecipe = useRef<HTMLDivElement | null>(null);
     const isMobile = useMobileCheck();
 

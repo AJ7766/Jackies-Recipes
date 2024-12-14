@@ -1,20 +1,20 @@
 "use client"
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
+import mongoose from "mongoose";
 
 interface SelectedRecipeContextType {
     recipe: RecipePopulatedProps | null;
     setRecipe: (recipe: RecipePopulatedProps | null) => void;
-    changeURL: (recipe: RecipePopulatedProps) => void;
+    changeURL: (username: string, recipe_id: mongoose.Types.ObjectId) => void;
 }
 
 const SelectedRecipeContext = createContext<SelectedRecipeContextType | undefined>(undefined);
 
 export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) => {
     const [recipe, setRecipe] = useState<RecipePopulatedProps | null>(null);
-
-    const changeURL = (recipe: RecipePopulatedProps) => {
-        window.history.pushState({}, '', `/${recipe?.user.username}/${recipe?._id}`);
+    const changeURL = (username: string, recipe_id: mongoose.Types.ObjectId) => {
+        window.history.pushState({}, '', `/${username}/${recipe_id}`);
     };
 
     return (

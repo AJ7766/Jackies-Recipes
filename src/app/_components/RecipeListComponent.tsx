@@ -18,18 +18,21 @@ export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePop
               height={1280}
               src={recipe.image || ""}
               onClick={() => {
-                changeURL(recipe);
+                changeURL(recipe.user.username, recipe._id);
                 setRecipe(recipe);
               }}
               alt={recipe.title}
               fetchPriority='high'
               className="recipe-img"
-              loading="lazy"
+              decoding="async"
+              quality='auto'
+              loading="eager"
+              priority
               sizes="(max-width: 768px) 33vw, 500px"
             />
             <div className='recipe-info-container'>
               <h1 className='recipe-title cursor-pointer' onClick={() => {
-                changeURL(recipe);
+                changeURL(recipe.user.username, recipe._id);
                 setRecipe(recipe);
               }}>{recipe.title}</h1>
               <Link href={`${recipe.user.username}`}> <p className="text-center text-gray-500">@{recipe.user.username}</p></Link>

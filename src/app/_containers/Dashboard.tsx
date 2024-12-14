@@ -45,7 +45,7 @@ export default function Dashboard() {
       </div>
     );
   }
-
+  
   return <>
     {(isClient && window.innerWidth >= 1024) && <Loader loading={loading} />}
     {recipe && <SelectedRecipe />}

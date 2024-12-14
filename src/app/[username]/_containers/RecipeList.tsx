@@ -3,6 +3,7 @@ import { useAuth } from "@/app/_context/AuthContext";
 import { usePathname } from "next/navigation";
 import { RecipesListComponent } from "../_components/RecipesListComponent";
 import { useProfile } from "@/app/_context/ProfileContext";
+import SelectedRecipe from "@/app/_containers/SelectedRecipe";
 
 export default function RecipeList() {
   const { user } = useAuth();
@@ -21,12 +22,12 @@ export default function RecipeList() {
     );
   }
 
-  return (
+  return <>
+    {profile.recipes && <SelectedRecipe />}
     <RecipesListComponent
-      recipes={profile.recipes}
-      profilePicture={profile.userContent?.profilePicture}
-      username={profile.username}
+      profile={profile}
       canEdit={canEdit}
     />
-  );
+  </>
+
 }
