@@ -23,13 +23,10 @@ const handleCloseRecipe = () => {
 
 export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) => {
     const [recipe, setRecipe] = useState<RecipePopulatedProps | null>(null);
-    const [prevUrl, setPrevUrl] = useState('/');
 
     const selectedRecipeHandler = (recipe: RecipePopulatedProps, prevUrl?: string) => {
         changeURL(recipe.user.username, recipe._id);
         setRecipe(recipe);
-        if (prevUrl)
-            setPrevUrl(prevUrl)
     }
 
     const toggleScrollbars = (disable: boolean) => {
