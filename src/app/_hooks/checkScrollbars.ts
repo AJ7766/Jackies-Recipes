@@ -2,7 +2,7 @@ import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-export const useCheckScrollbars = (recipe: RecipePopulatedProps | null, setRecipe?: (recipe: RecipePopulatedProps | null) => void) => {
+export const useCheckScrollbars = (recipe: RecipePopulatedProps | null, setRecipe: (recipe: RecipePopulatedProps | null) => void) => {
     const pathname = usePathname();
     useEffect(() => {
         if (recipe && recipe.user && recipe._id) {
@@ -15,7 +15,7 @@ export const useCheckScrollbars = (recipe: RecipePopulatedProps | null, setRecip
             document.body.classList.add('overflow-hidden');
         } else {
             document.body.classList.remove('overflow-hidden');
-            setRecipe && setRecipe(null)
+            setRecipe(null)
         }
 
         if (window.innerWidth > 1024) {

@@ -12,14 +12,17 @@ interface SelectedRecipeContextType {
 
 const SelectedRecipeContext = createContext<SelectedRecipeContextType | undefined>(undefined);
 
+const changeURL = (username: string, recipe_id: mongoose.Types.ObjectId) => {
+    window.history.pushState({}, '', `/${username}/${recipe_id}`);
+};
+
+const handleCloseRecipe = () => {
+    window.history.pushState({}, '', '/');
+}
+
 export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) => {
     const [recipe, setRecipe] = useState<RecipePopulatedProps | null>(null);
-    const changeURL = (username: string, recipe_id: mongoose.Types.ObjectId) => {
-        window.history.pushState({}, '', `/${username}/${recipe_id}`);
-    };
-    const handleCloseRecipe = () => {
-        window.history.pushState({}, '', '/');
-    }
+
     console.log(recipe)
     return (
         <SelectedRecipeContext.Provider value={{ recipe, setRecipe, changeURL, handleCloseRecipe }}>
