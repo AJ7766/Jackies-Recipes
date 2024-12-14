@@ -4,6 +4,9 @@ import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { RecipeListComponent } from "../_components/RecipeListComponent";
 import { Loader } from "../_components/Loader";
+import { useSelectedRecipe } from "../_context/SelectedRecipeContext";
+import dynamic from "next/dynamic";
+const SelectedRecipe = dynamic(() => import("./SelectedRecipe"), { ssr: false });
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(0);
@@ -18,7 +21,7 @@ export default function Dashboard() {
     return null;
   });
   const [isClient, setIsClient] = useState(false);
-
+  const { recipe } = useSelectedRecipe();
   useEffect(() => {
     setIsClient(true);
 
@@ -45,6 +48,7 @@ export default function Dashboard() {
 
   return <>
     {(isClient && window.innerWidth >= 1024) && <Loader loading={loading} />}
+    {recipe && <SelectedRecipe />}
     {recipes && <RecipeListComponent recipes={recipes} />}
   </>
 }

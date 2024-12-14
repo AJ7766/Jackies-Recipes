@@ -7,21 +7,20 @@ const meals = "/images/icons/meal.svg";
 const profilePicturePlaceholder = "/images/profile-picture.png";
 const closeIcon = "/images/icons/close-recipe.svg";
 
-interface SelectedRecipeComponentProps {
-    selectedRecipe: RecipePopulatedProps | null;
+interface recipeComponentProps {
+    recipe: RecipePopulatedProps | null;
     isMobile: boolean;
-    profile: UserPopulatedRecipePopulatedProps | null;
     closeRecipe: React.RefObject<HTMLDivElement>;
 }
 
-export default function SelectedRecipeComponent({
-    selectedRecipe,
+export default function recipeComponent({
+    recipe,
     isMobile,
-    profile,
     closeRecipe
-}: SelectedRecipeComponentProps) {
+}: recipeComponentProps) {
+    if(!recipe) return;
     return (
-        selectedRecipe && (
+        recipe && (
             <>
                 <div className="recipeContainer">
                     <div className="recipeLeftSideWrapper">
@@ -30,7 +29,7 @@ export default function SelectedRecipeComponent({
                                 <div className="recipeUserContainer">
                                     <Link
                                         className="flex gap-2"
-                                        href={`/${profile?.username}`}
+                                        href={`/${recipe.user?.username}`}
                                         onClick={() => {
                                             document.body.style.overflow = "auto";
                                         }}
@@ -39,25 +38,25 @@ export default function SelectedRecipeComponent({
                                             width={25}
                                             height={25}
                                             src={
-                                                profile?.userContent?.profilePicture ||
+                                                recipe.user.userContent?.profilePicture ||
                                                 profilePicturePlaceholder
                                             }
                                             alt="profile-picture"
                                             format="webp"
                                         />
                                         <div>
-                                            <h2>{profile?.username}</h2>
+                                            <h2>{recipe.user?.username}</h2>
                                         </div>
                                     </Link>
                                 </div>
-                                <h1>{selectedRecipe?.title}</h1>
+                                <h1>{recipe?.title}</h1>
                             </div>
-                            {isMobile && selectedRecipe.image && (
+                            {isMobile && recipe.image && (
                                 <CldImage
                                     className="recipe-image"
                                     width={1280}
                                     height={850}
-                                    src={selectedRecipe.image}
+                                    src={recipe.image}
                                     alt="recipe-image"
                                     fetchPriority="high"
                                     format="webp"
@@ -65,49 +64,49 @@ export default function SelectedRecipeComponent({
                             )}
                         </div>
                         <div className="recipeIngredientsContainer">
-                            {selectedRecipe?.macros && (
+                            {recipe?.macros && (
                                 <div className="recipeMacroContainer">
                                     <div className="nutritionContainer">
                                         <div className="macroContainer">
-                                            {Number(selectedRecipe?.macros?.carbs) > 0 && (
+                                            {Number(recipe?.macros?.carbs) > 0 && (
                                                 <div className="macroInfo">
                                                     <p>Carbs</p>
                                                     <div className="carbsColor"></div>
-                                                    <p>{selectedRecipe?.macros.carbs}g</p>
+                                                    <p>{recipe?.macros.carbs}g</p>
                                                 </div>
                                             )}
-                                            {Number(selectedRecipe?.macros?.protein) > 0 && (
+                                            {Number(recipe?.macros?.protein) > 0 && (
                                                 <div className="macroInfo">
                                                     <p>Protein</p>
                                                     <div className="proteinColor"></div>
-                                                    <p>{selectedRecipe?.macros.protein}g</p>
+                                                    <p>{recipe?.macros.protein}g</p>
                                                 </div>
                                             )}
-                                            {Number(selectedRecipe?.macros?.fat) > 0 && (
+                                            {Number(recipe?.macros?.fat) > 0 && (
                                                 <div className="macroInfo">
                                                     <p>Fat</p>
                                                     <div className="fatColor"></div>
-                                                    <p>{selectedRecipe?.macros.fat}g</p>
+                                                    <p>{recipe?.macros.fat}g</p>
                                                 </div>
                                             )}
-                                            {Number(selectedRecipe?.macros?.calories) > 0 && (
+                                            {Number(recipe?.macros?.calories) > 0 && (
                                                 <div className="macroInfo" id="macroInfoCalories">
                                                     <p>Calories</p>
                                                     <div className="caloriesColor"></div>
-                                                    <p>{selectedRecipe.macros.calories}</p>
+                                                    <p>{recipe.macros.calories}</p>
                                                 </div>
                                             )}
                                         </div>
                                     </div>
                                 </div>
                             )}
-                            {Number(selectedRecipe?.servings) > 0 && (
+                            {Number(recipe?.servings) > 0 && (
                                 <div className="mealsContainer">
                                     <Image src={meals} width={24} height={24} alt="servings" />
-                                    <p>{selectedRecipe?.servings}</p>
+                                    <p>{recipe?.servings}</p>
                                 </div>
                             )}
-                            {selectedRecipe.ingredients.map((ingList, ingListIndex) => (
+                            {recipe.ingredients.map((ingList, ingListIndex) => (
                                 <table key={ingListIndex}>
                                     <tbody>
                                         {ingList.component && (
@@ -133,11 +132,11 @@ export default function SelectedRecipeComponent({
                     </div>
 
                     <div className="recipeRightSideWrapper">
-                        {!isMobile && selectedRecipe.image && (
+                        {!isMobile && recipe.image && (
                             <CldImage
                                 width={1280}
                                 height={850}
-                                src={selectedRecipe.image}
+                                src={recipe.image}
                                 priority
                                 alt="recipe-image"
                                 format="webp"
@@ -146,7 +145,7 @@ export default function SelectedRecipeComponent({
                         <div className="recipeInstructionsContainer">
                             <table>
                                 <tbody>
-                                    {selectedRecipe?.instructions?.map((ins, insIndex) => (
+                                    {recipe?.instructions?.map((ins, insIndex) => (
                                         <tr className="flex" key={insIndex}>
                                             <td id="instructionIndex">{insIndex + 1}.</td>
                                             <td>{ins.instruction}</td>

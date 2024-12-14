@@ -8,6 +8,7 @@ import { getUserController } from "./_ssr/user/userController";
 import { CacheProvider } from "./_context/CacheContext";
 import { NavBarWidth } from "./_services/navBarServices";
 import { customFonts } from "@/_utils/customFonts";
+import { SelectedRecipeProvider } from "./_context/SelectedRecipeContext";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getSession();
@@ -32,7 +33,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <CacheProvider>
             <NavBar isAuth={session.isAuth} />
             <NavBarWidth isAuth={session.isAuth}>
-              {children}
+              <SelectedRecipeProvider>
+                {children}
+              </SelectedRecipeProvider>
             </NavBarWidth>
             <CookieConsent />
           </CacheProvider>

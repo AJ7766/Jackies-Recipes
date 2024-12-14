@@ -7,7 +7,9 @@ import { fetchGetSearchAPI } from "../_services/api/fetchGetSearchAPI";
 import { NavBarComponent } from "../_components/NavBarComponent";
 import { usePathname } from "next/navigation";
 import { checkNavBar, handleBlurInput, handleDropdown, handleMobileSearch } from "../_services/navBarServices";
-import Search from "./Search";
+import dynamic from "next/dynamic";
+const Search = dynamic(() => import("./Search"), { ssr: false });
+
 import { useMobileCheck } from "../_hooks/isMobile";
 
 export default function NavBar({ isAuth }: { isAuth: boolean }) {

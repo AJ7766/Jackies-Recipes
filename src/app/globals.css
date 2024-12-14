@@ -649,6 +649,7 @@ h2 {
 .recipe-info-container {
   position: relative;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 75px;
