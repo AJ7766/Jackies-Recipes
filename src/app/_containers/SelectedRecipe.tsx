@@ -1,15 +1,14 @@
 "use client"
-import { useCallback, useEffect, useRef } from "react";
 import SelectedRecipeComponent from "../_components/SelectedRecipeComponent";
 import { useMobileCheck } from "../_hooks/isMobile";
 import { useSelectedRecipe } from "../_context/SelectedRecipeContext";
 import { useCheckScrollbars } from "../_hooks/checkScrollbars";
 
 export default function SelectedRecipe() {
-    const { recipe, setRecipe, handleCloseRecipe } = useSelectedRecipe();
+    const { recipe, setRecipe, handleCloseRecipe, toggleScrollbars } = useSelectedRecipe();
     const isMobile = useMobileCheck();
 
-    useCheckScrollbars(recipe, setRecipe);
+    useCheckScrollbars(recipe, toggleScrollbars);
 
     if (!recipe)
         return;
