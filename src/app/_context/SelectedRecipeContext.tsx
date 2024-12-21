@@ -1,5 +1,5 @@
 "use client"
-import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import mongoose from "mongoose";
 
@@ -24,7 +24,7 @@ const handleCloseRecipe = () => {
 export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) => {
     const [recipe, setRecipe] = useState<RecipePopulatedProps | null>(null);
 
-    const selectedRecipeHandler = (recipe: RecipePopulatedProps, prevUrl?: string) => {
+    const selectedRecipeHandler = (recipe: RecipePopulatedProps) => {
         changeURL(recipe.user.username, recipe._id);
         setRecipe(recipe);
     }

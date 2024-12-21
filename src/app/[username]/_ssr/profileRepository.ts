@@ -7,6 +7,12 @@ export const getUserPopulated = async (username: string) => {
         .populate({
             path: 'recipes',
             model: RecipeModel,
-            select: '-__v'
+            select: '-__v -updatedAt'
         }).lean();
+}
+
+export const getProfileMeta = async (username: string) => {
+    return await UserModel.findOne({ username })
+        .select('-_id username fullName')
+        .lean();
 }

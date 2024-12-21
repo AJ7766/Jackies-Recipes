@@ -238,9 +238,9 @@ export const NavBarComponent = React.memo(({
             </div>
           </>
         ) :
-          <div className="newUserButtons">
+          <div className="buttonsContainer">
             <Link href="/" prefetch>
-              <button className="bg-[#26323a]">Login</button>
+              <button className="bg-black">Login</button>
             </Link>
             <Link href="/register" prefetch>
               <button className="bg-[#ef4444]">Register</button>

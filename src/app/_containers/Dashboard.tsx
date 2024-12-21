@@ -1,12 +1,12 @@
 "use client"
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { RecipeListComponent } from "../_components/RecipeListComponent";
 import { Loader } from "../_components/Loader";
 import { useSelectedRecipe } from "../_context/SelectedRecipeContext";
 import dynamic from "next/dynamic";
-const SelectedRecipe = dynamic(() => import("./SelectedRecipe"), { ssr: false });
+const SelectedRecipe = dynamic(() => import("./SelectedRecipe"), { ssr: true });
 
 export default function Dashboard() {
   const [loading, setLoading] = useState(0);
@@ -45,10 +45,12 @@ export default function Dashboard() {
       </div>
     );
   }
-  
+
   return <>
     {(isClient && window.innerWidth >= 1024) && <Loader loading={loading} />}
-    {recipe && <SelectedRecipe />}
+    <Suspense fallback={<div>Loading recipe details...</div>}>
+      {recipe && <SelectedRecipe />}
+    </Suspense>
     {recipes && <RecipeListComponent recipes={recipes} />}
   </>
 }

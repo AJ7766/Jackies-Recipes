@@ -8,14 +8,12 @@ export default async function DashboardPage() {
   if (!session.isAuth)
     return <LoginPage />
 
-  return <>
-  <Dashboard />
-  </>
+  return <Dashboard />
 }
 
 export async function generateMetadata() {
   const session = await getSession();
-  
+
   return {
     title: session.isAuth ? 'Jackies Recipes' : 'Login - Jackies Recipes',
     description: session.isAuth

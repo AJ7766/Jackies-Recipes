@@ -8,20 +8,16 @@ export default async function RootLayout({ children, params }: { children: React
 
   if (!serverProfile)
     return (
-      <>
-        <div className="errorContainer">
-          <h1>
-            User not found.
-          </h1>
-        </div>
-      </>
+      <div className="errorContainer">
+        <h1>
+          User not found.
+        </h1>
+      </div>
     )
 
   return (
-    <>
-      <ProfileProvider serverProfile={serverProfile}>
-        {children}
-      </ProfileProvider>
-    </>
+    <ProfileProvider serverProfile={serverProfile}>
+      {children}
+    </ProfileProvider>
   )
 }

@@ -16,10 +16,7 @@ export default function SelectedRecipe({ recipe_id }: { recipe_id: string }) {
       setIsSmallScreen(true);
     }
   }, []);
-
-  if (!selectedRecipe)
-    return null;
-
+  
   return (
     <SelectedRecipeComponent
       selectedRecipe={selectedRecipe}

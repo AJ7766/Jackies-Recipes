@@ -1,7 +1,6 @@
-"use server"
 import Profile from "./_containers/Profile";
 import RecipeList from "./_containers/RecipeList";
-import { getProfileController } from "./_ssr/profileController";
+import { getProfileMetaController } from "./_ssr/profileController";
 
 export default async function ProfilePage() {
   return <>
@@ -12,13 +11,15 @@ export default async function ProfilePage() {
 
 export async function generateMetadata({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
-  const { serverProfile } = await getProfileController(username.toLocaleLowerCase());
-
-  if (!serverProfile)
+  const { serverProfile, message } = await getProfileMetaController(username.toLocaleLowerCase());
+  
+  if (!serverProfile) {
+    console.error(message)
     return {
       title: `User not found • Profile and Recipes on Jackies Recipes`,
       description: `User not found • Browse users recipes and explore their shared culinary creations.`,
     }
+  }
 
   return {
     title: `${serverProfile.fullName} (@${username}) • Profile and Recipes on Jackies Recipes`,

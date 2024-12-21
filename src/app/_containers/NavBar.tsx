@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 const Search = dynamic(() => import("./Search"), { ssr: false });
 
 import { useMobileCheck } from "../_hooks/isMobile";
+import { useDebounce } from "../_hooks/useDebounce";
 
 export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const [search, setSearch] = useState("");
@@ -62,28 +63,25 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
       searchMobileRef.current.classList.add("hidden");
   }
 
+  const debouncedValue = useDebounce(search, 350);
   useEffect(() => {
-    const handler = setTimeout(() => {
-      if (search) {
-        const fetchData = async () => {
-          const { message, fetchedUsers, fetchedRecipes } = await fetchGetSearchAPI(search);
+    if (debouncedValue) {
+      console.log(debouncedValue)
+      const fetchData = async () => {
+        const { message, fetchedUsers, fetchedRecipes } = await fetchGetSearchAPI(search);
 
-          if (!fetchedUsers || !fetchedRecipes)
-            throw new Error(message);
+        if (!fetchedUsers || !fetchedRecipes)
+          throw new Error(message);
 
-          setUsers(fetchedUsers);
-          setRecipes(fetchedRecipes);
-        };
-        fetchData();
-      } else {
-        setUsers([]);
-        setRecipes([]);
-      }
-    }, 500);
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [search]);
+        setUsers(fetchedUsers);
+        setRecipes(fetchedRecipes);
+      };
+      fetchData();
+    } else {
+      setUsers([]);
+      setRecipes([]);
+    }
+  }, [debouncedValue]);
 
   if (!checkNavBar(pathname, isAuth))
     return null;
