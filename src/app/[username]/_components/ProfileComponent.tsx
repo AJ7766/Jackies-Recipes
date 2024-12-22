@@ -60,8 +60,8 @@ export const ProfileComponent = React.memo(({
                 </span>
               ))}
             </h2>}
-          {(!isClient || (isClient && isMobile)) &&
-            <div className="hidden text-xs text-[15px] mb-2 mt-4 flex content-center gap-x-6">
+          {(!isClient || (isClient && !isMobile)) &&
+            <div className="hidden text-sm text-[15px] mb-2 mt-4 flex content-center gap-x-6 md:flex">
               <h2><b>{profile.recipes.length}</b> recipes</h2>
               <h2><b>302</b> followers</h2>
               <h2><b>102</b> following</h2>
