@@ -1,12 +1,12 @@
 "use client"
 import SelectedRecipeComponent from "../_components/SelectedRecipeComponent";
-import { useMobileCheck } from "../_hooks/isMobile";
+import { useIsMobile } from "../_hooks/useIsMobile";
 import { useSelectedRecipe } from "../_context/SelectedRecipeContext";
 import { useCheckScrollbars } from "../_hooks/checkScrollbars";
 
 export default function SelectedRecipe() {
     const { recipe, handleCloseRecipe, toggleScrollbars } = useSelectedRecipe();
-    const isMobile = useMobileCheck();
+    const { isMobile, isClient } = useIsMobile();
 
     useCheckScrollbars(recipe, toggleScrollbars);
 
@@ -17,6 +17,7 @@ export default function SelectedRecipe() {
         <SelectedRecipeComponent
             recipe={recipe}
             isMobile={isMobile}
+            isClient={isClient}
             handleCloseRecipe={handleCloseRecipe}
         />
     )

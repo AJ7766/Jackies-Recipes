@@ -1,9 +1,11 @@
 import { useLayoutEffect, useState } from "react";
 
-export const useMobileCheck = (breakpoint = 768) => {
+export const useIsMobile = (breakpoint = 768) => {
     const [isMobile, setIsMobile] = useState(false);
+    const [isClient, setIsClient] = useState(false);
 
     useLayoutEffect(() => {
+        setIsClient(true);
         const checkIfMobile = () => setIsMobile(window.innerWidth <= breakpoint);
         checkIfMobile();
 
@@ -11,5 +13,5 @@ export const useMobileCheck = (breakpoint = 768) => {
         return () => window.removeEventListener("resize", checkIfMobile);
     }, [breakpoint]);
 
-    return isMobile;
+    return {isMobile, isClient};
 };

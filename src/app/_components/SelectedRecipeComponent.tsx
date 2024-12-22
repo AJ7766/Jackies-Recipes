@@ -9,15 +9,16 @@ const closeIcon = "/images/icons/close-recipe.svg";
 interface SelectedRecipeComponentProps {
     recipe: RecipePopulatedProps | null;
     isMobile: boolean;
+    isClient: boolean;
     handleCloseRecipe: () => void;
 }
 
 export default function SelectedRecipeComponent({
     recipe,
     isMobile,
+    isClient,
     handleCloseRecipe
 }: SelectedRecipeComponentProps) {
-    if (!recipe) return;
     return (
         recipe && (
             <>
@@ -50,7 +51,7 @@ export default function SelectedRecipeComponent({
                                 </div>
                                 <h1>{recipe?.title}</h1>
                             </div>
-                            {isMobile && recipe.image && (
+                            {(!isClient || (isClient && isMobile)) && recipe.image && (
                                 <CldImage
                                     className="recipe-image"
                                     width={1280}
@@ -131,7 +132,7 @@ export default function SelectedRecipeComponent({
                     </div>
 
                     <div className="recipeRightSideWrapper">
-                        {!isMobile && recipe.image && (
+                    {(!isClient || (isClient && !isMobile)) && recipe.image && (
                             <CldImage
                                 width={1280}
                                 height={850}

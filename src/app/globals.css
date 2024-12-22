@@ -516,31 +516,6 @@ body {
   width: calc(100% - 10px);
 }
 
-.profileContainer {
-  position: relative;
-  width: 75%;
-  margin: 40px auto;
-  background-size: cover;
-  background-position: center;
-}
-
-.fullName {
-  font-weight: 500;
-  font-size: 15.5px;
-}
-
-.profileContainer h1 {
-  font-family: var(--font-metropolis);
-  font-weight: 600;
-}
-
-.profileContainer h2 {
-  font-family: var(--font-source-sans);
-  font-weight: 400;
-  line-height: 1.2;
-  max-width: 550px;
-}
-
 .profilePicture {
   border-radius: 50%;
   object-fit: cover;
@@ -551,16 +526,6 @@ body {
   display: flex;
   gap: 10px;
   width: 100%;
-}
-
-.follow {
-  background: #000;
-  height: 32px;
-  font-size: 14px;
-  border-radius: 15px;
-  color: #fff;
-  line-height: 0;
-  width: 90px;
 }
 
 .searchRecipesContainer {
@@ -1476,9 +1441,6 @@ input::-webkit-inner-spin-button {
     width: 100%;
   }
 
-  .profileContainer{
-    width: 100%;
-  }
   .loginFormContainer,
   .forgotPassFormContainer,
   .registerFormContainer {

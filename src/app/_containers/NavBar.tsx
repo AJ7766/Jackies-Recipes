@@ -10,8 +10,8 @@ import { checkNavBar, handleBlurInput, handleDropdown, handleMobileSearch } from
 import dynamic from "next/dynamic";
 const Search = dynamic(() => import("./Search"), { ssr: false });
 
-import { useMobileCheck } from "../_hooks/isMobile";
 import { useDebounce } from "../_hooks/useDebounce";
+import { useIsMobile } from "../_hooks/useIsMobile";
 
 export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const [search, setSearch] = useState("");
@@ -28,9 +28,7 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
 
   const pathname = usePathname();
   const { user, logout } = useAuth();
-
-  const isMobile = useMobileCheck();
-
+  const { isMobile, isClient } = useIsMobile();
   const handleClickOutside = useCallback((e: MouseEvent) => {
     handleMobileSearch(e, searchMobileIconRef, searchMobileRef);
     handleDropdown(e, dropdownIconRef, dropdownRef, dropdownItemsRef);
@@ -115,6 +113,7 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
       searchMobileIconRef={searchMobileIconRef}
       pathname={pathname}
       isMobile={isMobile}
+      isClient={isClient}
     />
   </>
 }

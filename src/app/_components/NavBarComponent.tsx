@@ -30,6 +30,7 @@ interface NavBarProps {
   searchMobileIconRef: RefObject<HTMLDivElement>;
   pathname: string;
   isMobile: boolean;
+  isClient: boolean;
 }
 
 export const NavBarComponent = React.memo(({
@@ -49,13 +50,14 @@ export const NavBarComponent = React.memo(({
   searchRef,
   searchMobileIconRef,
   pathname,
-  isMobile
+  isMobile,
+  isClient
 }: NavBarProps) => {
   return (
     <>
       <div className="navContainer" ref={navBarRef}>
 
-        {!isMobile &&
+        {(!isClient || (isClient && !isMobile)) &&
           <Link
             className="hidden md:block"
             href={"/"}
@@ -85,20 +87,18 @@ export const NavBarComponent = React.memo(({
             src={home}
             alt="home-page"
           />
-          {!isMobile && <h2 className={`${activeLink(pathname, "/")} hidden md:block`}>Home</h2>}
+          {(!isClient || (isClient && !isMobile)) && <h2 className={`${activeLink(pathname, "/")} hidden md:block`}>Home</h2>}
         </Link>
-        {isMobile &&
-          <div className="navBarComponent grid md:hidden" ref={searchMobileIconRef}>
-            <Image
-              src={searchGlass}
-              id="searchGlass"
-              alt="search-glass"
-              width={30}
-              height={30}
-            />
-          </div>
-        }
-        {!isMobile &&
+        <div className="navBarComponent grid md:hidden" ref={searchMobileIconRef}>
+          <Image
+            src={searchGlass}
+            id="searchGlass"
+            alt="search-glass"
+            width={30}
+            height={30}
+          />
+        </div>
+        {(!isClient || (isClient && !isMobile)) &&
           <div className="searchContainer hidden md:grid">
             <Image
               src={searchGlass}
@@ -204,7 +204,7 @@ export const NavBarComponent = React.memo(({
                 alt="profile-picture"
                 sizes='100px'
               />
-              {!isMobile && <h2 className={`${activeLink(pathname, `/${user.username}`)} hidden md:block`}>Profile</h2>}
+              {(!isClient || (isClient && !isMobile)) && <h2 className={`${activeLink(pathname, `/${user.username}`)} hidden md:block`}>Profile</h2>}
             </Link>
             <Link className="navBarComponent" href="/add-recipe" prefetch>
               <Image
@@ -213,7 +213,7 @@ export const NavBarComponent = React.memo(({
                 src={addRecipe}
                 alt="add-recipe"
               />
-              {!isMobile && <h2 className={`${activeLink(pathname, `/add-recipe`)} hidden md:block`}>Add Recipe</h2>}
+              {(!isClient || (isClient && !isMobile)) && <h2 className={`${activeLink(pathname, `/add-recipe`)} hidden md:block`}>Add Recipe</h2>}
             </Link>
 
             <div className="dropdownContainer">
@@ -245,7 +245,7 @@ export const NavBarComponent = React.memo(({
             <Link href="/register" prefetch>
               <button className="bg-[#ef4444]">Register</button>
             </Link>
-            {!isMobile && <p className="hidden md:block">Make sure to login to get access to all features!<br /><br />This app is in development mode right now, feel free to login with recruiter:recruiter if you don't want to create an account</p>}
+            {(!isClient || (isClient && !isMobile)) && <p className="hidden md:block">Make sure to login to get access to all features!<br /><br />This app is in development mode right now, feel free to login with recruiter:recruiter if you don't want to create an account</p>}
           </div>
         }
       </div >
