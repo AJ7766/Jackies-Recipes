@@ -516,10 +516,10 @@ body {
   width: calc(100% - 10px);
 }
 
-.profileInfo {
+.profileContainer {
   position: relative;
   width: 75%;
-  margin: 25px auto;
+  margin: 40px auto;
   background-size: cover;
   background-position: center;
 }
@@ -529,29 +529,22 @@ body {
   font-size: 15.5px;
 }
 
-.profileInfo h1 {
+.profileContainer h1 {
   font-family: var(--font-metropolis);
-  font-size: 34px;
   font-weight: 600;
 }
 
-.profileInfo h2 {
+.profileContainer h2 {
   font-family: var(--font-source-sans);
   font-weight: 400;
   line-height: 1.2;
   max-width: 550px;
-  margin-bottom: 8px;
 }
 
 .profilePicture {
-  height: revert-layer;
   border-radius: 50%;
   object-fit: cover;
   object-position: center;
-}
-
-.profileInfo::before {
-  width: 35%;
 }
 
 .profileSocialMediaContainer {
@@ -562,15 +555,12 @@ body {
 
 .follow {
   background: #000;
-  font-family: inherit;
-  height: 36px;
+  height: 32px;
   font-size: 14px;
-  padding: 5px clamp(7px, 2vw, 20px);
   border-radius: 15px;
   color: #fff;
   line-height: 0;
-  width: 15.5ch;
-  text-align: left;
+  width: 90px;
 }
 
 .searchRecipesContainer {
@@ -596,7 +586,7 @@ body {
 }
 
 .divider {
-  height: 2px;
+  height: 1px;
   width: 50%;
   margin: auto;
   background: #e9e9e9;
@@ -1486,6 +1476,9 @@ input::-webkit-inner-spin-button {
     width: 100%;
   }
 
+  .profileContainer{
+    width: 100%;
+  }
   .loginFormContainer,
   .forgotPassFormContainer,
   .registerFormContainer {
