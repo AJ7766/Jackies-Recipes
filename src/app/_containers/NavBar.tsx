@@ -9,9 +9,8 @@ import { usePathname } from "next/navigation";
 import { checkNavBar, handleBlurInput, handleDropdown, handleMobileSearch } from "../_services/navBarServices";
 import dynamic from "next/dynamic";
 const Search = dynamic(() => import("./Search"), { ssr: false });
-
 import { useDebounce } from "../_hooks/useDebounce";
-import { useIsMobile } from "../_hooks/useIsMobile";
+import { useIsResponsive } from "../_hooks/useIsResponsive";
 
 export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const [search, setSearch] = useState("");
@@ -28,7 +27,7 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
 
   const pathname = usePathname();
   const { user, logout } = useAuth();
-  const { isMobile, isClient } = useIsMobile();
+  const { isMobile, isClient } = useIsResponsive();
   const handleClickOutside = useCallback((e: MouseEvent) => {
     handleMobileSearch(e, searchMobileIconRef, searchMobileRef);
     handleDropdown(e, dropdownIconRef, dropdownRef, dropdownItemsRef);

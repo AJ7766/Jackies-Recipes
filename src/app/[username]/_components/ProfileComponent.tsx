@@ -45,9 +45,9 @@ export const ProfileComponent = React.memo(({
         </div>
         <div className="flex flex-col mt-2 md:w-[450px] md:mt-0">
           {(!isClient || (isClient && !isMobile)) &&
-            <div className="hidden w-full md:flex items-center justify-between">
+            <div className="hidden w-full items-center justify-between md:flex">
               <h1 className="text-base md:text-3xl">{profile?.username}</h1>
-              <button type="button" className="bg-black text-white h-[30px] text-[14px] rounded-[15px] w-[80px]">FOLLOW</button>
+              <button type="button" className="bg-black text-white h-[30px] text-[14px] rounded-[5px] w-[80px]">FOLLOW</button>
             </div>}
           <p className="text-[13px] font-medium md:text-base md:mt-4">{profile?.fullName}</p>
           <p className="block text-gray-600 md:hidden">@{profile.username}</p>
@@ -128,7 +128,7 @@ export const ProfileComponent = React.memo(({
               </Link>
             )}
           </div>
-          {(!isClient || (isClient && isMobile)) && <button type="button" className="bg-black text-white mt-2 text-[12px] h-[25px] rounded-[10px] w-[65px] md:hidden">FOLLOW</button>}
+          {(!isClient || (isClient && isMobile)) && <button type="button" className="bg-black text-white mt-2 text-[12px] h-[25px] rounded-[5px] w-[65px] md:hidden">FOLLOW</button>}
         </div>
       </div>
       <div className="divider"></div>
