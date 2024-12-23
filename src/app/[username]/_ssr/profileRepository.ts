@@ -23,8 +23,8 @@ export const postNewFollower = async (
 }
 
 export const postNewFollowing = async (
-    new_followed: mongoose.Types.ObjectId,
     user_id: mongoose.Types.ObjectId,
+    new_followed: mongoose.Types.ObjectId,
     session: mongoose.ClientSession
 ) => {
     return await UserModel.findByIdAndUpdate(user_id,
@@ -44,14 +44,20 @@ export const updateUnfollowed = async (
 }
 
 export const updateUnfollowing = async (
-    prev_follower: mongoose.Types.ObjectId,
     user_id: mongoose.Types.ObjectId,
+    prev_follower: mongoose.Types.ObjectId,
     session: mongoose.ClientSession
 ) => {
     return await UserModel.findByIdAndUpdate(user_id,
         {
             $pull: { following: prev_follower }
         }, { session });
+}
+
+export const getIsFollowing = async (username: string, user_id: mongoose.Types.ObjectId) => {
+    return await UserModel.findOne({ username, followers: user_id })
+        .select('_id')
+        .lean();
 }
 
 export const getProfileMeta = async (username: string) => {

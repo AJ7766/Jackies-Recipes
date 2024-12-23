@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { getProfileMeta, getUserPopulated, postNewFollower, postNewFollowing, updateUnfollowed, updateUnfollowing } from "./profileRepository";
+import { getIsFollowing, getProfileMeta, getUserPopulated, postNewFollower, postNewFollowing, updateUnfollowed, updateUnfollowing } from "./profileRepository";
 
 export const getUserPopulatedService = async (username: string) => {
     const user = await getUserPopulated(username);
@@ -12,7 +12,6 @@ export const getUserPopulatedService = async (username: string) => {
 
 export const postNewFollowerService = async (username: string, user_id: mongoose.Types.ObjectId, session: mongoose.ClientSession) => {
     const updated_followed_user = await postNewFollower(username, user_id, session);
-
     if (!updated_followed_user)
         throw new Error("Failed to follow user");
 
@@ -25,7 +24,6 @@ export const postNewFollowerService = async (username: string, user_id: mongoose
 
 export const updateUnfollowerService = async (username: string, user_id: mongoose.Types.ObjectId, session: mongoose.ClientSession) => {
     const updated_followed_user = await updateUnfollowed(username, user_id, session);
-
     if (!updated_followed_user)
         throw new Error("Failed to unfollow user");
 
@@ -34,6 +32,12 @@ export const updateUnfollowerService = async (username: string, user_id: mongoos
         throw new Error("Failed to remove followed user to list of following users");
 
     return true;
+}
+
+export const getIsFollowingService = async (username: string, user_id: mongoose.Types.ObjectId) => {
+    const isFollowing = await getIsFollowing(username, user_id);
+
+    return !!isFollowing;
 }
 
 export const getProfileMetaService = async (username: string) => {

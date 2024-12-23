@@ -4,11 +4,17 @@ import { ProfileComponent } from "../_components/ProfileComponent";
 import { useIsResponsive } from "@/app/_hooks/useIsResponsive";
 import mongoose from "mongoose";
 import { useIsAuthorizedProfile } from "@/app/_hooks/useIsAuthorizedProfile";
+import { useState } from "react";
 
-export default function Profile({ user_id }: { user_id?: mongoose.Types.ObjectId }) {
-    const { profile } = useProfile();
+export default function Profile({ user_id, serverIsFollowing }: { user_id?: mongoose.Types.ObjectId, serverIsFollowing?: boolean }) {
+    const { profile, handleFollowersChange } = useProfile();
     const { isMobile, isClient } = useIsResponsive();
     const isAuthenticatedProfile = useIsAuthorizedProfile();
+    const [isFollowing, setIsFollowing] = useState(serverIsFollowing);
+
+    const handleFollowing = async (following: boolean) => {
+        setIsFollowing(following);
+    }
 
     return (
         <ProfileComponent
@@ -17,6 +23,9 @@ export default function Profile({ user_id }: { user_id?: mongoose.Types.ObjectId
             isClient={isClient}
             user_id={user_id}
             isAuthenticatedProfile={isAuthenticatedProfile}
+            handleFollowersChange={handleFollowersChange}
+            isFollowing={isFollowing}
+            handleFollowing={handleFollowing}
         />
     )
 }

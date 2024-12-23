@@ -1,12 +1,14 @@
 import { getSession } from "@/_utils/session";
 import Profile from "./_containers/Profile";
 import RecipeList from "./_containers/RecipeList";
-import { getProfileMetaController } from "./_ssr/profileController";
+import { getIsFollowingController, getProfileMetaController } from "./_ssr/profileController";
 
-export default async function ProfilePage() {
+export default async function ProfilePage({ params }: { params: Promise<{ username: string }> }) {
   const session = await getSession();
+  const { username } = await params;
+  const serverIsFollowing = session.user_id && await getIsFollowingController(username, session.user_id);
   return <>
-    <Profile user_id={session.user_id}/>
+    <Profile user_id={session.user_id} serverIsFollowing={serverIsFollowing} />
     <RecipeList />
   </>;
 }

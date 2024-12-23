@@ -8,7 +8,7 @@ export const handleFollow = async (user_id: mongoose.Types.ObjectId, username: s
     await postNewFollowerController(username, user_id);
 }
 
-export const handeUnfollow = async (user_id: mongoose.Types.ObjectId, username: string) => {
+export const handleUnfollow = async (user_id: mongoose.Types.ObjectId, username: string) => {
     if (!user_id) return;
     await updateUnfollowerController(username, user_id);
 }

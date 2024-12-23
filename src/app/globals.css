@@ -571,13 +571,6 @@ body {
   gap: 10px;
 }
 
-.buttonsContainer button {
-  padding: 5px clamp(7px, 2vw, 20px);
-  border-radius: 5px;
-  color: white;
-  width: 100%;
-}
-
 .recipe-wrapper {
   display: grid;
   margin: auto;
