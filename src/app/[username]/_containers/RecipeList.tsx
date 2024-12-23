@@ -14,6 +14,22 @@ export default function RecipeList() {
   const [searchRecipe, setSearchRecipe] = useState('')
   const [filteredRecipes, setFilteredRecipes] = useState<RecipePopulatedProps[]>(profile.recipes);
 
+  useEffect(() => {
+    searchRecipe ? setFilteredRecipes(
+      profile.recipes.filter((recipe) =>
+        recipe.title
+          .toLowerCase()
+          .normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .includes(
+            searchRecipe
+              .toLowerCase()
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, ''))
+      )
+    ) : setFilteredRecipes(profile.recipes)
+  }, [searchRecipe])
+
   if (profile?.recipes.length === 0 || !profile?.recipes) {
     return (
       <div className="noRecipesContainer">
@@ -25,22 +41,6 @@ export default function RecipeList() {
   const handleSearchChange = (query: string) => {
     setSearchRecipe(query);
   }
-
-    useEffect(() => {
-      searchRecipe ? setFilteredRecipes(
-        profile.recipes.filter((recipe) =>
-          recipe.title
-            .toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .includes(
-              searchRecipe
-                .toLowerCase()
-                .normalize('NFD')
-                .replace(/[\u0300-\u036f]/g, ''))
-        )
-      ) : setFilteredRecipes(profile.recipes)
-    }, [searchRecipe])
 
   return <>
     {profile.recipes && <SelectedRecipe />}

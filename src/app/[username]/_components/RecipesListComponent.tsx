@@ -106,7 +106,9 @@ export const RecipesListComponent = React.memo(({
           </div>
         ))
       ) : (
-        <div>No recipes were found</div>
+        <div className="noRecipesContainer col-span-3">
+          <h1>No recipes were found</h1>
+        </div>
       )}
     </div>
   );

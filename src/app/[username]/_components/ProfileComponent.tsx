@@ -47,10 +47,10 @@ export const ProfileComponent = React.memo(({
             format="webp"
           />
           {(!isClient || (isClient && isMobile)) &&
-            <div className="text-xs mb-2 mt-4 flex content-center gap-x-4 md:hidden">
-              <h2><b>{profile.recipes.length}</b> recipes</h2>
-              <h2><b>{profile.followers?.length || 0}</b> followers</h2>
-              <h2><b>{profile.following?.length || 0}</b> following</h2>
+            <div className="text-sm mb-2 mt-4 mx-auto flex content-center gap-x-4 md:hidden">
+              <h2 className="flex flex-col items-center"><b>{profile.recipes.length}</b> recipes</h2>
+              <h2 className="flex flex-col items-center"><b>{profile.followers?.length || 0}</b> followers</h2>
+              <h2 className="flex flex-col items-center"><b>{profile.following?.length || 0}</b> following</h2>
             </div>
           }
         </div>
@@ -60,7 +60,7 @@ export const ProfileComponent = React.memo(({
               <h1 className="text-base md:text-3xl">{profile?.username}</h1>
               {!isAuthenticatedProfile && <button
                 type="button"
-                className={`bg-black text-white h-[30px] text-[14px] rounded-[5px] ${isFollowing ? 'w-[90px]' : 'w-[80px]'}`}
+                className={`h-[30px] text-[14px] rounded-[5px] ${isFollowing ? 'w-[90px] bg-white text-black border-[1.5px] border-black' : 'w-[80px] bg-black text-white'}`}
                 onClick={async () => {
                   if (!user_id || isAuthenticatedProfile)
                     return alert('Please login to follow this user');
@@ -159,10 +159,10 @@ export const ProfileComponent = React.memo(({
           </div>
           {((!isClient && !isAuthenticatedProfile) || (isClient && isMobile && !isAuthenticatedProfile)) && <button
             type="button"
-            className={`bg-black text-white mt-2 text-[12px] h-[25px] rounded-[5px] ${isFollowing ? 'w-[75px]' : 'w-[65px]'}md:hidden`}
+            className={`mt-2 text-[12px] h-[25px] rounded-[5px] ${isFollowing ? 'w-[75px] bg-white text-black' : 'w-[65px] bg-black text-white'} md:hidden`}
             onClick={async () => {
               if (!user_id || isAuthenticatedProfile)
-                return alert('Please login to follow this user');
+                return alert('Please login to use this feature');
               if (!isFollowing) {
                 const { handleFollow } = await import("../_services/profileServices");
                 await handleFollow(user_id, profile.username);
