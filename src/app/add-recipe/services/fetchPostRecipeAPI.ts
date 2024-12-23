@@ -6,8 +6,8 @@ export const fetchPostRecipeAPI = async (recipe: RecipeFormProps, token: string)
             method: "POST",
             body: JSON.stringify(recipe),
             headers: {
-                "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
             },
         });
 

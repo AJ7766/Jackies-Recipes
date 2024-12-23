@@ -63,7 +63,6 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const debouncedValue = useDebounce(search, 350);
   useEffect(() => {
     if (debouncedValue) {
-      console.log(debouncedValue)
       const fetchData = async () => {
         const { message, fetchedUsers, fetchedRecipes } = await fetchGetSearchAPI(search);
 

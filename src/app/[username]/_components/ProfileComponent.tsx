@@ -157,7 +157,7 @@ export const ProfileComponent = React.memo(({
               </Link>
             )}
           </div>
-          {(!isClient || (isClient && isMobile)) && !isAuthenticatedProfile && <button
+          {((!isClient && !isAuthenticatedProfile) || (isClient && isMobile && !isAuthenticatedProfile)) && <button
             type="button"
             className={`bg-black text-white mt-2 text-[12px] h-[25px] rounded-[5px] ${isFollowing ? 'w-[75px]' : 'w-[65px]'}md:hidden`}
             onClick={async () => {
