@@ -63,7 +63,7 @@ export const ProfileComponent = React.memo(({
                 className={`h-[30px] text-[14px] rounded-[5px] ${isFollowing ? 'w-[90px] bg-white text-black border-[1.5px] border-black' : 'w-[80px] bg-black text-white'}`}
                 onClick={async () => {
                   if (!user_id || isAuthenticatedProfile)
-                    return alert('Please login to follow this user');
+                    return alert('Please login to use this feature');
                   if (!isFollowing) {
                     const { handleFollow } = await import("../_services/profileServices");
                     await handleFollow(user_id, profile.username);
