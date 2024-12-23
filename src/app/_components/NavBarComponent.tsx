@@ -238,12 +238,12 @@ export const NavBarComponent = React.memo(({
             </div>
           </>
         ) :
-          <div className="buttonsContainer">
+          <div className="flex flex-row gap-[6px] md:flex-col">
             <Link href="/" prefetch>
-              <button className="bg-black">Login</button>
+              <button className="bg-black p-[5px_clamp(7px,_2vw,_20px)] rounded-[5px] text-white w-full">Login</button>
             </Link>
             <Link href="/register" prefetch>
-              <button className="bg-[#ef4444]">Register</button>
+              <button className="bg-[#ef4444] p-[5px_clamp(7px,_2vw,_20px)] rounded-[5px] text-white w-full">Register</button>
             </Link>
             {(!isClient || (isClient && !isMobile)) && <p className="hidden md:block">Make sure to login to get access to all features!<br /><br />This app is in development mode right now, feel free to login with recruiter:recruiter if you don't want to create an account</p>}
           </div>

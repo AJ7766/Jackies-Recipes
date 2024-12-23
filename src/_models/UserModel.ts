@@ -19,7 +19,7 @@ export interface UserPopulatedProps extends Omit<UserProps, 'recipes'> {
 
 export interface UserPopulatedRecipePopulatedProps extends Omit<UserProps, "recipes"> {
    recipes: RecipePopulatedProps[];
- }
+}
 
 export interface UserEditProps extends Omit<UserProps, '_id' | 'recipes'> {
    newPassword: string;
@@ -68,8 +68,14 @@ const userSchema = new Schema<UserDocument>({
       type: mongoose.Schema.Types.ObjectId,
       ref: 'recipes'
    }],
-   following: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
-   followers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
+   followers: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'users',
+   }],
+   following: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'users'
+   }],
 }, { timestamps: true });
 
 userSchema.index({ recipes: 1 });

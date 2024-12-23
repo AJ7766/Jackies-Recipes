@@ -1,10 +1,12 @@
+import { getSession } from "@/_utils/session";
 import Profile from "./_containers/Profile";
 import RecipeList from "./_containers/RecipeList";
 import { getProfileMetaController } from "./_ssr/profileController";
 
 export default async function ProfilePage() {
+  const session = await getSession();
   return <>
-    <Profile />
+    <Profile user_id={session.user_id}/>
     <RecipeList />
   </>;
 }
@@ -12,7 +14,7 @@ export default async function ProfilePage() {
 export async function generateMetadata({ params }: { params: Promise<{ username: string }> }) {
   const { username } = await params;
   const { serverProfile, message } = await getProfileMetaController(username.toLocaleLowerCase());
-  
+
   if (!serverProfile) {
     console.error(message)
     return {

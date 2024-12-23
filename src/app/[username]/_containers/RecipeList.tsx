@@ -1,20 +1,16 @@
 "use client"
-import { useAuth } from "@/app/_context/AuthContext";
-import { usePathname } from "next/navigation";
 import { RecipesListComponent } from "../_components/RecipesListComponent";
 import { useProfile } from "@/app/_context/ProfileContext";
 import SelectedRecipe from "@/app/_containers/SelectedRecipe";
 import { SearchRecipe } from "../_components/SearchRecipeComponent";
 import { useEffect, useState } from "react";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
+import { useIsAuthorizedProfile } from "@/app/_hooks/useIsAuthorizedProfile";
 
 export default function RecipeList() {
-  const { user } = useAuth();
   const { profile } = useProfile();
-  const pathname = usePathname();
-  const pathParts = pathname.split("/");
-  const usernameLink = pathParts[1];
-  const canEdit = user?.username === usernameLink;
+  const isAuthenticatedProfile = useIsAuthorizedProfile();
+
   const [searchRecipe, setSearchRecipe] = useState('')
   const [filteredRecipes, setFilteredRecipes] = useState<RecipePopulatedProps[]>(profile.recipes);
 
@@ -52,7 +48,7 @@ export default function RecipeList() {
     <RecipesListComponent
       profile={profile}
       recipes={filteredRecipes}
-      canEdit={canEdit}
+      isAuthenticatedProfile={isAuthenticatedProfile}
     />
   </>
 

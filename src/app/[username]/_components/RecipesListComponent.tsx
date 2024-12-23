@@ -11,11 +11,11 @@ const cogwheel = "/images/icons/cogwheel.svg";
 export const RecipesListComponent = React.memo(({
   profile,
   recipes,
-  canEdit
+  isAuthenticatedProfile
 }: {
   profile: UserPopulatedRecipePopulatedProps;
   recipes: RecipePopulatedProps[],
-  canEdit: boolean;
+  isAuthenticatedProfile: boolean;
 }) => {
   const { selectedRecipeHandler } = useSelectedRecipe();
 
@@ -91,7 +91,7 @@ export const RecipesListComponent = React.memo(({
                 />
                 <div className='recipe-profile-image-pseudo'></div>
               </div>
-              {canEdit && (
+              {isAuthenticatedProfile && (
                 <Link href={`/edit-recipe/${recipe._id}`} prefetch>
                   <Image
                     src={cogwheel}
