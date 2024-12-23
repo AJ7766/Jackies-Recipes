@@ -159,7 +159,7 @@ export const ProfileComponent = React.memo(({
           </div>
           {((!isClient && !isAuthenticatedProfile) || (isClient && isMobile && !isAuthenticatedProfile)) && <button
             type="button"
-            className={`mt-2 text-[12px] h-[25px] rounded-[5px] ${isFollowing ? 'w-[75px] bg-white text-black' : 'w-[65px] bg-black text-white'} md:hidden`}
+            className={`mt-2 text-[12px] h-[25px] rounded-[5px] ${isFollowing ? 'w-[75px] bg-white text-black border-[1.5px] border-black' : 'w-[65px] bg-black text-white'} md:hidden`}
             onClick={async () => {
               if (!user_id || isAuthenticatedProfile)
                 return alert('Please login to use this feature');
