@@ -84,7 +84,7 @@ export default function LoginComponent({
             >
               {loadingBtn ? "Logging in..." : "Login"}
             </button>
-            <Link href="/register" prefetch>
+            <Link href="/register" prefetch={false}>
               <button className="redBtn">Register</button>
             </Link>
           </div>

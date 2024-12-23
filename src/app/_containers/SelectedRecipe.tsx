@@ -7,7 +7,7 @@ import { useCheckScrollbars } from "../_hooks/checkScrollbars";
 export default function SelectedRecipe() {
     const { recipe, handleCloseRecipe, toggleScrollbars } = useSelectedRecipe();
     const { isMobile, isClient } = useIsResponsive();
-
+    
     useCheckScrollbars(recipe, toggleScrollbars);
 
     if (!recipe)

@@ -6,29 +6,29 @@ import { SearchRecipe } from "../_components/SearchRecipeComponent";
 import { useEffect, useState } from "react";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { useIsAuthorizedProfile } from "@/app/_hooks/useIsAuthorizedProfile";
+import { useSelectedRecipe } from "@/app/_context/SelectedRecipeContext";
 
 export default function RecipeList() {
   const { profile } = useProfile();
   const isAuthenticatedProfile = useIsAuthorizedProfile();
-
+  const { selectedRecipeHandler } = useSelectedRecipe();
   const [searchRecipe, setSearchRecipe] = useState('')
   const [filteredRecipes, setFilteredRecipes] = useState<RecipePopulatedProps[]>(profile.recipes);
 
-  useEffect(() => {
-    searchRecipe ? setFilteredRecipes(
-      profile.recipes.filter((recipe) =>
-        recipe.title
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '')
-          .includes(
-            searchRecipe
-              .toLowerCase()
-              .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, ''))
-      )
-    ) : setFilteredRecipes(profile.recipes)
-  }, [searchRecipe])
+  useEffect(() => searchRecipe ? setFilteredRecipes(
+    profile.recipes.filter((recipe) =>
+      recipe.title
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .includes(
+          searchRecipe
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, ''))
+    )
+  ) : setFilteredRecipes(profile.recipes)
+    , [searchRecipe])
 
   if (profile?.recipes.length === 0 || !profile?.recipes) {
     return (
@@ -49,6 +49,7 @@ export default function RecipeList() {
       profile={profile}
       recipes={filteredRecipes}
       isAuthenticatedProfile={isAuthenticatedProfile}
+      selectedRecipeHandler={selectedRecipeHandler}
     />
   </>
 

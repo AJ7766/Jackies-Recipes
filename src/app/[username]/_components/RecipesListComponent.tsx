@@ -2,7 +2,6 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { CldImage } from "next-cloudinary";
-import { useSelectedRecipe } from "@/app/_context/SelectedRecipeContext";
 import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
 import mongoose from "mongoose";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
@@ -11,14 +10,14 @@ const cogwheel = "/images/icons/cogwheel.svg";
 export const RecipesListComponent = React.memo(({
   profile,
   recipes,
-  isAuthenticatedProfile
+  isAuthenticatedProfile,
+  selectedRecipeHandler
 }: {
   profile: UserPopulatedRecipePopulatedProps;
   recipes: RecipePopulatedProps[],
   isAuthenticatedProfile: boolean;
+  selectedRecipeHandler: (recipe: RecipePopulatedProps) => void;
 }) => {
-  const { selectedRecipeHandler } = useSelectedRecipe();
-
   return (
     <div className="recipe-wrapper">
       {recipes.some(recipe => recipe.title) ? (

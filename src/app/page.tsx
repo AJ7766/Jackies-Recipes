@@ -1,6 +1,7 @@
 import { getSession } from "@/_utils/session";
-import Dashboard from "./_containers/Dashboard";
-import LoginPage from "./_containers/LoginPage";
+import dynamic from "next/dynamic";
+const Dashboard = dynamic(() => import('./_containers/Dashboard'), { ssr: true });
+const LoginPage = dynamic(() => import('./_containers/LoginPage'), { ssr: true });
 
 export default async function DashboardPage() {
   const session = await getSession();

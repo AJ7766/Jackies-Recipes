@@ -14,18 +14,17 @@ export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePop
         {recipes.map((recipe, recipeIndex) => (
           <div className="recipe-container" key={recipeIndex}>
             <CldImage
-              width={1280}
-              height={1280}
               src={recipe.image || ""}
               onClick={() => selectedRecipeHandler(recipe)}
               alt={recipe.title}
-              fetchPriority='high'
+              crop='limit'
+              width={1280}
+              height={1280}
               className="recipe-img"
-              decoding="async"
-              quality='auto'
-              loading="eager"
-              priority
+              fetchPriority="high"
+              loading="lazy"
               sizes="(max-width: 768px) 33vw, 500px"
+              format="webp"
             />
             <div className='recipe-info-container'>
               <h1

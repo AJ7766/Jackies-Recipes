@@ -1,5 +1,5 @@
 "use client"
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
 import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { RecipeListComponent } from "../_components/RecipeListComponent";
@@ -48,9 +48,7 @@ export default function Dashboard() {
 
   return <>
     {(isClient && window.innerWidth >= 1024) && <Loader loading={loading} />}
-    <Suspense fallback={<div>Loading recipe details...</div>}>
       {recipe && <SelectedRecipe />}
-    </Suspense>
     {recipes && <RecipeListComponent recipes={recipes} />}
   </>
 }
