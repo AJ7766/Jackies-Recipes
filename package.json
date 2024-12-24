@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@types/chart.js": "^2.9.41",
+    "@vercel/speed-insights": "^1.1.0",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "chartjs-plugin-datalabels": "^2.2.0",

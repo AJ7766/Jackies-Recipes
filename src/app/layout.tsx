@@ -1,5 +1,6 @@
 import "./globals.css";
 import dynamic from 'next/dynamic';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 import { AuthProvider } from "./_context/AuthContext";
 const NavBar = dynamic(() => import("./_containers/NavBar"));
 import { CookieConsent } from "./_containers/CookieConsent";
@@ -35,6 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             <NavBarWidth isAuth={session.isAuth}>
               <SelectedRecipeProvider>
                 {children}
+                <SpeedInsights />
               </SelectedRecipeProvider>
             </NavBarWidth>
             <CookieConsent />
