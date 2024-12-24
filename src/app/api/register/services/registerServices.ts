@@ -1,4 +1,3 @@
-import ValidateRegisterForm from "../validations/registerValidation";
 import { register } from "../repositories/registerRepository";
 import { hashPassword } from "@/_utils/bcrypt";
 import { UserRegisterProps } from "@/_models/UserModel";
@@ -22,14 +21,4 @@ export const registerService = async (user: UserRegisterProps) => {
         throw new Error('Failed to register user');
 
     return new_user;
-};
-
-
-export const registerValidateService = async (user: UserRegisterProps) => {
-    const validation_response = await ValidateRegisterForm(user);
-
-    if (typeof validation_response === 'string')
-        throw new Error(validation_response);
-
-    return validation_response;
 }
