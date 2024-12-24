@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from "next/server"
 import { connectDB } from "../../_config/database"
-import { registerService, registerValidateService } from "./services/registerServices";
+import { registerService } from "./services/registerServices";
 import { UserRegisterProps } from "@/_models/UserModel";
 
 export async function POST(req: NextRequest) { // Register user
    try {
-      await connectDB();
       const user: UserRegisterProps = await req.json();
-
-      await registerValidateService(user);
+      await connectDB();
 
       await registerService(user);
 
@@ -21,7 +19,7 @@ export async function POST(req: NextRequest) { // Register user
             error.message = `Username '${error.keyValue.username}' is already taken.`;
          }
       }
-      console.error("Register Error:", error);
+      console.error("Register Error:", error.message);
       return NextResponse.json({ message: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
    }
 }

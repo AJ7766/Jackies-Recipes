@@ -5,11 +5,10 @@ import { comparePasswords } from "@/_utils/bcrypt";
 import { assignToken } from "@/_utils/jwt";
 import { setSession } from "@/_utils/session";
 
-export async function POST(request: NextRequest) { //Login user
+export async function POST(req: NextRequest) { //Login user
   try {
+    const { username, password } = await req.json();
     await connectDB();
-
-    const { username, password } = await request.json()
     const lowercase_username = username.toLowerCase();
 
     const user = await loginServices(lowercase_username);

@@ -10,9 +10,9 @@ export const fetchRegisterAPI = async (user: UserRegisterProps) => {
             },
         });
         const data = await res.json();
-
+        console.log(data)
         if (!res.ok) {
-            return { message: data.message || "Failed to register" };
+            return { message: data.error || "Failed to register" };
         }
 
         return { message: data.message };

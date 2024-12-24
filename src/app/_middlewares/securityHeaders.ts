@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 
-export const setSecurityHeaders = async (response: NextResponse) => {
-    response.headers.set('X-Content-Type-Options', 'nosniff');
-    response.headers.set('X-Frame-Options', 'DENY');
-    response.headers.set('X-XSS-Protection', '1; mode=block');
-    response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-    response.headers.set('Cross-Origin-Resource-Policy', 'same-site');
+export const setSecurityHeaders = async (res: NextResponse) => {
+    res.headers.set('X-Content-Type-Options', 'nosniff');
+    res.headers.set('X-Frame-Options', 'DENY');
+    res.headers.set('X-XSS-Protection', '1; mode=block');
+    res.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.headers.set('Cross-Origin-Resource-Policy', 'same-site');
 
     if (process.env.NODE_ENV === 'development') {
-        response.headers.set(
+        res.headers.set(
             'Content-Security-Policy',
             [
                 "default-src 'self';",
@@ -22,7 +22,7 @@ export const setSecurityHeaders = async (response: NextResponse) => {
             ].join(' ')
         );
     } else {
-        response.headers.set(
+        res.headers.set(
             'Content-Security-Policy',
             [
                 "default-src 'self';",
@@ -36,5 +36,5 @@ export const setSecurityHeaders = async (response: NextResponse) => {
             ].join(' ')
         );
     }
-    response.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
+    res.headers.set('Permissions-Policy', 'geolocation=(), microphone=(), camera=()');
 }

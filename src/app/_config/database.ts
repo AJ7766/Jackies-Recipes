@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 
 export const getUri = async () => {
    const MONGODB_URI_EXISTS = process.env.MONGODB_URI;
-   if (!MONGODB_URI_EXISTS) {
+   if (!MONGODB_URI_EXISTS) 
       throw new Error('No MongoDB Uri found');
-   }
+   
    return MONGODB_URI_EXISTS
 }
 

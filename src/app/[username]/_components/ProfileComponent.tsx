@@ -78,10 +78,10 @@ export const ProfileComponent = React.memo(({
                 }}
               >{isFollowing ? 'UNFOLLOW' : 'FOLLOW'}</button>}
             </div>}
-          <p className="text-[13px] font-medium md:text-base md:mt-4">{profile?.fullName}</p>
+          <p className="text-[13px] font-medium md:text-sm md:mt-4">{profile?.fullName}</p>
           <p className="block text-gray-600 md:hidden">@{profile.username}</p>
           {profile.userContent?.bio &&
-            <h2 className="text-[13px] mt-1 mb-1 md:text-base">
+            <h2 className="text-[13px] mt-1 mb-1 md:text-sm md:mt-0">
               {profile.userContent?.bio.split('\n').map((line, index) => (
                 <span key={index}>
                   {line}
@@ -90,7 +90,7 @@ export const ProfileComponent = React.memo(({
               ))}
             </h2>}
           {(!isClient || (isClient && !isMobile)) &&
-            <div className="hidden text-sm text-[15px] mb-2 mt-4 flex content-center gap-x-6 md:flex">
+            <div className="hidden text-sm text-[15px] mb-2 mt-4 content-center gap-x-6 md:flex">
               <h2><b>{profile.recipes.length}</b> recipes</h2>
               <h2><b>{profile.followers?.length || 0}</b> followers</h2>
               <h2><b>{profile.following?.length || 0}</b> following</h2>
