@@ -1,11 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { setSecurityHeaders } from './app/_middlewares/securityHeaders';
 import { registerValidation } from './app/_middlewares/validations/registerValidation';
 
 export async function middleware(req: NextRequest) {
-    const res = NextResponse.next();
-    await setSecurityHeaders(res);
-
     if (req.nextUrl.pathname === '/api/register') {
         try {
             await registerValidation(req);
@@ -17,9 +13,9 @@ export async function middleware(req: NextRequest) {
         }
     }
 
-    return res;
+    return NextResponse.next();
 }
 
 export const config = {
-    matcher: ['/', '/api/:path*', '/:path*'],
+    matcher: ['/api/:path*'],
 };
