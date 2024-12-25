@@ -1,5 +1,4 @@
 import { RecipeProps } from "@/_models/RecipeModel";
-import { UserProps } from "@/_models/UserModel";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,7 +29,7 @@ export default function SelectedRecipeComponent({
                                 <div className="recipeUserContainer">
                                     <Link
                                         className="flex gap-2"
-                                        href={`/${(recipe.user as UserProps).username}`}
+                                        href={`/${recipe.user.username}`}
                                         onClick={() => {
                                             document.body.style.overflow = "auto";
                                         }}
@@ -38,15 +37,14 @@ export default function SelectedRecipeComponent({
                                         <CldImage
                                             width={25}
                                             height={25}
-                                            src={
-                                                (recipe.user as UserProps).userContent?.profilePicture ||
+                                            src={recipe.user.userContent?.profilePicture ||
                                                 profilePicturePlaceholder
                                             }
                                             alt="profile-picture"
                                             format="webp"
                                         />
                                         <div>
-                                            <h2>{(recipe.user as UserProps).username}</h2>
+                                            <h2>{recipe.user.username}</h2>
                                         </div>
                                     </Link>
                                 </div>
@@ -133,7 +131,7 @@ export default function SelectedRecipeComponent({
                     </div>
 
                     <div className="recipeRightSideWrapper">
-                    {(!isClient || (isClient && !isMobile)) && recipe.image && (
+                        {(!isClient || (isClient && !isMobile)) && recipe.image && (
                             <CldImage
                                 width={1280}
                                 height={850}
@@ -157,7 +155,7 @@ export default function SelectedRecipeComponent({
                         </div>
                     </div>
                 </div>
-                <div className="recipeBackground"  onClick={handleCloseRecipe}>
+                <div className="recipeBackground" onClick={handleCloseRecipe}>
                     <Image src={closeIcon} width={24} height={24} alt="close-recipe" />
                 </div>
             </>

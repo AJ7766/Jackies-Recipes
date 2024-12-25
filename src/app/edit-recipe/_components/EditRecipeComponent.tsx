@@ -1,7 +1,6 @@
 import React from "react";
 import Image from "next/image";
 import { handleImageClick } from "@/app/_services/recipeServices";
-import mongoose from "mongoose";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { RecipeFormProps } from "@/_models/RecipeModel";
 import { CldImage } from "next-cloudinary";
@@ -338,7 +337,7 @@ export default function EditRecipeComponent({
           className="delete"
           onClick={async () => {
             const { handleDeleteRecipe } = await import("../services/editRecipeServices");
-            await handleDeleteRecipe(new mongoose.Types.ObjectId(recipe_id), username, public_id, router)
+            await handleDeleteRecipe(recipe_id, username, public_id, router)
           }}>
           Delete
         </button>

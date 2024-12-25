@@ -60,7 +60,7 @@ export const NavBarComponent = React.memo(({
           <Link
             className="hidden md:block"
             href={"/"}
-            prefetch>
+            prefetch={false}>
             <div className="navBarLogoComponent">
               <CldImage
                 src={logo}
@@ -77,7 +77,7 @@ export const NavBarComponent = React.memo(({
         <Link
           className="navBarComponent"
           href={`/`}
-          prefetch
+          prefetch={false}
         >
           <Image
             className="home"
@@ -130,7 +130,7 @@ export const NavBarComponent = React.memo(({
                         href={`/${user.username}`}
                         key={index}
                         onClick={() => clickHandler(navBarRef)}
-                        prefetch>
+                        prefetch={false}>
                         <div
                           className="searchedUser"
                           data-testid="searchedUser"
@@ -157,10 +157,10 @@ export const NavBarComponent = React.memo(({
                     <h1>Recipes</h1>
                     {recipes.map((recipe, index) => (
                       <Link
-                        href={`/${(recipe.user as UserProps).username}/${recipe._id}`}
+                        href={`/${recipe.user.username}/${recipe._id}`}
                         key={index}
                         onClick={() => clickHandler(navBarRef)}
-                        prefetch
+                        prefetch={false}
                       >
                         <div
                           className="searchedUser"
@@ -177,7 +177,7 @@ export const NavBarComponent = React.memo(({
                           />
                           <div>
                             <h2>{recipe.title}</h2>
-                            <p>{(recipe.user as UserProps).username}</p>
+                            <p>{recipe.user.username}</p>
                           </div>
                         </div>
                       </Link>
@@ -193,7 +193,7 @@ export const NavBarComponent = React.memo(({
             <Link
               className="navBarComponent"
               href={`/${user.username}`}
-              prefetch
+              prefetch={false}
             >
               <CldImage
                 className="profilePicture"
@@ -205,7 +205,7 @@ export const NavBarComponent = React.memo(({
               />
               {(!isClient || (isClient && !isMobile)) && <h2 className={`${activeLink(pathname, `/${user.username}`)} hidden md:block`}>Profile</h2>}
             </Link>
-            <Link className="navBarComponent" href="/add-recipe" prefetch>
+            <Link className="navBarComponent" href="/add-recipe" prefetch={false}>
               <Image
                 height={30}
                 width={30}
@@ -229,8 +229,8 @@ export const NavBarComponent = React.memo(({
               </div>
               <div className="dropdownContentContainer hidden" ref={dropdownRef}>
                 <div className="dropdownContent" ref={dropdownItemsRef}>
-                  <Link href="/settings" prefetch>Settings</Link>
-                  <Link href="/privacy-policy" prefetch>Privacy Policy</Link>
+                  <Link href="/settings" prefetch={false}>Settings</Link>
+                  <Link href="/privacy-policy" prefetch={false}>Privacy Policy</Link>
                   <button onClick={logout}>Logout</button>
                 </div>
               </div>
@@ -238,10 +238,10 @@ export const NavBarComponent = React.memo(({
           </>
         ) :
           <div className="flex flex-row gap-[6px] md:flex-col">
-            <Link href="/" prefetch>
+            <Link href="/" prefetch={false}>
               <button className="bg-black p-[5px_clamp(7px,_2vw,_20px)] rounded-[5px] text-white w-[30vw] md:w-full">Login</button>
             </Link>
-            <Link href="/register" prefetch>
+            <Link href="/register" prefetch={false}>
               <button className="bg-[#ef4444] p-[5px_clamp(7px,_2vw,_20px)] rounded-[5px] text-white w-[30vw] md:w-full">Register</button>
             </Link>
             {(!isClient || (isClient && !isMobile)) && <p className="hidden md:block">Make sure to login to get access to all features!<br /><br />This app is in development mode right now, feel free to login with recruiter:recruiter if you don't want to create an account</p>}

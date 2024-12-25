@@ -1,7 +1,6 @@
 "use client"
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { RecipeProps } from "@/_models/RecipeModel";
-import { UserProps } from "@/_models/UserModel";
 
 interface SelectedRecipeContextType {
     recipe: RecipeProps | null;
@@ -25,7 +24,7 @@ export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) =>
     const [recipe, setRecipe] = useState<RecipeProps | null>(null);
 
     const selectedRecipeHandler = (recipe: RecipeProps) => {
-        changeURL((recipe.user as UserProps).username, recipe._id);
+        changeURL(recipe.user.username, recipe._id);
         setRecipe(recipe);
     }
 

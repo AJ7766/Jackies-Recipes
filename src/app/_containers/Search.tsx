@@ -74,7 +74,7 @@ export default function Search({
                             <h1>Recipes</h1>
                             {recipes.map((recipe, index) => (
                                 <Link
-                                    href={`/${(recipe.user as UserProps).username}/${recipe._id}`}
+                                    href={`/${recipe.user.username}/${recipe._id}`}
                                     key={index}
                                     onClick={() => clickHandler(navBarRef)}
                                     prefetch
@@ -94,7 +94,7 @@ export default function Search({
                                         />
                                         <div>
                                             <h2>{recipe.title}</h2>
-                                            <p>{(recipe.user as UserProps).username}</p>
+                                            <p>{recipe.user.username}</p>
                                         </div>
                                     </div>
                                 </Link>

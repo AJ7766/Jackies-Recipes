@@ -3,7 +3,7 @@ import { UserModel, UserProps } from "./UserModel";
 
 export interface RecipeProps {
    _id: string;
-   user: UserProps| mongoose.Types.ObjectId;
+   user: UserProps;
    title: string;
    image: string;
    ingredients: IngredientListProps[];

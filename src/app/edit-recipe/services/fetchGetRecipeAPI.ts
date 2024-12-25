@@ -1,6 +1,4 @@
-import mongoose from "mongoose";
-
-export const fetchGetRecipeAPI = async (recipe_id: mongoose.Types.ObjectId) => {
+export const fetchGetRecipeAPI = async (recipe_id: string) => {
     try {
         const res = await fetch(`/api/recipe?recipeId=${recipe_id}`, {
             method: "GET",

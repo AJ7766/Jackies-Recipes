@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
 import { fetchGetRecipeAPI } from "../services/fetchGetRecipeAPI";
-import mongoose from "mongoose";
 import EditRecipeComponent from "../_components/EditRecipeComponent";
 import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, updateIngredientComponent, updateInstruction } from "@/app/_services/recipeServices";
 import ErrorPage from "@/app/_errors/ErrorPage";
@@ -55,12 +54,12 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     useEffect(() => {
         const fetchRecipeAPI = async () => {
             setIsFetcing(true);
-            if(!mongoose.Types.ObjectId.isValid(recipe_id)){
+            if(recipe_id){
                 setIsFetcing(false);
                 return alert("Invalid recipe ID");
             }
 
-            const { message, fetchedRecipe, userHasRecipe } = await fetchGetRecipeAPI(new mongoose.Types.ObjectId(recipe_id))
+            const { message, fetchedRecipe, userHasRecipe } = await fetchGetRecipeAPI(recipe_id)
 
             if (!fetchedRecipe || !userHasRecipe) {
                 console.error(message);

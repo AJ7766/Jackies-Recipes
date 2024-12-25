@@ -1,9 +1,8 @@
-import mongoose from "mongoose";
 import { fetchDeleteRecipeAPI } from "./fetchDeleteRecipeAPI";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 export const handleDeleteRecipe = async (
-    recipe_id: mongoose.Types.ObjectId,
+    recipe_id: string,
     username: string,
     public_id: string,
     router: AppRouterInstance
