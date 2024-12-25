@@ -54,7 +54,7 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     useEffect(() => {
         const fetchRecipeAPI = async () => {
             setIsFetcing(true);
-            if(recipe_id){
+            if(!recipe_id){
                 setIsFetcing(false);
                 return alert("Invalid recipe ID");
             }

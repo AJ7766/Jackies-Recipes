@@ -1604,6 +1604,10 @@ input::-webkit-inner-spin-button {
     padding-bottom: 7vh;
   }
 
+  .loader{
+    display:none;
+  }
+  
   .navContainer {
     display: flex;
     flex-direction: row;
