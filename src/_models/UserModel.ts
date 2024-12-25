@@ -1,7 +1,7 @@
+import { RecipeProps } from '@/_types/RecipeModel';
 import mongoose, { Schema, Model, Document } from 'mongoose';
-import { RecipeProps } from './RecipeModel';
 
-export interface UserProps {
+interface UserProps {
    _id: string,
    email: string;
    fullName: string;
@@ -13,17 +13,7 @@ export interface UserProps {
    following?: string[];
 }
 
-export interface UserEditProps extends Omit<UserProps, '_id' | 'recipes'> {
-   newPassword: string;
-   confirmPassword: string;
-}
-
-export interface UserRegisterProps extends Omit<UserProps, '_id'> {
-   isChecked: boolean;
-   confirmPassword: string;
-}
-
-export interface UserContentProps {
+interface UserContentProps {
    profilePicture?: string;
    bio?: string;
    instagram?: string;
@@ -43,7 +33,7 @@ const userContentSchema = new Schema<UserContentProps>({
    facebook: { type: String, default: null },
 });
 
-export interface UserDocument extends UserProps, Document {
+interface UserDocument extends UserProps, Document {
    _id: string;
 }
 

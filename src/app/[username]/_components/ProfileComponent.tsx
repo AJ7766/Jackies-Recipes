@@ -1,4 +1,4 @@
-import { UserProps } from "@/_models/UserModel";
+import { UserProps } from "@/_types/UserModel";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";

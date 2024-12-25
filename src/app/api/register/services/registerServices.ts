@@ -1,6 +1,6 @@
+import { UserRegisterProps } from "@/_types/UserModel";
 import { register } from "../repositories/registerRepository";
 import { hashPassword } from "@/_utils/bcrypt";
-import { UserRegisterProps } from "@/_models/UserModel";
 
 export const registerService = async (user: UserRegisterProps) => {
     const lowercaseUsername = user.username.toLowerCase();

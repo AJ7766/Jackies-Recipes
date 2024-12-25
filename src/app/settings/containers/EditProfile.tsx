@@ -1,12 +1,12 @@
 "use client"
 import { useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
-import { UserEditProps } from "@/_models/UserModel";
 import { EditProfileComponent } from "../components/EditProfileComponent";
 import { fetchUpdateUserAPI } from "../services/fetchUpdateUserAPI";
 import { useRouter } from "next/navigation";
 import { convertFileToBase64, convertFileToFormData, getPublicId, validateImage } from "@/_utils/imageUtils";
 import { fetchUpdateImageAPI } from "../services/fetchUpdateImageAPI";
+import { UserEditProps } from "@/_types/UserModel";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1733219780/profile-picture_vicljy.png";
 
 export default function EditProfile() {

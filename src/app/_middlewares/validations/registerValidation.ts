@@ -1,4 +1,4 @@
-import { UserRegisterProps } from "@/_models/UserModel";
+import { UserRegisterProps } from "@/_types/UserModel";
 import { NextRequest } from "next/server";
 
 const checkIfChecked = async (isChecked: boolean) => {

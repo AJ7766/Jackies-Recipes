@@ -2,10 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/app/_config/database";
 import { createRecipeService, deleteRecipeService, getPublicIdFromUrlService, getRecipeIdFromUrlService, getRecipeService, updateRecipeService, validateRecipeService } from "./services/recipeServices";
 import { addRecipeToUserService, checkUserHasRecipeService } from "../profile/services/profileServices";
-import { RecipeProps } from "@/_models/RecipeModel";
 import { getUserService } from "../user/services/userService";
 import { deleteRedisCache } from "@/_utils/redis";
 import { deleteOldImageFileService } from "../cloudinary/cloudinaryService";
+import { RecipeProps } from "@/_types/RecipeModel";
 
 export async function GET(req: NextRequest) { // Get recipe
     try {

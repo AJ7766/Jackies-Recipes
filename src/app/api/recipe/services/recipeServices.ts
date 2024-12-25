@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import { createRecipe, deleteRecipe, getRecipe, updateRecipe } from "../repositories/recipeRepository";
-import { RecipeProps } from "@/_models/RecipeModel";
 import ValidateRecipeForm, { ingredientListValidation } from "../validations/recipeValidation";
+import { RecipeProps } from "@/_types/RecipeModel";
 
 export const getRecipeIdFromUrlService = async (req: NextRequest): Promise<string> => {
     const { searchParams } = new URL(req.url);

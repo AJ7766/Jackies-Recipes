@@ -1,7 +1,7 @@
 "use client"
+import { RecipeProps } from "@/_types/RecipeModel";
+import { UserProps } from "@/_types/UserModel";
 import React, { createContext, useContext, useState } from "react";
-import { UserProps } from "@/_models/UserModel";
-import { RecipeProps } from "@/_models/RecipeModel";
 
 interface ProfileContextType {
   profile: UserProps;

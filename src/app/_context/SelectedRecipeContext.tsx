@@ -1,6 +1,6 @@
 "use client"
+import { RecipeProps } from "@/_types/RecipeModel";
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { RecipeProps } from "@/_models/RecipeModel";
 
 interface SelectedRecipeContextType {
     recipe: RecipeProps | null;

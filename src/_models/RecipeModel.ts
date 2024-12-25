@@ -1,7 +1,8 @@
 import mongoose, { Model, Schema, Document } from "mongoose";
-import { UserModel, UserProps } from "./UserModel";
+import { UserModel } from "./UserModel";
+import { UserProps } from "@/_types/UserModel";
 
-export interface RecipeProps {
+interface RecipeProps {
    _id: string;
    user: UserProps;
    title: string;
@@ -13,49 +14,47 @@ export interface RecipeProps {
    savedBy?: string[];
 }
 
-export interface RecipeFormProps extends Omit<RecipeProps, "user" | "_id"> { }
-
-export type MacroNutrientsProps = {
+type MacroNutrientsProps = {
    carbs?: number,
    protein?: number,
    fat?: number,
    calories?: number
 }
 
-export type IngredientListProps = {
+type IngredientListProps = {
    component?: string;
    ingredients: IngredientProps[];
 }
 
-export type IngredientProps = {
+type IngredientProps = {
    ingredient: string;
    amount?: number;
    unit: string;
 }
 
-export type InstructionProps = {
+type InstructionProps = {
    instruction: string;
 }
 
-export const IngredientSchema = new Schema<IngredientProps>({
+const IngredientSchema = new Schema<IngredientProps>({
    ingredient: { type: String, required: true },
    amount: { type: Number },
    unit: { type: String }
 });
 
-export const IngredientListSchema = new Schema<IngredientListProps>({
+const IngredientListSchema = new Schema<IngredientListProps>({
    component: { type: String },
    ingredients: [IngredientSchema]
 });
 
-export const MacroNutrientsSchema = new Schema<MacroNutrientsProps>({
+const MacroNutrientsSchema = new Schema<MacroNutrientsProps>({
    carbs: { type: Number },
    protein: { type: Number },
    fat: { type: Number },
    calories: { type: Number }
 });
 
-export const InstructionSchema = new Schema<InstructionProps>({
+const InstructionSchema = new Schema<InstructionProps>({
    instruction: { type: String }
 });
 
@@ -63,7 +62,7 @@ interface RecipeDocument extends RecipeProps, Document {
    _id: string;
 }
 
-export const recipeSchema = new Schema<RecipeDocument>({
+const recipeSchema = new Schema<RecipeDocument>({
    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'users',

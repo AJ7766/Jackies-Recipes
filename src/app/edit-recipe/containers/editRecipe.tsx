@@ -7,9 +7,9 @@ import { calculateCalories, createField, createIngredientComponent, createInstru
 import ErrorPage from "@/app/_errors/ErrorPage";
 import { fetchUpdateRecipeAPI } from "../services/fetchUpdateRecipeAPI";
 import { useRouter } from "next/navigation";
-import { RecipeFormProps } from "@/_models/RecipeModel";
 import { convertFileToBase64, convertFileToFormData, getPublicId, validateImage } from "@/_utils/imageUtils";
 import { fetchUpdateImageAPI } from "@/app/settings/services/fetchUpdateImageAPI";
+import { RecipeFormProps } from "@/_types/RecipeModel";
 
 export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     const [recipe, setRecipe] = useState<RecipeFormProps>({

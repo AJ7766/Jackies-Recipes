@@ -1,4 +1,4 @@
-import { RecipeProps } from "@/_models/RecipeModel";
+import { RecipeProps } from "@/_types/RecipeModel";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 

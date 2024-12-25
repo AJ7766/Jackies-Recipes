@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
-import { UserProps } from "@/_models/UserModel";
 import React, { RefObject } from "react";
 import { CldImage } from "next-cloudinary";
 import { activeLink, handleBlurInput, handleFocusInput } from "../_services/navBarServices";
-import { RecipeProps } from "@/_models/RecipeModel";
+import { UserProps } from "@/_types/UserModel";
+import { RecipeProps } from "@/_types/RecipeModel";
 const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1734112468/logo-text-free_c6hbgq.webp";
 const searchGlass = "/images/icons/search.svg";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";

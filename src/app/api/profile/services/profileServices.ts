@@ -1,7 +1,6 @@
 import { NextRequest } from "next/server";
-import mongoose from "mongoose";
 import { addRecipeToUser, getUserNoContent, getUserPopulated } from "../repositories/profileRepository";
-import { RecipeProps } from "@/_models/RecipeModel";
+import { RecipeProps } from "@/_types/RecipeModel";
 
 export const getUserPopulatedService = async (username: string) => {
     const user = await getUserPopulated(username);

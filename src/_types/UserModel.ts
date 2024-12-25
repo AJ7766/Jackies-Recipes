@@ -12,13 +12,21 @@ export interface UserProps {
    following?: string[];
 }
 
-export interface UserEditProps extends Omit<UserProps, '_id' | 'recipes'> {
-   newPassword: string;
-   confirmPassword: string;
-}
-
 export interface UserRegisterProps extends Omit<UserProps, '_id'> {
    isChecked: boolean;
+   confirmPassword: string;
+ }
+ 
+ export interface RegisterFormProps {
+   user: UserRegisterProps;
+   message: string;
+   loadingBtn: boolean;
+   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+ }
+ 
+export interface UserEditProps extends Omit<UserProps, '_id' | 'recipes'> {
+   newPassword: string;
    confirmPassword: string;
 }
 

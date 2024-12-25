@@ -1,4 +1,4 @@
-import { UserRegisterProps } from "@/_models/UserModel";
+import { RegisterFormProps, UserProps } from "@/_types/UserModel";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,14 +8,6 @@ const fullNameImg = "/images/register/fullName.svg";
 const passwordImg = "/images/register/password.svg";
 const passwordConfirmImg = "/images/register/passwordConfirm.svg";
 const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1735085066/ekq1eigibe9h5xfgi6rp.webp";
-
-interface RegisterFormProps {
-  user: UserRegisterProps;
-  message: string;
-  loadingBtn: boolean;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-}
 
 export default function RegisterFormComponent({
   user,

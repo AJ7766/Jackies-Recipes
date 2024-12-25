@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { RefObject } from "react";
 import Link from "next/link";
-import { UserProps } from "@/_models/UserModel";
-import { RecipeProps } from "@/_models/RecipeModel";
+import { UserProps } from "@/_types/UserModel";
+import { RecipeProps } from "@/_types/RecipeModel";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 
 export default function Search({

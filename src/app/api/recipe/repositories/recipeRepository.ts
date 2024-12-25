@@ -1,5 +1,5 @@
-import { RecipeModel, RecipeProps } from "@/_models/RecipeModel";
-import mongoose from "mongoose";
+import { RecipeModel } from "@/_models/RecipeModel";
+import { RecipeProps } from "@/_types/RecipeModel";
 
 export const getRecipe = async (recipe_id: string) => {
     return await RecipeModel.findById(recipe_id)

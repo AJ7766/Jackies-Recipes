@@ -1,11 +1,11 @@
 "use client"
-import { UserProps } from "@/_models/UserModel";
 import React, {
   createContext,
   useContext,
   useState,
 } from "react";
 import { fetchGetLogoutAPI } from "../_services/api/fetchLogoutAPI";
+import { UserProps } from "@/_types/UserModel";
 
 interface AuthContextType {
   user: UserProps | null;

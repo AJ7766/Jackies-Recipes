@@ -6,7 +6,7 @@ import { SearchRecipe } from "../_components/SearchRecipeComponent";
 import { useEffect, useState } from "react";
 import { useIsAuthorizedProfile } from "@/app/_hooks/useIsAuthorizedProfile";
 import { useSelectedRecipe } from "@/app/_context/SelectedRecipeContext";
-import { RecipeProps } from "@/_models/RecipeModel";
+import { RecipeProps } from "@/_types/RecipeModel";
 
 export default function RecipeList() {
   const { profile } = useProfile();

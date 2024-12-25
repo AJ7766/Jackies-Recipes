@@ -1,5 +1,5 @@
+import { UserEditProps } from "@/_types/UserModel";
 import { getUser, getUserPassword, updateUser } from "../repositories/userRepository";
-import { UserEditProps } from "@/_models/UserModel";
 import userValidation from "../validations/userValidation";
 import { hashPassword } from "@/_utils/bcrypt";
 
