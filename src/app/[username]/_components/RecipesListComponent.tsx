@@ -90,7 +90,7 @@ export const RecipesListComponent = React.memo(({
                 <div className='recipe-profile-image-pseudo'></div>
               </div>
               {isAuthenticatedProfile && (
-                <Link href={`/edit-recipe/${recipe._id}`} prefetch>
+                <Link href={`/edit-recipe/${recipe._id}`} prefetch={false}>
                   <Image
                     src={cogwheel}
                     width={16}
