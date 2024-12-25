@@ -32,7 +32,7 @@ export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePro
                 onClick={() => selectedRecipeHandler(recipe)}>
                 {recipe.title}
               </h1>
-              <Link href={`${recipe.user.username}`}> <p className="text-center text-gray-500">@{recipe.user.username}</p></Link>
+              <Link href={`${recipe.user.username}`} prefetch={false}> <p className="text-center text-gray-500">@{recipe.user.username}</p></Link>
               <div className='recipe-profile-picture-container'>
                 <CldImage
                   width={50}

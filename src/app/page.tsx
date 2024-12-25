@@ -1,5 +1,6 @@
 import { getSession } from "@/_utils/session";
 import dynamic from "next/dynamic";
+import { getRecipesController } from "./_ssr/recipes/recipesController";
 const Dashboard = dynamic(() => import('./_containers/Dashboard'), { ssr: true });
 const LoginPage = dynamic(() => import('./_containers/LoginPage'), { ssr: true });
 
@@ -8,8 +9,8 @@ export default async function DashboardPage() {
 
   if (!session.token)
     return <LoginPage />
-
-  return <Dashboard />
+  const serverRecipes = await getRecipesController();
+  return <Dashboard serverRecipes={JSON.parse(serverRecipes)}/>
 }
 
 export async function generateMetadata() {

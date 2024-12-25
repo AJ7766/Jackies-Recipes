@@ -1,6 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
-import { fetchRecipesAPI } from "../_services/api/fetchRecipesAPI";
+import { useState } from "react";
 import { RecipeListComponent } from "../_components/RecipeListComponent";
 import { Loader } from "../_components/Loader";
 import { useSelectedRecipe } from "../_context/SelectedRecipeContext";
@@ -8,8 +7,12 @@ import dynamic from "next/dynamic";
 import { RecipeProps } from "@/_models/RecipeModel";
 const SelectedRecipe = dynamic(() => import("./SelectedRecipe"), { ssr: true });
 
-export default function Dashboard() {
+export default function Dashboard({serverRecipes}: {serverRecipes: RecipeProps[]}) {
   const [loading, setLoading] = useState(0);
+  const [recipes, setRecipes] = useState<RecipeProps[]>(serverRecipes);
+  const [isClient, setIsClient] = useState(false);
+  const { recipe } = useSelectedRecipe();
+/*
   const [recipes, setRecipes] = useState<RecipeProps[]>(() => {
     if (typeof window !== 'undefined') {
       const sessionStorageRecipes = sessionStorage.getItem("recipes");
@@ -20,8 +23,7 @@ export default function Dashboard() {
     }
     return null;
   });
-  const [isClient, setIsClient] = useState(false);
-  const { recipe } = useSelectedRecipe();
+
   useEffect(() => {
     setIsClient(true);
 
@@ -37,7 +39,7 @@ export default function Dashboard() {
       fetchRecipes();
     }
   }, [])
-
+  */
   if (recipes && recipes.length === 0) {
     return (
       <div className="noRecipesContainer">
