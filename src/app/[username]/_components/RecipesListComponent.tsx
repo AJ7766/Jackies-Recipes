@@ -2,9 +2,8 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { CldImage } from "next-cloudinary";
-import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
-import mongoose from "mongoose";
-import { RecipePopulatedProps } from "@/_models/RecipeModel";
+import { RecipeProps } from "@/_models/RecipeModel";
+import { UserProps } from "@/_models/UserModel";
 const cogwheel = "/images/icons/cogwheel.svg";
 
 export const RecipesListComponent = React.memo(({
@@ -13,10 +12,10 @@ export const RecipesListComponent = React.memo(({
   isAuthenticatedProfile,
   selectedRecipeHandler
 }: {
-  profile: UserPopulatedRecipePopulatedProps;
-  recipes: RecipePopulatedProps[],
+  profile: UserProps;
+  recipes: RecipeProps[],
   isAuthenticatedProfile: boolean;
-  selectedRecipeHandler: (recipe: RecipePopulatedProps) => void;
+  selectedRecipeHandler: (recipe: RecipeProps) => void;
 }) => {
   return (
     <div className="recipe-wrapper">
@@ -28,7 +27,7 @@ export const RecipesListComponent = React.memo(({
               onClick={() => selectedRecipeHandler(({
                 _id: recipe._id,
                 user: {
-                  _id: new mongoose.Types.ObjectId,
+                  _id: "",
                   email: "",
                   fullName: "",
                   username: profile.username,
@@ -59,7 +58,7 @@ export const RecipesListComponent = React.memo(({
                 onClick={() => selectedRecipeHandler(({
                   _id: recipe._id,
                   user: {
-                    _id: new mongoose.Types.ObjectId,
+                    _id: "",
                     email: "",
                     fullName: "",
                     username: profile.username,

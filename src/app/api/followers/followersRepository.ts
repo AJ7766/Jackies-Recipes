@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 
 export const postNewFollower = async (
     username: string,
-    new_follower: mongoose.Types.ObjectId,
+    new_follower: string,
     session: mongoose.ClientSession
 ) => {
     return await UserModel.findOneAndUpdate({ username }, {
@@ -12,8 +12,8 @@ export const postNewFollower = async (
 }
 
 export const postNewFollowing = async (
-    user_id: mongoose.Types.ObjectId,
-    new_followed: mongoose.Types.ObjectId,
+    user_id: string,
+    new_followed: string,
     session: mongoose.ClientSession
 ) => {
     return await UserModel.findByIdAndUpdate(user_id,
@@ -24,7 +24,7 @@ export const postNewFollowing = async (
 
 export const updateUnfollowed = async (
     username: string,
-    prev_follower: mongoose.Types.ObjectId,
+    prev_follower: string,
     session: mongoose.ClientSession
 ) => {
     return await UserModel.findOneAndUpdate({ username }, {
@@ -33,8 +33,8 @@ export const updateUnfollowed = async (
 }
 
 export const updateUnfollowing = async (
-    user_id: mongoose.Types.ObjectId,
-    prev_follower: mongoose.Types.ObjectId,
+    user_id: string,
+    prev_follower: string,
     session: mongoose.ClientSession
 ) => {
     return await UserModel.findByIdAndUpdate(user_id,

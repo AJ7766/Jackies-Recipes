@@ -1,5 +1,4 @@
-import jwt, { JwtPayload } from "jsonwebtoken";
-import { jwtVerify } from 'jose';
+import { JWTPayload, JWTVerifyResult, SignJWT, jwtVerify } from 'jose';
 import mongoose from "mongoose";
 import { NextRequest } from "next/server";
 
@@ -16,14 +15,19 @@ export const getToken = async (req: NextRequest) => {
 
 export const verifyToken = async (token: string) => {
     try {
-        return await jwtVerify(token, new TextEncoder().encode(SECRET_KEY)) as JwtPayload;
+        console.log(token)
+        return await jwtVerify(token, new TextEncoder().encode(SECRET_KEY)) as JWTVerifyResult<JWTPayload & { id: string }>;
     } catch (error: any) {
         throw new Error('Token verification error:', error)
     }
 }
 
-export const assignToken = async (user_id: mongoose.Types.ObjectId, username: string) => {
-    const token = jwt.sign({ id: user_id, username }, SECRET_KEY, { expiresIn: '30d' });
+export const assignToken = async (user_id: string, username: string) => {
+    const token = await new SignJWT({ id: user_id, username })
+        .setProtectedHeader({ alg: 'HS256' })
+        .setExpirationTime('30d')
+        .sign(new TextEncoder().encode(SECRET_KEY));
+
     if (!token)
         throw new Error('Assigning token failed.')
 

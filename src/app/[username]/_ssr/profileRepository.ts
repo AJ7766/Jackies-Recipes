@@ -1,6 +1,5 @@
 import { RecipeModel } from "@/_models/RecipeModel";
 import { UserModel } from "@/_models/UserModel";
-import mongoose from "mongoose";
 
 export const getUserPopulated = async (username: string) => {
     return await UserModel.findOne({ username })
@@ -12,9 +11,8 @@ export const getUserPopulated = async (username: string) => {
         }).lean();
 }
 
-export const getIsFollowing = async (username: string, user_id: mongoose.Types.ObjectId) => {
+export const getIsFollowing = async (username: string, user_id: string) => {
     return await UserModel.findOne({ username, followers: user_id })
-        .select('_id')
         .lean();
 }
 

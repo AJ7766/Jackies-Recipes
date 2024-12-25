@@ -1,11 +1,12 @@
 import { CldImage } from 'next-cloudinary';
 import React from "react";
-import { RecipePopulatedProps } from '@/_models/RecipeModel';
 import { useSelectedRecipe } from '../_context/SelectedRecipeContext';
 import Link from 'next/link';
+import { RecipeProps } from '@/_models/RecipeModel';
+import { UserProps } from '@/_models/UserModel';
 const profilePicture = '/images/profilePicture.png';
 
-export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePopulatedProps[] }) => {
+export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipeProps[] }) => {
   const { selectedRecipeHandler } = useSelectedRecipe();
   return (
     <>
@@ -32,13 +33,13 @@ export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipePop
                 onClick={() => selectedRecipeHandler(recipe)}>
                 {recipe.title}
               </h1>
-              <Link href={`${recipe.user.username}`}> <p className="text-center text-gray-500">@{recipe.user.username}</p></Link>
+              <Link href={`${(recipe.user as UserProps).username}`}> <p className="text-center text-gray-500">@{(recipe.user as UserProps).username}</p></Link>
               <div className='recipe-profile-picture-container'>
                 <CldImage
                   width={50}
                   height={50}
-                  src={recipe.user.userContent?.profilePicture || profilePicture}
-                  alt={`${recipe.user.username} profile picture`}
+                  src={(recipe.user as UserProps).userContent?.profilePicture || profilePicture}
+                  alt={`${(recipe.user as UserProps).username} profile picture`}
                   className="recipe-profile-picture"
                   loading="lazy"
                 />

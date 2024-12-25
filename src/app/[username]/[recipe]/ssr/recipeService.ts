@@ -1,7 +1,6 @@
-import mongoose from "mongoose";
 import { getRecipeMeta } from "./recipeRepository";
 
-export const getRecipeMetaService = async (recipe_id: mongoose.Types.ObjectId) => {
+export const getRecipeMetaService = async (recipe_id: string) => {
     const recipe = getRecipeMeta(recipe_id);
 
     if (!recipe)

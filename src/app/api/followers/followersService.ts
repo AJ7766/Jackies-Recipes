@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { postNewFollower, postNewFollowing, updateUnfollowed, updateUnfollowing } from "./followersRepository";
 
-export const postNewFollowerService = async (username: string, user_id: mongoose.Types.ObjectId, session: mongoose.ClientSession) => {
+export const postNewFollowerService = async (username: string, user_id: string, session: mongoose.ClientSession) => {
     const updated_followed_user = await postNewFollower(username, user_id, session);
     if (!updated_followed_user)
         throw new Error("Failed to follow user");
@@ -13,7 +13,7 @@ export const postNewFollowerService = async (username: string, user_id: mongoose
     return true;
 }
 
-export const updateUnfollowerService = async (username: string, user_id: mongoose.Types.ObjectId, session: mongoose.ClientSession) => {
+export const updateUnfollowerService = async (username: string, user_id: string, session: mongoose.ClientSession) => {
     const updated_followed_user = await updateUnfollowed(username, user_id, session);
     if (!updated_followed_user)
         throw new Error("Failed to unfollow user");

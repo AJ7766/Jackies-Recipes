@@ -1,14 +1,13 @@
 "use server"
 import { SessionData, sessionOptions } from "@/_lib/iron-session";
 import { getIronSession } from "iron-session"
-import mongoose from "mongoose";
 import { cookies } from "next/headers";
 
 export const getSession = async () => {
     return await getIronSession<SessionData>(await cookies(), sessionOptions);
 }
 
-export const setSession = async (user_id: mongoose.Types.ObjectId, token: string) => {
+export const setSession = async (user_id: string, token: string) => {
     const session = await getSession();
     session.user_id = user_id;
     session.token = token;

@@ -1,7 +1,6 @@
-import mongoose from "mongoose";
 import { getUser } from "./userRespository";
 
-export const getUserService = async (user_id: mongoose.Types.ObjectId) => {
+export const getUserService = async (user_id: string) => {
     const user = await getUser(user_id);
 
     if (!user) {

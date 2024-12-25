@@ -1,19 +1,19 @@
 "use client"
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { RecipePopulatedProps } from "@/_models/RecipeModel";
-import mongoose from "mongoose";
+import { RecipeProps } from "@/_models/RecipeModel";
+import { UserProps } from "@/_models/UserModel";
 
 interface SelectedRecipeContextType {
-    recipe: RecipePopulatedProps | null;
-    selectedRecipeHandler: (recipe: RecipePopulatedProps) => void;
-    changeURL: (username: string, recipe_id: mongoose.Types.ObjectId) => void;
+    recipe: RecipeProps | null;
+    selectedRecipeHandler: (recipe: RecipeProps) => void;
+    changeURL: (username: string, recipe_id: string) => void;
     handleCloseRecipe: () => void;
     toggleScrollbars: (disable: boolean) => void;
 }
 
 const SelectedRecipeContext = createContext<SelectedRecipeContextType | undefined>(undefined);
 
-const changeURL = (username: string, recipe_id: mongoose.Types.ObjectId) => {
+const changeURL = (username: string, recipe_id: string) => {
     window.history.pushState({}, '', `/${username}/${recipe_id}`);
 };
 
@@ -22,10 +22,10 @@ const handleCloseRecipe = () => {
 }
 
 export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) => {
-    const [recipe, setRecipe] = useState<RecipePopulatedProps | null>(null);
+    const [recipe, setRecipe] = useState<RecipeProps | null>(null);
 
-    const selectedRecipeHandler = (recipe: RecipePopulatedProps) => {
-        changeURL(recipe.user.username, recipe._id);
+    const selectedRecipeHandler = (recipe: RecipeProps) => {
+        changeURL((recipe.user as UserProps).username, recipe._id);
         setRecipe(recipe);
     }
 

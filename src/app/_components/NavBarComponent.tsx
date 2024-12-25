@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { UserProps } from "@/_models/UserModel";
-import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import React, { RefObject } from "react";
 import { CldImage } from "next-cloudinary";
 import { activeLink, handleBlurInput, handleFocusInput } from "../_services/navBarServices";
+import { RecipeProps } from "@/_models/RecipeModel";
 const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1734112468/logo-text-free_c6hbgq.webp";
 const searchGlass = "/images/icons/search.svg";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
@@ -17,7 +17,7 @@ interface NavBarProps {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>>;
   users: UserProps[];
-  recipes: RecipePopulatedProps[];
+  recipes: RecipeProps[];
   searchResultsRef: RefObject<HTMLDivElement>;
   dropdownRef: RefObject<HTMLDivElement>;
   dropdownIconRef: RefObject<HTMLDivElement>;
@@ -157,7 +157,7 @@ export const NavBarComponent = React.memo(({
                     <h1>Recipes</h1>
                     {recipes.map((recipe, index) => (
                       <Link
-                        href={`/${recipe.user?.username}/${recipe._id}`}
+                        href={`/${(recipe.user as UserProps).username}/${recipe._id}`}
                         key={index}
                         onClick={() => clickHandler(navBarRef)}
                         prefetch
@@ -177,7 +177,7 @@ export const NavBarComponent = React.memo(({
                           />
                           <div>
                             <h2>{recipe.title}</h2>
-                            <p>{recipe.user.username}</p>
+                            <p>{(recipe.user as UserProps).username}</p>
                           </div>
                         </div>
                       </Link>

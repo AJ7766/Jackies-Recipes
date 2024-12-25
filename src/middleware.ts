@@ -36,6 +36,8 @@ export async function middleware(req: NextRequest) {
 
     if (
         (pathname === '/api/user' && req.method === 'PUT') ||
+        (pathname === '/api/followers' && req.method === 'POST') ||
+        (pathname === '/api/followers' && req.method === 'PUT') ||
         (pathname === '/api/recipe' && req.method === 'GET') ||
         (pathname === '/api/recipe' && req.method === 'POST') ||
         (pathname === '/api/recipe' && req.method === 'PUT') ||

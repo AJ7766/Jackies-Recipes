@@ -1,8 +1,7 @@
 import { connectDB } from "@/app/_config/database";
-import mongoose from "mongoose";
 import { getRecipeMetaService } from "./recipeService";
 
-export async function getRecipeMetaController(recipe_id: mongoose.Types.ObjectId) {
+export async function getRecipeMetaController(recipe_id: string) {
     try {
         await connectDB();
 

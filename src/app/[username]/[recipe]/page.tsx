@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import SelectedRecipe from "./containers/SelectedRecipe";
 import { getRecipeMetaController } from "./ssr/recipeController";
 
@@ -10,7 +9,7 @@ export default async function RecipePage({ params }: { params: Promise<{ recipe:
 
 export async function generateMetadata({ params }: { params: Promise<{ recipe: string }> }) {
   const { recipe } = await params;
-  const { fetchedRecipe, message } = await getRecipeMetaController(new mongoose.Types.ObjectId(recipe));
+  const { fetchedRecipe, message } = await getRecipeMetaController(recipe);
   
   if (!fetchedRecipe) {
     console.error(message)

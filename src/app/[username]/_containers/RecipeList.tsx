@@ -4,18 +4,18 @@ import { useProfile } from "@/app/_context/ProfileContext";
 import SelectedRecipe from "@/app/_containers/SelectedRecipe";
 import { SearchRecipe } from "../_components/SearchRecipeComponent";
 import { useEffect, useState } from "react";
-import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { useIsAuthorizedProfile } from "@/app/_hooks/useIsAuthorizedProfile";
 import { useSelectedRecipe } from "@/app/_context/SelectedRecipeContext";
+import { RecipeProps } from "@/_models/RecipeModel";
 
 export default function RecipeList() {
   const { profile } = useProfile();
   const isAuthenticatedProfile = useIsAuthorizedProfile();
   const { selectedRecipeHandler } = useSelectedRecipe();
   const [searchRecipe, setSearchRecipe] = useState('')
-  const [filteredRecipes, setFilteredRecipes] = useState<RecipePopulatedProps[]>(profile.recipes);
+  const [filteredRecipes, setFilteredRecipes] = useState<RecipeProps[]>(profile.recipes || []);
 
-  useEffect(() => searchRecipe ? setFilteredRecipes(
+  useEffect(() => searchRecipe && profile.recipes ? setFilteredRecipes(
     profile.recipes.filter((recipe) =>
       recipe.title
         .toLowerCase()
@@ -27,10 +27,10 @@ export default function RecipeList() {
             .normalize('NFD')
             .replace(/[\u0300-\u036f]/g, ''))
     )
-  ) : setFilteredRecipes(profile.recipes)
+  ) : setFilteredRecipes(profile.recipes || [])
     , [searchRecipe])
 
-  if (profile?.recipes.length === 0 || !profile?.recipes) {
+  if (!profile.recipes || profile.recipes.length === 0) {
     return (
       <div className="noRecipesContainer">
         <h1>No recipes were found</h1>

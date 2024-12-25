@@ -1,13 +1,13 @@
 "use client"
 import { useLayoutEffect, useState } from "react";
 import { useProfile } from "@/app/_context/ProfileContext";
-import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import SelectedRecipeComponent from "../components/SelectedRecipeComponent";
+import { RecipeProps } from "@/_models/RecipeModel";
 
 export default function SelectedRecipe({ recipe_id }: { recipe_id: string }) {
   const { profile } = useProfile();
-  const [selectedRecipe, setSelectedRecipe] = useState<RecipePopulatedProps | null>(() => {
-    return profile.recipes.find((recipe) => recipe._id?.toString() === recipe_id) as RecipePopulatedProps | undefined || null
+  const [selectedRecipe, setSelectedRecipe] = useState<RecipeProps | null>(() => {
+    return profile.recipes?.find((recipe) => recipe._id === recipe_id) as RecipeProps | undefined || null
   });
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 

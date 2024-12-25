@@ -1,24 +1,16 @@
 import mongoose, { Schema, Model, Document } from 'mongoose';
-import { RecipePopulatedProps, RecipeProps } from './RecipeModel';
+import { RecipeProps } from './RecipeModel';
 
 export interface UserProps {
-   _id: mongoose.Types.ObjectId,
+   _id: string,
    email: string;
    fullName: string;
    username: string;
    password: string;
    userContent?: UserContentProps;
-   recipes?: mongoose.Types.ObjectId[];
-   followers?: mongoose.Types.ObjectId[];
-   following?: mongoose.Types.ObjectId[];
-}
-
-export interface UserPopulatedProps extends Omit<UserProps, 'recipes'> {
-   recipes: RecipeProps[];
-}
-
-export interface UserPopulatedRecipePopulatedProps extends Omit<UserProps, "recipes"> {
-   recipes: RecipePopulatedProps[];
+   recipes?: RecipeProps[];
+   followers?: string[];
+   following?: string[];
 }
 
 export interface UserEditProps extends Omit<UserProps, '_id' | 'recipes'> {
@@ -52,7 +44,7 @@ const userContentSchema = new Schema<UserContentProps>({
 });
 
 export interface UserDocument extends UserProps, Document {
-   _id: mongoose.Types.ObjectId;
+   _id: string;
 }
 
 const userSchema = new Schema<UserDocument>({

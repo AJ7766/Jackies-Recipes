@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { RefObject } from "react";
 import Link from "next/link";
-import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { UserProps } from "@/_models/UserModel";
+import { RecipeProps } from "@/_models/RecipeModel";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 
 export default function Search({
@@ -20,7 +20,7 @@ export default function Search({
     search: string;
     setSearch: React.Dispatch<React.SetStateAction<string>>;
     users: UserProps[];
-    recipes: RecipePopulatedProps[];
+    recipes: RecipeProps[];
     searchRef: RefObject<HTMLInputElement>;
     navBarRef: RefObject<HTMLDivElement>;
 }) {
@@ -74,7 +74,7 @@ export default function Search({
                             <h1>Recipes</h1>
                             {recipes.map((recipe, index) => (
                                 <Link
-                                    href={`/${recipe.user?.username}/${recipe._id}`}
+                                    href={`/${(recipe.user as UserProps).username}/${recipe._id}`}
                                     key={index}
                                     onClick={() => clickHandler(navBarRef)}
                                     prefetch
@@ -94,7 +94,7 @@ export default function Search({
                                         />
                                         <div>
                                             <h2>{recipe.title}</h2>
-                                            <p>{recipe.user.username}</p>
+                                            <p>{(recipe.user as UserProps).username}</p>
                                         </div>
                                     </div>
                                 </Link>

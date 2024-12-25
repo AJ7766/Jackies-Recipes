@@ -1,7 +1,6 @@
 "use client"
 import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
-import { RecipePopulatedProps } from "@/_models/RecipeModel";
 import { UserProps } from "@/_models/UserModel";
 import { fetchGetSearchAPI } from "../_services/api/fetchGetSearchAPI";
 import { NavBarComponent } from "../_components/NavBarComponent";
@@ -11,11 +10,12 @@ import dynamic from "next/dynamic";
 const Search = dynamic(() => import("./Search"), { ssr: false });
 import { useDebounce } from "../_hooks/useDebounce";
 import { useIsResponsive } from "../_hooks/useIsResponsive";
+import { RecipeProps } from "@/_models/RecipeModel";
 
 export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState<UserProps[]>([]);
-  const [recipes, setRecipes] = useState<RecipePopulatedProps[]>([]);
+  const [recipes, setRecipes] = useState<RecipeProps[]>([]);
   const searchResultsRef = useRef<HTMLDivElement | null>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);

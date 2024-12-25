@@ -1,10 +1,9 @@
-import mongoose from "mongoose";
 import { getUser, getUserPassword, updateUser } from "../repositories/userRepository";
 import { UserEditProps } from "@/_models/UserModel";
 import userValidation from "../validations/userValidation";
 import { hashPassword } from "@/_utils/bcrypt";
 
-export const getUserService = async (user_id: mongoose.Types.ObjectId) => {
+export const getUserService = async (user_id: string) => {
     const user = await getUser(user_id);
 
     if (!user) {
@@ -13,7 +12,7 @@ export const getUserService = async (user_id: mongoose.Types.ObjectId) => {
     return user;
 }
 
-export const updateUserService = async (user_id: mongoose.Types.ObjectId, user: UserEditProps) => {
+export const updateUserService = async (user_id: string, user: UserEditProps) => {
     const updated_user = await updateUser(user_id, user);
 
     if (!updated_user)
@@ -22,7 +21,7 @@ export const updateUserService = async (user_id: mongoose.Types.ObjectId, user: 
     return updated_user;
 }
 
-export const validateUserService = async (user_id: mongoose.Types.ObjectId, user: UserEditProps) => {
+export const validateUserService = async (user_id: string, user: UserEditProps) => {
     const attri_checked_user = await checkUserAttrService(user);
     const existing_user = await getUserPassword(user_id);
     if (!existing_user)

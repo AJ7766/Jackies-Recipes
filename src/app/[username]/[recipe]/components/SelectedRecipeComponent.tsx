@@ -1,5 +1,5 @@
-import { RecipePopulatedProps } from "@/_models/RecipeModel";
-import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
+import { RecipeProps } from "@/_models/RecipeModel";
+import { UserProps } from "@/_models/UserModel";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,9 +7,9 @@ const meals = "/images/icons/meal.svg";
 const profilePicturePlaceholder = "/images/profile-picture.png";
 
 interface SelectedRecipeComponentProps {
-    selectedRecipe: RecipePopulatedProps | null;
+    selectedRecipe: RecipeProps | null;
     isSmallScreen: boolean;
-    profile: UserPopulatedRecipePopulatedProps | null;
+    profile: UserProps | null;
 }
 
 export default function SelectedRecipeComponent({

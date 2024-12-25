@@ -2,19 +2,15 @@ import mongoose, { Model, Schema, Document } from "mongoose";
 import { UserModel, UserProps } from "./UserModel";
 
 export interface RecipeProps {
-   _id: mongoose.Types.ObjectId;
-   user: mongoose.Types.ObjectId;
+   _id: string;
+   user: UserProps| mongoose.Types.ObjectId;
    title: string;
    image: string;
    ingredients: IngredientListProps[];
    servings?: number;
    macros?: MacroNutrientsProps;
    instructions?: InstructionProps[];
-   savedBy?: mongoose.Types.ObjectId[];
-}
-
-export interface RecipePopulatedProps extends Omit<RecipeProps, 'user'> {
-   user: UserProps;
+   savedBy?: string[];
 }
 
 export interface RecipeFormProps extends Omit<RecipeProps, "user" | "_id"> { }
@@ -64,7 +60,7 @@ export const InstructionSchema = new Schema<InstructionProps>({
 });
 
 interface RecipeDocument extends RecipeProps, Document {
-   _id: mongoose.Types.ObjectId;
+   _id: string;
 }
 
 export const recipeSchema = new Schema<RecipeDocument>({
@@ -79,7 +75,10 @@ export const recipeSchema = new Schema<RecipeDocument>({
    servings: { type: Number },
    macros: MacroNutrientsSchema,
    instructions: [InstructionSchema],
-   savedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: 'users' }],
+   savedBy: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'users'
+   }],
 }, { timestamps: true });
 
 recipeSchema.pre('findOneAndDelete', async function (next) {

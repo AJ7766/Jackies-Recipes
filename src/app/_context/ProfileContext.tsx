@@ -1,21 +1,20 @@
 "use client"
 import React, { createContext, useContext, useState } from "react";
-import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
-import { RecipePopulatedProps } from "@/_models/RecipeModel";
-import mongoose from "mongoose";
+import { UserProps } from "@/_models/UserModel";
+import { RecipeProps } from "@/_models/RecipeModel";
 
 interface ProfileContextType {
-  profile: UserPopulatedRecipePopulatedProps;
-  handleRecipeChange: (recipes: RecipePopulatedProps[]) => void;
-  handleFollowersChange: (user_id: mongoose.Types.ObjectId, operation: string) => void;
+  profile: UserProps;
+  handleRecipeChange: (recipes: RecipeProps[]) => void;
+  handleFollowersChange: (user_id: string, operation: string) => void;
 }
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
 
-export function ProfileProvider({ children, serverProfile }: { children: React.ReactNode, serverProfile: UserPopulatedRecipePopulatedProps }) {
-  const [profile, setProfile] = useState<UserPopulatedRecipePopulatedProps>((serverProfile));
+export function ProfileProvider({ children, serverProfile }: { children: React.ReactNode, serverProfile: UserProps }) {
+  const [profile, setProfile] = useState<UserProps>((serverProfile));
 
-  const handleRecipeChange = (recipes: RecipePopulatedProps[]) => {
+  const handleRecipeChange = (recipes: RecipeProps[]) => {
     setProfile((prev) => ({
       ...prev,
       recipes
@@ -23,7 +22,7 @@ export function ProfileProvider({ children, serverProfile }: { children: React.R
     )
   }
 
-  const handleFollowersChange = (user_id: mongoose.Types.ObjectId, operation: string) => {
+  const handleFollowersChange = (user_id: string, operation: string) => {
     if (operation === 'follow') {
       setProfile((prev) => ({
         ...prev,

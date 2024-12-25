@@ -1,7 +1,7 @@
 import { RecipeModel, RecipeProps } from "@/_models/RecipeModel";
 import mongoose from "mongoose";
 
-export const getRecipe = async (recipe_id: mongoose.Types.ObjectId) => {
+export const getRecipe = async (recipe_id: string) => {
     return await RecipeModel.findById(recipe_id)
         .populate({
             path: 'user',
@@ -10,7 +10,7 @@ export const getRecipe = async (recipe_id: mongoose.Types.ObjectId) => {
         .lean();
 }
 
-export const createRecipe = async (filteredRecipe: RecipeProps, user_id: mongoose.Types.ObjectId) => {
+export const createRecipe = async (filteredRecipe: RecipeProps, user_id: string) => {
     return await RecipeModel.create({
         ...filteredRecipe,
         user: user_id,
@@ -24,6 +24,6 @@ export const updateRecipe = async (filteredRecipe: RecipeProps) => {
     ).lean();
 }
 
-export const deleteRecipe = async (recipe_id: mongoose.Types.ObjectId) => {
+export const deleteRecipe = async (recipe_id: string) => {
     return await RecipeModel.findByIdAndDelete(recipe_id).lean();
 }

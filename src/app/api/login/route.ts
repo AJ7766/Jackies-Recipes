@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) { //Login user
 
     await comparePasswords(password, user.password);
 
-    const token = await assignToken(user._id, username);
+    const token = await assignToken(user._id.toString(), username);
     await setSession(user._id, token);
 
     return NextResponse.json({ message: "Successfully logged in"}, { status: 200 });

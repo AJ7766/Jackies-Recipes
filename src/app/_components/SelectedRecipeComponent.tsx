@@ -1,4 +1,5 @@
-import { RecipePopulatedProps } from "@/_models/RecipeModel";
+import { RecipeProps } from "@/_models/RecipeModel";
+import { UserProps } from "@/_models/UserModel";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,7 +8,7 @@ const profilePicturePlaceholder = "/images/profile-picture.png";
 const closeIcon = "/images/icons/close-recipe.svg";
 
 interface SelectedRecipeComponentProps {
-    recipe: RecipePopulatedProps | null;
+    recipe: RecipeProps | null;
     isMobile: boolean;
     isClient: boolean;
     handleCloseRecipe: () => void;
@@ -29,7 +30,7 @@ export default function SelectedRecipeComponent({
                                 <div className="recipeUserContainer">
                                     <Link
                                         className="flex gap-2"
-                                        href={`/${recipe.user?.username}`}
+                                        href={`/${(recipe.user as UserProps).username}`}
                                         onClick={() => {
                                             document.body.style.overflow = "auto";
                                         }}
@@ -38,14 +39,14 @@ export default function SelectedRecipeComponent({
                                             width={25}
                                             height={25}
                                             src={
-                                                recipe.user.userContent?.profilePicture ||
+                                                (recipe.user as UserProps).userContent?.profilePicture ||
                                                 profilePicturePlaceholder
                                             }
                                             alt="profile-picture"
                                             format="webp"
                                         />
                                         <div>
-                                            <h2>{recipe.user?.username}</h2>
+                                            <h2>{(recipe.user as UserProps).username}</h2>
                                         </div>
                                     </Link>
                                 </div>

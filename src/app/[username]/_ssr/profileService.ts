@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import { getIsFollowing, getProfileMeta, getUserPopulated } from "./profileRepository";
 
 export const getUserPopulatedService = async (username: string) => {
@@ -10,7 +9,7 @@ export const getUserPopulatedService = async (username: string) => {
     return user;
 }
 
-export const getIsFollowingService = async (username: string, user_id: mongoose.Types.ObjectId) => {
+export const getIsFollowingService = async (username: string, user_id: string) => {
     const isFollowing = await getIsFollowing(username, user_id);
 
     return !!isFollowing;

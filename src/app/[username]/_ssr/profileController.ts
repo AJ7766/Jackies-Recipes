@@ -1,6 +1,5 @@
 import { connectDB } from "@/app/_config/database"
-import { getIsFollowingService, getProfileMetaService, getUserPopulatedService} from "./profileService";
-import mongoose from "mongoose";
+import { getIsFollowingService, getProfileMetaService, getUserPopulatedService } from "./profileService";
 
 export const getProfileController = async (username: string) => {
     try {
@@ -15,7 +14,7 @@ export const getProfileController = async (username: string) => {
     }
 }
 
-export const getIsFollowingController = async (username: string, user_id: mongoose.Types.ObjectId) => {
+export const getIsFollowingController = async (username: string, user_id: string) => {
     try {
         await connectDB();
         const isFollowing = await getIsFollowingService(username, user_id);

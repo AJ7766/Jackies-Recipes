@@ -6,7 +6,7 @@ import { getIsFollowingController, getProfileMetaController } from "./_ssr/profi
 export default async function ProfilePage({ params }: { params: Promise<{ username: string }> }) {
   const session = await getSession();
   const { username } = await params;
-  const serverIsFollowing = session.user_id && await getIsFollowingController(username, session.user_id);
+  const serverIsFollowing = session.user_id && await getIsFollowingController(username, session.user_id) || false;
   return <>
     <Profile user_id={session.user_id} serverIsFollowing={serverIsFollowing} />
     <RecipeList />

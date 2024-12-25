@@ -1,15 +1,14 @@
 import { UserEditProps, UserModel } from "@/_models/UserModel";
-import mongoose from "mongoose";
 
-export const getUser = async (user_id: mongoose.Types.ObjectId) => {
+export const getUser = async (user_id: string) => {
     return await UserModel.findById(user_id).select('-password -_id -createdAt -updatedAt').lean();
 }
 
-export const getUserPassword = async (user_id: mongoose.Types.ObjectId) => {
+export const getUserPassword = async (user_id: string) => {
     return await UserModel.findById(user_id).select('password').lean();
 }
 
-export const updateUser = async (user_id: mongoose.Types.ObjectId, user: UserEditProps) => {
+export const updateUser = async (user_id: string, user: UserEditProps) => {
     return await UserModel.findByIdAndUpdate(user_id,
         {
             $set: {

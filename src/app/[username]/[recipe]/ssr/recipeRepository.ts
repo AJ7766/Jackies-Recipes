@@ -1,7 +1,6 @@
 import { RecipeModel } from "@/_models/RecipeModel";
-import mongoose from "mongoose";
 
-export const getRecipeMeta = async (recipe_id: mongoose.Types.ObjectId) => {
+export const getRecipeMeta = async (recipe_id: string) => {
     return await RecipeModel.findById(recipe_id)
         .populate({
             path: 'user',

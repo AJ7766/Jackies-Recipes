@@ -1,5 +1,4 @@
-import { UserPopulatedRecipePopulatedProps } from "@/_models/UserModel";
-import mongoose from "mongoose";
+import { UserProps } from "@/_models/UserModel";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,12 +20,12 @@ export const ProfileComponent = React.memo(({
   isFollowing,
   handleFollowing
 }: {
-  profile: UserPopulatedRecipePopulatedProps,
+  profile: UserProps,
   isClient: boolean,
   isMobile: boolean,
-  user_id?: mongoose.Types.ObjectId
+  user_id?: string
   isAuthenticatedProfile: boolean,
-  handleFollowersChange: (user_id: mongoose.Types.ObjectId, operation: string) => void;
+  handleFollowersChange: (user_id: string, operation: string) => void;
   isFollowing?: boolean
   handleFollowing: (following: boolean) => void
 }
@@ -48,7 +47,7 @@ export const ProfileComponent = React.memo(({
           />
           {(!isClient || (isClient && isMobile)) &&
             <div className="text-sm mb-2 mt-4 mx-auto flex content-center gap-x-4 md:hidden">
-              <h2 className="flex flex-col items-center"><b>{profile.recipes.length}</b> recipes</h2>
+              <h2 className="flex flex-col items-center"><b>{profile.recipes?.length}</b> recipes</h2>
               <h2 className="flex flex-col items-center"><b>{profile.followers?.length || 0}</b> followers</h2>
               <h2 className="flex flex-col items-center"><b>{profile.following?.length || 0}</b> following</h2>
             </div>
@@ -91,7 +90,7 @@ export const ProfileComponent = React.memo(({
             </h2>}
           {(!isClient || (isClient && !isMobile)) &&
             <div className="hidden text-sm text-[15px] mb-2 mt-4 content-center gap-x-6 md:flex">
-              <h2><b>{profile.recipes.length}</b> recipes</h2>
+              <h2><b>{profile.recipes?.length}</b> recipes</h2>
               <h2><b>{profile.followers?.length || 0}</b> followers</h2>
               <h2><b>{profile.following?.length || 0}</b> following</h2>
             </div>}
