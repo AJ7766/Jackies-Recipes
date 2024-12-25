@@ -15,7 +15,6 @@ export const getToken = async (req: NextRequest) => {
 
 export const verifyToken = async (token: string) => {
     try {
-        console.log(token)
         return await jwtVerify(token, new TextEncoder().encode(SECRET_KEY)) as JWTVerifyResult<JWTPayload & { id: string }>;
     } catch (error: any) {
         throw new Error('Token verification error:', error)
