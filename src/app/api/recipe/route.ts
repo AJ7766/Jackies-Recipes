@@ -7,18 +7,18 @@ import { RecipeProps } from "@/_models/RecipeModel";
 import { getUserService } from "../user/services/userService";
 import { deleteRedisCache } from "@/_utils/redis";
 import { deleteOldImageFileService } from "../cloudinary/cloudinaryService";
+import mongoose from "mongoose";
 
 export async function GET(req: NextRequest) { // Get recipe
     try {
         await connectDB();
-
+        const user_id_header = req.headers.get('user_id');
+        if (!user_id_header) throw new Error('Unauthorized');
         const recipe_id = await getRecipeIdFromUrlService(req);
-        const token = await getToken(req);
-        const decoded = await verifyToken(token);
 
         const recipe = await getRecipeService(recipe_id);
 
-        const userHasRecipe = await checkUserHasRecipeService(decoded.id, recipe?.user._id || null);
+        const userHasRecipe = await checkUserHasRecipeService(user_id_header, recipe?.user._id || null);
 
         return NextResponse.json({ userHasRecipe, recipe }, { status: 200 });
     } catch (error) {
@@ -27,21 +27,21 @@ export async function GET(req: NextRequest) { // Get recipe
     }
 }
 
-export async function POST(req: NextRequest) { // Create recipe
+export async function POST(req: NextRequest) { // Add recipe
     try {
         await connectDB();
-
+        const user_id_header = req.headers.get('user_id');
+        if (!user_id_header) throw new Error('Unauthorized');
+        const user_id = new mongoose.Types.ObjectId(user_id_header);
         const recipe: RecipeProps = await req.json();
-        const token = await getToken(req)
-        const decoded = await verifyToken(token);
 
         await validateRecipeService(recipe);
 
-        await getUserService(decoded.id);
-        const new_recipe = await createRecipeService(recipe, decoded.id);
-        await addRecipeToUserService(new_recipe, decoded.id);
+        await getUserService(user_id);
+        const new_recipe = await createRecipeService(recipe, user_id);
+        await addRecipeToUserService(new_recipe, user_id);
 
-        await deleteRedisCache(decoded.id);
+        await deleteRedisCache(user_id_header);
 
         return NextResponse.json({ message: "Success creating recipe" }, { status: 200 });
     } catch (error) {
@@ -53,18 +53,18 @@ export async function POST(req: NextRequest) { // Create recipe
 export async function PUT(req: NextRequest) { // Update recipe
     try {
         await connectDB();
-
         const recipe: RecipeProps = await req.json();
-        const token = await getToken(req)
-        const decoded = await verifyToken(token);
+        const user_id_header = req.headers.get('user_id');
+        if (!user_id_header) throw new Error('Unauthorized');
+        const user_id = new mongoose.Types.ObjectId(user_id_header);
 
         await validateRecipeService(recipe);
 
-        await getUserService(decoded.id);
+        await getUserService(user_id);
 
         await updateRecipeService(recipe);
 
-        await deleteRedisCache(decoded.id);
+        await deleteRedisCache(user_id_header);
 
         return NextResponse.json({ message: "Success updating recipe" }, { status: 200 });
     } catch (error) {
@@ -77,18 +77,20 @@ export async function DELETE(req: NextRequest) { // Delete recipe
     try {
         await connectDB();
 
+        const user_id_header = req.headers.get('user_id');
+        if (!user_id_header) throw new Error('Unauthorized');
+        const user_id = new mongoose.Types.ObjectId(user_id_header);
+
         const recipe_id = await getRecipeIdFromUrlService(req);
         const public_id = await getPublicIdFromUrlService(req);
-        const token = await getToken(req)
-        const decoded = await verifyToken(token);
 
-        await getUserService(decoded.id);
+        await getUserService(user_id);
 
         await Promise.all([
             (public_id && typeof public_id === 'string') && deleteOldImageFileService(public_id),
             deleteRecipeService(recipe_id)]);
 
-        await deleteRedisCache(decoded.id);
+        await deleteRedisCache(user_id_header);
 
         return NextResponse.json({ message: 'Recipe successfully deleted' }, { status: 200 });
     } catch (error) {

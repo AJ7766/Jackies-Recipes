@@ -12,7 +12,7 @@ export const getPublicId = (image: string): string => {
 export const validateImage = (file: File) => {
     const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
     const maxSize = 10 * 1024 * 1024;
-
+    
     if (!allowedMimeTypes.includes(file.type)) {
         alert("Please upload an image file (JPEG, PNG, WEBP).");
         return;

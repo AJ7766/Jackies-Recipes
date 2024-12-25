@@ -1,7 +1,6 @@
 import { RecipeFormProps } from "@/_models/RecipeModel";
 
 export const fetchUpdateRecipeAPI = async (
-    token: string,
     recipe: RecipeFormProps,
 ) => {
     try {
@@ -10,7 +9,6 @@ export const fetchUpdateRecipeAPI = async (
             body: JSON.stringify(recipe),
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
         });
         const data = await res.json();

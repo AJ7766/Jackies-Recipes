@@ -35,6 +35,7 @@ export const EditProfileComponent = React.memo(({
           className="editPreviewProfilePicture"
           src={user.userContent?.profilePicture || profilePicture}
           alt="profile-picture"
+          format="webp"
         />
         <input
           id="profilePicInput"

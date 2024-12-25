@@ -5,7 +5,6 @@ import { ProfileProvider } from "../_context/ProfileContext";
 export default async function RootLayout({ children, params }: { children: ReactNode, params: Promise<{ username: string }> }) {
   const { username } = await params;
   const { serverProfile } = await getProfileController(username.toLocaleLowerCase());
-  
   if (!serverProfile)
     return (
       <div className="errorContainer">

@@ -9,7 +9,6 @@ interface CacheContextType {
 const CacheContext = createContext<CacheContextType | undefined>(undefined);
 
 const clearCache = () => {
-    console.log("manually clearing cache");
     sessionStorage.clear();
 };
 

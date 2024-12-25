@@ -44,11 +44,6 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     const [loadingBtn, setLoadingBtn] = useState(false);
     const [message, setMessage] = useState("");
     const { user } = useAuth();
-    const [token, setToken] = useState(() => {
-        if (typeof window !== 'undefined')
-            return localStorage.getItem("token");
-        return null;
-    });
     const [userHasRecipe, setUserHasRecipe] = useState(false);
     const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
     const [isFetching, setIsFetcing] = useState(true);
@@ -58,10 +53,14 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     const router = useRouter();
 
     useEffect(() => {
-        if (!token) return;
         const fetchRecipeAPI = async () => {
             setIsFetcing(true);
-            const { message, fetchedRecipe, userHasRecipe } = await fetchGetRecipeAPI(token, new mongoose.Types.ObjectId(recipe_id))
+            if(!mongoose.Types.ObjectId.isValid(recipe_id)){
+                setIsFetcing(false);
+                return alert("Invalid recipe ID");
+            }
+
+            const { message, fetchedRecipe, userHasRecipe } = await fetchGetRecipeAPI(new mongoose.Types.ObjectId(recipe_id))
 
             if (!fetchedRecipe || !userHasRecipe) {
                 console.error(message);
@@ -74,7 +73,7 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
             setPublicId(getPublicId(fetchedRecipe.image));
         }
         fetchRecipeAPI()
-    }, [token])
+    }, [])
 
     useEffect(() => {
         if (
@@ -118,11 +117,9 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
 
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const token = localStorage.getItem("token");
+        if(!user) 
+            throw new Error("Unauthorized");
 
-        if (!user || !token) {
-            throw new Error("User or Token is not available");
-        }
         try {
             setLoadingBtn(true);
             let updatedRecipeData: RecipeFormProps = { ...recipe };
@@ -133,7 +130,7 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
                     image: data_url
                 };
             }
-            const { message, success } = await fetchUpdateRecipeAPI(token, updatedRecipeData);
+            const { message, success } = await fetchUpdateRecipeAPI(updatedRecipeData);
             if (!success) {
                 setLoadingBtn(false)
                 throw new Error(message)
@@ -255,7 +252,7 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     if (isFetching)
         return null;
 
-    if (!userHasRecipe || !token)
+    if (!userHasRecipe)
         return <ErrorPage />;
 
     return <EditRecipeComponent
@@ -272,7 +269,6 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
         toggleSlider={toggleSlider}
         username={user?.username || ''}
         recipe_id={recipe_id}
-        token={token}
         public_id={publicId}
         router={router}
     />

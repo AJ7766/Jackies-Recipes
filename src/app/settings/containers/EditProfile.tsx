@@ -38,11 +38,6 @@ export default function EditProfile() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const token = localStorage.getItem("token");
-
-    if (!user || !token) {
-      throw new Error("User or Token is not available");
-    }
 
     try {
       setLoadingBtn(true);
@@ -58,7 +53,7 @@ export default function EditProfile() {
         };
       }
 
-      const { message, updated_user } = await fetchUpdateUserAPI(updatedUserData, token);
+      const { message, updated_user } = await fetchUpdateUserAPI(updatedUserData);
 
       if (!updated_user) {
         return setMessage(message);

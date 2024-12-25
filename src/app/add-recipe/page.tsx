@@ -1,13 +1,7 @@
-import { AuthGuard } from "../_services/authGuard";
 import AddRecipe from "./containers/AddRecipe";
 
 export default async function AddRecipePage() {
-
-  return (
-    <AuthGuard>
-      <AddRecipe />
-    </AuthGuard>
-  );
+  return <AddRecipe />
 }
 
 export async function generateMetadata() {

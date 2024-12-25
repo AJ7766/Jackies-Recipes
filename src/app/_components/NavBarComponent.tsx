@@ -56,7 +56,6 @@ export const NavBarComponent = React.memo(({
   return (
     <>
       <div className="navContainer" ref={navBarRef}>
-
         {(!isClient || (isClient && !isMobile)) &&
           <Link
             className="hidden md:block"

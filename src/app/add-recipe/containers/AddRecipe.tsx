@@ -90,25 +90,21 @@ export default function AddRecipe() {
 
   const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const token = localStorage.getItem("token");
-
-    setLoadingBtn(true);
-
-    if (!user || !token) {
-      throw new Error("User or Token is not available");
-    }
 
     try {
       setLoadingBtn(true);
-      let updatedRecipeData: RecipeFormProps = { ...recipe };
-      if (cloudinaryData) {
-        const { data_url } = await fetchUpdateImageAPI(cloudinaryData);
-        updatedRecipeData = {
-          ...recipe,
-          image: data_url
-        };
+      if (!cloudinaryData) {
+        alert("Please upload an image file (JPEG, PNG, WEBP).");
+        return;
       }
-      const { message, success } = await fetchPostRecipeAPI(updatedRecipeData, token);
+      let updatedRecipeData: RecipeFormProps = { ...recipe };
+      const { data_url } = await fetchUpdateImageAPI(cloudinaryData);
+      updatedRecipeData = {
+        ...recipe,
+        image: data_url
+      };
+
+      const { message, success } = await fetchPostRecipeAPI(updatedRecipeData);
 
       if (!success) {
         setMessage(message);

@@ -7,7 +7,7 @@ const usernameImg = "/images/register/username.svg";
 const fullNameImg = "/images/register/fullName.svg";
 const passwordImg = "/images/register/password.svg";
 const passwordConfirmImg = "/images/register/passwordConfirm.svg";
-const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1734125792/flvl1hcwvsaqwsdcpwja.webp";
+const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1735085066/ekq1eigibe9h5xfgi6rp.webp";
 
 interface RegisterFormProps {
   user: UserRegisterProps;

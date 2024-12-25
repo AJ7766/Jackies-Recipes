@@ -1,12 +1,9 @@
 import mongoose from "mongoose";
 
-export const fetchGetRecipeAPI = async (token: string, recipe_id: mongoose.Types.ObjectId) => {
+export const fetchGetRecipeAPI = async (recipe_id: mongoose.Types.ObjectId) => {
     try {
         const res = await fetch(`/api/recipe?recipeId=${recipe_id}`, {
             method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
         });
         const data = await res.json();
 

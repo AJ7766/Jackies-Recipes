@@ -2,8 +2,8 @@ import { SessionOptions } from "iron-session";
 import mongoose from "mongoose";
 
 export interface SessionData {
-    user_id?: mongoose.Types.ObjectId;
-    isAuth: boolean;
+    user_id: mongoose.Types.ObjectId;
+    token: string;
 }
 
 export const sessionOptions: SessionOptions = {
@@ -12,11 +12,7 @@ export const sessionOptions: SessionOptions = {
     cookieOptions: {
         secure: process.env.NODE_ENV === 'production',
         httpOnly: true,
-        maxAge: 1000 * 60 * 60,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
         sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax'
     },
-}
-
-export const defaultSession: SessionData = {
-    isAuth: false
 }

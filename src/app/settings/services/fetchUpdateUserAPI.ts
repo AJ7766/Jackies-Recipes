@@ -1,13 +1,12 @@
 import { UserEditProps } from "@/_models/UserModel";
 
-export const fetchUpdateUserAPI = async (user: UserEditProps, token: string) => {
+export const fetchUpdateUserAPI = async (user: UserEditProps) => {
     try {
         let res = await fetch("/api/user", {
             method: "PUT",
             body: JSON.stringify({ user }),
             headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
             },
         });
 

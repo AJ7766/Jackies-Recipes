@@ -34,10 +34,8 @@
 
 body {
   font-weight: 400;
-  background: white;
   color: black;
   font-size: clamp(14px, 2cqw, 16px);
-  overflow-y: scroll;
 }
 
 .wrapper {

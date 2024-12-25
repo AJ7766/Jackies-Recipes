@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 const usernameImg = "/images/register/username.svg";
 const passwordImg = "/images/register/password.svg";
-const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1734125792/flvl1hcwvsaqwsdcpwja.webp";
+const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1735085066/ekq1eigibe9h5xfgi6rp.webp";
 
 interface LoginFormProps {
   user: {

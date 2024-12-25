@@ -36,7 +36,6 @@ interface AddRecipeProps {
   toggleSlider: () => void;
   username: string;
   recipe_id: string;
-  token: string;
   public_id: string;
   router: AppRouterInstance
 }
@@ -55,7 +54,6 @@ export default function EditRecipeComponent({
   toggleSlider,
   username,
   recipe_id,
-  token,
   public_id,
   router
 }: AddRecipeProps) {
@@ -340,7 +338,7 @@ export default function EditRecipeComponent({
           className="delete"
           onClick={async () => {
             const { handleDeleteRecipe } = await import("../services/editRecipeServices");
-            await handleDeleteRecipe(token, new mongoose.Types.ObjectId(recipe_id), username, public_id, router)
+            await handleDeleteRecipe(new mongoose.Types.ObjectId(recipe_id), username, public_id, router)
           }}>
           Delete
         </button>

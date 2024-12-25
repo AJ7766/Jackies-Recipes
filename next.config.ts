@@ -1,12 +1,4 @@
 module.exports = {
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "res.cloudinary.com",
-      },
-    ],
-  },
   async headers() {
     return [{ // Setting security headers
       source: "/:path*",
@@ -23,8 +15,8 @@ module.exports = {
             process.env.NODE_ENV === "development"
               ? [
                 "default-src 'self';",
-                "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://trusted-cdn.com https://www.googletagmanager.com;",
-                "connect-src 'self' https://region1.google-analytics.com;",
+                "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://trusted-cdn.com https://www.googletagmanager.com https://va.vercel-scripts.com;",
+                "connect-src 'self' https://region1.google-analytics.com https://res.cloudinary.com;",
                 "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
                 "font-src 'self' https://fonts.gstatic.com;",
                 "img-src 'self' https: data:;",
@@ -33,8 +25,8 @@ module.exports = {
               ].join(" ")
               : [
                 "default-src 'self';",
-                "script-src 'self' 'unsafe-inline' https://trusted-cdn.com https://www.googletagmanager.com https://vercel.live;",
-                "connect-src 'self' https://region1.google-analytics.com;",
+                "script-src 'self' 'unsafe-inline' https://trusted-cdn.com https://www.googletagmanager.com https://vercel.live https://va.vercel-scripts.com;",
+                "connect-src 'self' https://region1.google-analytics.com https://res.cloudinary.com;",
                 "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
                 "font-src 'self' https://fonts.gstatic.com;",
                 "img-src 'self' https: data:;",
@@ -54,5 +46,13 @@ module.exports = {
       ],
     },
     ];
+  },
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
+      },
+    ],
   },
 };

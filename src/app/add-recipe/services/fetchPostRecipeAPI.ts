@@ -1,12 +1,11 @@
 import { RecipeFormProps } from "@/_models/RecipeModel";
 
-export const fetchPostRecipeAPI = async (recipe: RecipeFormProps, token: string) => {
+export const fetchPostRecipeAPI = async (recipe: RecipeFormProps) => {
     try {
         let res = await fetch("/api/recipe", {
             method: "POST",
             body: JSON.stringify(recipe),
             headers: {
-                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
         });

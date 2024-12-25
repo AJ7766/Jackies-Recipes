@@ -1,4 +1,5 @@
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { jwtVerify } from 'jose';
 import mongoose from "mongoose";
 import { NextRequest } from "next/server";
 
@@ -15,8 +16,7 @@ export const getToken = async (req: NextRequest) => {
 
 export const verifyToken = async (token: string) => {
     try {
-        const decoded = jwt.verify(token, SECRET_KEY) as JwtPayload;
-        return decoded;
+        return await jwtVerify(token, new TextEncoder().encode(SECRET_KEY)) as JwtPayload;
     } catch (error: any) {
         throw new Error('Token verification error:', error)
     }

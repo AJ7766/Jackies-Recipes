@@ -16,16 +16,11 @@ export default function LoginPage() {
 
     setLoadingBtn(true);
 
-    const { message, token } = await fetchLoginAPI(
+    const { message } = await fetchLoginAPI(
       user.username,
       user.password
     );
-
-    if (token) {
-      localStorage.setItem("token", token);
-      window.location.href = `/${user.username}`;
-    }
-
+    window.location.href = `/${user.username}`;
     setMessage(message);
     setLoadingBtn(false);
   };

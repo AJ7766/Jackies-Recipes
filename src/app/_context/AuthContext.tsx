@@ -4,7 +4,6 @@ import React, {
   createContext,
   useContext,
   useState,
-  useEffect,
 } from "react";
 import { fetchGetLogoutAPI } from "../_services/api/fetchLogoutAPI";
 
@@ -19,23 +18,10 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children, serverUser }: { children: React.ReactNode, serverUser: UserProps }) {
   const [user, setUser] = useState<UserProps | null>(serverUser || null);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    const fetchTokenAndUser = async () => {
-      if (!token) {
-        localStorage.removeItem("token");
-        setUser(null);
-        return;
-      }
-    };
-    fetchTokenAndUser();
-  }, []);
-
   const logout = async () => {
     await fetchGetLogoutAPI();
-    localStorage.removeItem("token");
     setUser(null);
-    window.location.href = ("/");
+    window.location.href = `/`;
   };
 
   return (

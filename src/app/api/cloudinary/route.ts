@@ -13,10 +13,8 @@ export async function POST(req: NextRequest) {
         const formData = await req.formData();
         const file = formData.get("file");
         const public_id = formData.get("public_id");
-
-        if (!file || !(file instanceof Blob)) {
+        if (!file || !(file instanceof Blob) || !file.type.startsWith('image/') || file.size < 1) 
             throw new Error('No valid file uploaded');
-        }
 
         const [deleteResult, data] = await Promise.all([
             (public_id && typeof public_id === 'string') && deleteOldImageFileService(public_id),
