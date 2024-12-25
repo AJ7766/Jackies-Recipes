@@ -42,23 +42,16 @@ body {
   padding-left: 245px;
 }
 
-@keyframes pulse {
-  0%,
+@keyframes loaderAnimation {
+  0% {
+    width: 0%;
+  }
+  33% {
+    width: 33%;
+  }
   100% {
-    transform: translate(-50%, -50%) scale(1);
+    width: 90%;
   }
-  50% {
-    transform: translate(-50%, -50%) scale(1.2);
-  }
-}
-
-.loading-spinner {
-  position: absolute;
-  width: clamp(80px, 2vw, 100px);
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, 50%);
-  animation: pulse 1.3s ease-in-out infinite;
 }
 
 .loader {
@@ -67,6 +60,7 @@ body {
   top: 0;
   left: 0;
   background: linear-gradient(4deg, #1e89ff, #1e89ff, #a6d1ff);
+  animation: loaderAnimation 0.5s ease-in-out forwards;
   z-index: 2;
 }
 

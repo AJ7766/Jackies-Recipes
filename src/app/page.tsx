@@ -6,11 +6,11 @@ const LoginPage = dynamic(() => import('./_containers/LoginPage'), { ssr: true }
 
 export default async function DashboardPage() {
   const session = await getSession();
-
   if (!session.token)
     return <LoginPage />
+
   const serverRecipes = await getRecipesController();
-  return <Dashboard serverRecipes={JSON.parse(serverRecipes)}/>
+  return <Dashboard serverRecipes={typeof serverRecipes === 'string' ? JSON.parse(serverRecipes) : serverRecipes} />
 }
 
 export async function generateMetadata() {
