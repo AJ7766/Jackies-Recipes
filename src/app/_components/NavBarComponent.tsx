@@ -229,8 +229,8 @@ export const NavBarComponent = React.memo(({
               </div>
               <div className="dropdownContentContainer hidden" ref={dropdownRef}>
                 <div className="dropdownContent" ref={dropdownItemsRef}>
-                  <Link href="/settings" prefetch={false}>Settings</Link>
-                  <Link href="/privacy-policy" prefetch={false}>Privacy Policy</Link>
+                  <Link href="/settings">Settings</Link>
+                  <Link href="/privacy-policy">Privacy Policy</Link>
                   <button onClick={logout}>Logout</button>
                 </div>
               </div>
