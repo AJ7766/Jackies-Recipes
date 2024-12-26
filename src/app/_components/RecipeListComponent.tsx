@@ -2,7 +2,7 @@ import { CldImage } from 'next-cloudinary';
 import React from "react";
 import { useSelectedRecipe } from '../_context/SelectedRecipeContext';
 import Link from 'next/link';
-import { RecipeProps } from '@/_types/RecipeModel';
+import { RecipeProps } from '@/_types/RecipeTypes';
 const profilePicture = '/images/profilePicture.png';
 
 export const RecipeListComponent = React.memo(({ recipes }: { recipes: RecipeProps[] }) => {

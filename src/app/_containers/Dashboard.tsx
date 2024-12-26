@@ -3,7 +3,7 @@ import { useState } from "react";
 import { RecipeListComponent } from "../_components/RecipeListComponent";
 import { useSelectedRecipe } from "../_context/SelectedRecipeContext";
 import dynamic from "next/dynamic";
-import { RecipeProps } from "@/_types/RecipeModel";
+import { RecipeProps } from "@/_types/RecipeTypes";
 const SelectedRecipe = dynamic(() => import("./SelectedRecipe"), { ssr: true });
 
 export default function Dashboard({ serverRecipes }: { serverRecipes: RecipeProps[] }) {

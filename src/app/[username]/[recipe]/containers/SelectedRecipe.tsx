@@ -2,7 +2,7 @@
 import { useLayoutEffect, useState } from "react";
 import { useProfile } from "@/app/_context/ProfileContext";
 import SelectedRecipeComponent from "../components/SelectedRecipeComponent";
-import { RecipeProps } from "@/_types/RecipeModel";
+import { RecipeProps } from "@/_types/RecipeTypes";
 
 export default function SelectedRecipe({ recipe_id }: { recipe_id: string }) {
   const { profile } = useProfile();

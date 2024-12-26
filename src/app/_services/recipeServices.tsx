@@ -1,4 +1,4 @@
-import { RecipeFormProps } from "@/_types/RecipeModel";
+import { RecipeFormProps } from "@/_types/RecipeTypes";
 
 export const deleteIngredientComponent = (
     prevRecipe: RecipeFormProps,

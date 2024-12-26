@@ -5,7 +5,7 @@ import React, {
   useState,
 } from "react";
 import { fetchGetLogoutAPI } from "../_services/api/fetchLogoutAPI";
-import { UserProps } from "@/_types/UserModel";
+import { UserProps } from "@/_types/UserTypes";
 
 interface AuthContextType {
   user: UserProps | null;

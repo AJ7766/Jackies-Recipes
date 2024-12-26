@@ -9,8 +9,8 @@ import dynamic from "next/dynamic";
 const Search = dynamic(() => import("./Search"), { ssr: false });
 import { useDebounce } from "../_hooks/useDebounce";
 import { useIsResponsive } from "../_hooks/useIsResponsive";
-import { UserProps } from "@/_types/UserModel";
-import { RecipeProps } from "@/_types/RecipeModel";
+import { UserProps } from "@/_types/UserTypes";
+import { RecipeProps } from "@/_types/RecipeTypes";
 
 export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const [search, setSearch] = useState("");

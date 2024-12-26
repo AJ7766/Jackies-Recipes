@@ -1,40 +1,6 @@
 import mongoose, { Model, Schema, Document } from "mongoose";
 import { UserModel } from "./UserModel";
-import { UserProps } from "@/_types/UserModel";
-
-interface RecipeProps {
-   _id: string;
-   user: UserProps;
-   title: string;
-   image: string;
-   ingredients: IngredientListProps[];
-   servings?: number;
-   macros?: MacroNutrientsProps;
-   instructions?: InstructionProps[];
-   savedBy?: string[];
-}
-
-type MacroNutrientsProps = {
-   carbs?: number,
-   protein?: number,
-   fat?: number,
-   calories?: number
-}
-
-type IngredientListProps = {
-   component?: string;
-   ingredients: IngredientProps[];
-}
-
-type IngredientProps = {
-   ingredient: string;
-   amount?: number;
-   unit: string;
-}
-
-type InstructionProps = {
-   instruction: string;
-}
+import { IngredientListProps, IngredientProps, InstructionProps, MacroNutrientsProps, RecipeProps } from "@/_types/RecipeTypes";
 
 const IngredientSchema = new Schema<IngredientProps>({
    ingredient: { type: String, required: true },

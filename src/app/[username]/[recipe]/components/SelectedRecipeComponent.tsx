@@ -1,5 +1,5 @@
-import { RecipeProps } from "@/_types/RecipeModel";
-import { UserProps } from "@/_types/UserModel";
+import { RecipeProps } from "@/_types/RecipeTypes";
+import { UserProps } from "@/_types/UserTypes";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";

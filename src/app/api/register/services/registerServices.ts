@@ -1,4 +1,4 @@
-import { UserRegisterProps } from "@/_types/UserModel";
+import { UserRegisterProps } from "@/_types/UserTypes";
 import { register } from "../repositories/registerRepository";
 import { hashPassword } from "@/_utils/bcrypt";
 

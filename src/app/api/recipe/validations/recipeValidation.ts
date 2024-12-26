@@ -1,4 +1,4 @@
-import { RecipeFormProps, RecipeProps } from "@/_types/RecipeModel";
+import { RecipeFormProps, RecipeProps } from "@/_types/RecipeTypes";
 
 export default async function ValidateRecipeForm(recipe: RecipeProps) {
 

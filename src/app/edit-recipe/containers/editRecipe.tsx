@@ -9,7 +9,7 @@ import { fetchUpdateRecipeAPI } from "../services/fetchUpdateRecipeAPI";
 import { useRouter } from "next/navigation";
 import { convertFileToBase64, convertFileToFormData, getPublicId, validateImage } from "@/_utils/imageUtils";
 import { fetchUpdateImageAPI } from "@/app/settings/services/fetchUpdateImageAPI";
-import { RecipeFormProps } from "@/_types/RecipeModel";
+import { RecipeFormProps } from "@/_types/RecipeTypes";
 
 export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     const [recipe, setRecipe] = useState<RecipeFormProps>({

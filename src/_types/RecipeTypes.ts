@@ -1,4 +1,4 @@
-import { UserProps } from "./UserModel";
+import { UserProps } from "./UserTypes";
 
 export interface RecipeProps {
    _id: string;
@@ -14,24 +14,24 @@ export interface RecipeProps {
 
 export interface RecipeFormProps extends Omit<RecipeProps, "user" | "_id"> { }
 
-export type MacroNutrientsProps = {
+export interface MacroNutrientsProps {
    carbs?: number,
    protein?: number,
    fat?: number,
    calories?: number
 }
 
-export type IngredientListProps = {
+export interface IngredientListProps {
    component?: string;
    ingredients: IngredientProps[];
 }
 
-export type IngredientProps = {
+export interface IngredientProps {
    ingredient: string;
    amount?: number;
    unit: string;
 }
 
-export type InstructionProps = {
+export interface InstructionProps {
    instruction: string;
 }

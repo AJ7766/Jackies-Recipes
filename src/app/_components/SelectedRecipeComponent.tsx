@@ -1,4 +1,4 @@
-import { RecipeProps } from "@/_types/RecipeModel";
+import { RecipeProps } from "@/_types/RecipeTypes";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";

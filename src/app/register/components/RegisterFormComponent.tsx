@@ -1,4 +1,4 @@
-import { RegisterFormProps, UserProps } from "@/_types/UserModel";
+import { RegisterFormProps, UserProps } from "@/_types/UserTypes";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";

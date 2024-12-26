@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import { handleImageClick } from "@/app/_services/recipeServices";
 import { CldImage } from "next-cloudinary";
-import { RecipeFormProps } from "@/_types/RecipeModel";
+import { RecipeFormProps } from "@/_types/RecipeTypes";
 const camera = "/images/icons/camera.svg";
 const recipePlaceholder = "https://res.cloudinary.com/denumkkcx/image/upload/v1734125165/cqap8yrwzntxuyn8rq9v.webp";
 

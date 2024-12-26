@@ -1,5 +1,5 @@
 "use client"
-import { RecipeProps } from "@/_types/RecipeModel";
+import { RecipeProps } from "@/_types/RecipeTypes";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface SelectedRecipeContextType {

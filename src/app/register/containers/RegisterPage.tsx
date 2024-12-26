@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react";
 import { fetchRegisterAPI } from "../services/fetchRegisterAPI";
-import { UserRegisterProps } from "@/_types/UserModel";
+import { UserRegisterProps } from "@/_types/UserTypes";
 import RegisterFormComponent from "../components/RegisterFormComponent";
 
 export default function RegisterPage() {

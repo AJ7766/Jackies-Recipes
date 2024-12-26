@@ -1,4 +1,4 @@
-import { RecipeProps } from "./RecipeModel";
+import { RecipeProps } from "./RecipeTypes";
 
 export interface UserProps {
    _id: string,

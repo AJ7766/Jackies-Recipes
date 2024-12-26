@@ -8,7 +8,7 @@ import { calculateCalories, createField, createIngredientComponent, createInstru
 import { convertFileToBase64, convertFileToFormData, validateImage } from "@/_utils/imageUtils";
 import { fetchUpdateImageAPI } from "@/app/settings/services/fetchUpdateImageAPI";
 import { useCache } from "@/app/_context/CacheContext";
-import { RecipeFormProps } from "@/_types/RecipeModel";
+import { RecipeFormProps } from "@/_types/RecipeTypes";
 
 export default function AddRecipe() {
   const [recipe, setRecipe] = useState<RecipeFormProps>({

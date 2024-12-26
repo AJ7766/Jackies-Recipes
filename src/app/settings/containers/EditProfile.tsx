@@ -6,7 +6,7 @@ import { fetchUpdateUserAPI } from "../services/fetchUpdateUserAPI";
 import { useRouter } from "next/navigation";
 import { convertFileToBase64, convertFileToFormData, getPublicId, validateImage } from "@/_utils/imageUtils";
 import { fetchUpdateImageAPI } from "../services/fetchUpdateImageAPI";
-import { UserEditProps } from "@/_types/UserModel";
+import { UserEditProps } from "@/_types/UserTypes";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1733219780/profile-picture_vicljy.png";
 
 export default function EditProfile() {

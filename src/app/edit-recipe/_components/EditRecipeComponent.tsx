@@ -3,7 +3,7 @@ import Image from "next/image";
 import { handleImageClick } from "@/app/_services/recipeServices";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 import { CldImage } from "next-cloudinary";
-import { RecipeFormProps } from "@/_types/RecipeModel";
+import { RecipeFormProps } from "@/_types/RecipeTypes";
 const camera = "/images/icons/camera.svg";
 
 interface AddRecipeProps {

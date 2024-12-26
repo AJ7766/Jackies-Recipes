@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { addRecipeToUser, getUserNoContent, getUserPopulated } from "../repositories/profileRepository";
-import { RecipeProps } from "@/_types/RecipeModel";
+import { RecipeProps } from "@/_types/RecipeTypes";
 
 export const getUserPopulatedService = async (username: string) => {
     const user = await getUserPopulated(username);

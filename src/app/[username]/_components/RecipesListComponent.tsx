@@ -2,8 +2,8 @@ import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import { CldImage } from "next-cloudinary";
-import { UserProps } from "@/_types/UserModel";
-import { RecipeProps } from "@/_types/RecipeModel";
+import { UserProps } from "@/_types/UserTypes";
+import { RecipeProps } from "@/_types/RecipeTypes";
 const cogwheel = "/images/icons/cogwheel.svg";
 
 export const RecipesListComponent = React.memo(({

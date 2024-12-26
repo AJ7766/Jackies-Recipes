@@ -1,6 +1,6 @@
 import { UserModel } from "@/_models/UserModel";
 import { RecipeModel } from "@/_models/RecipeModel";
-import { RecipeProps } from "@/_types/RecipeModel";
+import { RecipeProps } from "@/_types/RecipeTypes";
 
 export const getUserNoContent = async (user_id: string) => {
     return await UserModel.findById(user_id)

@@ -1,4 +1,4 @@
-import { UserEditProps } from "@/_types/UserModel";
+import { UserEditProps } from "@/_types/UserTypes";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import React from "react";

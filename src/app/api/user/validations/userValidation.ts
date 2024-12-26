@@ -1,4 +1,4 @@
-import { UserEditProps } from "@/_types/UserModel";
+import { UserEditProps } from "@/_types/UserTypes";
 import { compareEditUserPasswords } from "@/_utils/bcrypt";
 
 export interface UserEditPropsWithPassword {

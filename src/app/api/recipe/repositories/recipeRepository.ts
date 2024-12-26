@@ -1,5 +1,5 @@
 import { RecipeModel } from "@/_models/RecipeModel";
-import { RecipeProps } from "@/_types/RecipeModel";
+import { RecipeProps } from "@/_types/RecipeTypes";
 
 export const getRecipe = async (recipe_id: string) => {
     return await RecipeModel.findById(recipe_id)

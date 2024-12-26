@@ -6,7 +6,6 @@ const NavBar = dynamic(() => import("./_containers/NavBar"));
 import { CookieConsent } from "./_containers/CookieConsent";
 import { getSession } from "@/_utils/session";
 import { getUserController } from "./_ssr/user/userController";
-import { CacheProvider } from "./_context/CacheContext";
 import { NavBarWidth } from "./_services/navBarServices";
 import { customFonts } from "@/_utils/customFonts";
 import { SelectedRecipeProvider } from "./_context/SelectedRecipeContext";
@@ -31,7 +30,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       </head>
       <Body fontVariables={fontVariables} isAuth={!!session.token}>
         <AuthProvider serverUser={typeof serverUser === 'string' ? JSON.parse(serverUser) : serverUser}>
-          <CacheProvider>
             <NavBar isAuth={!!session.token} />
             <NavBarWidth isAuth={!!session.token}>
               <SelectedRecipeProvider>
@@ -40,7 +38,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
               </SelectedRecipeProvider>
             </NavBarWidth>
             <CookieConsent />
-          </CacheProvider>
         </AuthProvider>
         <script src="https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ" async></script>
       </Body>

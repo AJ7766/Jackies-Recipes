@@ -1,6 +1,6 @@
 "use client"
-import { RecipeProps } from "@/_types/RecipeModel";
-import { UserProps } from "@/_types/UserModel";
+import { RecipeProps } from "@/_types/RecipeTypes";
+import { UserProps } from "@/_types/UserTypes";
 import React, { createContext, useContext, useState } from "react";
 
 interface ProfileContextType {

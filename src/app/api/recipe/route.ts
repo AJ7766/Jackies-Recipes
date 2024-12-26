@@ -5,7 +5,7 @@ import { addRecipeToUserService, checkUserHasRecipeService } from "../profile/se
 import { getUserService } from "../user/services/userService";
 import { deleteRedisCache } from "@/_utils/redis";
 import { deleteOldImageFileService } from "../cloudinary/cloudinaryService";
-import { RecipeProps } from "@/_types/RecipeModel";
+import { RecipeProps } from "@/_types/RecipeTypes";
 
 export async function GET(req: NextRequest) { // Get recipe
     try {

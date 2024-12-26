@@ -1,27 +1,5 @@
-import { RecipeProps } from '@/_types/RecipeModel';
+import { UserContentProps, UserProps } from '@/_types/UserTypes';
 import mongoose, { Schema, Model, Document } from 'mongoose';
-
-interface UserProps {
-   _id: string,
-   email: string;
-   fullName: string;
-   username: string;
-   password: string;
-   userContent?: UserContentProps;
-   recipes?: RecipeProps[];
-   followers?: string[];
-   following?: string[];
-}
-
-interface UserContentProps {
-   profilePicture?: string;
-   bio?: string;
-   instagram?: string;
-   x?: string;
-   tiktok?: string;
-   youtube?: string;
-   facebook?: string;
-}
 
 const userContentSchema = new Schema<UserContentProps>({
    profilePicture: { type: String, default: null },
