@@ -7,14 +7,17 @@ import { setSession } from "@/_utils/session";
 
 export async function POST(req: NextRequest) { //Login user
   try {
-    const { username, password } = await req.json();
+    const { username, password: typedPassword } = await req.json();
     await connectDB();
     const lowercase_username = username.toLowerCase();
     const user = await loginServices(lowercase_username);
-    await comparePasswords(password, user.password);
+
+    await comparePasswords(typedPassword, user.password);
+
     const token = await assignToken(user._id.toString(), username);
     await setSession(user._id, token);
-    const { _id, password: userPassword, ...processedUser } = user;
+
+    const { _id, password, ...processedUser } = user;
 
     return NextResponse.json({ message: "Successfully logged in", processedUser }, { status: 200 });
   } catch (error) {

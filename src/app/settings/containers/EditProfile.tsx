@@ -9,8 +9,8 @@ import { fetchUpdateImageAPI } from "../services/fetchUpdateImageAPI";
 import { UserEditProps } from "@/_types/UserTypes";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1733219780/profile-picture_vicljy.png";
 
-export default function EditProfile() {
-  const { user, handleSetUser } = useAuth();
+export default function EditProfile({ user }: { user: UserEditProps }) {
+  const { handleSetUser } = useAuth();
   const [userData, setUserData] = useState<UserEditProps>({
     email: user?.email || "",
     username: user?.username || "",
