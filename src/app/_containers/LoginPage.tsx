@@ -3,23 +3,25 @@ import { useState } from "react";
 import { fetchLoginAPI } from "../_services/api/fetchLoginAPI";
 import LoginFormComponent from "../_components/LoginComponent";
 import { useAuth } from "../_context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
-  const [user, setUser] = useState({
+  const [loginUser, setLoginUser] = useState({
     username: "",
     password: "",
   });
   const [message, setMessage] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
-  const { handleSetUser } = useAuth();
+  const router = useRouter()
+  const { user, handleSetUser } = useAuth();
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setLoadingBtn(true);
 
     const { message, success, fetchedUser } = await fetchLoginAPI(
-      user.username,
-      user.password
+      loginUser.username,
+      loginUser.password
     );
     if (!success) {
       setMessage(message);
@@ -29,21 +31,22 @@ export default function LoginPage() {
     handleSetUser(fetchedUser);
     setMessage(message);
     setLoadingBtn(false);
-    window.location.href = `/${user.username}`;
+    router.push(`/${fetchedUser.username}`);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
-    setUser((prevUser) => ({
+    setLoginUser((prevUser) => ({
       ...prevUser,
       [name]: value,
     }));
   };
-
+  
+  if (user) return null;
   return (
     <LoginFormComponent
-      user={user}
+      user={loginUser}
       handleInputChange={handleInputChange}
       message={message}
       loadingBtn={loadingBtn}

@@ -76,10 +76,8 @@ export default function NavBar() {
     }
   }, [debouncedValue]);
 
-  if (!checkNavBar(pathname, !!user))
+  if (!isClient || !checkNavBar(pathname, !!user))
     return null;
-
-  if (!isClient) return null;
   
   return <>
     <Search
