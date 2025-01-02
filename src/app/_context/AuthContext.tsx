@@ -6,6 +6,7 @@ import React, {
 } from "react";
 import { fetchGetLogoutAPI } from "../_services/api/fetchLogoutAPI";
 import { UserProps } from "@/_types/UserTypes";
+import { useRouter } from "next/navigation";
 
 interface AuthContextType {
   user: UserProps | null;
@@ -21,20 +22,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return JSON.parse(localStorage.getItem('user') || 'null');
     return null;
   });
+  const router = useRouter();
 
   const handleSetUser = (user: UserProps | null) => {
     if (!user)
       localStorage.removeItem('user');
 
-    localStorage.setItem('user', JSON.stringify(user));
     setUser(user);
+    localStorage.setItem('user', JSON.stringify(user));
   };
 
   const logout = async () => {
     await fetchGetLogoutAPI();
-    localStorage.removeItem('user');
+    router.push('/');
     setUser(null);
-    window.location.href = `/`;
+    localStorage.removeItem('user');
   };
 
   return (
