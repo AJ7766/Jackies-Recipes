@@ -7,7 +7,6 @@ import { CookieConsent } from "./_containers/CookieConsent";
 import { NavBarWidth } from "./_services/navBarServices";
 import { customFonts } from "@/_utils/customFonts";
 import { SelectedRecipeProvider } from "./_context/SelectedRecipeContext";
-import Body from "./_components/bodyComponent";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { metropolis, sourceSans, gotham } = customFonts();
@@ -25,7 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <AuthProvider>
-        <Body fontVariables={fontVariables}>
+        <body className={`${fontVariables}`}>
           <NavBar />
           <NavBarWidth>
             <SelectedRecipeProvider>
@@ -34,9 +33,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </SelectedRecipeProvider>
           </NavBarWidth>
           <CookieConsent />
-      <script src="https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ" async></script>
-    </Body>
-    </AuthProvider>
+          <script src="https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ" async></script>
+        </body>
+      </AuthProvider>
     </html >
   );
 }
