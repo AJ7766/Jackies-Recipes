@@ -111,7 +111,6 @@ export default function AddRecipe() {
       }
       sessionStorage.clear();
       router.push(`/${user?.username}`);
-      router.refresh();
     } catch (error: any) {
       setMessage(error.message || "Failed to update.");
     } finally {

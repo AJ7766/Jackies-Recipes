@@ -63,7 +63,6 @@ export default function EditProfile() {
       sessionStorage.removeItem("user");
 
       router.push(`/${userData.username}`);
-      router.refresh();
     } catch (error: any) {
       setMessage(error.message || "Failed to update.");
     } finally {
