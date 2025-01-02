@@ -7,7 +7,7 @@ export default async function SettingsPage() {
   const serverUser = await getUserController(session.user_id);
   
   return (
-    <EditProfile user={typeof serverUser === 'string' ? JSON.parse(serverUser): serverUser} />
+    <EditProfile user={serverUser} />
   );
 }
 

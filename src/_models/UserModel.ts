@@ -9,7 +9,8 @@ const userContentSchema = new Schema<UserContentProps>({
    tiktok: { type: String, default: null },
    youtube: { type: String, default: null },
    facebook: { type: String, default: null },
-});
+}, { _id: false }
+);
 
 interface UserDocument extends UserProps, Document {
    _id: string;

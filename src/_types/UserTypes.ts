@@ -25,9 +25,9 @@ export interface UserRegisterProps extends Omit<UserProps, '_id'> {
    onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
  }
  
-export interface UserEditProps extends Omit<UserProps, '_id' | 'recipes'> {
-   newPassword: string;
-   confirmPassword: string;
+export interface UserEditProps extends Omit<UserProps, '_id' | 'recipes' | 'followers' | 'following'> {
+   newPassword?: string;
+   confirmPassword?: string;
 }
 
 export interface UserContentProps {
