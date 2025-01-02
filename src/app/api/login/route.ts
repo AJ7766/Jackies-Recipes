@@ -12,10 +12,9 @@ export async function POST(req: NextRequest) { //Login user
     const lowercase_username = username.toLowerCase();
     const user = await loginServices(lowercase_username);
     await comparePasswords(password, user.password);
-
-    const { password: userPassword, ...processedUser } = user;
     const token = await assignToken(user._id.toString(), username);
     await setSession(user._id, token);
+    const { _id, password: userPassword, ...processedUser } = user;
 
     return NextResponse.json({ message: "Successfully logged in", processedUser }, { status: 200 });
   } catch (error) {

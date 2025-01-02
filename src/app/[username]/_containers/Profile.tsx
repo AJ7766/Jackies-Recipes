@@ -14,12 +14,11 @@ export default function Profile({ user_id, serverIsFollowing }: { user_id?: stri
     const handleFollowing = async (following: boolean) => {
         setIsFollowing(following);
     }
-
+    if(!isClient) return null;
     return (
         <ProfileComponent
             profile={profile}
             isMobile={isMobile}
-            isClient={isClient}
             user_id={user_id}
             isAuthenticatedProfile={isAuthenticatedProfile}
             handleFollowersChange={handleFollowersChange}

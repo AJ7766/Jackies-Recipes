@@ -26,7 +26,6 @@ export default function LoginPage() {
       setLoadingBtn(false);
       return
     }
-    console.log(fetchedUser);
     handleSetUser(fetchedUser);
     setMessage(message);
     setLoadingBtn(false);

@@ -13,7 +13,6 @@ const facebook = "/images/social-media/facebook.svg";
 export const ProfileComponent = React.memo(({
   profile,
   isMobile,
-  isClient,
   user_id,
   isAuthenticatedProfile,
   handleFollowersChange,
@@ -21,7 +20,6 @@ export const ProfileComponent = React.memo(({
   handleFollowing
 }: {
   profile: UserProps,
-  isClient: boolean,
   isMobile: boolean,
   user_id?: string
   isAuthenticatedProfile: boolean,
@@ -30,7 +28,6 @@ export const ProfileComponent = React.memo(({
   handleFollowing: (following: boolean) => void
 }
 ) => {
-  if(!isClient) return null;
   return (
     <>
       <div className="m-[20px] flex flex-col md:w-[75%] md:mx-auto md:my-[40px] md:flex-row md:items-center md:gap-[60px]">
@@ -46,7 +43,7 @@ export const ProfileComponent = React.memo(({
             alt="profile-picture"
             format="webp"
           />
-          {(!isClient || (isClient && isMobile)) &&
+          {isMobile &&
             <div className="text-sm mb-2 mt-4 mx-auto flex content-center gap-x-4 md:hidden">
               <h2 className="flex flex-col items-center"><b>{profile.recipes?.length}</b> recipes</h2>
               <h2 className="flex flex-col items-center"><b>{profile.followers?.length || 0}</b> followers</h2>
@@ -55,7 +52,7 @@ export const ProfileComponent = React.memo(({
           }
         </div>
         <div className="flex flex-col mt-2 md:w-[450px] md:mt-0">
-          {(!isClient || (isClient && !isMobile)) &&
+          {!isMobile &&
             <div className="hidden w-full items-center justify-between md:flex">
               <h1 className="text-base md:text-3xl">{profile?.username}</h1>
               {!isAuthenticatedProfile && <button
@@ -89,7 +86,7 @@ export const ProfileComponent = React.memo(({
                 </span>
               ))}
             </h2>}
-          {(!isClient || (isClient && !isMobile)) &&
+          {!isMobile &&
             <div className="hidden text-sm text-[15px] mb-2 mt-4 content-center gap-x-6 md:flex">
               <h2><b>{profile.recipes?.length}</b> recipes</h2>
               <h2><b>{profile.followers?.length || 0}</b> followers</h2>
@@ -157,7 +154,7 @@ export const ProfileComponent = React.memo(({
               </Link>
             )}
           </div>
-          {((!isClient && !isAuthenticatedProfile) || (isClient && isMobile && !isAuthenticatedProfile)) && <button
+          {((!isAuthenticatedProfile) || (isMobile && !isAuthenticatedProfile)) && <button
             type="button"
             className={`mt-2 text-[12px] h-[25px] rounded-[5px] ${isFollowing ? 'w-[75px] bg-white text-black border-[1.5px] border-black' : 'w-[65px] bg-black text-white'} md:hidden`}
             onClick={async () => {
