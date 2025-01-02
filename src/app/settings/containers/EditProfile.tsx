@@ -10,7 +10,7 @@ import { UserEditProps } from "@/_types/UserTypes";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1733219780/profile-picture_vicljy.png";
 
 export default function EditProfile() {
-  const { user, setUser } = useAuth();
+  const { user, handleSetUser } = useAuth();
   const [userData, setUserData] = useState<UserEditProps>({
     email: user?.email || "",
     username: user?.username || "",
@@ -59,9 +59,7 @@ export default function EditProfile() {
         return setMessage(message);
       }
 
-      setUser(updated_user);
-      sessionStorage.removeItem("user");
-
+      handleSetUser(updated_user);
       router.push(`/${userData.username}`);
     } catch (error: any) {
       setMessage(error.message || "Failed to update.");
