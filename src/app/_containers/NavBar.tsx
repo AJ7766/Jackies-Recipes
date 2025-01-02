@@ -108,7 +108,6 @@ export default function NavBar() {
       searchMobileIconRef={searchMobileIconRef}
       pathname={pathname}
       isMobile={isMobile}
-      isClient={isClient}
     />
   </>
 }
