@@ -30,6 +30,7 @@ export const ProfileComponent = React.memo(({
   handleFollowing: (following: boolean) => void
 }
 ) => {
+  if(!isClient) return null;
   return (
     <>
       <div className="m-[20px] flex flex-col md:w-[75%] md:mx-auto md:my-[40px] md:flex-row md:items-center md:gap-[60px]">

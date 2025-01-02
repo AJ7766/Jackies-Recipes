@@ -1,6 +1,8 @@
 "use client"
 import { usePathname } from "next/navigation";
 import { RefObject } from "react";
+import { useAuth } from "../_context/AuthContext";
+import { useIsResponsive } from "../_hooks/useIsResponsive";
 
 export const checkNavBar = (pathname: string, isAuth: boolean) => {
     return !((pathname === "/" && !isAuth) || pathname === "/register");
@@ -12,9 +14,13 @@ export const checkOverflow = (isAuth: boolean) => {
     return !((pathname === "/" && !isAuth) || pathname === "/register");
 }
 
-export const NavBarWidth = ({ children, isAuth }: { children: React.ReactNode, isAuth: boolean }) => {
+export const NavBarWidth = ({ children }: { children: React.ReactNode }) => {
+    const { user } = useAuth();
+    const { isClient } = useIsResponsive();
     const pathname = usePathname();
-    if ((pathname === "/" && !isAuth) || pathname === "/register")
+    if(!isClient) return null;
+    
+    if ((pathname === "/" && !user) || pathname === "/register")
         return <>{children}</>;
 
     return <div className="wrapper">{children}</div>

@@ -4,16 +4,12 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { AuthProvider } from "./_context/AuthContext";
 const NavBar = dynamic(() => import("./_containers/NavBar"));
 import { CookieConsent } from "./_containers/CookieConsent";
-import { getSession } from "@/_utils/session";
-import { getUserController } from "./_ssr/user/userController";
 import { NavBarWidth } from "./_services/navBarServices";
 import { customFonts } from "@/_utils/customFonts";
 import { SelectedRecipeProvider } from "./_context/SelectedRecipeContext";
 import Body from "./_components/bodyComponent";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const session = await getSession();
-  const serverUser = (session.token && session.user_id) && await getUserController(session.user_id);
   const { metropolis, sourceSans, gotham } = customFonts();
   const fontVariables = `${metropolis.variable} ${sourceSans.variable} ${gotham.variable}`;
   return (
@@ -28,19 +24,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1"
         />
       </head>
-      <Body fontVariables={fontVariables} isAuth={!!session.token}>
-        <AuthProvider serverUser={typeof serverUser === 'string' ? JSON.parse(serverUser) : serverUser}>
-            <NavBar isAuth={!!session.token} />
-            <NavBarWidth isAuth={!!session.token}>
-              <SelectedRecipeProvider>
-                {children}
-                <SpeedInsights />
-              </SelectedRecipeProvider>
-            </NavBarWidth>
-            <CookieConsent />
-        </AuthProvider>
-        <script src="https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ" async></script>
-      </Body>
+      <AuthProvider>
+        <Body fontVariables={fontVariables}>
+          <NavBar />
+          <NavBarWidth>
+            <SelectedRecipeProvider>
+              {children}
+              <SpeedInsights />
+            </SelectedRecipeProvider>
+          </NavBarWidth>
+          <CookieConsent />
+      <script src="https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ" async></script>
+    </Body>
+    </AuthProvider>
     </html >
   );
 }

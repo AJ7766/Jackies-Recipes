@@ -12,7 +12,7 @@ import { useIsResponsive } from "../_hooks/useIsResponsive";
 import { UserProps } from "@/_types/UserTypes";
 import { RecipeProps } from "@/_types/RecipeTypes";
 
-export default function NavBar({ isAuth }: { isAuth: boolean }) {
+export default function NavBar() {
   const [search, setSearch] = useState("");
   const [users, setUsers] = useState<UserProps[]>([]);
   const [recipes, setRecipes] = useState<RecipeProps[]>([]);
@@ -24,14 +24,12 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
   const searchMobileRef = useRef<HTMLDivElement>(null);
   const searchMobileIconRef = useRef<HTMLDivElement>(null);
   const navBarRef = useRef<HTMLDivElement>(null);
-
   const pathname = usePathname();
   const { user, logout } = useAuth();
   const { isMobile, isClient } = useIsResponsive();
   const handleClickOutside = useCallback((e: MouseEvent) => {
     handleMobileSearch(e, searchMobileIconRef, searchMobileRef);
     handleDropdown(e, dropdownIconRef, dropdownRef, dropdownItemsRef);
-
     if (
       !searchMobileRef.current?.contains(e.target as Node) &&
       searchResultsRef.current &&
@@ -41,7 +39,6 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
       setSearch('');
     }
   }, []);
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -79,9 +76,11 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
     }
   }, [debouncedValue]);
 
-  if (!checkNavBar(pathname, isAuth))
+  if (!checkNavBar(pathname, !!user))
     return null;
 
+  if (!isClient) return null;
+  
   return <>
     <Search
       searchMobileRef={searchMobileRef}
@@ -95,7 +94,7 @@ export default function NavBar({ isAuth }: { isAuth: boolean }) {
     />
     <NavBarComponent
       user={user}
-      isAuth={isAuth}
+      isAuth={!!user}
       search={search}
       setSearch={setSearch}
       users={users}

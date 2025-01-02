@@ -245,6 +245,7 @@ export const NavBarComponent = React.memo(({
               <button className="bg-[#ef4444] p-[5px_clamp(7px,_2vw,_20px)] rounded-[5px] text-white w-[30vw] md:w-full">Register</button>
             </Link>
             {(!isClient || (isClient && !isMobile)) && <p className="hidden md:block">Make sure to login to get access to all features!<br /><br />This app is in development mode right now, feel free to login with recruiter:recruiter if you don't want to create an account</p>}
+            <button onClick={logout}>Logout</button>
           </div>
         }
       </div >

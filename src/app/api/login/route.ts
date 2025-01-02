@@ -10,15 +10,14 @@ export async function POST(req: NextRequest) { //Login user
     const { username, password } = await req.json();
     await connectDB();
     const lowercase_username = username.toLowerCase();
-
     const user = await loginServices(lowercase_username);
-
     await comparePasswords(password, user.password);
 
+    const { password: userPassword, ...processedUser } = user;
     const token = await assignToken(user._id.toString(), username);
     await setSession(user._id, token);
 
-    return NextResponse.json({ message: "Successfully logged in"}, { status: 200 });
+    return NextResponse.json({ message: "Successfully logged in", processedUser }, { status: 200 });
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json({ message: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });

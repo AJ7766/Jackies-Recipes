@@ -4,10 +4,12 @@ import { RecipeListComponent } from "../_components/RecipeListComponent";
 import { useSelectedRecipe } from "../_context/SelectedRecipeContext";
 import dynamic from "next/dynamic";
 import { RecipeProps } from "@/_types/RecipeTypes";
+import { useIsResponsive } from "../_hooks/useIsResponsive";
 const SelectedRecipe = dynamic(() => import("./SelectedRecipe"), { ssr: true });
 
 export default function Dashboard({ serverRecipes }: { serverRecipes: RecipeProps[] }) {
   const [recipes, setRecipes] = useState<RecipeProps[]>(serverRecipes);
+  const { isClient } = useIsResponsive();
   const { recipe } = useSelectedRecipe();
   /*
     const [recipes, setRecipes] = useState<RecipeProps[]>(() => {
@@ -37,6 +39,8 @@ export default function Dashboard({ serverRecipes }: { serverRecipes: RecipeProp
       }
     }, [])
     */
+  if (!isClient) return null;
+
   if (recipes && recipes.length === 0) {
     return (
       <div className="noRecipesContainer">

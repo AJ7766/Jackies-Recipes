@@ -9,17 +9,30 @@ import { UserProps } from "@/_types/UserTypes";
 
 interface AuthContextType {
   user: UserProps | null;
-  setUser: React.Dispatch<React.SetStateAction<UserProps | null>>;
+  handleSetUser: (user: UserProps | null) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export function AuthProvider({ children, serverUser }: { children: React.ReactNode, serverUser: UserProps }) {
-  const [user, setUser] = useState<UserProps | null>(serverUser || null);
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<UserProps | null>(() => {
+    if (typeof window !== 'undefined')
+      return JSON.parse(localStorage.getItem('user') || 'null');
+    return null;
+  });
+
+  const handleSetUser = (user: UserProps | null) => {
+    if (!user)
+      localStorage.removeItem('user');
+
+    localStorage.setItem('user', JSON.stringify(user));
+    setUser(user);
+  };
 
   const logout = async () => {
     await fetchGetLogoutAPI();
+    localStorage.removeItem('user');
     setUser(null);
     window.location.href = `/`;
   };
@@ -28,7 +41,7 @@ export function AuthProvider({ children, serverUser }: { children: React.ReactNo
     <AuthContext.Provider
       value={{
         user,
-        setUser,
+        handleSetUser,
         logout
       }}
     >

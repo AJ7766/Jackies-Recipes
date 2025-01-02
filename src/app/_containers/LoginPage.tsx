@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { fetchLoginAPI } from "../_services/api/fetchLoginAPI";
 import LoginFormComponent from "../_components/LoginComponent";
+import { useAuth } from "../_context/AuthContext";
 
 export default function LoginPage() {
   const [user, setUser] = useState({
@@ -10,13 +11,13 @@ export default function LoginPage() {
   });
   const [message, setMessage] = useState("");
   const [loadingBtn, setLoadingBtn] = useState(false);
-
+  const { handleSetUser } = useAuth();
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setLoadingBtn(true);
 
-    const { message, success } = await fetchLoginAPI(
+    const { message, success, fetchedUser } = await fetchLoginAPI(
       user.username,
       user.password
     );
@@ -25,9 +26,11 @@ export default function LoginPage() {
       setLoadingBtn(false);
       return
     }
-    window.location.href = `/${user.username}`;
+    console.log(fetchedUser);
+    handleSetUser(fetchedUser);
     setMessage(message);
     setLoadingBtn(false);
+    //window.location.href = `/${user.username}`;
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

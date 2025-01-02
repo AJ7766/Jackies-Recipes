@@ -7,12 +7,14 @@ import { useEffect, useState } from "react";
 import { useIsAuthorizedProfile } from "@/app/_hooks/useIsAuthorizedProfile";
 import { useSelectedRecipe } from "@/app/_context/SelectedRecipeContext";
 import { RecipeProps } from "@/_types/RecipeTypes";
+import { useIsResponsive } from "@/app/_hooks/useIsResponsive";
 
 export default function RecipeList() {
   const { profile } = useProfile();
   const isAuthenticatedProfile = useIsAuthorizedProfile();
   const { selectedRecipeHandler } = useSelectedRecipe();
   const [searchRecipe, setSearchRecipe] = useState('')
+  const { isClient } = useIsResponsive();
   const [filteredRecipes, setFilteredRecipes] = useState<RecipeProps[]>(profile.recipes || []);
 
   useEffect(() => searchRecipe && profile.recipes ? setFilteredRecipes(
@@ -41,7 +43,7 @@ export default function RecipeList() {
   const handleSearchChange = (query: string) => {
     setSearchRecipe(query);
   }
-
+  if(!isClient) return null;
   return <>
     {profile.recipes && <SelectedRecipe />}
     <SearchRecipe searchRecipe={searchRecipe} handleSearchChange={handleSearchChange} />

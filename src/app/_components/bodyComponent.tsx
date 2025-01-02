@@ -1,8 +1,13 @@
 "use client"
 import { usePathname } from "next/navigation";
+import { useAuth } from "../_context/AuthContext";
+import { useIsResponsive } from "../_hooks/useIsResponsive";
 
-export default function Body({children, fontVariables, isAuth}: {children: React.ReactNode, fontVariables: string, isAuth: boolean}) {
+export default function Body({children, fontVariables}: {children: React.ReactNode, fontVariables: string}) {
+    const user = useAuth().user;
     const pathname = usePathname();
-    const overFlowStyle = !((pathname === "/" && !isAuth) || pathname === "/register") ? "scroll" : "hidden";
+    const { isClient } = useIsResponsive();
+    if(!isClient) return null;
+    const overFlowStyle = !((pathname === "/" && user) || pathname === "/register") ? "scroll" : "hidden";
     return <body className={`${fontVariables} overflow-${overFlowStyle}`}><>{children}</></body>
 }

@@ -11,10 +11,10 @@ export const fetchLoginAPI = async (username: string, password: string) => {
         const data = await res.json();
 
         if (!res.ok)
-            return { message: data.message || "Failed to login.", success: false };
-
-        return { message: "Login successfully.", success: true };
+            return { message: data.message || "Failed to login.", fetchedUser: null, success: false };
+        
+        return { message: "Login successfully.", fetchedUser: data.processedUser, success: true };
     } catch (error) {
-        return { message: `Failed to login: ${error}`, success: false };
+        return { message: `Failed to login: ${error}`, fetchedUser: null, success: false };
     }
 }
