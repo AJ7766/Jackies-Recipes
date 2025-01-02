@@ -30,7 +30,7 @@ export default function LoginPage() {
     handleSetUser(fetchedUser);
     setMessage(message);
     setLoadingBtn(false);
-    //window.location.href = `/${user.username}`;
+    window.location.href = `/${user.username}`;
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
