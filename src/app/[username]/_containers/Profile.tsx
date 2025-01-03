@@ -7,14 +7,14 @@ import { useState } from "react";
 
 export default function Profile({ user_id, serverIsFollowing }: { user_id?: string, serverIsFollowing?: boolean }) {
     const { profile, handleFollowersChange } = useProfile();
-    const { isMobile, isClient } = useIsResponsive();
+    const { isMobile } = useIsResponsive();
     const isAuthenticatedProfile = useIsAuthorizedProfile();
     const [isFollowing, setIsFollowing] = useState(serverIsFollowing);
 
     const handleFollowing = async (following: boolean) => {
         setIsFollowing(following);
     }
-    if(!isClient) return null;
+
     return (
         <ProfileComponent
             profile={profile}
