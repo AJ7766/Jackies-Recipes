@@ -1,6 +1,8 @@
 export const fetchLoginAPI = async (username: string, password: string) => {
     try {
-        let res = await fetch("http://localhost:3001/api/login", {
+        let res = await fetch(process.env.NODE_ENV === 'production'
+            ? 'https://jackies-recipes-ayteqyj9r-jackie-huynhs-projects.vercel.app/api/login'
+            : 'http://localhost:3001/api/login', {
             method: "POST",
             body: JSON.stringify({ username, password }),
             headers: {
@@ -12,7 +14,7 @@ export const fetchLoginAPI = async (username: string, password: string) => {
 
         if (!res.ok)
             return { message: data.message || "Failed to login.", fetchedUser: null, success: false };
-        
+
         return { message: "Login successfully.", fetchedUser: data.processedUser, success: true };
     } catch (error) {
         return { message: `Failed to login: ${error}`, fetchedUser: null, success: false };
