@@ -1632,7 +1632,7 @@ input::-webkit-inner-spin-button {
     background-color: initial;
   }
 
-  .mobile-search {
+  .searchMobile {
     position: fixed;
     top: 0;
     background-color: white;
@@ -1642,7 +1642,7 @@ input::-webkit-inner-spin-button {
     z-index: 2;
   }
 
-  .mobile-search input[type="search"] {
+  .searchMobile input[type="search"] {
     font-family: var(--font-source-sans);
     font-weight: 400;
     font-size: 18px;
@@ -1653,17 +1653,17 @@ input::-webkit-inner-spin-button {
     background-color: #f3f3f3;
   }
 
-  .mobile-search input[type="search"]:active,
-  .mobile-search input[type="search"]:focus {
+  .searchMobile input[type="search"]:active,
+  .searchMobile input[type="search"]:focus {
     border: none;
     outline: none;
   }
 
-  .mobile-search input[type="search"]::placeholder {
+  .searchMobile input[type="search"]::placeholder {
     font-size: 18px;
   }
 
-  .mobile-search .searchedUsersContainer {
+  .searchMobile .searchedUsersContainer {
     gap: 10px;
     flex-direction: column;
     position: absolute;

@@ -19,7 +19,6 @@ export default function SelectedRecipeComponent({
     isClient,
     handleCloseRecipe
 }: SelectedRecipeComponentProps) {
-    console.log(recipe)
     return (
         recipe && (
             <>

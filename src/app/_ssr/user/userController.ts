@@ -1,7 +1,8 @@
 import { connectDB } from "@/app/_config/database";
-import { getUserService } from "./userServices";
+import { UserProps } from "@/_types/UserTypes";
+import { getUserService } from "./userService";
 
-export const getUserController = async (user_id: string) => {
+export const getUserController = async (user_id: string): Promise<UserProps> => {
     try {
         await connectDB();
 

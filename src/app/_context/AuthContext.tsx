@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 
 interface AuthContextType {
   user: UserProps | null;
-  handleSetUser: (user: UserProps | null) => void;
   logout: () => void;
 }
 
@@ -24,26 +23,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   });
   const router = useRouter();
 
-  const handleSetUser = (user: UserProps | null) => {
-    if (!user)
-      localStorage.removeItem('user');
-
-    setUser(user);
-    localStorage.setItem('user', JSON.stringify(user));
-  };
-
   const logout = async () => {
     await fetchGetLogoutAPI();
-    router.push('/');
+    router.push('/login');
     setUser(null);
-    localStorage.removeItem('user');
   };
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        handleSetUser,
         logout
       }}
     >

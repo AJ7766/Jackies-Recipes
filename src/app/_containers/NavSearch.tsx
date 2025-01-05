@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image"
 import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { useIsResponsive } from "../_hooks/useIsResponsive";
@@ -10,7 +11,7 @@ import { useDebounce } from "../_hooks/useDebounce";
 import { fetchGetSearchAPI } from "../_services/api/fetchGetSearchAPI";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 
-export const NavSearch = ({ navBarRef }: { navBarRef: RefObject<HTMLDivElement> }) => {
+export const NavSearch = () => {
     const [search, setSearch] = useState("");
     const [users, setUsers] = useState<UserProps[]>([]);
     const [recipes, setRecipes] = useState<RecipeProps[]>([]);
@@ -54,9 +55,9 @@ export const NavSearch = ({ navBarRef }: { navBarRef: RefObject<HTMLDivElement> 
         }
     }, [debouncedValue]);
 
-    const clickHandler = async (navBarRef: RefObject<HTMLDivElement>, searchMobileRef?: RefObject<HTMLDivElement>) => {
+    const clickHandler = async (searchMobileRef?: RefObject<HTMLDivElement>) => {
         if (!searchMobileRef) {
-            handleBlurInput(navBarRef);
+            handleBlurInput();
             setUsers([]);
             setRecipes([]);
             setSearch('');
@@ -81,8 +82,8 @@ export const NavSearch = ({ navBarRef }: { navBarRef: RefObject<HTMLDivElement> 
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search..."
-                onClick={() => handleFocusInput(navBarRef)}
-                onBlur={() => handleBlurInput(navBarRef)}
+                onClick={handleFocusInput}
+                onBlur={() => handleBlurInput()}
             />
             {(users.length > 0 || recipes.length > 0) && (
                 <div
@@ -97,7 +98,7 @@ export const NavSearch = ({ navBarRef }: { navBarRef: RefObject<HTMLDivElement> 
                                 <Link
                                     href={`/${user.username}`}
                                     key={index}
-                                    onClick={() => clickHandler(navBarRef)}
+                                    onClick={() => clickHandler()}
                                     prefetch={false}>
                                     <div
                                         className="searchedUser"
@@ -127,7 +128,7 @@ export const NavSearch = ({ navBarRef }: { navBarRef: RefObject<HTMLDivElement> 
                                 <Link
                                     href={`/${recipe.user.username}/${recipe._id}`}
                                     key={index}
-                                    onClick={() => clickHandler(navBarRef)}
+                                    onClick={() => clickHandler()}
                                     prefetch={false}
                                 >
                                     <div

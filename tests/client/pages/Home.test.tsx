@@ -1,7 +1,7 @@
 import { render, screen, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { useRouter } from "next/navigation";
-import Home from "@/app/page";
+import Home from "@/app/(root)/page";
 import { useAuth } from "@/app/_context/AuthContext";
 
 beforeEach(() => {

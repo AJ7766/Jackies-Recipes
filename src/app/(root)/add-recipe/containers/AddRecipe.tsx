@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
 import { useRouter } from "next/navigation";
-import { fetchPostRecipeAPI } from "@/app/add-recipe/services/fetchPostRecipeAPI";
+import { fetchPostRecipeAPI } from "@/app/(root)/add-recipe/services/fetchPostRecipeAPI";
 import AddRecipeComponent from "../components/AddRecipeComponent";
 import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, updateIngredientComponent, updateInstruction } from "@/app/_services/recipeServices";
 import { convertFileToBase64, convertFileToFormData, validateImage } from "@/_utils/imageUtils";
-import { fetchUpdateImageAPI } from "@/app/settings/services/fetchUpdateImageAPI";
+import { fetchUpdateImageAPI } from "@/app/(root)/settings/services/fetchUpdateImageAPI";
 import { RecipeFormProps } from "@/_types/RecipeTypes";
 
 export default function AddRecipe() {

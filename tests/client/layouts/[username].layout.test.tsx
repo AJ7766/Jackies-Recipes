@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import fetchMock from "jest-fetch-mock";
 import "@testing-library/jest-dom";
-import RootLayout from "@/app/[username]/layout";
+import RootLayout from "@/app/(root)/[username]/layout";
 import { ProfilePropsOrNull } from "@/app/types/types";
 import { useProfile } from "@/app/_context/ProfileContext";
 
