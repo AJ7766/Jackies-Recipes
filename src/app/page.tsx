@@ -1,11 +1,17 @@
 import { getSession } from "@/_utils/session";
 import dynamic from "next/dynamic";
 import { getRecipesController } from "./_ssr/recipesController";
-const Dashboard = dynamic(() => import('./_containers/Dashboard'), { ssr: true });
+import { Loader } from "./_components/Loader";
+const Dashboard = dynamic(() => import('./_containers/Dashboard'),
+  {
+    ssr: true,
+    loading: () => <Loader />
+  });
 const LoginPage = dynamic(() => import('./_containers/LoginPage'), { ssr: true });
 
 export default async function DashboardPage() {
   const session = await getSession();
+
   if (!session.token)
     return <LoginPage />
 

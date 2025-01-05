@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import React, { RefObject } from "react";
 import { CldImage } from "next-cloudinary";
-import { activeLink, handleBlurInput, handleFocusInput } from "../_services/navBarServices";
+import { activeLink, handleBlurInput, handleFocusInput } from "../../_services/navBarServices";
 import { UserProps } from "@/_types/UserTypes";
 import { RecipeProps } from "@/_types/RecipeTypes";
 const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1734112468/logo-text-free_c6hbgq.webp";

@@ -4,7 +4,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { AuthProvider } from "./_context/AuthContext";
 const NavBar = dynamic(() => import("./_containers/NavBar"));
 import { CookieConsent } from "./_containers/CookieConsent";
-import { NavBarWidth } from "./_services/navBarServices";
 import { customFonts } from "@/_utils/customFonts";
 import { SelectedRecipeProvider } from "./_context/SelectedRecipeContext";
 
@@ -26,12 +25,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <AuthProvider>
         <body className={`${fontVariables}`}>
           <NavBar />
-          <NavBarWidth>
             <SelectedRecipeProvider>
               {children}
               <SpeedInsights />
             </SelectedRecipeProvider>
-          </NavBarWidth>
           <CookieConsent />
           <script src="https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ" async></script>
         </body>

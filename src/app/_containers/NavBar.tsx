@@ -2,11 +2,11 @@
 import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { useAuth } from "@/app/_context/AuthContext";
 import { fetchGetSearchAPI } from "../_services/api/fetchGetSearchAPI";
-import { NavBarComponent } from "../_components/NavBarComponent";
+import { NavBarComponent } from "../_components/NavBar/NavBarComponent";
 import { usePathname } from "next/navigation";
 import { checkNavBar, handleBlurInput, handleDropdown, handleMobileSearch } from "../_services/navBarServices";
 import dynamic from "next/dynamic";
-const Search = dynamic(() => import("./Search"), { ssr: false });
+const SearchComponent = dynamic(() => import("../_components/SearchComponent"), { ssr: false });
 import { useDebounce } from "../_hooks/useDebounce";
 import { useIsResponsive } from "../_hooks/useIsResponsive";
 import { UserProps } from "@/_types/UserTypes";
@@ -26,7 +26,7 @@ export default function NavBar() {
   const navBarRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const { user, logout } = useAuth();
-  const { isMobile, isClient } = useIsResponsive();
+  const { isMobile } = useIsResponsive();
   const handleClickOutside = useCallback((e: MouseEvent) => {
     handleMobileSearch(e, searchMobileIconRef, searchMobileRef);
     handleDropdown(e, dropdownIconRef, dropdownRef, dropdownItemsRef);
@@ -76,11 +76,11 @@ export default function NavBar() {
     }
   }, [debouncedValue]);
 
-  if (!isClient || !checkNavBar(pathname, !!user))
+  if (!checkNavBar(pathname, !!user))
     return null;
   
   return <>
-    <Search
+    <SearchComponent
       searchMobileRef={searchMobileRef}
       search={search}
       setSearch={setSearch}

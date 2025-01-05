@@ -5,7 +5,7 @@ import { UserProps } from "@/_types/UserTypes";
 import { RecipeProps } from "@/_types/RecipeTypes";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 
-export default function Search({
+export default function SearchComponent({
     searchMobileRef,
     search,
     setSearch,
