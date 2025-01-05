@@ -8,7 +8,6 @@ export const checkNavBar = (pathname: string, isAuth: boolean) => {
     return !((pathname === "/" && !isAuth) || pathname === "/register");
 }
 
-
 export const checkOverflow = (isAuth: boolean) => {
     const pathname = usePathname();
     return !((pathname === "/" && !isAuth) || pathname === "/register");
