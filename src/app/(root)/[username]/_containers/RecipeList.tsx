@@ -4,13 +4,11 @@ import { useProfile } from "@/app/_context/ProfileContext";
 import SelectedRecipe from "@/app/_containers/SelectedRecipe";
 import { SearchRecipe } from "../_components/SearchRecipeComponent";
 import { useEffect, useState } from "react";
-import { useIsAuthorizedProfile } from "@/app/_hooks/useIsAuthorizedProfile";
 import { useSelectedRecipe } from "@/app/_context/SelectedRecipeContext";
 import { RecipeProps } from "@/_types/RecipeTypes";
 
 export default function RecipeList() {
   const { profile } = useProfile();
-  const isAuthenticatedProfile = useIsAuthorizedProfile();
   const { selectedRecipeHandler } = useSelectedRecipe();
   const [searchRecipe, setSearchRecipe] = useState('')
   const [filteredRecipes, setFilteredRecipes] = useState<RecipeProps[]>(profile.recipes || []);
@@ -48,7 +46,6 @@ export default function RecipeList() {
     <RecipesListComponent
       profile={profile}
       recipes={filteredRecipes}
-      isAuthenticatedProfile={isAuthenticatedProfile}
       selectedRecipeHandler={selectedRecipeHandler}
     />
   </>

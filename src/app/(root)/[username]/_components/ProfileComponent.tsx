@@ -14,7 +14,6 @@ export const ProfileComponent = React.memo(({
   profile,
   isMobile,
   user_id,
-  isAuthenticatedProfile,
   handleFollowersChange,
   isFollowing,
   handleFollowing
@@ -22,7 +21,6 @@ export const ProfileComponent = React.memo(({
   profile: UserProps,
   isMobile: boolean,
   user_id?: string
-  isAuthenticatedProfile: boolean,
   handleFollowersChange: (user_id: string, operation: string) => void;
   isFollowing?: boolean
   handleFollowing: (following: boolean) => void
@@ -55,11 +53,11 @@ export const ProfileComponent = React.memo(({
           {!isMobile &&
             <div className="hidden w-full items-center justify-between md:flex">
               <h1 className="text-base md:text-3xl">{profile?.username}</h1>
-              {!isAuthenticatedProfile && <button
+              <button
                 type="button"
                 className={`h-[30px] text-[14px] rounded-[5px] ${isFollowing ? 'w-[90px] bg-white text-black border-[1.5px] border-black' : 'w-[80px] bg-black text-white'}`}
                 onClick={async () => {
-                  if (!user_id || isAuthenticatedProfile)
+                  if (!user_id)
                     return alert('Please login to use this feature');
                   if (!isFollowing) {
                     const { handleFollow } = await import("../_services/profileServices");
@@ -73,7 +71,7 @@ export const ProfileComponent = React.memo(({
                     handleFollowing(false);
                   }
                 }}
-              >{isFollowing ? 'UNFOLLOW' : 'FOLLOW'}</button>}
+              >{isFollowing ? 'UNFOLLOW' : 'FOLLOW'}</button>
             </div>}
           <p className="text-[13px] font-medium md:text-sm md:mt-4">{profile?.fullName}</p>
           <p className="block text-gray-600 md:hidden">@{profile.username}</p>
@@ -154,11 +152,11 @@ export const ProfileComponent = React.memo(({
               </Link>
             )}
           </div>
-          {((!isAuthenticatedProfile) || (isMobile && !isAuthenticatedProfile)) && <button
+           <button
             type="button"
             className={`mt-2 text-[12px] h-[25px] rounded-[5px] ${isFollowing ? 'w-[75px] bg-white text-black border-[1.5px] border-black' : 'w-[65px] bg-black text-white'} md:hidden`}
             onClick={async () => {
-              if (!user_id || isAuthenticatedProfile)
+              if (!user_id)
                 return alert('Please login to use this feature');
               if (!isFollowing) {
                 const { handleFollow } = await import("../_services/profileServices");
@@ -172,7 +170,7 @@ export const ProfileComponent = React.memo(({
                 handleFollowing(false);
               }
             }}>
-            {isFollowing ? 'UNFOLLOW' : 'FOLLOW'}</button>}
+            {isFollowing ? 'UNFOLLOW' : 'FOLLOW'}</button>
         </div>
       </div>
       <div className="divider"></div>
