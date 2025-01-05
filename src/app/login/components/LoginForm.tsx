@@ -21,11 +21,11 @@ export const Loginform = () => {
 
         setLoadingBtn(true);
 
-        const { message, success, fetchedUser } = await fetchLoginAPI(
+        const { message, fetchedUser } = await fetchLoginAPI(
             user.username,
             user.password
         );
-        if (!success) {
+        if (!fetchedUser) {
             setMessage(message);
             setLoadingBtn(false);
             return
