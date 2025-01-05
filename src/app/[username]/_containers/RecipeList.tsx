@@ -41,6 +41,7 @@ export default function RecipeList() {
   const handleSearchChange = (query: string) => {
     setSearchRecipe(query);
   }
+
   return <>
     {profile.recipes && <SelectedRecipe />}
     <SearchRecipe searchRecipe={searchRecipe} handleSearchChange={handleSearchChange} />
