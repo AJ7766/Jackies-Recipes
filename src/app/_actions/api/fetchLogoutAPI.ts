@@ -1,6 +1,8 @@
 export const fetchGetLogoutAPI = async () => {
     try {
-        let res = await fetch(`/api/logout`, {
+        let res = await fetch(process.env.NODE_ENV === 'production'
+            ? 'https://jackies-recipes-git-updating-ssr-jackie-huynhs-projects.vercel.app/api/logout'
+            : 'http://localhost:3001/api/logout', {
             method: "GET",
         });
 

@@ -6,7 +6,7 @@ import { UserProps } from "@/_types/UserTypes";
 import { RecipeProps } from "@/_types/RecipeTypes";
 import { handleMobileSearch } from "../_services/navBarServices";
 import { useDebounce } from "../_hooks/useDebounce";
-import { fetchGetSearchAPI } from "../_services/api/fetchGetSearchAPI";
+import { fetchGetSearchAPI } from "../_actions/api/fetchGetSearchAPI";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 
 export default function SearchComponent() {

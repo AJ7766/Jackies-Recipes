@@ -1,8 +1,6 @@
 "use client"
 import React, { useEffect, useState } from "react";
-import { useAuth } from "@/app/_context/AuthContext";
-import { useRouter } from "next/navigation";
-import { fetchPostRecipeAPI } from "@/app/(root)/add-recipe/services/fetchPostRecipeAPI";
+import { fetchPostRecipeAPI } from "@/app/add-recipe/services/fetchPostRecipeAPI";
 import AddRecipeComponent from "../components/AddRecipeComponent";
 import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, updateIngredientComponent, updateInstruction } from "@/app/_services/recipeServices";
 import { convertFileToBase64, convertFileToFormData, validateImage } from "@/_utils/imageUtils";
@@ -43,7 +41,6 @@ export default function AddRecipe() {
   const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
   const [isChecked, setIsChecked] = useState(false);
   const [cloudinaryData, setCloudinaryData] = useState<FormData>();
-  const router = useRouter();
 
   useEffect(() => {
     if (

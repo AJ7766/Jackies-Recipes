@@ -7,6 +7,20 @@ export async function middleware(req: NextRequest) {
     const res = NextResponse.next();
     const pathname = req.nextUrl.pathname;
 
+    if (pathname === '/') {
+        try {
+            const { token } = await getSession();
+            if (!token)
+                return NextResponse.redirect(new URL("/login", req.url));
+            await verifyToken(token);
+        } catch (error) {
+            if (error instanceof Error)
+                return NextResponse.json({ message: error.message }, { status: 400 });
+
+            return NextResponse.json({ message: 'An unknown error occurred' }, { status: 400 });
+        }
+    }
+
     if (pathname === '/api/register') {
         try {
             await registerValidation(req);

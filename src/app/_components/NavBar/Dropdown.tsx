@@ -2,8 +2,8 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useCallback, useEffect, useRef } from "react";
-import { handleDropdown } from "../_services/navBarServices";
-import { logout } from "../_actions/navBarActions";
+import { handleDropdown } from "../../_services/navBarServices";
+import { logout } from "../../_actions/navBarActions";
 const settings = "/images/icons/settings.svg";
 
 export const Dropdown = () => {
@@ -37,7 +37,7 @@ export const Dropdown = () => {
                 <div className="dropdownContent" ref={dropdownItemsRef}>
                     <Link href="/settings">Settings</Link>
                     <Link href="/privacy-policy">Privacy Policy</Link>
-                    <button onClick={async () => logout}>Logout</button>
+                    <button onClick={async () => await logout()}>Logout</button>
                 </div>
             </div>
         </div>

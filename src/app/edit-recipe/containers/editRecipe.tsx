@@ -42,7 +42,6 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
     });
     const [loadingBtn, setLoadingBtn] = useState(false);
     const [message, setMessage] = useState("");
-    const { user } = useAuth();
     const [userHasRecipe, setUserHasRecipe] = useState(false);
     const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
     const [isFetching, setIsFetcing] = useState(true);
@@ -116,8 +115,6 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
 
     const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if(!user) 
-            throw new Error("Unauthorized");
 
         try {
             setLoadingBtn(true);
@@ -134,8 +131,6 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
                 setLoadingBtn(false)
                 throw new Error(message)
             }
-            router.push(`/${user.username}`);
-            router.refresh();
         } catch (error: any) {
             setMessage(error.message || "Failed to update.");
         } finally {
@@ -266,7 +261,6 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
         caloriesPlaceholder={caloriesPlaceholder}
         isChecked={isChecked}
         toggleSlider={toggleSlider}
-        username={user?.username || ''}
         recipe_id={recipe_id}
         public_id={publicId}
         router={router}

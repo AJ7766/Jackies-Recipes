@@ -33,7 +33,6 @@ interface AddRecipeProps {
   loadingBtn: boolean;
   message: string;
   toggleSlider: () => void;
-  username: string;
   recipe_id: string;
   public_id: string;
   router: AppRouterInstance
@@ -51,7 +50,6 @@ export default function EditRecipeComponent({
   isChecked,
   caloriesPlaceholder,
   toggleSlider,
-  username,
   recipe_id,
   public_id,
   router
@@ -337,7 +335,7 @@ export default function EditRecipeComponent({
           className="delete"
           onClick={async () => {
             const { handleDeleteRecipe } = await import("../services/editRecipeServices");
-            await handleDeleteRecipe(recipe_id, username, public_id, router)
+            await handleDeleteRecipe(recipe_id, public_id, router)
           }}>
           Delete
         </button>

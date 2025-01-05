@@ -3,7 +3,6 @@ import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.share
 
 export const handleDeleteRecipe = async (
     recipe_id: string,
-    username: string,
     public_id: string,
     router: AppRouterInstance
 ) => {
@@ -11,5 +10,4 @@ export const handleDeleteRecipe = async (
 
     if (!success)
         throw new Error(message);
-    router.push(`/${username}`);
 }

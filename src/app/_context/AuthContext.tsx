@@ -4,7 +4,7 @@ import React, {
   useContext,
   useState,
 } from "react";
-import { fetchGetLogoutAPI } from "../_services/api/fetchLogoutAPI";
+import { fetchGetLogoutAPI } from "../_actions/api/fetchLogoutAPI";
 import { UserProps } from "@/_types/UserTypes";
 import { useRouter } from "next/navigation";
 
