@@ -1,6 +1,5 @@
 "use client"
 import { useState } from "react";
-import { useAuth } from "@/app/_context/AuthContext";
 import { EditProfileComponent } from "../components/EditProfileComponent";
 import { fetchUpdateUserAPI } from "../services/fetchUpdateUserAPI";
 import { useRouter } from "next/navigation";
@@ -10,7 +9,6 @@ import { UserEditProps } from "@/_types/UserTypes";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1733219780/profile-picture_vicljy.png";
 
 export default function EditProfile({ user }: { user: UserEditProps }) {
-  const { handleSetUser } = useAuth();
   const [userData, setUserData] = useState<UserEditProps>({
     email: user?.email || "",
     username: user?.username || "",
@@ -59,7 +57,6 @@ export default function EditProfile({ user }: { user: UserEditProps }) {
         return setMessage(message);
       }
 
-      handleSetUser(updated_user);
       router.push(`/${userData.username}`);
     } catch (error: any) {
       setMessage(error.message || "Failed to update.");
