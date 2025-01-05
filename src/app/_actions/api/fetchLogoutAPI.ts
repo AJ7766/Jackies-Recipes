@@ -5,9 +5,8 @@ export const fetchGetLogoutAPI = async () => {
             : 'http://localhost:3001/api/logout', {
             method: "GET",
         });
-
         const data = await res.json();
-
+        
         if (!res.ok)
             return { message: data.message || "Failed to logout", success: false};
         

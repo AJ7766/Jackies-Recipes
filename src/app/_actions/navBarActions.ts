@@ -1,8 +1,8 @@
 'use server';
-import { fetchGetLogoutAPI } from "@/app/_actions/api/fetchLogoutAPI";
+import { deleteSession } from "@/_utils/session";
 import { redirect } from "next/navigation";
 
 export const logout = async () => {
-  await fetchGetLogoutAPI();
-  redirect('/login');
+    await deleteSession();
+    redirect('/login');
 };
