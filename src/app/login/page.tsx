@@ -22,3 +22,10 @@ export default function LoginPage() {
         </div>
     );
 }
+
+export async function generateMetadata() {
+  return {
+    title: 'Login - Jackies Recipes',
+    description: "Login to your account at Jackies Recipes to share your favorite recipes.",
+  };
+}

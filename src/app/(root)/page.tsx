@@ -17,9 +17,7 @@ export async function generateMetadata() {
   const session = await getSession();
 
   return {
-    title: session.token ? 'Jackies Recipes' : 'Login - Jackies Recipes',
-    description: session.token
-      ? "Welcome to Jackies Recipes, a social platform for sharing recipes."
-      : "Login to your account at Jackies Recipes to share your favorite recipes.",
+    title: 'Jackies Recipes',
+    description: "Welcome to Jackies Recipes, a social platform for sharing recipes."
   };
 }
