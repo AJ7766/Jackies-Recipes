@@ -19,25 +19,25 @@ module.exports = withBundleAnalyzer({
             value:
               process.env.NODE_ENV === "development"
                 ? [
-                    "default-src 'self';",
-                    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://trusted-cdn.com https://www.googletagmanager.com https://va.vercel-scripts.com;",
-                    "connect-src 'self' https://region1.google-analytics.com https://res.cloudinary.com;",
-                    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
-                    "font-src 'self' https://fonts.gstatic.com;",
-                    "img-src 'self' https: data:;",
-                    "frame-ancestors 'self';",
-                    "form-action 'self';",
-                  ].join(" ")
+                  "default-src 'self';",
+                  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://trusted-cdn.com https://www.googletagmanager.com https://va.vercel-scripts.com;",
+                  "connect-src 'self' https://region1.google-analytics.com https://res.cloudinary.com;",
+                  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
+                  "font-src 'self' https://fonts.gstatic.com;",
+                  "img-src 'self' https: data:;",
+                  "frame-ancestors 'self';",
+                  "form-action 'self';",
+                ].join(" ")
                 : [
-                    "default-src 'self';",
-                    "script-src 'self' 'unsafe-inline' https://trusted-cdn.com https://www.googletagmanager.com https://vercel.live https://va.vercel-scripts.com;",
-                    "connect-src 'self' https://region1.google-analytics.com https://res.cloudinary.com;",
-                    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
-                    "font-src 'self' https://fonts.gstatic.com;",
-                    "img-src 'self' https: data:;",
-                    "frame-ancestors 'self';",
-                    "form-action 'self';",
-                  ].join(" "),
+                  "default-src 'self';",
+                  "script-src 'self' 'unsafe-inline' https://trusted-cdn.com https://www.googletagmanager.com https://vercel.live https://va.vercel-scripts.com;",
+                  "connect-src 'self' https://region1.google-analytics.com https://res.cloudinary.com;",
+                  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;",
+                  "font-src 'self' https://fonts.gstatic.com;",
+                  "img-src 'self' https: data:;",
+                  "frame-ancestors 'self';",
+                  "form-action 'self';",
+                ].join(" "),
           },
         ],
       },
@@ -47,6 +47,15 @@ module.exports = withBundleAnalyzer({
           {
             key: "Cache-Control",
             value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'x-robots-tag',
+            value: 'index, follow'
           },
         ],
       },

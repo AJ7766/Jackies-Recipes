@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /settings
+Disallow: /add-recipe
+Disallow: /edit-recipe/*
+Allow: /
+
+Sitemap: https://jackies-recipes-git-updating-ssr-jackie-huynhs-projects.vercel.app/sitemap.xml

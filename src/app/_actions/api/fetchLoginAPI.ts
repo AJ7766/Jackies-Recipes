@@ -2,7 +2,7 @@ export const fetchLoginAPI = async (username: string, password: string) => {
     try {
         let res = await fetch(process.env.NODE_ENV === 'production'
             ? 'https://jackies-recipes-git-updating-ssr-jackie-huynhs-projects.vercel.app/api/login'
-            : 'http://localhost:3001/api/login', {
+            : 'http://localhost:3000/api/login', {
             method: "POST",
             body: JSON.stringify({ username, password }),
             headers: {
