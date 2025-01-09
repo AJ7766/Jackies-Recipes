@@ -1,15 +1,24 @@
-import dynamic from "next/dynamic";
 import { getRecipesController } from "../_ssr/recipes/recipesController";
-import { Loader } from "../_components/Loader";
-const Dashboard = dynamic(() => import('../_containers/Dashboard'),
-  {
-    ssr: true,
-    loading: () => <Loader />
-  });
+import { RecipeList } from "../_components/RecipeList";
+import SelectedRecipe from "../../components/SelectedRecipe";
 
-export default async function DashboardPage() {
+export default async function Home() {
   const serverRecipes = await getRecipesController();
-  return <Dashboard serverRecipes={typeof serverRecipes === 'string' ? JSON.parse(serverRecipes) : serverRecipes} />
+
+  if (serverRecipes && serverRecipes.length === 0) {
+    return (
+      <div className="noRecipesContainer">
+        <h1>No recipes were found</h1>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <SelectedRecipe />
+      <RecipeList recipes={typeof serverRecipes === 'string' ? JSON.parse(serverRecipes) : serverRecipes} />
+    </>
+  )
 }
 
 export async function generateMetadata() {

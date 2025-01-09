@@ -1,5 +1,5 @@
 "use client"
-import { fetchLoginAPI } from "@/app/_actions/api/fetchLoginAPI";
+import { fetchLoginAPI } from "@/server/api/fetchLoginAPI";
 import Image from "next/image"
 import Link from "next/link";
 import { useRouter } from "next/navigation";

@@ -4,11 +4,11 @@ import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { UserProps } from "@/_types/UserTypes";
 import { RecipeProps } from "@/_types/RecipeTypes";
 import Link from "next/link";
-import searchGlass from "../../../../public/images/icons/search.svg";
 import { useIsResponsive } from "@/app/_hooks/useIsResponsive";
 import { useDebounce } from "@/app/_hooks/useDebounce";
 import { handleBlurInput, handleFocusInput } from "@/app/_services/navBarServices";
-import { fetchGetSearchAPI } from "@/app/_actions/api/fetchGetSearchAPI";
+import { fetchGetSearchAPI } from "@/server/api/fetchGetSearchAPI";
+import searchGlass from "../../../public/images/icons/search.svg"
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 
 export const NavSearch = () => {

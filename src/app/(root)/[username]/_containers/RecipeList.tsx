@@ -1,11 +1,11 @@
 "use client"
 import { RecipesListComponent } from "../_components/RecipesListComponent";
 import { useProfile } from "@/app/_context/ProfileContext";
-import SelectedRecipe from "@/app/_containers/SelectedRecipe";
 import { SearchRecipe } from "../_components/SearchRecipeComponent";
 import { useEffect, useState } from "react";
 import { useSelectedRecipe } from "@/app/_context/SelectedRecipeContext";
 import { RecipeProps } from "@/_types/RecipeTypes";
+import SelectedRecipe from "@/components/SelectedRecipe";
 
 export default function RecipeList() {
   const { profile } = useProfile();

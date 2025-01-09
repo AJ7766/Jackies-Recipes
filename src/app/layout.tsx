@@ -1,7 +1,7 @@
 import "./globals.css";
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { customFonts } from "@/_utils/customFonts";
-import { CookieConsent } from "./_containers/CookieConsent";
+import { CookiesConsent } from "@/components/CookiesConsent";
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { metropolis, sourceSans, gotham } = customFonts();
@@ -21,7 +21,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <body className={`${fontVariables}`}>
             {children}
             <SpeedInsights />
-            <CookieConsent />
+            <CookiesConsent />
           <script src="https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ" async></script>
         </body>
     </html >

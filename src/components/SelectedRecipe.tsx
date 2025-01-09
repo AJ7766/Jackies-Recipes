@@ -1,24 +1,19 @@
-import { RecipeProps } from "@/_types/RecipeTypes";
+"use client"
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
+import { useSelectedRecipe } from "../app/_context/SelectedRecipeContext";
+import { useIsResponsive } from "../app/_hooks/useIsResponsive";
+import { useCheckScrollbars } from "../app/_hooks/checkScrollbars";
 const meals = "/images/icons/meal.svg";
 const profilePicturePlaceholder = "/images/profile-picture.png";
 const closeIcon = "/images/icons/close-recipe.svg";
 
-interface SelectedRecipeComponentProps {
-    recipe: RecipeProps | null;
-    isMobile: boolean;
-    isClient: boolean;
-    handleCloseRecipe: () => void;
-}
+export default function SelectedRecipe() {
+    const { recipe, handleCloseRecipe, toggleScrollbars } = useSelectedRecipe();
+    const { isMobile, isClient } = useIsResponsive();
+    useCheckScrollbars(recipe, toggleScrollbars);
 
-export default function SelectedRecipeComponent({
-    recipe,
-    isMobile,
-    isClient,
-    handleCloseRecipe
-}: SelectedRecipeComponentProps) {
     return (
         recipe && (
             <>

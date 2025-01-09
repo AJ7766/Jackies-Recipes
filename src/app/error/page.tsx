@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NavBar } from "../_components/NavBar/_NavBar";
+import { NavBar } from "../../components/NavBar";
 
 export default function ErrorPage() {
   return (

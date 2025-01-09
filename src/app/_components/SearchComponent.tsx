@@ -6,7 +6,7 @@ import { UserProps } from "@/_types/UserTypes";
 import { RecipeProps } from "@/_types/RecipeTypes";
 import { handleMobileSearch } from "../_services/navBarServices";
 import { useDebounce } from "../_hooks/useDebounce";
-import { fetchGetSearchAPI } from "../_actions/api/fetchGetSearchAPI";
+import { fetchGetSearchAPI } from "../../server/api/fetchGetSearchAPI";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 
 export default function SearchComponent() {
@@ -20,20 +20,20 @@ export default function SearchComponent() {
     const handleClickOutside = useCallback((e: MouseEvent) => {
         handleMobileSearch(e);
         if (
-          !searchMobileRef.current?.contains(e.target as Node) &&
-          searchResultsRef.current &&
-          !searchResultsRef.current.contains(e.target as Node)) {
-          setUsers([]);
-          setRecipes([]);
-          setSearch('');
+            !searchMobileRef.current?.contains(e.target as Node) &&
+            searchResultsRef.current &&
+            !searchResultsRef.current.contains(e.target as Node)) {
+            setUsers([]);
+            setRecipes([]);
+            setSearch('');
         }
-      }, []);
-      useEffect(() => {
+    }, []);
+    useEffect(() => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => {
-          document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("mousedown", handleClickOutside);
         };
-      }, [handleClickOutside]);
+    }, [handleClickOutside]);
 
     const debouncedValue = useDebounce(search, 350);
     useEffect(() => {
