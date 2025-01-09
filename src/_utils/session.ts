@@ -7,9 +7,10 @@ export const getSession = async () => {
     return await getIronSession<SessionData>(await cookies(), sessionOptions);
 }
 
-export const setSession = async (user_id: string, token: string) => {
+export const setSession = async (user_id: string, username: string, token: string) => {
     const session = await getSession();
     session.user_id = user_id;
+    session.username = username;
     session.token = token;
     await session.save();
 }
@@ -17,6 +18,6 @@ export const setSession = async (user_id: string, token: string) => {
 export const deleteSession = async () => {
     const session = await getSession();
     session.destroy();
-    
+
     return session;
 }

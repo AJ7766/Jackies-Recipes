@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) { //Login user
     await comparePasswords(typedPassword, user.password);
 
     const token = await assignToken(user._id.toString(), username);
-    await setSession(user._id, token);
+    await setSession(user._id, user.username, token);
 
     const { _id, password, ...processedUser } = user;
 

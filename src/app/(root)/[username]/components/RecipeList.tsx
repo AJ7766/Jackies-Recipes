@@ -1,21 +1,49 @@
-import Image from "next/image";
-import React from "react";
-import Link from "next/link";
-import { CldImage } from "next-cloudinary";
-import { UserProps } from "@/_types/UserTypes";
+"use client"
+import { SearchRecipe } from "./SearchRecipeComponent";
+import { useEffect, useState } from "react";
+import { useSelectedRecipe } from "@/app/_context/SelectedRecipeContext";
 import { RecipeProps } from "@/_types/RecipeTypes";
-const cogwheel = "/images/icons/cogwheel.svg";
+import SelectedRecipe from "@/components/SelectedRecipe/SelectedRecipe";
+import { CldImage } from "next-cloudinary";
+import Image from "next/image";
+import Link from "next/link";
+import { UserProps } from "@/_types/UserTypes";
 
-export const RecipesListComponent = React.memo(({
-  profile,
-  recipes,
-  selectedRecipeHandler
-}: {
-  profile: UserProps;
-  recipes: RecipeProps[],
-  selectedRecipeHandler: (recipe: RecipeProps) => void;
-}) => {
-  return (
+export default function RecipeList({ profile }: { profile: UserProps }) {
+  const { selectedRecipeHandler } = useSelectedRecipe();
+  const [searchRecipe, setSearchRecipe] = useState('')
+  const [recipes, setRecipes] = useState<RecipeProps[]>(profile.recipes || []);
+
+  useEffect(() => searchRecipe && profile.recipes ? setRecipes(
+    profile.recipes.filter((recipe) =>
+      recipe.title
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .includes(
+          searchRecipe
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, ''))
+    )
+  ) : setRecipes(profile.recipes || [])
+    , [searchRecipe])
+
+  if (!profile.recipes || profile.recipes.length === 0) {
+    return (
+      <div className="noRecipesContainer">
+        <h1>No recipes were found</h1>
+      </div>
+    );
+  }
+
+  const handleSearchChange = (query: string) => {
+    setSearchRecipe(query);
+  }
+
+  return <>
+    {profile.recipes && <SelectedRecipe />}
+    <SearchRecipe searchRecipe={searchRecipe} handleSearchChange={handleSearchChange} />
     <div className="recipe-wrapper">
       {recipes.some(recipe => recipe.title) ? (
         recipes.map((recipe, recipeIndex) => (
@@ -87,15 +115,15 @@ export const RecipesListComponent = React.memo(({
                 />
                 <div className='recipe-profile-image-pseudo'></div>
               </div>
-                <Link href={`/edit-recipe/${recipe._id}`} prefetch={false}>
-                  <Image
-                    src={cogwheel}
-                    width={16}
-                    height={16}
-                    className="edit-img"
-                    alt="edit"
-                  />
-                </Link>
+              <Link href={`/edit-recipe/${recipe._id}`} prefetch={false}>
+                <Image
+                  src={'/images/icons/cogwheel.svg'}
+                  width={16}
+                  height={16}
+                  className="edit-img"
+                  alt="edit"
+                />
+              </Link>
             </div>
           </div>
         ))
@@ -105,6 +133,6 @@ export const RecipesListComponent = React.memo(({
         </div>
       )}
     </div>
-  );
-});
+  </>
 
+}
