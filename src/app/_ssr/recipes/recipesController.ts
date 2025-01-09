@@ -1,4 +1,4 @@
-import { connectDB } from "@/app/_config/database";
+import { connectDB } from "@/_lib/database";
 import { getRecipesService } from "./recipesService";
 import redisClient from "@/_utils/redis";
 

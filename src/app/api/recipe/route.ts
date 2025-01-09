@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/app/_config/database";
+import { connectDB } from "@/_lib/database";
 import { createRecipeService, deleteRecipeService, getPublicIdFromUrlService, getRecipeIdFromUrlService, getRecipeService, updateRecipeService, validateRecipeService } from "./services/recipeServices";
 import { addRecipeToUserService, checkUserHasRecipeService } from "../profile/services/profileServices";
 import { getUserService } from "../user/services/userService";

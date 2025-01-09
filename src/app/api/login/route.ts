@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { connectDB } from "../../_config/database"
+import { connectDB } from "../../../_lib/database"
 import { loginServices } from "./services/loginServices";
 import { comparePasswords } from "@/_utils/bcrypt";
 import { assignToken } from "@/_utils/jwt";

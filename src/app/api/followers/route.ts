@@ -1,5 +1,5 @@
 import { deleteRedisCache } from "@/_utils/redis";
-import { connectDB } from "@/app/_config/database";
+import { connectDB } from "@/_lib/database";
 import { NextRequest, NextResponse } from "next/server";
 import { postNewFollowerService, updateUnfollowerService } from "./followersService";
 import mongoose from "mongoose";

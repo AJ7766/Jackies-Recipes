@@ -1,4 +1,4 @@
-import { connectDB } from "@/app/_config/database"
+import { connectDB } from "@/_lib/database"
 import { getIsFollowingService, getProfileMetaService, getUserPopulatedService } from "./profileService";
 
 export const getProfileController = async (username: string) => {

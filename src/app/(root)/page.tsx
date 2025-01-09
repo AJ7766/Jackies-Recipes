@@ -1,6 +1,6 @@
 import { getRecipesController } from "../_ssr/recipes/recipesController";
 import { RecipeList } from "../_components/RecipeList";
-import SelectedRecipe from "../../components/SelectedRecipe";
+import SelectedRecipe from "../../components/SelectedRecipe/SelectedRecipe";
 
 export default async function Home() {
   const serverRecipes = await getRecipesController();

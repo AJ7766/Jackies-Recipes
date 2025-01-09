@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/app/_config/database";
+import { connectDB } from "@/_lib/database";
 import { getUserService, updateUserService, validateUserService } from "./services/userService";
 import redisClient, { deleteRedisCache } from "@/_utils/redis";
 

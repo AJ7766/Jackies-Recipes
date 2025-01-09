@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
 */
-import { connectDB, getUri } from '@/app/_config/database';
+import { connectDB, getUri } from '@/_lib/database';
 import mongoose from 'mongoose';
 
 jest.mock('mongoose', () => {

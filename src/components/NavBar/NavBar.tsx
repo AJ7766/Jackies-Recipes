@@ -1,12 +1,12 @@
 import dynamic from "next/dynamic";
-const SearchComponent = dynamic(() => import("../app/_components/SearchComponent"), { ssr: true });
+const NavSearchMobile = dynamic(() => import("./ui/NavSearchMobile"), { ssr: true });
 import Link from "next/link";
 import Image from "next/image";
 import { Dropdown } from "./ui/Dropdown";
 import { getSession } from "@/_utils/session";
-import { NavButton } from "./ui/NavButton";
 import { getUserController } from "@/app/_ssr/user/userController";
 import { NavSearch } from "./ui/NavSearch";
+import { NavButton } from "./ui/NavButton";
 const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1734112468/logo-text-free_c6hbgq.webp";
 const searchGlass = "/images/icons/search.svg";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
@@ -18,7 +18,7 @@ export async function NavBar() {
   const user = await getUserController(session.user_id);
 
   return <>
-    <SearchComponent />
+    <NavSearchMobile />
     <div className="navContainer">
       <Link
         className="hidden md:block"

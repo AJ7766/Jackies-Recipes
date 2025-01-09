@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
 */
-import { connectDB } from '@/app/_config/database';
+import { connectDB } from '@/_lib/database';
 import { UserModel } from '@/_models/UserModel';
 import { NextRequest, NextResponse } from 'next/server';
 import { POST } from '@/app/api/login/route';

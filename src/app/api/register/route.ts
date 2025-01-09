@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { connectDB } from "../../_config/database"
+import { connectDB } from "../../../_lib/database"
 import { registerService } from "./services/registerServices";
 import { UserRegisterProps } from "@/_types/UserTypes";
 

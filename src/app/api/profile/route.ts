@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getUsernameFromUrlService, getUserPopulatedService } from "./services/profileServices";
-import { connectDB } from "@/app/_config/database";
+import { connectDB } from "@/_lib/database";
 
 export async function GET(req: NextRequest) { // Get Profile
   try {

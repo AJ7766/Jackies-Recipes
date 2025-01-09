@@ -2,8 +2,8 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useCallback, useEffect, useRef } from "react";
-import { handleDropdown } from "../../app/_services/navBarServices";
-import { logout } from "../../_actions/navBarActions";
+import { handleDropdown } from "../../../app/_services/navBarServices";
+import { logout } from "../../../_actions/navBarActions";
 const settings = "/images/icons/settings.svg";
 
 export const Dropdown = () => {

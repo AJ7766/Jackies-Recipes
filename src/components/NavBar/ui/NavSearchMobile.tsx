@@ -4,12 +4,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { UserProps } from "@/_types/UserTypes";
 import { RecipeProps } from "@/_types/RecipeTypes";
-import { handleMobileSearch } from "../_services/navBarServices";
-import { useDebounce } from "../_hooks/useDebounce";
-import { fetchGetSearchAPI } from "../../server/api/fetchGetSearchAPI";
+import { handleMobileSearch } from "../../../app/_services/navBarServices";
+import { useDebounce } from "../../../app/_hooks/useDebounce";
+import { fetchGetSearchAPI } from "../../../server/api/fetchGetSearchAPI";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 
-export default function SearchComponent() {
+export default function NavSearchMobile() {
     const [search, setSearch] = useState("");
     const [users, setUsers] = useState<UserProps[]>([]);
     const [recipes, setRecipes] = useState<RecipeProps[]>([]);

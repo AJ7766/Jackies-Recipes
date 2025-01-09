@@ -5,7 +5,7 @@ import { SearchRecipe } from "../_components/SearchRecipeComponent";
 import { useEffect, useState } from "react";
 import { useSelectedRecipe } from "@/app/_context/SelectedRecipeContext";
 import { RecipeProps } from "@/_types/RecipeTypes";
-import SelectedRecipe from "@/components/SelectedRecipe";
+import SelectedRecipe from "@/components/SelectedRecipe/SelectedRecipe";
 
 export default function RecipeList() {
   const { profile } = useProfile();

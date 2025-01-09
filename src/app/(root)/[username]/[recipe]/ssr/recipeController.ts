@@ -1,4 +1,4 @@
-import { connectDB } from "@/app/_config/database";
+import { connectDB } from "@/_lib/database";
 import { getRecipeMetaService } from "./recipeService";
 
 export async function getRecipeMetaController(recipe_id: string) {

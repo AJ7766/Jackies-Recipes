@@ -1,4 +1,4 @@
-import { connectDB } from "@/app/_config/database";
+import { connectDB } from "@/_lib/database";
 import { getUserService } from "./userServices";
 import { UserProps } from "@/_types/UserTypes";
 
