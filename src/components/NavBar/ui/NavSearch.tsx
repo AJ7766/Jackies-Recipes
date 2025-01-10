@@ -97,7 +97,7 @@ export const NavSearch = () => {
             />
             {(users.length > 0 || recipes.length > 0) && (
                 <div
-                    className="searched-container"
+                    className="search-container"
                     ref={searchResultsRef}
                 >
                     {users.length > 0 && (

@@ -6,9 +6,10 @@ import { ProfileStats } from "./ui/ProfileStats";
 import { FollowButton } from "./ui/FollowButton";
 import { SocialMedia } from "./ui/SocialMedia";
 import { UserProps } from "@/_types/UserTypes";
+import { Bio } from "./ui/Bio";
 
 export const Profile = React.memo(({ serverProfile, ownProfile, user_id, serverIsFollowing }: { serverProfile: UserProps, ownProfile: boolean, user_id: string, serverIsFollowing: boolean }) => {
-  const { isMobile } = useIsResponsive();
+  const { isMobile, isClient } = useIsResponsive();
   const [isFollowing, setIsFollowing] = useState(serverIsFollowing);
   const [profile, setProfile] = useState<UserProps>(serverProfile);
 
@@ -54,12 +55,14 @@ export const Profile = React.memo(({ serverProfile, ownProfile, user_id, serverI
             alt="profile-picture"
             size="w-[90px] h-[90px] shrink-0 md:w-[160px] md:h-[160px] md:ml-[60px]"
           />
-          {isMobile &&
+          {(!isClient || isClient && isMobile) &&
             <ProfileStats
               recipes={profile.recipes?.length || 0}
               followers={profile.followers?.length || 0}
               following={profile.following?.length || 0}
-            />}
+              device='mobile'
+            />
+          }
         </div>
 
         <div className="flex flex-col mt-2 md:w-[450px] md:mt-0">
@@ -70,29 +73,24 @@ export const Profile = React.memo(({ serverProfile, ownProfile, user_id, serverI
                 <FollowButton
                   isFollowing={isFollowing}
                   onClick={handleFollowToggle}
+                  device='desktop'
                 />
               }
             </div>}
 
           <p className="text-[13px] font-medium md:text-sm md:mt-4">{profile?.fullName}</p>
           <p className="block text-gray-600 md:hidden">@{profile.username}</p>
-
+          
           {profile.userContent?.bio &&
-            <h2 className="text-[13px] mt-1 mb-1 md:text-sm md:mt-0">
-              {profile.userContent?.bio.split('\n').map((line: string, index: number) => (
-                <span key={index}>
-                  {line}
-                  {profile.userContent?.bio && index < profile.userContent?.bio.split('\n').length - 1 && <br />}
-                </span>
-              ))}
-            </h2>}
+            <Bio bio={profile.userContent?.bio} />
+          }
 
-          {!isMobile &&
-            <ProfileStats
-              recipes={profile.recipes?.length || 0}
-              followers={profile.followers?.length || 0}
-              following={profile.following?.length || 0}
-            />}
+          <ProfileStats
+            recipes={profile.recipes?.length || 0}
+            followers={profile.followers?.length || 0}
+            following={profile.following?.length || 0}
+            device='desktop'
+          />
 
           <div className="profileSocialMediaContainer mt-2">
             {profile?.userContent?.instagram && (
@@ -112,10 +110,11 @@ export const Profile = React.memo(({ serverProfile, ownProfile, user_id, serverI
             )}
           </div>
 
-          {!ownProfile &&
+          {(!isClient && !ownProfile || isClient && isMobile && !ownProfile) &&
             <FollowButton
               isFollowing={isFollowing}
               onClick={handleFollowToggle}
+              device="mobile"
             />}
         </div>
       </div>

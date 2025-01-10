@@ -346,7 +346,7 @@ body {
   color: black;
 }
 
-.searched-container {
+.search-container {
   display: flex;
   gap: 10px;
   flex-direction: column;
@@ -1662,7 +1662,7 @@ input::-webkit-inner-spin-button {
     font-size: 18px;
   }
 
-  .searchMobile .searchedUsersContainer {
+  .searchMobile .search-container {
     gap: 10px;
     flex-direction: column;
     position: absolute;
@@ -1677,7 +1677,7 @@ input::-webkit-inner-spin-button {
     z-index: 1;
   }
 
-  .searchedUser h2 {
+  .search-container h2 {
     font-size: 18px;
   }
 

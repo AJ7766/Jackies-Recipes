@@ -7,6 +7,7 @@ import { RecipeProps } from "@/_types/RecipeTypes";
 import { handleMobileSearch } from "../../../app/_services/navBarServices";
 import { useDebounce } from "../../../app/_hooks/useDebounce";
 import { fetchGetSearchAPI } from "../../../server/api/fetchGetSearchAPI";
+import { SearchCard } from "./SearchCard";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 
 export default function NavSearchMobile() {
@@ -77,35 +78,21 @@ export default function NavSearchMobile() {
             />
             {(users.length > 0 || recipes.length > 0) && (
                 <div
-                    className="searchedUsersContainer"
-                    data-testid="searchedUsersContainer"
+                    className="search-container"
                 >
                     {users.length > 0 && (
                         <>
                             <h1>Users</h1>
                             {users.map((user, index) => (
-                                <Link
-                                    href={`/${user.username}`}
+                                <SearchCard
                                     key={index}
-                                    onClick={() => clickHandler()}
-                                    prefetch>
-                                    <div
-                                        className="searchedUser"
-                                        data-testid="searchedUser"
-                                    >
-                                        <Image
-                                            height={42}
-                                            width={42}
-                                            src={user.userContent?.profilePicture || profilePicture}
-                                            className="w-full h-auto"
-                                            alt="user-picture"
-                                        />
-                                        <div>
-                                            <h2>{user.username}</h2>
-                                            <p>{user.fullName}</p>
-                                        </div>
-                                    </div>
-                                </Link>
+                                    type="user"
+                                    image={user.userContent?.profilePicture || profilePicture}
+                                    title={user.username}
+                                    subtitle={user.fullName}
+                                    href={`/${user.username}`}
+                                    onClick={clickHandler}
+                                />
                             ))}
                         </>
                     )}
@@ -114,31 +101,15 @@ export default function NavSearchMobile() {
                         <>
                             <h1>Recipes</h1>
                             {recipes.map((recipe, index) => (
-                                <Link
-                                    href={`/${recipe.user.username}/${recipe._id}`}
+                                <SearchCard
                                     key={index}
-                                    onClick={() => clickHandler()}
-                                    prefetch
-                                >
-                                    <div
-                                        className="searchedUser"
-                                        data-testid="searchedRecipe"
-                                        data-id={index}
-                                        data-type="recipe"
-                                    >
-                                        <Image
-                                            height={42}
-                                            width={42}
-                                            src={recipe.image}
-                                            className="w-full h-auto"
-                                            alt="recipe-image"
-                                        />
-                                        <div>
-                                            <h2>{recipe.title}</h2>
-                                            <p>{recipe.user.username}</p>
-                                        </div>
-                                    </div>
-                                </Link>
+                                    type="recipe"
+                                    image={recipe.image}
+                                    title={recipe.title}
+                                    subtitle={recipe.user.username}
+                                    href={`/${recipe.user.username}/${recipe._id}`}
+                                    onClick={clickHandler}
+                                />
                             ))}
                         </>
                     )}
