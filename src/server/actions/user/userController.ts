@@ -1,12 +1,14 @@
 import { connectDB } from "@/_lib/database";
 import { UserProps } from "@/_types/UserTypes";
 import { getUserService } from "./userService";
+import { verifyToken } from "@/_utils/jwt";
 
-export const getUserController = async (user_id: string): Promise<UserProps> => {
+export const getUserController = async (token: string): Promise<UserProps> => {
     try {
         await connectDB();
+        const decoded = await verifyToken(token);
 
-        const user = await getUserService(user_id);
+        const user = await getUserService(decoded.payload.id);
 
         return JSON.parse(JSON.stringify(user));
     } catch (error) {

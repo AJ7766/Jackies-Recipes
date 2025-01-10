@@ -3,19 +3,17 @@ const NavSearchMobile = dynamic(() => import("./ui/NavSearchMobile"), { ssr: tru
 import Link from "next/link";
 import Image from "next/image";
 import { Dropdown } from "./ui/Dropdown";
-import { getUserController } from "@/server/actions/user/userController";
 import { NavSearch } from "./ui/NavSearch";
 import { NavButton } from "./ui/NavButton";
 import { getSession } from "@/_utils/session";
+import { ProfileButton } from "./ui/ProfileButton";
 const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1734112468/logo-text-free_c6hbgq.webp";
 const searchGlass = "/images/icons/search.svg";
-const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 const home = "/images/icons/home.svg";
 const addRecipe = "/images/icons/add-recipe.svg";
 
 export async function NavBar() {
   const session = await getSession();
-  const user = await getUserController(session.user_id);
 
   return <>
     <NavSearchMobile />
@@ -38,7 +36,7 @@ export async function NavBar() {
       <NavButton
         name='Home'
         href='/'
-        alt='Home'
+        alt='Navigate to home page'
         className='home'
         image={home} />
       <div className="navBarComponent searchMobileIcon grid md:hidden">
@@ -51,19 +49,15 @@ export async function NavBar() {
         />
       </div>
       <NavSearch />
-      {user ? (
+      {session ? (
         <>
-          <NavButton
-            name={'Profile'}
-            href={`/${user.username}`}
-            alt={`${user.fullName}'s profile picture`}
-            className='profilePicture'
-            image={user.userContent?.profilePicture || profilePicture} />
+          <ProfileButton/>
           <NavButton
             name='Add Recipe'
             alt="Add a new recipe to your collection"
             href='/add-recipe'
-            image={addRecipe} />
+            image={addRecipe}
+          />
           <Dropdown />
         </>
       ) :

@@ -1,18 +1,13 @@
-export const fetchGetUserAPI = async (token: string) => {
+"use server"
+import { getSession } from "@/_utils/session";
+import { getUserController } from "../actions/user/userController";
+
+export const fetchGetUserAPI = async () => {
     try {
-        const res = await fetch("/api/user", {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const { token } = await getSession();
+        const user = await getUserController(token);
 
-        const data = await res.json();
-
-        if (!res.ok)
-            return { message: data.message || "Failed to fetch user" };
-
-        return { message: "Fetch user successfully", fetchedUser: data.user };
+        return { message: "Fetch user successfully", fetchedUser: user };
     } catch (error) {
         return { message: `Failed to fetch user: ${error}`, fetchedUser: null };
     }

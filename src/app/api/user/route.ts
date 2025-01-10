@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/_lib/database";
 import { getUserService, updateUserService, validateUserService } from "./services/userService";
-import redisClient, { deleteRedisCache } from "@/_utils/redis";
+import { deleteRedisCache } from "@/_utils/redis";
 
 export async function GET(req: NextRequest) { // Get user
     try {
@@ -10,15 +10,8 @@ export async function GET(req: NextRequest) { // Get user
         const user_id = req.headers.get('user_id');
         if (!user_id)
             throw new Error('Unauthorized');
-        
-
-        const cached_user = await redisClient.get(user_id);
-        if (cached_user)
-            return NextResponse.json({ message: 'Authorized Cached user', cached_user }, { status: 200 });
 
         const user = await getUserService(user_id);
-
-        await redisClient.set(user_id, JSON.stringify(user), { EX: 300 });
 
         return NextResponse.json({ message: 'Authorized', user }, { status: 200 });
     } catch (error) {

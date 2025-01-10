@@ -1,4 +1,0 @@
-black: #26323a
-grey: #f3f3f3
-dark grey: #e9e9e9
-

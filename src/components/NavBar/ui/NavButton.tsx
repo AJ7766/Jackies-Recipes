@@ -2,7 +2,6 @@
 import { activeLink } from "@/app/services/navBarServices";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect } from "react";
 
 interface NavButtonProps {
   name: string;

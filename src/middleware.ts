@@ -49,6 +49,7 @@ export async function middleware(req: NextRequest) {
     }
 
     if (
+        (pathname === '/api/user' && req.method === 'GET') ||
         (pathname === '/api/user' && req.method === 'PUT') ||
         (pathname === '/api/followers' && req.method === 'POST') ||
         (pathname === '/api/followers' && req.method === 'PUT') ||
@@ -66,6 +67,7 @@ export async function middleware(req: NextRequest) {
                 const session = await getSession();
                 token = session.token;
             }
+            
             if (!token)
                 return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
 
