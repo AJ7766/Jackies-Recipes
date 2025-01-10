@@ -1,10 +1,16 @@
+"use server"
+import { getSession } from "@/_utils/session";
+
 export const postNewFollowerAPI = async (username: string) => {
+    const { token } = await getSession()
     try {
-        const res = await fetch('/api/followers', {
+        const res = await fetch(process.env.NODE_ENV === 'production'
+            ? 'https://jackies-recipes.vercel.app/api/followers'
+            : 'http://localhost:3000/api/followers', {
             method: 'POST',
             body: JSON.stringify(username),
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
         });
@@ -21,12 +27,15 @@ export const postNewFollowerAPI = async (username: string) => {
 }
 
 export const updateUnfollowerAPI = async (username: string) => {
+    const { token } = await getSession()
     try {
-        const res = await fetch('/api/followers', {
+        const res = await fetch(process.env.NODE_ENV === 'production'
+            ? 'https://jackies-recipes.vercel.app/api/followers'
+            : 'http://localhost:3000/api/followers', {
             method: 'PUT',
             body: JSON.stringify(username),
             headers: {
-                'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
         });
