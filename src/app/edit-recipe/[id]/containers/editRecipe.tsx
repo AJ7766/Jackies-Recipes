@@ -1,90 +1,26 @@
 "use client"
-import React, { useEffect, useState } from "react";
-import { useAuth } from "@/app/_context/AuthContext";
-import { fetchGetRecipeAPI } from "../services/fetchGetRecipeAPI";
+import React, { useState } from "react";
 import EditRecipeComponent from "../_components/EditRecipeComponent";
-import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, updateIngredientComponent, updateInstruction } from "@/app/_services/recipeServices";
-import ErrorPage from "@/app/_errors/ErrorPage";
+import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, updateIngredientComponent, updateInstruction } from "@/app/services/recipeServices";
 import { fetchUpdateRecipeAPI } from "../services/fetchUpdateRecipeAPI";
 import { useRouter } from "next/navigation";
 import { convertFileToBase64, convertFileToFormData, getPublicId, validateImage } from "@/_utils/imageUtils";
 import { fetchUpdateImageAPI } from "@/app/settings/services/fetchUpdateImageAPI";
 import { RecipeFormProps } from "@/_types/RecipeTypes";
+import ErrorPage from "@/error/page";
 
-export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
-    const [recipe, setRecipe] = useState<RecipeFormProps>({
-        title: "",
-        image: "",
-        ingredients: [
-            {
-                component: "",
-                ingredients: [
-                    {
-                        ingredient: "",
-                        amount: undefined,
-                        unit: "",
-                    },
-                ],
-            },
-        ],
-        servings: undefined,
-        macros: {
-            carbs: undefined,
-            protein: undefined,
-            fat: undefined,
-            calories: undefined,
-        },
-        instructions: [
-            {
-                instruction: "",
-            },
-        ],
-    });
+export default function EditRecipe({ serverRecipe, userHasRecipe, recipe_id }: { serverRecipe: RecipeFormProps, userHasRecipe: boolean, recipe_id: string }) {
+    const [recipe, setRecipe] = useState<RecipeFormProps>(serverRecipe);
     const [loadingBtn, setLoadingBtn] = useState(false);
     const [message, setMessage] = useState("");
-    const [userHasRecipe, setUserHasRecipe] = useState(false);
-    const [caloriesPlaceholder, setCaloriesPlaceholder] = useState<string>();
-    const [isFetching, setIsFetcing] = useState(true);
-    const [isChecked, setIsChecked] = useState(false);
+    const [isChecked, setIsChecked] = useState(recipe.macros?.carbs === 0 &&
+        recipe.macros?.protein === 0 &&
+        recipe.macros?.fat === 0 &&
+        recipe.macros?.calories === 0);
     const [cloudinaryData, setCloudinaryData] = useState<FormData>();
-    const [publicId, setPublicId] = useState('');
+    const [publicId, setPublicId] = useState(getPublicId(serverRecipe.image));
     const router = useRouter();
-
-    useEffect(() => {
-        const fetchRecipeAPI = async () => {
-            setIsFetcing(true);
-            if(!recipe_id){
-                setIsFetcing(false);
-                return alert("Invalid recipe ID");
-            }
-
-            const { message, fetchedRecipe, userHasRecipe } = await fetchGetRecipeAPI(recipe_id)
-
-            if (!fetchedRecipe || !userHasRecipe) {
-                console.error(message);
-                setIsFetcing(false);
-                return <ErrorPage />
-            }
-            setUserHasRecipe(userHasRecipe);
-            setRecipe(fetchedRecipe);
-            setIsFetcing(false);
-            setPublicId(getPublicId(fetchedRecipe.image));
-        }
-        fetchRecipeAPI()
-    }, [])
-
-    useEffect(() => {
-        if (
-            recipe.macros?.carbs === 0 &&
-            recipe.macros?.protein === 0 &&
-            recipe.macros?.fat === 0 &&
-            recipe.macros?.calories === 0
-        )
-            return;
-        recipe.macros && setIsChecked(true);
-        setCaloriesPlaceholder(calculateCalories(recipe));
-    }, [recipe.macros]);
-
+    
     const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
@@ -243,9 +179,6 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
         });
     }
 
-    if (isFetching)
-        return null;
-
     if (!userHasRecipe)
         return <ErrorPage />;
 
@@ -258,7 +191,7 @@ export default function EditRecipe({ recipe_id }: { recipe_id: string }) {
         handleImageChange={handleImageChange}
         handleInputDelete={handleInputDelete}
         handleInputCreate={handleInputCreate}
-        caloriesPlaceholder={caloriesPlaceholder}
+        caloriesPlaceholder={calculateCalories(recipe)}
         isChecked={isChecked}
         toggleSlider={toggleSlider}
         recipe_id={recipe_id}

@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { handleImageClick } from "@/app/_services/recipeServices";
+import { handleImageClick } from "@/app/services/recipeServices";
 import { CldImage } from "next-cloudinary";
 import { RecipeFormProps } from "@/_types/RecipeTypes";
 const camera = "/images/icons/camera.svg";

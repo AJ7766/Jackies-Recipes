@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchPostRecipeAPI } from "@/app/add-recipe/services/fetchPostRecipeAPI";
 import AddRecipeComponent from "../components/AddRecipeComponent";
-import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, updateIngredientComponent, updateInstruction } from "@/app/_services/recipeServices";
+import { calculateCalories, createField, createIngredientComponent, createInstruction, deleteIngredientComponent, deleteInstruction, updateIngredientComponent, updateInstruction } from "@/app/services/recipeServices";
 import { convertFileToBase64, convertFileToFormData, validateImage } from "@/_utils/imageUtils";
 import { fetchUpdateImageAPI } from "@/app/settings/services/fetchUpdateImageAPI";
 import { RecipeFormProps } from "@/_types/RecipeTypes";

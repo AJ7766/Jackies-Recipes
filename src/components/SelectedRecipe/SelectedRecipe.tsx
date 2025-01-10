@@ -1,7 +1,7 @@
 "use client";
-import { useSelectedRecipe } from "@/app/_context/SelectedRecipeContext";
-import { useCheckScrollbars } from "@/app/_hooks/checkScrollbars";
-import { useIsResponsive } from "@/app/_hooks/useIsResponsive";
+import { useSelectedRecipe } from "@/_context/SelectedRecipeContext";
+import { useCheckScrollbars } from "@/_hooks/checkScrollbars";
+import { useIsResponsive } from "@/_hooks/useIsResponsive";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import { RecipeMacros } from "./ui/RecipeMacros";

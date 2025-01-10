@@ -1,16 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectDB } from "@/_lib/database";
 import { createRecipeService, deleteRecipeService, getPublicIdFromUrlService, getRecipeIdFromUrlService, getRecipeService, updateRecipeService, validateRecipeService } from "./services/recipeServices";
 import { addRecipeToUserService, checkUserHasRecipeService } from "../profile/services/profileServices";
 import { getUserService } from "../user/services/userService";
 import { deleteRedisCache } from "@/_utils/redis";
 import { deleteOldImageFileService } from "../cloudinary/cloudinaryService";
 import { RecipeProps } from "@/_types/RecipeTypes";
+import { connectDB } from "../../../_lib/database";
 
 export async function GET(req: NextRequest) { // Get recipe
     try {
         await connectDB();
         const user_id_header = req.headers.get('user_id');
+        
         if (!user_id_header) throw new Error('Unauthorized');
         const recipe_id = await getRecipeIdFromUrlService(req);
 

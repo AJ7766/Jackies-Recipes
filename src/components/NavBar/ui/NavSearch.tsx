@@ -3,9 +3,9 @@ import Image from "next/image"
 import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 import { UserProps } from "@/_types/UserTypes";
 import { RecipeProps } from "@/_types/RecipeTypes";
-import { useIsResponsive } from "@/app/_hooks/useIsResponsive";
-import { useDebounce } from "@/app/_hooks/useDebounce";
-import { handleBlurInput, handleFocusInput } from "@/app/_services/navBarServices";
+import { useIsResponsive } from "@/_hooks/useIsResponsive";
+import { useDebounce } from "@/_hooks/useDebounce";
+import { handleBlurInput, handleFocusInput } from "@/app/services/navBarServices";
 import { fetchGetSearchAPI } from "@/server/api/fetchGetSearchAPI";
 import searchGlass from "../../../../public/images/icons/search.svg"
 import Link from "next/link";

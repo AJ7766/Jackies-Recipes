@@ -1,5 +1,5 @@
-import { getRecipesController } from "../_ssr/recipes/recipesController";
-import { RecipeList } from "../_components/RecipeList";
+import { getRecipesController } from "../../server/actions/recipes/recipesController";
+import { RecipeList } from "../components/RecipeList";
 import SelectedRecipe from "../../components/SelectedRecipe/SelectedRecipe";
 
 export default async function Home() {

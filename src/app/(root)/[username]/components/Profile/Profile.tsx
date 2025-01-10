@@ -1,5 +1,5 @@
 "use client"
-import { useIsResponsive } from "@/app/_hooks/useIsResponsive";
+import { useIsResponsive } from "@/_hooks/useIsResponsive";
 import React, { useState } from "react";
 import { ProfilePicture } from "./ui/ProfilePicture";
 import { ProfileStats } from "./ui/ProfileStats";
@@ -80,7 +80,7 @@ export const Profile = React.memo(({ serverProfile, ownProfile, user_id, serverI
 
           <p className="text-[13px] font-medium md:text-sm md:mt-4">{profile?.fullName}</p>
           <p className="block text-gray-600 md:hidden">@{profile.username}</p>
-          
+
           {profile.userContent?.bio &&
             <Bio bio={profile.userContent?.bio} />
           }

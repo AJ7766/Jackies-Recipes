@@ -1,7 +1,7 @@
 "use client"
 import { SearchRecipe } from "./SearchRecipeComponent";
 import { useEffect, useState } from "react";
-import { useSelectedRecipe } from "@/app/_context/SelectedRecipeContext";
+import { useSelectedRecipe } from "@/_context/SelectedRecipeContext";
 import { RecipeProps } from "@/_types/RecipeTypes";
 import SelectedRecipe from "@/components/SelectedRecipe/SelectedRecipe";
 import { CldImage } from "next-cloudinary";

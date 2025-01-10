@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { registerValidation } from './app/_middlewares/validations/registerValidation';
 import { getSession } from './_utils/session';
 import { verifyToken } from './_utils/jwt';
+import { registerValidation } from './_middlewares/validations/registerValidation';
 
 export async function middleware(req: NextRequest) {
     const res = NextResponse.next();
@@ -57,7 +57,15 @@ export async function middleware(req: NextRequest) {
         (pathname === '/api/recipe' && req.method === 'PUT') ||
         (pathname === '/api/recipe' && req.method === 'DELETE')) {
         try {
-            const { token } = await getSession();
+            let token: string | undefined;
+
+            const authHeaders = req.headers.get('authorization');
+            if (authHeaders) {
+                token = authHeaders.split(' ')[1];
+            } else {
+                const session = await getSession();
+                token = session.token;
+            }
             if (!token)
                 return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
 

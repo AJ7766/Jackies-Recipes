@@ -1,6 +1,6 @@
 "use client"
 import { RecipeProps } from "@/_types/RecipeTypes";
-import { useSelectedRecipe } from "@/app/_context/SelectedRecipeContext";
+import { useSelectedRecipe } from "@/_context/SelectedRecipeContext";
 import { CldImage } from "next-cloudinary"
 import Link from "next/link";
 const profilePicture = '/images/profilePicture.png';

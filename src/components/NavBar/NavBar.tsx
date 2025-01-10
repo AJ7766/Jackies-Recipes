@@ -3,10 +3,10 @@ const NavSearchMobile = dynamic(() => import("./ui/NavSearchMobile"), { ssr: tru
 import Link from "next/link";
 import Image from "next/image";
 import { Dropdown } from "./ui/Dropdown";
-import { getSession } from "@/_utils/session";
-import { getUserController } from "@/app/_ssr/user/userController";
+import { getUserController } from "@/server/actions/user/userController";
 import { NavSearch } from "./ui/NavSearch";
 import { NavButton } from "./ui/NavButton";
+import { getSession } from "@/_utils/session";
 const logo = "https://res.cloudinary.com/denumkkcx/image/upload/v1734112468/logo-text-free_c6hbgq.webp";
 const searchGlass = "/images/icons/search.svg";
 const profilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
@@ -27,7 +27,7 @@ export async function NavBar() {
         <div className="navBarLogoComponent">
           <Image
             src={logo}
-            alt="logo"
+            alt="Jackies Recipes logo"
             width={40}
             height={40}
             fetchPriority="high"
@@ -36,15 +36,16 @@ export async function NavBar() {
         </div>
       </Link>
       <NavButton
-        name={'Home'}
-        href={'/'}
-        className={'home'}
+        name='Home'
+        href='/'
+        alt='Home'
+        className='home'
         image={home} />
       <div className="navBarComponent searchMobileIcon grid md:hidden">
         <Image
           src={searchGlass}
           id="searchGlass"
-          alt="search-glass"
+          alt="Search for recipes"
           width={30}
           height={30}
         />
@@ -55,11 +56,13 @@ export async function NavBar() {
           <NavButton
             name={'Profile'}
             href={`/${user.username}`}
-            className={'profilePicture'}
+            alt={`${user.fullName}'s profile picture`}
+            className='profilePicture'
             image={user.userContent?.profilePicture || profilePicture} />
           <NavButton
-            name={'Add Recipe'}
-            href={'/add-recipe'}
+            name='Add Recipe'
+            alt="Add a new recipe to your collection"
+            href='/add-recipe'
             image={addRecipe} />
           <Dropdown />
         </>

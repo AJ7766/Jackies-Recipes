@@ -2,7 +2,7 @@ import { render, screen, act } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { useRouter } from "next/navigation";
 import Home from "@/app/(root)/page";
-import { useAuth } from "@/app/_context/AuthContext";
+import { useAuth } from "@/_context/AuthContext";
 
 beforeEach(() => {
   jest.clearAllMocks();

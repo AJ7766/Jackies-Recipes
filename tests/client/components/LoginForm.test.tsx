@@ -7,7 +7,7 @@ import {
 } from "@testing-library/react";
 import fetchMock from "jest-fetch-mock";
 import "@testing-library/jest-dom";
-import { useAuth } from "@/app/_context/AuthContext";
+import { useAuth } from "@/_context/AuthContext";
 import { useRouter } from "next/navigation";
 import LoginForm from "@/app/_components/LoginComponent";
 
