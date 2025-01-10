@@ -9,7 +9,7 @@ interface ProfilePictureProps {
 const defaultProfilePicture = "https://res.cloudinary.com/denumkkcx/image/upload/v1734030055/profile-picture_szc0kx.webp";
 
 export const ProfilePicture = ({ src, alt, size }: ProfilePictureProps) => {
-  const imageSrc = src || defaultProfilePicture;  // Use the provided src or default to the fallback
+  const imageSrc = src || defaultProfilePicture;
   return (
     <CldImage
       className={`rounded-full object-cover object-center ${size}`}
@@ -19,7 +19,7 @@ export const ProfilePicture = ({ src, alt, size }: ProfilePictureProps) => {
       width={160}
       fetchPriority="high"
       priority
-      sizes="(max-width: 1024px) 100px, 500px"
+      sizes="(max-width: 1024px) 300px, 500px"
       format="webp"
     />
   );

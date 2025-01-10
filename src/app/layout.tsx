@@ -18,12 +18,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1"
         />
       </head>
-        <body className={`${fontVariables}`}>
-            {children}
-            <SpeedInsights />
-            <CookiesConsent />
-          <script src="https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ" async></script>
-        </body>
+      <body className={`${fontVariables}`}>
+        {children}
+        <SpeedInsights />
+        <CookiesConsent />
+        <script src="https://www.googletagmanager.com/gtag/js?id=G-W37LZK4XFJ" async></script>
+      </body>
     </html >
   );
 }
