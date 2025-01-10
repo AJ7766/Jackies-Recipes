@@ -4,7 +4,7 @@ export const fetchGetRecipeAPI = async (recipe_id: string) => {
     try {
         const { token } = await getSession()
         const res = await fetch(process.env.NODE_ENV === 'production'
-            ? `https://jackies-recipes-git-updating-ssr-jackie-huynhs-projects.vercel.app/api/recipe?recipeId=${recipe_id}`
+            ? `https://jackies-recipes.vercel.app/api/recipe?recipeId=${recipe_id}`
             : `http://localhost:3000/api/recipe?recipeId=${recipe_id}`, {
             method: "GET",
             headers: {
@@ -12,7 +12,7 @@ export const fetchGetRecipeAPI = async (recipe_id: string) => {
             },
         });
         const data = await res.json();
-        
+
         if (!res.ok) {
             return { message: data.message || "Failed to get recipe", fetchedRecipe: null, userHasRecipe: false }
         }
