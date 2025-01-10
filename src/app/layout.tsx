@@ -15,7 +15,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
         <meta
           name="viewport"
-          content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=1"
+          content="width=device-width, height=device-height, initial-scale=1, minimum-scale=1, maximum-scale=5"
         />
       </head>
       <body className={`${fontVariables}`}>
