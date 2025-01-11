@@ -6,13 +6,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <>
       <NavBar />
-      <div className="pl-96">Test</div>
-      <SelectedRecipeProvider>
         <div className="wrapper">
           {children}
         </div>
         <SpeedInsights />
-      </SelectedRecipeProvider>
     </>
   );
 }

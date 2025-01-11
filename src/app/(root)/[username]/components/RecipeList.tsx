@@ -6,11 +6,8 @@ import { RecipeProps } from "@/_types/RecipeTypes";
 import Image from "next/image";
 import Link from "next/link";
 import { UserProps } from "@/_types/UserTypes";
-import dynamic from "next/dynamic";
-const SelectedRecipe = dynamic(() => import('@/components/SelectedRecipe/SelectedRecipe'), { ssr: false });
 
 export default function RecipeList({ profile }: { profile: UserProps }) {
-  const { recipe, selectedRecipeHandler } = useSelectedRecipe();
   const [searchRecipe, setSearchRecipe] = useState('')
   const [recipes, setRecipes] = useState<RecipeProps[]>(profile.recipes || []);
 
@@ -42,7 +39,6 @@ export default function RecipeList({ profile }: { profile: UserProps }) {
   }
 
   return <>
-    {recipe && <SelectedRecipe />}
     <SearchRecipe searchRecipe={searchRecipe} handleSearchChange={handleSearchChange} />
     <div className="recipe-wrapper">
       {recipes.some(recipe => recipe.title) ? (
