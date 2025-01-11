@@ -6,10 +6,12 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <>
       <NavBar />
+      <SelectedRecipeProvider>
         <div className="wrapper">
           {children}
         </div>
         <SpeedInsights />
+      </SelectedRecipeProvider>
     </>
   );
 }
