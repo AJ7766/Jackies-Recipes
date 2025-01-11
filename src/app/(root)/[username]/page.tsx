@@ -22,7 +22,6 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
 
   return (
     <>
-    <div>Test</div>
       <Profile serverProfile={serverProfile} ownProfile={ownProfile} user_id={session.user_id} serverIsFollowing={isFollowing || false} />
       <RecipeList profile={serverProfile} />
     </>
