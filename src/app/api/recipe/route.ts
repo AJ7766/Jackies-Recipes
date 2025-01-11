@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { createRecipeService, deleteRecipeService, getPublicIdFromUrlService, getRecipeIdFromUrlService, getRecipeService, updateRecipeService, validateRecipeService } from "./services/recipeServices";
 import { addRecipeToUserService, checkUserHasRecipeService } from "../profile/services/profileServices";
 import { getUserService } from "../user/services/userService";
-import { deleteRedisCache } from "@/_utils/redis";
 import { deleteOldImageFileService } from "../cloudinary/cloudinaryService";
 import { RecipeProps } from "@/_types/RecipeTypes";
 import { connectDB } from "../../../_lib/database";
@@ -39,8 +38,6 @@ export async function POST(req: NextRequest) { // Add recipe
         const new_recipe = await createRecipeService(recipe, user_id);
         await addRecipeToUserService(new_recipe, user_id);
 
-        await deleteRedisCache(user_id);
-
         return NextResponse.json({ message: "Success creating recipe" }, { status: 200 });
     } catch (error) {
         console.error("Error creating recipe:", error);
@@ -60,8 +57,6 @@ export async function PUT(req: NextRequest) { // Update recipe
         await getUserService(user_id);
 
         await updateRecipeService(recipe);
-
-        await deleteRedisCache(user_id);
 
         return NextResponse.json({ message: "Success updating recipe" }, { status: 200 });
     } catch (error) {
@@ -85,8 +80,6 @@ export async function DELETE(req: NextRequest) { // Delete recipe
         await Promise.all([
             (public_id && typeof public_id === 'string') && deleteOldImageFileService(public_id),
             deleteRecipeService(recipe_id)]);
-
-        await deleteRedisCache(user_id);
 
         return NextResponse.json({ message: 'Recipe successfully deleted' }, { status: 200 });
     } catch (error) {
