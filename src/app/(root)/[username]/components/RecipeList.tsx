@@ -10,6 +10,7 @@ import { UserProps } from "@/_types/UserTypes";
 export default function RecipeList({ profile }: { profile: UserProps }) {
   const [searchRecipe, setSearchRecipe] = useState('')
   const [recipes, setRecipes] = useState<RecipeProps[]>(profile.recipes || []);
+  const [recipe, setRecipe] = useState<RecipeProps | null>(null);
 
   useEffect(() => searchRecipe && profile.recipes ? setRecipes(
     profile.recipes.filter((recipe) =>
@@ -46,7 +47,7 @@ export default function RecipeList({ profile }: { profile: UserProps }) {
           <div className="recipe-container" key={recipeIndex}>
             <Image
               src={recipe.image || ""}
-              onClick={() => selectedRecipeHandler(({
+              onClick={() => setRecipe(({
                 _id: recipe._id,
                 user: {
                   _id: "",
@@ -75,7 +76,7 @@ export default function RecipeList({ profile }: { profile: UserProps }) {
             />
             <div className='recipe-info-container'>
               <h1 className='recipe-title cursor-pointer'
-                onClick={() => selectedRecipeHandler(({
+                onClick={() => setRecipe(({
                   _id: recipe._id,
                   user: {
                     _id: "",
