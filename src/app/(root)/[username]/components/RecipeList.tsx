@@ -3,7 +3,6 @@ import { SearchRecipe } from "./SearchRecipeComponent";
 import { useEffect, useState } from "react";
 import { useSelectedRecipe } from "@/_context/SelectedRecipeContext";
 import { RecipeProps } from "@/_types/RecipeTypes";
-import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
 import { UserProps } from "@/_types/UserTypes";
@@ -49,7 +48,7 @@ export default function RecipeList({ profile }: { profile: UserProps }) {
       {recipes.some(recipe => recipe.title) ? (
         recipes.map((recipe, recipeIndex) => (
           <div className="recipe-container" key={recipeIndex}>
-            <CldImage
+            <Image
               src={recipe.image || ""}
               onClick={() => selectedRecipeHandler(({
                 _id: recipe._id,
@@ -71,14 +70,12 @@ export default function RecipeList({ profile }: { profile: UserProps }) {
                 instructions: recipe.instructions,
               }))}
               alt={recipe.title}
-              crop='limit'
               width={1280}
               height={1280}
               className="recipe-img"
               fetchPriority="high"
               loading="lazy"
               sizes="(max-width: 768px) 33vw, 500px"
-              format="webp"
             />
             <div className='recipe-info-container'>
               <h1 className='recipe-title cursor-pointer'
@@ -105,7 +102,7 @@ export default function RecipeList({ profile }: { profile: UserProps }) {
               </h1>
               <p className="text-center text-gray-500">@{profile.username}</p>
               <div className='recipe-profile-picture-container'>
-                <CldImage
+                <Image
                   width={50}
                   height={50}
                   src={profile.userContent?.profilePicture || ''}

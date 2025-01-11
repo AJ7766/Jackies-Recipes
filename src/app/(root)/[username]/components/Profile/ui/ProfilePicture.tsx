@@ -1,4 +1,4 @@
-import { CldImage } from "next-cloudinary";
+import Image from "next/image";
 
 interface ProfilePictureProps {
   src?: string;  // src is now optional
@@ -11,16 +11,14 @@ const defaultProfilePicture = "https://res.cloudinary.com/denumkkcx/image/upload
 export const ProfilePicture = ({ src, alt, size }: ProfilePictureProps) => {
   const imageSrc = src || defaultProfilePicture;
   return (
-    <CldImage
+    <Image
       className={`rounded-full object-cover object-center ${size}`}
       src={imageSrc}
       alt={alt}
       height={160}
       width={160}
-      fetchPriority="high"
-      priority
       sizes="(max-width: 1024px) 300px, 500px"
-      format="webp"
+      loading="lazy"
     />
   );
 }

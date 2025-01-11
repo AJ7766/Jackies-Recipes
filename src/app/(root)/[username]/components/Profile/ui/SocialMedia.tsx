@@ -16,6 +16,6 @@ const socialMediaIcons = {
 
 export const SocialMedia = ({ url, icon }: SocialMediaLinkProps) => (
   <Link target="_blank" href={url.startsWith("http") ? url : `https://${url}`}>
-    <Image src={socialMediaIcons[icon]} alt={icon} width={22} height={22} />
+    <Image src={socialMediaIcons[icon]} alt={icon} width={22} height={22} loading="lazy" />
   </Link>
 )

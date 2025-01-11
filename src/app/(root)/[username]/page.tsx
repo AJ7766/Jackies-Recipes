@@ -6,9 +6,10 @@ import { Profile } from "./components/Profile/Profile";
 export default async function ProfilePage({ params }: { params: Promise<{ username: string }> }) {
   const session = await getSession();
   const { username } = await params;
+  console.time('getProfileController');
   const { serverProfile, isFollowing } = await getProfileController(username.toLocaleLowerCase(), session.user_id);
   const ownProfile = username === session.username;
-
+  console.timeEnd('getProfileController');
   if (!serverProfile)
     return (
       <div className="errorContainer">
