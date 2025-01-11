@@ -1,11 +1,10 @@
 "use client"
 import { RecipeProps } from "@/_types/RecipeTypes";
 import React, { createContext, useContext, useState, ReactNode } from "react";
-import { useEffect } from 'react';
 
 interface SelectedRecipeContextType {
     recipe: RecipeProps | null;
-    selectedRecipeHandler: (recipe: RecipeProps | null) => void;
+    selectedRecipeHandler: (recipe: RecipeProps) => void;
     changeURL: (username: string, recipe_id: string) => void;
     handleCloseRecipe: () => void;
     toggleScrollbars: (disable: boolean) => void;
@@ -24,7 +23,7 @@ const handleCloseRecipe = () => {
 export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) => {
     const [recipe, setRecipe] = useState<RecipeProps | null>(null);
 
-    const selectedRecipeHandler = (recipe: RecipeProps | null) => {
+    const selectedRecipeHandler = (recipe: RecipeProps) => {
         if (!recipe) return null;
         changeURL(recipe.user.username, recipe._id);
         setRecipe(recipe);
