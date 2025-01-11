@@ -3,14 +3,15 @@ import { SearchRecipe } from "./SearchRecipeComponent";
 import { useEffect, useState } from "react";
 import { useSelectedRecipe } from "@/_context/SelectedRecipeContext";
 import { RecipeProps } from "@/_types/RecipeTypes";
-import SelectedRecipe from "@/components/SelectedRecipe/SelectedRecipe";
 import { CldImage } from "next-cloudinary";
 import Image from "next/image";
 import Link from "next/link";
 import { UserProps } from "@/_types/UserTypes";
+import dynamic from "next/dynamic";
+const SelectedRecipe = dynamic(() => import('@/components/SelectedRecipe/SelectedRecipe'), { ssr: false });
 
 export default function RecipeList({ profile }: { profile: UserProps }) {
-  const { selectedRecipeHandler } = useSelectedRecipe();
+  const { recipe, selectedRecipeHandler } = useSelectedRecipe();
   const [searchRecipe, setSearchRecipe] = useState('')
   const [recipes, setRecipes] = useState<RecipeProps[]>(profile.recipes || []);
 
@@ -42,7 +43,7 @@ export default function RecipeList({ profile }: { profile: UserProps }) {
   }
 
   return <>
-    {profile.recipes && <SelectedRecipe />}
+    {recipe && <SelectedRecipe />}
     <SearchRecipe searchRecipe={searchRecipe} handleSearchChange={handleSearchChange} />
     <div className="recipe-wrapper">
       {recipes.some(recipe => recipe.title) ? (

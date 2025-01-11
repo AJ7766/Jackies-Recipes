@@ -35,6 +35,7 @@ export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) =>
             document.body.classList.remove('overflow-hidden');
             setRecipe(null)
         }
+
         if (window.innerWidth > 1024) {
             if (disable) {
                 document.body.classList.add('pr-[7px]');
