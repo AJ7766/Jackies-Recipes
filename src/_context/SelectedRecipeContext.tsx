@@ -29,6 +29,8 @@ export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) =>
     }
 
     const toggleScrollbars = (disable: boolean) => {
+        if (typeof window !== 'undefined') {
+
         if (disable) {
             document.body.classList.add('overflow-hidden');
         } else {
@@ -43,6 +45,8 @@ export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) =>
                 document.body.classList.remove('pr-[7px]');
             }
         }
+        document.body.offsetHeight;
+    }
     }
     return (
         <SelectedRecipeContext.Provider value={{ recipe, selectedRecipeHandler, changeURL, handleCloseRecipe, toggleScrollbars }}>
