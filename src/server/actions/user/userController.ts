@@ -8,12 +8,14 @@ export const getUserController = async () => {
     try {
         const { token, username } = await getSession();
 
+        if (!token)
+            return null;
+
         const decoded = await verifyToken(token);
 
         const cachedUser = await getRedisCache(username);
-        if (cachedUser) 
+        if (cachedUser)
             return cachedUser;
-
 
         await connectDB();
 

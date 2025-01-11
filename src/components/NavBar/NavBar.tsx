@@ -13,8 +13,9 @@ const home = "/images/icons/home.svg";
 const addRecipe = "/images/icons/add-recipe.svg";
 
 export async function NavBar() {
-  const user = await getUserController();
 
+  const user = await getUserController();
+  
   return <>
     <NavSearchMobile />
     <div className="navContainer">
