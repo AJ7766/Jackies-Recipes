@@ -10,6 +10,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
   const { serverProfile, isFollowing } = await getProfileController(username.toLocaleLowerCase(), session.user_id);
   const ownProfile = username === session.username;
   console.timeEnd('getProfileController');
+  
   if (!serverProfile)
     return (
       <div className="errorContainer">
@@ -21,6 +22,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
 
   return (
     <>
+    <div>Test</div>
       <Profile serverProfile={serverProfile} ownProfile={ownProfile} user_id={session.user_id} serverIsFollowing={isFollowing || false} />
       <RecipeList profile={serverProfile} />
     </>
