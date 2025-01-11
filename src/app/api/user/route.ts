@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/_lib/database";
 import { getUserService, updateUserService, validateUserService } from "./services/userService";
-import { deleteRedisCache } from "@/_utils/redis";
+import { delRedisCache } from "@/_utils/redis";
 
 export async function GET(req: NextRequest) { // Get user
     try {
@@ -30,7 +30,7 @@ export async function PUT(req: NextRequest) { // Update user
 
         await updateUserService(user_id, validated_user);
 
-        await deleteRedisCache(user_id);
+        await delRedisCache(user_id);
 
         return NextResponse.json({ message: `Success!`, updated_user: validated_user }, { status: 201 })
     } catch (error: any) {

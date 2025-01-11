@@ -29,7 +29,9 @@ export const setRedisCache = async (username: string, data: CachedUserProps) => 
 export const getRedisCache = async (username: string): Promise<CachedUserProps | null> => {
   try {
     const data = await redisClient.get(username);
-    if (!data) return null;
+    if (!data) 
+      return null;
+    
     return JSON.parse(data) as CachedUserProps;
   } catch (error) {
     console.error('Error getting Redis cache:', error);
