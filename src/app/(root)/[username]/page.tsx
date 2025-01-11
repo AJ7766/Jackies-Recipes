@@ -7,7 +7,6 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
   const session = await getSession();
   const { username } = await params;
   const { serverProfile, isFollowing } = await getProfileController(username.toLocaleLowerCase(), session.user_id);
-
   const ownProfile = username === session.username;
 
   if (!serverProfile)

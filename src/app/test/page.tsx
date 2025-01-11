@@ -1,3 +1,8 @@
+import { NavBar } from "@/components/NavBar/NavBar"
+
 export default function TestPage() {
-    return <h1>Test Page</h1>
+    return <>
+        <NavBar />
+        <h1>Test Page</h1>
+    </>
 }
