@@ -1,10 +1,11 @@
 "use client"
 import { RecipeProps } from "@/_types/RecipeTypes";
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { useEffect } from 'react';
 
 interface SelectedRecipeContextType {
     recipe: RecipeProps | null;
-    selectedRecipeHandler: (recipe: RecipeProps) => void;
+    selectedRecipeHandler: (recipe: RecipeProps | null) => void;
     changeURL: (username: string, recipe_id: string) => void;
     handleCloseRecipe: () => void;
     toggleScrollbars: (disable: boolean) => void;
@@ -23,31 +24,30 @@ const handleCloseRecipe = () => {
 export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) => {
     const [recipe, setRecipe] = useState<RecipeProps | null>(null);
 
-    const selectedRecipeHandler = (recipe: RecipeProps) => {
+    const selectedRecipeHandler = (recipe: RecipeProps | null) => {
+        if (!recipe) return null;
         changeURL(recipe.user.username, recipe._id);
         setRecipe(recipe);
     }
 
     const toggleScrollbars = (disable: boolean) => {
-        if (typeof window !== 'undefined') {
-
         if (disable) {
-            document.body.classList.add('overflow-hidden');
+            document.body.style.overflow = 'hidden';
         } else {
-            document.body.classList.remove('overflow-hidden');
-            setRecipe(null)
+            document.body.style.overflow = '';
+            setRecipe(null);
         }
 
         if (window.innerWidth > 1024) {
             if (disable) {
-                document.body.classList.add('pr-[7px]');
+                document.body.style.paddingRight = '7px';
             } else {
-                document.body.classList.remove('pr-[7px]');
+                document.body.style.paddingRight = '';
             }
         }
-        document.body.offsetHeight;
-    }
-    }
+    };
+
+
     return (
         <SelectedRecipeContext.Provider value={{ recipe, selectedRecipeHandler, changeURL, handleCloseRecipe, toggleScrollbars }}>
             {children}

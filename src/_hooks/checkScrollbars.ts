@@ -8,5 +8,5 @@ export const useCheckScrollbars = (recipe: RecipeProps | null, toggleScrollbars:
         if (recipe && recipe.user && recipe._id) {
             toggleScrollbars(pathname === `/${recipe.user.username}/${recipe._id}`);
         }
-    }, [pathname, recipe]);
+    }, [pathname]);
 };
