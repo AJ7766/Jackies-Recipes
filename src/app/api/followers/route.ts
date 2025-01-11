@@ -1,4 +1,3 @@
-import { deleteRedisCache } from "@/_utils/redis";
 import { connectDB } from "@/_lib/database";
 import { NextRequest, NextResponse } from "next/server";
 import { postNewFollowerService, updateUnfollowerService } from "./followersService";
@@ -18,7 +17,6 @@ export async function POST(req: NextRequest) { // Add new follower
         await postNewFollowerService(username, user_id, session);
 
         await session.commitTransaction();
-        await deleteRedisCache(user_id);
         return NextResponse.json({ message: "Successfully followed" }, { status: 200 });
     } catch (error) {
         await session.abortTransaction();
@@ -42,7 +40,6 @@ export async function PUT(req: NextRequest) { // Remove follower
         await updateUnfollowerService(username, user_id, session);
 
         await session.commitTransaction();
-        await deleteRedisCache(user_id);
         return NextResponse.json({ message: "Successfully removed follower" }, { status: 200 });
     } catch (error) {
         await session.abortTransaction();
