@@ -21,18 +21,18 @@ export const Loginform = () => {
 
         setLoadingBtn(true);
 
-        const { message, fetchedUser } = await fetchLoginAPI(
+        const { message, success } = await fetchLoginAPI(
             user.username,
             user.password
         );
-        if (!fetchedUser) {
+        if (!success) {
             setMessage(message);
             setLoadingBtn(false);
             return
         }
         setMessage(message);
         setLoadingBtn(false);
-        router.push(`/${fetchedUser.username}`);
+        router.push(`/${user.username}`);
     };
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;

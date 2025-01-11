@@ -4,6 +4,7 @@ import { loginServices } from "./services/loginServices";
 import { comparePasswords } from "@/_utils/bcrypt";
 import { assignToken } from "@/_utils/jwt";
 import { setSession } from "@/_utils/session";
+import { setRedisCache } from "@/_utils/redis";
 
 export async function POST(req: NextRequest) { //Login user
   try {
@@ -16,12 +17,11 @@ export async function POST(req: NextRequest) { //Login user
 
     const token = await assignToken(user._id.toString(), username);
     await setSession(user._id, user.username, token);
+    await setRedisCache(user.username, { username: user.username, userContent: { profilePicture: user.userContent?.profilePicture } });
 
-    const { _id, password, ...processedUser } = user;
-
-    return NextResponse.json({ message: "Successfully logged in", processedUser }, { status: 200 });
+    return NextResponse.json({ message: "Successfully logged in", }, { status: 200 });
   } catch (error) {
     console.error('Login error:', error);
-    return NextResponse.json({ message: error instanceof Error ? error.message : 'Internal server error' }, { status: 500 });
+    return NextResponse.json({ message: error instanceof Error ? error.message : 'Internal server error', success: false }, { status: 500 });
   }
 }
