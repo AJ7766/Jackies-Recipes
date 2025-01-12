@@ -1,7 +1,7 @@
 import { getSession } from "@/_utils/session";
-import RecipeList from "./components/RecipeList";
 import { getProfileController, getProfileMetaController } from "./_ssr/profileController";
 import { Profile } from "./components/Profile/Profile";
+import ProfileRecipeList from "./components/ProfileRecipeList";
 
 export default async function ProfilePage({ params }: { params: Promise<{ username: string }> }) {
   const session = await getSession();
@@ -21,7 +21,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
   return (
     <>
       <Profile serverProfile={serverProfile} ownProfile={ownProfile} user_id={session.user_id} serverIsFollowing={isFollowing || false} />
-      <RecipeList profile={serverProfile} />
+      <ProfileRecipeList profile={serverProfile} ownProfile={ownProfile}/>
     </>
   )
 }

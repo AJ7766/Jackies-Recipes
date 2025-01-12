@@ -1,16 +1,19 @@
+import { getRecipeController } from "@/server/actions/recipe/recipeController";
 import SelectedRecipe from "./containers/SelectedRecipe";
 import { getRecipeMetaController } from "./ssr/recipeController";
 
 export default async function RecipePage({ params }: { params: Promise<{ recipe: string }> }) {
   const { recipe } = await params;
-
-  return <SelectedRecipe recipe_id={recipe} />
+  const fetchedRecipe = await getRecipeController(recipe);
+  
+  console.log("Recipe:", fetchedRecipe)
+  return <SelectedRecipe recipe={JSON.parse(JSON.stringify(fetchedRecipe))} />
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ recipe: string }> }) {
   const { recipe } = await params;
   const { fetchedRecipe, message } = await getRecipeMetaController(recipe);
-  
+
   if (!fetchedRecipe) {
     console.error(message)
     return;

@@ -6,7 +6,6 @@ export const getRecipesController = async () => {
     try {
         const cached_recipes = await redisClient.get('recipes');
         if (cached_recipes) {
-            console.log('Cached Recipes')
             return cached_recipes;
         }
 

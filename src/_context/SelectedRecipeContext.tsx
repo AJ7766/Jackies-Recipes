@@ -1,10 +1,12 @@
 "use client"
 import { RecipeProps } from "@/_types/RecipeTypes";
+import { UserProps } from "@/_types/UserTypes";
+import { Preahvihear } from "next/font/google";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface SelectedRecipeContextType {
     recipe: RecipeProps | null;
-    selectedRecipeHandler: (recipe: RecipeProps) => void;
+    selectedRecipeHandler: (recipe: RecipeProps, profile: UserProps) => void;
     changeURL: (username: string, recipe_id: string) => void;
     handleCloseRecipe: () => void;
     toggleScrollbars: (disable: boolean) => void;
@@ -23,10 +25,13 @@ const handleCloseRecipe = () => {
 export const SelectedRecipeProvider = ({ children }: { children: ReactNode }) => {
     const [recipe, setRecipe] = useState<RecipeProps | null>(null);
 
-    const selectedRecipeHandler = (recipe: RecipeProps) => {
+    const selectedRecipeHandler = (recipe: RecipeProps, profile: UserProps) => {
         if (!recipe) return null;
-        changeURL(recipe.user.username, recipe._id);
-        setRecipe(recipe);
+        changeURL(profile.username, recipe._id);
+        setRecipe({
+            ...recipe,
+            user: profile
+        })
     }
 
     const toggleScrollbars = (disable: boolean) => {

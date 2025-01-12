@@ -1,12 +1,12 @@
 import { connectDB } from "@/_lib/database"
-import { getIsFollowingService, getProfileMetaService, getUserPopulatedService } from "./profileService";
+import { getIsFollowingService, getProfileMetaService, getProfileService } from "./profileService";
 
 export const getProfileController = async (username: string, user_id: string) => {
     try {
         await connectDB();
 
         const [profile, isFollowing] = await Promise.all([
-            getUserPopulatedService(username),
+            getProfileService(username),
             getIsFollowingService(username, user_id)
         ]);
 

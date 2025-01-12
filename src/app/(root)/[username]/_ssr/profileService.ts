@@ -1,7 +1,7 @@
-import { getIsFollowing, getProfileMeta, getUserPopulated } from "./profileRepository";
+import { getIsFollowing, getProfileMeta, getProfile } from "./profileRepository";
 
-export const getUserPopulatedService = async (username: string) => {
-    const user = await getUserPopulated(username);
+export const getProfileService = async (username: string) => {
+    const user = await getProfile(username);
 
     if (!user)
         throw new Error("User not found");
