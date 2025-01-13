@@ -1,6 +1,6 @@
 import React from "react";
 import { RecipeProps } from '@/_types/RecipeTypes';
-import { RecipeCard } from "./ui/RecipeCard";
+import { RecipeCard } from "./RecipeCard";
 import { UserProps } from "@/_types/UserTypes";
 
 export const RecipeList = React.memo(({ recipes, profile, ownProfile }: { recipes: RecipeProps[], profile: UserProps, ownProfile?: boolean }) => {

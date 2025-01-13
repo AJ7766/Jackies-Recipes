@@ -1,15 +1,11 @@
 "use client"
-import { SearchRecipe } from "./SearchRecipeComponent";
 import { useEffect, useState } from "react";
-import { useSelectedRecipe } from "@/_context/SelectedRecipeContext";
 import { RecipeProps } from "@/_types/RecipeTypes";
 import { UserProps } from "@/_types/UserTypes";
-import dynamic from "next/dynamic";
-import { RecipeList } from "@/components/RecipeList/RecipeList";
-const SelectedRecipe = dynamic(() => import('@/components/SelectedRecipe/SelectedRecipe'), { ssr: false });
+import { RecipeList } from "@/components/RecipeList/ui/RecipeList";
+import { SearchRecipe } from "./ui/SearchRecipe";
 
 export default function ProfileRecipeList({ profile, ownProfile }: { profile: UserProps, ownProfile: boolean }) {
-  const { recipe } = useSelectedRecipe();
   const [searchRecipe, setSearchRecipe] = useState('')
   const [recipes, setRecipes] = useState<RecipeProps[]>(profile.recipes || []);
 
@@ -32,10 +28,10 @@ export default function ProfileRecipeList({ profile, ownProfile }: { profile: Us
     setSearchRecipe(query);
   }
 
-  return <>
-    {recipe && <SelectedRecipe />}
-    <SearchRecipe searchRecipe={searchRecipe} handleSearchChange={handleSearchChange} />
-    <RecipeList recipes={recipes} profile={profile} ownProfile={ownProfile} />
-  </>
-
+  return (
+    <>
+      <SearchRecipe searchRecipe={searchRecipe} handleSearchChange={handleSearchChange} />
+      <RecipeList recipes={recipes} profile={profile} ownProfile={ownProfile} />
+    </>
+  )
 }

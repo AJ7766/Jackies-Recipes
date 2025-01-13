@@ -1,13 +1,12 @@
 import { getRecipeController } from "@/server/actions/recipe/recipeController";
-import SelectedRecipe from "./containers/SelectedRecipe";
 import { getRecipeMetaController } from "./ssr/recipeController";
+import { Recipe } from "@/components/Recipe/Recipe";
 
 export default async function RecipePage({ params }: { params: Promise<{ recipe: string }> }) {
   const { recipe } = await params;
-  const fetchedRecipe = await getRecipeController(recipe);
-  
-  console.log("Recipe:", fetchedRecipe)
-  return <SelectedRecipe recipe={JSON.parse(JSON.stringify(fetchedRecipe))} />
+  const serverRecipe = await getRecipeController(recipe);
+
+  return <Recipe recipe={serverRecipe} />
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ recipe: string }> }) {

@@ -7,7 +7,15 @@ import { UserProps } from "@/_types/UserTypes";
 import Image from "next/image";
 const profilePicture = '/images/profilePicture.png';
 
-export const RecipeCard = ({ recipe, profile, ownProfile }: { recipe: RecipeProps, profile: UserProps, ownProfile?: boolean }) => {
+export const RecipeCard = ({
+    recipe,
+    profile,
+    ownProfile
+}: {
+    recipe: RecipeProps,
+    profile: UserProps,
+    ownProfile?: boolean
+}) => {
     const { selectedRecipeHandler } = useSelectedRecipe();
     return (
         <>

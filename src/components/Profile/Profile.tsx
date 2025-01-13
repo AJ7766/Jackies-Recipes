@@ -8,7 +8,17 @@ import { SocialMedia } from "./ui/SocialMedia";
 import { UserProps } from "@/_types/UserTypes";
 import { Bio } from "./ui/Bio";
 
-export const Profile = React.memo(({ serverProfile, ownProfile, user_id, serverIsFollowing }: { serverProfile: UserProps, ownProfile: boolean, user_id: string, serverIsFollowing: boolean }) => {
+export const Profile = React.memo(({
+  serverProfile,
+  ownProfile,
+  user_id,
+  serverIsFollowing
+}: {
+  serverProfile: UserProps,
+  ownProfile: boolean,
+  user_id: string,
+  serverIsFollowing: boolean
+}) => {
   const { isMobile, isClient } = useIsResponsive();
   const [isFollowing, setIsFollowing] = useState(serverIsFollowing);
   const [profile, setProfile] = useState<UserProps>(serverProfile);
@@ -33,14 +43,13 @@ export const Profile = React.memo(({ serverProfile, ownProfile, user_id, serverI
     if (!user_id) return alert('Please login to use this feature');
 
     if (!isFollowing) {
-      const { handleFollow } = await import("../../_services/profileServices");
-      await handleFollow(user_id, profile.username);
+      const { handleFollow } = await import("../../server/api/handleFollowersAPI");
+      await handleFollow(profile.username);
       handleFollowersChange(user_id, 'follow');
       setIsFollowing(true);
-
     } else {
-      const { handleUnfollow } = await import("../../_services/profileServices");
-      await handleUnfollow(user_id, profile.username);
+      const { handleUnfollow } = await import("../../server/api/handleFollowersAPI");
+      await handleUnfollow(profile.username);
       handleFollowersChange(user_id, 'unfollow');
       setIsFollowing(false);
     }
@@ -118,8 +127,6 @@ export const Profile = React.memo(({ serverProfile, ownProfile, user_id, serverI
             />}
         </div>
       </div>
-
-      <div className="divider"></div>
     </>
   );
 });

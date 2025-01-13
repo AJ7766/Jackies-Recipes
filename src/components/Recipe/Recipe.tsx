@@ -1,27 +1,20 @@
-"use client";
-import { useSelectedRecipe } from "@/_context/SelectedRecipeContext";
-import { useCheckScrollbars } from "@/_hooks/checkScrollbars";
-import { useIsResponsive } from "@/_hooks/useIsResponsive";
-import { CldImage } from "next-cloudinary";
+"use client"
 import Image from "next/image";
-import { RecipeMacros } from "./ui/RecipeMacros";
-import { RecipeIngredients } from "./ui/RecipeIngredients";
-import { RecipeInstructions } from "./ui/RecipeInstructions";
-import { RecipeHeader } from "./ui/RecipeHeader";
+import { RecipeHeader } from "../SelectedRecipe/ui/RecipeHeader";
+import { RecipeMacros } from "../SelectedRecipe/ui/RecipeMacros";
+import { RecipeIngredients } from "../SelectedRecipe/ui/RecipeIngredients";
+import { RecipeInstructions } from "../SelectedRecipe/ui/RecipeInstructions";
+import { RecipeProps } from "@/_types/RecipeTypes";
+import { useIsResponsive } from "@/_hooks/useIsResponsive";
 
-const closeIcon = "/images/icons/close-recipe.svg";
-
-export default function SelectedRecipe() {
-    const { recipe, handleCloseRecipe, toggleScrollbars } = useSelectedRecipe();
+export const Recipe = ({ recipe }: { recipe: RecipeProps }) => {
     const { isMobile, isClient } = useIsResponsive();
-    useCheckScrollbars(recipe, toggleScrollbars);
-
-    if (!recipe) return null;
+    if (!recipe) return;
 
     return (
         <>
-            <div className="recipeContainer fixed md:transform-center -translate-x-1/2">
-                <div className="recipeLeftSideWrapper p-6">
+            <div className="recipeContainer static md:w-full h-full w-auto">
+                <div className="recipeLeftSideWrapper md:p-12 p-0">
                     <div className="flex flex-row">
                         <RecipeHeader
                             username={recipe.user.username}
@@ -29,14 +22,12 @@ export default function SelectedRecipe() {
                             recipeTitle={recipe.title}
                         />
                         {(!isClient || (isClient && isMobile)) && recipe.image && (
-                            <CldImage
-                                className="recipe-image"
+                            <Image
+                                className="recipe-image md:hidden block"
                                 width={1280}
                                 height={850}
                                 src={recipe.image}
                                 alt="recipe-image"
-                                fetchPriority="high"
-                                format="webp"
                             />
                         )}
                     </div>
@@ -48,23 +39,19 @@ export default function SelectedRecipe() {
                         ingredients={recipe?.ingredients}
                     />
                 </div>
-                <div className="recipeRightSideWrapper">
+                <div className="recipeRightSideWrapper md:h-screen h-m-full md:p-12 p-0">
                     {(!isClient || (isClient && !isMobile)) && recipe.image && (
-                        <CldImage
-                            className="mt-6"
+                        <Image
+                            className="md:block hidden"
                             width={1280}
                             height={850}
                             src={recipe.image}
                             priority
                             alt="recipe-image"
-                            format="webp"
                         />
                     )}
                     <RecipeInstructions instructions={recipe.instructions ?? []} />
                 </div>
-            </div>
-            <div className="recipeBackground" onClick={handleCloseRecipe}>
-                <Image src={closeIcon} width={24} height={24} alt="close-recipe" />
             </div>
         </>
     );

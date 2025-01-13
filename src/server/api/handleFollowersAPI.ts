@@ -1,9 +1,12 @@
 "use server"
 import { getSession } from "@/_utils/session";
 
-export const postNewFollowerAPI = async (username: string) => {
-    const { token } = await getSession()
+export const handleFollow = async (username: string) => {
     try {
+        const { token } = await getSession()
+        if (!token)
+            return alert('Please login to use this feature');
+
         const res = await fetch(process.env.NODE_ENV === 'production'
             ? 'https://jackies-recipes.vercel.app/api/followers'
             : 'http://localhost:3000/api/followers', {
@@ -17,18 +20,23 @@ export const postNewFollowerAPI = async (username: string) => {
 
         const data = await res.json();
 
-        if (!res.ok)
-            return { message: data.message || 'Failed to follow user', success: false };
+        if (!res.ok) {
+            console.error(data.message);
+        }
 
-        return { message: data.message, success: true };
+        return;
     } catch (error) {
-        return { message: error || 'Failed to follow user', success: false };
+        console.error(error instanceof Error ? error.message : error);
+        return;
     }
 }
 
-export const updateUnfollowerAPI = async (username: string) => {
-    const { token } = await getSession()
+export const handleUnfollow = async (username: string) => {
     try {
+        const { token } = await getSession()
+        if (!token)
+            return alert('Please login to use this feature');
+
         const res = await fetch(process.env.NODE_ENV === 'production'
             ? 'https://jackies-recipes.vercel.app/api/followers'
             : 'http://localhost:3000/api/followers', {
@@ -42,12 +50,13 @@ export const updateUnfollowerAPI = async (username: string) => {
 
         const data = await res.json();
 
-        if (!res.ok)
-            return { message: data.message || 'Failed to unfollow user', success: false };
+        if (!res.ok) {
+            console.error(data.message);
+        }
 
-        return { message: data.message, success: true };
-    }
-    catch (error) {
-        return { message: error || 'Failed to unfollow user', success: false };
+        return;
+    } catch (error) {
+        console.error(error instanceof Error ? error.message : error);
+        return;
     }
 }
