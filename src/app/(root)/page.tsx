@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <>
       <SelectedRecipe />
-      <h1 className="text-xl text-center mb-5 mt-5 font-metropolis">Latest Recipe</h1>
+      <h1 className="text-xl text-center mb-5 mt-5 font-metropolis">Latest Recipes</h1>
       <RecipeList recipes={typeof serverRecipes === 'string' ? JSON.parse(serverRecipes) : serverRecipes} profile={serverRecipes.user} />
     </>
   )
