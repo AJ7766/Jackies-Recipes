@@ -17,7 +17,10 @@ export async function connectDB() {
       return cachedClient;
 
    const MONGODB_URI = await getUri();
-   const client = await mongoose.connect(MONGODB_URI);
+   const client = await mongoose.connect(MONGODB_URI,{
+      serverSelectionTimeoutMS: 5000,
+      connectTimeoutMS: 10000,
+   });
    cachedClient = client;
    return client;
 }
